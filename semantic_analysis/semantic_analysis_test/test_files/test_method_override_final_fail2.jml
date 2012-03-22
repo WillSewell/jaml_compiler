@@ -1,0 +1,3 @@
+class test_method_override_final_fail2 {
+        final void x(){}
+}

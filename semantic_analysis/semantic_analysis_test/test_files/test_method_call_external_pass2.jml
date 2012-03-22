@@ -1,0 +1,5 @@
+class test_method_call_external_pass2 {
+	float w() {
+		return 15f;
+	}
+}

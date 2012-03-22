@@ -1,0 +1,4 @@
+class test_multi_constructors_fail {
+        test_multi_constructors_fail() {}
+        test_multi_constructors_fail() {}
+}

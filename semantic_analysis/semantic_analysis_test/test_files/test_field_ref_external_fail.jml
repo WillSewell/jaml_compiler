@@ -1,0 +1,6 @@
+class test_field_ref_external_fail {
+        void x() {
+                test_field_ref_external_fail2 other = new test_field_ref_external_fail2();
+                short y = other.y;
+        }
+}

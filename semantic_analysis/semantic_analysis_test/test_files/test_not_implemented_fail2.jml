@@ -1,0 +1,3 @@
+interface test_not_implemented_fail2 {
+        double meth();
+}

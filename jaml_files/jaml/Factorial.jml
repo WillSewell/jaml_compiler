@@ -1,0 +1,19 @@
+class Factorial
+{
+    static long factorial( int n )
+    {
+        long ret = 0;
+        if( n <= 1 ){
+            ret = 1;
+            }
+        else{
+            ret =  n * Factorial.factorial( n - 1 );
+            }
+        return ret;
+    }
+
+    static void main( String [ ] args )
+    {
+            Factorial.factorial( 10 );
+    }
+}

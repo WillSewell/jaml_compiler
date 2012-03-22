@@ -1,0 +1,3 @@
+class test_method_call_static_pass2{
+        static void x() {}
+}

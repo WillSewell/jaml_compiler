@@ -1,0 +1,6 @@
+class test_method_call_external_wrong_type_fail {
+	void x() {
+		test_method_call_external_wrong_type_fail2 y = new test_method_call_external_wrong_type_fail2();
+		float z = y.w();
+	}
+}

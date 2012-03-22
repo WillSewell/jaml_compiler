@@ -1,0 +1,1 @@
+class test_not_implemented_fail implements test_not_implemented_fail2 {}

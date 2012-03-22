@@ -1,0 +1,5 @@
+class test_object_creator_abstact_fail {
+        void x() {
+                test_object_creator_abstact_fail2 x = new test_object_creator_abstact_fail2();
+        }
+}

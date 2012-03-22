@@ -1,0 +1,3 @@
+interface test_implements_pass2 {
+        long x();
+}

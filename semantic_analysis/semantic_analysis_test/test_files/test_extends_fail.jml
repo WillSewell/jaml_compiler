@@ -1,0 +1,5 @@
+class test_extends_fail extends test_extends_fail2 {
+        void x() {
+        	test_extends_fail x = new test_extends_fail2();
+        }
+}

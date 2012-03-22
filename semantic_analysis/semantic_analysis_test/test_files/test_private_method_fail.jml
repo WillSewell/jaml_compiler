@@ -1,0 +1,6 @@
+class test_private_method_fail {
+        void x() {
+                test_private_method_fail2 other = new test_private_method_fail2();
+                other.x();
+        }
+}

@@ -1,0 +1,21 @@
+Collation of notes I had witten in the files.
+
+Parser
+
+#DISADVANTAGES OVER PLY - bad docs (for example must look at sparse comments in source code, no |, no precidence
+
+# THE WAY METHODS CHAIN TOGETHER IS NOT CORRECT, E.G. CAN'T DO:
+# x.getx().get_val() --- just leave out??
+
+Semantic Analyser:
+
+# IMPOSSIBLE TO KNOW IF A PARTICULAR CELL IN AN ARRAY HAS BEEN INITIALISED
+# BECAUSE IF FOR EXAMPLE IT'S arr[i][j] - no way of knowing i, j value now.
+# WHENEVR DOING SOMETHING LIKE if lh_type != rh_type: raise error
+# NEED TO ALSO CHECK SUBCLASSES!!!!!!!!!!!!!!!!!!!
+
+
+# Ints are an exception because small int
+# literals can be assigned to chars, bytes and
+# shorts. It's only at runtime that this can be
+# checked.

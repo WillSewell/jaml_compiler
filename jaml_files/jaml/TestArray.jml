@@ -1,0 +1,15 @@
+class TestArray {
+        static void main(String[] args) {
+                TestArray obj = new TestArray();
+                int[] x = obj.get1D(10);
+                String[][] y = obj.get2D();
+        }
+        
+        int[] get1D(int len) {
+                return  new int[len];
+        }
+        
+        String[][] get2D() {
+                return new String[10][10];
+        }
+}

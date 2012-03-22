@@ -1,0 +1,3 @@
+interface test_implements_pass3 {
+        float y(int x);
+}

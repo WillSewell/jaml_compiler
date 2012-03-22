@@ -1,0 +1,5 @@
+class test_field_ref_static_pass {
+        void x() {
+                int x = test_field_ref_static_pass2.x;
+        }
+}

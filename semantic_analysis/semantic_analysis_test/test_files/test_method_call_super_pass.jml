@@ -1,0 +1,5 @@
+class test_method_call_super_pass extends test_method_call_super_pass2 {
+        void x() {
+                y();
+        }
+}

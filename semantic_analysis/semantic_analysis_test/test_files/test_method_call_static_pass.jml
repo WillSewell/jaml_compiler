@@ -1,0 +1,5 @@
+class test_method_call_static_pass {
+        void x() {
+                test_method_call_static_pass2.x();
+        }
+}

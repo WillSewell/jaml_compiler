@@ -1,0 +1,7 @@
+class TwoClasses {
+        static void main(String[] args) {
+                TwoClassesOther other = new TwoClassesOther(10);
+                int x = other.f;
+                int y = other.getField();
+        }
+}

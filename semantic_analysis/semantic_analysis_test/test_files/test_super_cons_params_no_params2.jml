@@ -1,0 +1,3 @@
+class test_super_cons_params_no_params2 {
+        test_super_cons_params_no_params2(char[] b) {}
+}

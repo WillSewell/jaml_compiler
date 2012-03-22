@@ -1,0 +1,5 @@
+class TestExtends2 {
+        int m() {
+                return 10;
+        }
+}

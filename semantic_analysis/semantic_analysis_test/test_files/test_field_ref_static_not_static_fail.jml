@@ -1,0 +1,5 @@
+class test_field_ref_static_not_static_fail {
+        void x() {
+                int x = test_field_ref_static_not_static_fail2.x;
+        }
+}

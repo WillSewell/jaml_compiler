@@ -1,0 +1,3 @@
+class test_private_method_fail2 {
+        private void x() {}
+}

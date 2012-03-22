@@ -1,0 +1,6 @@
+class test_method_call_static_not_static_fail {
+        void x () {
+                test_method_call_static_not_static_fail2.x();
+        }
+        
+}

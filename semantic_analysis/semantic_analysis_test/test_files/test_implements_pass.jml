@@ -1,0 +1,5 @@
+class test_implements_pass implements test_implements_pass2, test_implements_pass3 {
+        long x() { return 10l;}
+        float y() { return 10f;}
+}
+        

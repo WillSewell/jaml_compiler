@@ -1,0 +1,5 @@
+class test_method_call_external_wrong_type_fail2 {
+	void w() {
+		return 1.5D;
+	}
+}

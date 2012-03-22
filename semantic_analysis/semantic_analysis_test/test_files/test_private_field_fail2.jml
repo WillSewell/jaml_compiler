@@ -1,0 +1,3 @@
+class test_private_field_fail2 {
+        private int x = 5;
+}

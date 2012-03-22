@@ -1,0 +1,5 @@
+class test_object_creator_fail {
+	void x() {
+		test_object_creator_fail2 y = new test_object_creator_fail3();
+	}
+}

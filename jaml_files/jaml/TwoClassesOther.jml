@@ -1,0 +1,11 @@
+class TwoClassesOther {
+        int f;
+        
+        TwoClassesOther(int p) {
+                f = p;
+        }
+        
+        int getField() {
+                return f;
+        }
+}

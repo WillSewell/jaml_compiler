@@ -1,0 +1,5 @@
+class test_super_cons_params_no_cons_fail2 {
+        test_super_cons_params_no_cons_fail2(int x) {
+                int y = x;
+        }
+}

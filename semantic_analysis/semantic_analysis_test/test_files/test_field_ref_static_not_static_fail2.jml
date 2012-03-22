@@ -1,0 +1,3 @@
+class test_field_ref_static_not_static_fail2 {
+        int x = 5;
+}

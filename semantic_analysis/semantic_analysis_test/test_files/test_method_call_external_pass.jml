@@ -1,0 +1,6 @@
+class test_method_call_external_pass {
+	void x() {
+		test_method_call_external_pass2 y = new test_method_call_external_pass2();
+		float z = y.w();
+	}
+}

@@ -1,0 +1,5 @@
+class test_extends_pass extends test_extends_pass2 {
+        void x() {
+        	test_extends_pass2  x = new test_extends_pass();
+        }
+}

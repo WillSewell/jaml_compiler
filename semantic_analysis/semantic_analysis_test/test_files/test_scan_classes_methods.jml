@@ -1,0 +1,5 @@
+class test_scan_classes_methods {
+        void x() {
+                test_scan_classes_methods2 a = new test_scan_classes_methods2();
+        }
+}

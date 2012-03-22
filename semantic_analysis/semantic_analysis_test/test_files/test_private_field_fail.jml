@@ -1,0 +1,6 @@
+class test_private_field_fail {
+        void x() {
+                test_private_field_fail2 other = new test_private_field_fail2();
+                int x = other.x;
+        }
+}

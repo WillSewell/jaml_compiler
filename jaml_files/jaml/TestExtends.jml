@@ -1,0 +1,6 @@
+class TestExtends extends TestExtends2 {
+        static void main(String[] args) {
+                TestExtends2 superclass = new TestExtends();
+                int x = superclass.m();
+        }
+}

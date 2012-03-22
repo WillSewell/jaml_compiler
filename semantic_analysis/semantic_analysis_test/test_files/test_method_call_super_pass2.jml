@@ -1,0 +1,3 @@
+class test_method_call_super_pass2 {
+        void y() {}
+}

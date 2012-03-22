@@ -1,0 +1,5 @@
+class test_field_ref_super_pass extends test_field_ref_super_pass2 {
+        void x() {
+                int x = y;
+        }
+}
