@@ -16,9 +16,9 @@ class MethodSignatureError(Exception):
         """Raised when a method is called with incorrect number of arguments."""
         pass
 
-class FieldError(Exception):
-        """Raised when a field definition is not valid."""
-        pass
+#class FieldError(Exception):
+#        """Raised when a field definition is not valid."""
+#        pass
 
 class DimensionsError(Exception):
         """Raised when the incorrect number of dimensions is used when
@@ -52,3 +52,6 @@ class AssignmentError(Exception):
 
 class ObjectCreationError(Exception):
         """Raised when there is an issue with the instantiation of a class."""
+        
+class StaticError(Exception):
+        """Raised when a static method/field is not referenced correctly."""

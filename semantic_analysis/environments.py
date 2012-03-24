@@ -28,7 +28,8 @@ class TopEnvironment(object):
                 try:
                         return self._class_table[name]
                 except KeyError:
-                        raise SymbolNotFoundError('Class does not exist!')
+                        msg = 'Class "' + name + '" does not exist!'
+                        raise SymbolNotFoundError(msg)
 
         def get_classes(self):
                 """Returns all class symbols."""
@@ -45,7 +46,8 @@ class TopEnvironment(object):
                 try:
                         return self._interface_table[name]
                 except KeyError:
-                        raise SymbolNotFoundError('Class does not exist!')
+                        msg = 'Interface "' + name + '" does not exist!'
+                        raise SymbolNotFoundError(msg)
         
         def get_class_or_interface_s(self, name):
                 """Returns a class or interface symbol."""

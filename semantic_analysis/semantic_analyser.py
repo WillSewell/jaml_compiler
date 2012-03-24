@@ -11,7 +11,7 @@ from class_interface_method_scanner import ClassInterfaceMethodScanner
 from exceptions import (NotInitWarning, NoReturnError, SymbolNotFoundError,
                         MethodSignatureError, DimensionsError,
                         ConstructorError, ClassSignatureError, AssignmentError,
-                        VariableNameError, FieldError, ObjectCreationError)
+                        VariableNameError, StaticError, ObjectCreationError)
 from utilities.utilities import (ArrayType, camel_2_underscore, get_full_type,
                                  is_main)
 
@@ -723,9 +723,8 @@ class TypeChecker(object):
                 """Check the method exists, the types are the same, and the
                 argument's match the method's signature.
                 """
-                method_name = node.children[0].value
                 # Look up the method in this class, or a super class
-                node.type_ = self._find_method(env.cur_class.name, method_name,
+                node.type_ = self._find_method(env.cur_class.name, node,
                                                False, env)
                 return node.type_
 
@@ -741,6 +740,8 @@ class TypeChecker(object):
                 if id_node.value in self._t_env.types:
                         # It's an invocation of a static method
                         class_name = id_node.value
+                        # Get the full class name (for lib classes)
+                        class_name = get_full_type(class_name, self._t_env)
                         is_static = True
                 else:
                         # It's an instance method
@@ -748,7 +749,7 @@ class TypeChecker(object):
                         var_s = self._get_var_s_from_id(id_node.value, env)
                         class_name = var_s.type_
                 # Can't check method if it's a static method of a library class
-                if class_name not in self._t_env.lib_classes.keys():
+                if class_name not in self._t_env.lib_classes.values():
                         # Get the class symbol
                         class_s = None
                         try:
@@ -764,8 +765,8 @@ class TypeChecker(object):
                                         raise SymbolNotFoundError(msg)
                         # Look up the method in this class, or a super class,
                         # and tag the node's type
-                        node.type_ = self._find_method(class_s, node, is_static,
-                                                       env)
+                        node.type_ = self._find_method(class_s.name, node,
+                                                       is_static, env)
                 return node.type_
         
         def _visit_method_call_super_node(self, node, env):
@@ -791,8 +792,12 @@ class TypeChecker(object):
                         # Try and find the method in the class provided
                         # If the class is the current class, private
                         # methods can also be looked up
-                        method = node.children[0].value
                         method_s = None
+                        # Name is stored in 2nd or 3rd child depending on if
+                        # the method is in the current class or external
+                        method = node.children[0].value
+                        if len(node.children) == 3:
+                                method = node.children[1].value
                         if class_ == env.cur_class.name:
                                 method_s = class_s.get_method(method)
                         else:
@@ -800,20 +805,31 @@ class TypeChecker(object):
                         # Check static
                         self._check_static(method_s, is_static)
                         # Check the arguments
-                        self._check_method_args(method_s, node.children[2], env)
+                        try:
+                                self._check_method_args(method_s,
+                                                        node.children[2], env)
+                        except IndexError:
+                                # It's a method in the same class (so params
+                                # are second child
+                                self._check_method_args(method_s,
+                                                        node.children[1], env)
                         return method_s.type_
                 except SymbolNotFoundError:
                         # See if it is in a super class
-                        return self._find_method(class_s, node, is_static, env)
+                        return self._find_method(class_s.super_class, node,
+                                                 is_static, env)
         
-        def _check_static(self, method_s, is_static):
-                """For a given method, this throws an error if it is not static
-                when it should have been, and vice versa.
+        def _check_static(self, symbol, is_static):
+                """For a given method or field, this throws an error if it is
+                not static when it should have been, and vice versa.
                 """
-                if is_static and 'static' not in method_s.modifiers:
-                        raise SymbolNotFoundError()
-                elif not is_static and 'static' in method_s.modifiers:
-                        raise SymbolNotFoundError()
+                if is_static and 'static' not in symbol.modifiers:
+                        msg = ('Cannot access non static method/field in a ' +
+                               'static way!')
+                        raise StaticError(msg)
+                elif not is_static and 'static' in symbol.modifiers:
+                        msg = 'Method/field must be referenced in a static way!'
+                        raise StaticError(msg)
 
         def _check_method_args(self, method_s, args_list, env):
                 """Helper method for _visit_method_call.  Checks the number and
@@ -851,7 +867,7 @@ class TypeChecker(object):
                 """Uses the library class checker to check the method exists
                 with the argument types provided.
                 """
-                full_class_name = get_full_type(class_, self.t_env)
+                full_class_name = get_full_type(class_, self._t_env)
                 dotted_name = full_class_name.replace('/', '.')
                 arg_types = self._get_arg_types(node, env)
                 method_name = node.children[0].value
@@ -862,12 +878,23 @@ class TypeChecker(object):
                 """Used by _check_lib_method and _check_lib_cons to get a list
                 of the argument's types from the root node.
                 """
-                # Tag the arguments with types
-                self.visit(node.children[2], env)
                 # Build list of argument types
                 arg_types = []
-                for arg in node.children[2].children:
-                        arg_types += arg.type_
+                args = None
+                try:
+                        try:
+                                # Tag the arguments with types
+                                self.visit(node.children[2], env)
+                                args = node.children[2].children
+                        except IndexError:
+                                # Simple method call, so args are second child
+                                self.visit(node.children[1], env)
+                                args = node.children[1].children
+                        for arg in args:
+                                arg_types += arg.type_
+                except AttributeError:
+                        # No arguments
+                        pass
                 return arg_types
 
         def _visit_object_creator_node(self, node, env):
@@ -925,14 +952,10 @@ class TypeChecker(object):
                         # It's an instance method
                         var_s = self._get_var_s_from_id(id_node.value, env)
                         class_name = var_s.type_
-                # Can't check field if it's in a library class
-                if class_name not in self._t_env.lib_classes.keys():
-                        field_name = node.children[1].value
-                        # Look up the method in this class, or a super class
-                        field_s = self._find_field(class_name, field_name,
-                                                   is_static, env)
-                        # Add type info
-                self.visit(id_node, env)
+                field_name = node.children[1].value
+                # Look up the method in this class, or a super class
+                field_s = self._find_field(class_name, field_name, is_static,
+                                           env)
                 node.type_ = field_s.type_
                 return field_s.type_
         
@@ -1024,8 +1047,18 @@ class TypeChecker(object):
                                 # Not in a method
                                 pass
                         try:
-                                symbol = self._find_field(env.cur_class.name,
-                                                          name, is_static, env)
+                                try:
+                                        # Initially attempt to retrieve the
+                                        # Symbol in case it's a static variable
+                                        # declaration - _find_field won't
+                                        # work if it is
+                                        symbol = env.cur_class.get_field(name)
+                                        if 'static' in symbol.modifiers:
+                                                is_static = True
+                                except SymbolNotFoundError: pass
+                                cname = env.cur_class.name
+                                symbol = self._find_field(cname, name,
+                                                          is_static, env)
                         except SymbolNotFoundError:
                                 # See if it's a parameter of the current method
                                 # First search for the method symbol
@@ -1059,7 +1092,7 @@ class TypeChecker(object):
                         class_s = self._get_class_s(class_)
                 except SymbolNotFoundError:
                         # The super class must be a Java library class
-                        type_ =  self._check_lib_field(class_, field, env)
+                        type_ = self._check_lib_field(class_, field, env)
                         field_s = VarSymbol(field, type_)
                         field_s.is_init = True
                         return field_s
@@ -1069,18 +1102,16 @@ class TypeChecker(object):
                                 field_s = class_s.get_field(field)
                         else:
                                 field_s = class_s.get_public_field(field)
-                        if is_static and 'static' not in field_s.modifiers:
-                                msg = ('Cannot access non-static field '+
-                                       'from a static method!')
-                                raise FieldError(msg)
+                        self._check_static(field_s, is_static)
                         return field_s
                 except SymbolNotFoundError:
                         # See if it is in a super class
-                        return self._find_field(class_s, field, is_static, env)
+                        return self._find_field(class_s.super_class, field,
+                                                is_static, env)
         
         def _check_lib_field(self, class_, field, env):
                 """Uses the library class checker to check the field exists."""
-                full_class_name = get_full_type(class_, self.t_env)
+                full_class_name = get_full_type(class_, self._t_env)
                 dotted_name = full_class_name.replace('/', '.')
                 return self._run_checker(['-field', dotted_name, field])
 
@@ -1121,12 +1152,9 @@ class TypeChecker(object):
         
         def _visit_class_type_node(self, node, env):
                 """Checks that the type is valid."""
-                name = get_full_type(node.value, self._t_env)
-                if name not in self._t_env.types:
-                        return self._check_lib_class(name, node, env)
-                else:
-                        return name
+                return get_full_type(node.value, self._t_env)
         
+        # TODO: NOT SURE IF NEED - CAN JUST CHECK ALL CLASSES IN T_ENV
         def _check_lib_class(self, class_, node, env):
                 """Check the libaray class exists. """
                 dotted_name = class_.replace('/', '.')
@@ -1181,11 +1209,13 @@ class TypeChecker(object):
                 """
                 file_dir = os.path.dirname(__file__)
                 checker_dir = os.path.join(file_dir, 'lib_checker')
-                cmd = (['java', '-jar', '-cp', checker_dir, 'LibChecker.jar'] + 
+                cmd = (['java', '-cp', checker_dir, 'LibChecker'] + 
                        args)
-                stdout = subprocess.PIPE
-                output = subprocess.Popen(cmd, stdout).communicate()[0]
-                output = output.rstrip(self.nl)
+                #stdout = subprocess.PIPE
+                #output = subprocess.Popen(cmd, stdout).communicate()[0]
+                popen = subprocess.Popen(cmd, stdout = subprocess.PIPE)
+                output = popen.communicate()[0]
+                output = output.rstrip(os.linesep)
                 # Check for an error
                 if output[0] == 'E':
                         raise SymbolNotFoundError(output.lstrip('E - '))
@@ -1193,9 +1223,11 @@ class TypeChecker(object):
                         # Return output where packages are delimited by /
                         return output.replace('.', '/')
 
-def analyse(program, lib_classes = {}):
+def analyse(program):
         """Type check a given program as a string, or a program as a text file.
         """
+        # Get the possible classes from java.lang
+        lib_classes = _scan_lib_classes()
         asts = parser_.parse(program, 'file', lib_classes)
         t_env = TopEnvironment(lib_classes)
         # Add all global entities (classes and their methods) to the top level
@@ -1207,3 +1239,20 @@ def analyse(program, lib_classes = {}):
                 env = Environment(None)
                 type_checker.visit(ast, env)
         return asts, t_env
+
+def _scan_lib_classes():
+        """Scan classes which can be used from the java library."""
+        root = os.path.dirname(__file__)
+        class_list_path = os.path.join(root, 'classlist')
+        class_list = open(class_list_path)
+
+        java_lang_classes = {}
+        class_ = class_list.readline()
+        while class_ != '':
+                if ('java/lang' in class_ or 'java/io' in class_ or
+                    'java/util' in class_):
+                        name = class_[class_.rfind('/') + 1:class_.find('\n')]
+                        # Remove trailing \n and add to the dict
+                        java_lang_classes[name] = class_[:-1]
+                class_ = class_list.readline()
+        return java_lang_classes

@@ -95,10 +95,8 @@ class CodeGenerator(object):
                 """This is the public method which takes the source file or
                 string, and generates the assembly code file.
                 """
-                # Get the possible classes from java.lang
-                lib_classes = self._scan_lib_classes()
                 # Generate the type checked abstract syntax tree
-                asts, t_env = semantic_analyser.analyse(source, lib_classes)
+                asts, t_env = semantic_analyser.analyse(source)
                 print asts
                 self._gen_field_method_sigs(t_env)
                 self._t_env = t_env
@@ -141,23 +139,6 @@ class CodeGenerator(object):
                         subprocess.call(['java', '-jar', jasmin_file, '-d',
                                         bin_root, out_path])
                 self._reset()
-        
-        def _scan_lib_classes(self):
-                """Scan classes which can be used from the java library."""
-                root = os.path.dirname(__file__)
-                class_list_path = os.path.join(root, 'classlist')
-                class_list = open(class_list_path)
-
-                java_lang_classes = {}
-                class_ = class_list.readline()
-                while class_ != '':
-                        if ('java/lang' in class_ or 'java/io' in class_ or
-                            'java/util' in class_):
-                                name = class_[class_.rfind('/') + 1:class_.find('\n')]
-                                # Remove trailing \n and add to the dict
-                                java_lang_classes[name] = class_[:-1]
-                        class_ = class_list.readline()
-                return java_lang_classes
         
         def _gen_field_method_sigs(self, t_env):
                 """Generate assembly style method signatures for all methods

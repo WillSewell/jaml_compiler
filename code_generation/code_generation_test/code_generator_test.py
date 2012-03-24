@@ -8,9 +8,6 @@ class TestCodeGenerator(unittest.TestCase):
         """Test class where tests to be run are the methods."""
         # Get an interpreter object for convenience
         code_gen = CodeGenerator()
-        nl = '\n' #Stores system specific newline characters
-        if os.name == 'nt': #If system is Windows
-                nl = '\r\n'
 
         def test_var_dcl(self):
                 """Test variable declarations."""
@@ -133,7 +130,7 @@ class TestCodeGenerator(unittest.TestCase):
                 # Run the JVM on the compiled file
                 file_dir = os.path.join(os.path.dirname(__file__), 'bin_test_files')
                 cmd = ['java', '-cp', file_dir, 'Default']
-                output = subprocess.Popen(cmd, stdout=subprocess.PIPE).communicate()[0].rstrip(self.nl)
+                output = subprocess.Popen(cmd, stdout=subprocess.PIPE).communicate()[0].rstrip(os.linesep)
                 
                 #Check the printed results match the expected result
                 self.assertEqual(output, exptd_result)

@@ -8,7 +8,7 @@ from semantic_analysis.exceptions import (NotInitWarning, NoReturnError,
                                           MethodNotImplementedError,
                                           ConstructorError, VariableNameError,
                                           AssignmentError, ObjectCreationError,
-                                          ClassSignatureError)
+                                          ClassSignatureError, StaticError)
 
 class TestSemanticAnalyser(unittest.TestCase):
         this_file_path = os.path.dirname(__file__)
@@ -230,14 +230,14 @@ class TestSemanticAnalyser(unittest.TestCase):
                 """Test an error thrown when a method is referenced in a static
                 way when it is not static.
                 """
-                self.assertRaises(SymbolNotFoundError, self.analyse_file,
+                self.assertRaises(StaticError, self.analyse_file,
                                   'test_method_call_static_not_static_fail.jml')
         
         def test_ref_non_static_field_fail(self):
                 """Test that an error is thrown when a non static field
                 is referenced from a static method.
                 """
-                self.assertRaises(SymbolNotFoundError,
+                self.assertRaises(StaticError,
                                   semantic_analyser.analyse,
                                   'class X { int x = 5; static void x()' +
                                   '{ int y = x;}}')
@@ -309,7 +309,7 @@ class TestSemanticAnalyser(unittest.TestCase):
                 """Test an error thrown when a field is referenced in a static
                 way when it is not static.
                 """
-                self.assertRaises(SymbolNotFoundError, self.analyse_file,
+                self.assertRaises(StaticError, self.analyse_file,
                                   'test_field_ref_static_not_static_fail.jml')
         
         def test_field_ref_super_pass(self):
