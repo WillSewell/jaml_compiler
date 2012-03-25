@@ -13,9 +13,10 @@ from exceptions import (NotInitWarning, NoReturnError, SymbolNotFoundError,
                         ConstructorError, ClassSignatureError, AssignmentError,
                         VariableNameError, StaticError, ObjectCreationError)
 from utilities.utilities import (ArrayType, camel_2_underscore, get_full_type,
-                                 is_main)
+                                 is_main, get_jvm_type)
 
 # TODO: SPLIT LIB CLASSES INTO LIB CLASSES AND INTERFACES!
+# TODO: NOT CHECKING IF LIB METHODS/FIELDS ARE STATIC OR NOT
 
 class TypeChecker(object):
         """This class allows for type checking of a particular program.
@@ -748,25 +749,25 @@ class TypeChecker(object):
                         self.visit(id_node, env)
                         var_s = self._get_var_s_from_id(id_node.value, env)
                         class_name = var_s.type_
-                # Can't check method if it's a static method of a library class
-                if class_name not in self._t_env.lib_classes.values():
-                        # Get the class symbol
-                        class_s = None
-                        try:
-                                class_s = self._get_class_s(class_name)
-                        except SymbolNotFoundError:
-                                # It could be an interface if it's not static
-                                if not is_static:
-                                        get_inter = self._t_env.get_interface_s
-                                        class_s = get_inter(class_name)
-                                else:
-                                        msg = ('Type "' + class_name +
-                                               '" undefined!')
-                                        raise SymbolNotFoundError(msg)
-                        # Look up the method in this class, or a super class,
-                        # and tag the node's type
-                        node.type_ = self._find_method(class_s.name, node,
-                                                       is_static, env)
+                        
+# TODO: THESE CHECKS SHOULD REALLY BE IN FIND_METHO - ESSENTIALLY NEED TO LOOK IN INTERFACES IN FIND_METHOD TOO           
+#                # Get the class symbol
+#                class_s = None
+#                try:
+#                        class_s = self._get_class_s(class_name)
+#                except SymbolNotFoundError:
+#                        # It could be an interface if it's not static
+#                        if not is_static:
+#                                get_inter = self._t_env.get_interface_s
+#                                class_s = get_inter(class_name)
+#                        else:
+#                                msg = ('Type "' + class_name +
+#                                       '" undefined!')
+#                                raise SymbolNotFoundError(msg)
+        
+                # Look up the method in this class, or a super class,
+                # and tag the node's type
+                node.type_ = self._find_method(class_name, node, is_static, env)
                 return node.type_
         
         def _visit_method_call_super_node(self, node, env):
@@ -867,10 +868,12 @@ class TypeChecker(object):
                 """Uses the library class checker to check the method exists
                 with the argument types provided.
                 """
-                full_class_name = get_full_type(class_, self._t_env)
-                dotted_name = full_class_name.replace('/', '.')
+                dotted_name = class_.replace('/', '.')
                 arg_types = self._get_arg_types(node, env)
+                # Super method calls and others have the name in diff locations
                 method_name = node.children[0].value
+                if len(node.children) == 3:
+                        method_name = node.children[1].value
                 check = self._run_lib_checker
                 ret_type, parent_class = check(['-method', dotted_name,
                                                 method_name] + arg_types)
@@ -881,8 +884,8 @@ class TypeChecker(object):
                 # Generate a JVM style method signature for use by the
                 # code generator
                 # TODO: MAY HAVE TO BE THE CLASS THAT IT WAS ACTUALLY CALLED ON, RATHER THAN THE CLASS IT ACTUALLY EXISTS IN... NOT SURE
-                node.type_ = ret_type
-                self._t_env.add_lib_method_sig(parent_class, node)
+                self._t_env.add_lib_method_sig(class_, parent_class,
+                                               method_name, ret_type, arg_types)
                 return ret_type
         
         def _get_arg_types(self, node, env):
@@ -902,7 +905,14 @@ class TypeChecker(object):
                                 self.visit(node.children[1], env)
                                 args = node.children[1].children
                         for arg in args:
-                                arg_types += arg.type_
+                                type_ = arg.type_
+                                try:
+                                        # Array types need to be converted to
+                                        # JVM type representation
+                                        type_.type_
+                                        get_jvm_type(type_)
+                                except AttributeError: pass
+                                arg_types.append(type_)
                 except AttributeError:
                         # No arguments
                         pass
@@ -1133,7 +1143,8 @@ class TypeChecker(object):
                 # Generate a JVM style field signature for use by the
                 # code generator
                 # TODO: MAY HAVE TO BE THE CLASS THAT IT WAS ACTUALLY CALLED ON, RATHER THAN THE CLASS IT ACTUALLY EXISTS IN... NOT SURE
-                self._t_env.add_lib_field_sig(parent_class, field, ret_type)
+                self._t_env.add_lib_field_sig(class_, parent_class, field,
+                                              ret_type)
                 return ret_type
                         
 
@@ -1284,6 +1295,7 @@ class TypeChecker(object):
                         # It's a class type
                         type_ = jvm_type.lstrip('L').rstrip(';')
                 return ArrayType(type_, num_d)
+                
 def analyse(program):
         """Type check a given program as a string, or a program as a text file.
         """

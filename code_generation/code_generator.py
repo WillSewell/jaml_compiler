@@ -5,6 +5,7 @@ import subprocess
 from semantic_analysis import semantic_analyser
 import parser_.tree_nodes as nodes
 from utilities.utilities import camel_2_underscore, is_main, get_jvm_type
+from semantic_analysis.exceptions import SymbolNotFoundError
 
 class FileReadError(Exception):
         """Raised when a reference to a variable is made when it has not been
@@ -316,12 +317,7 @@ class CodeGenerator(object):
                 """
                 self._add_iln('aload_0', ';Load the current object')
                 super_ = self._t_env.get_class_s(self._cur_class).super_class
-                if super_ == 'java/lang/Object':
-                        self._add_iln('invokespecial java/lang/Object/' +
-                                      '<init>()V')
-                else:
-                        sig = self._method_sigs[super_, '<init>']
-                        self._add_iln('invokespecial ' + sig)
+                self._add_iln('invokespecial ' + super_ + '<init>()V')
         
         def _get_lib_method_sig(self, class_, name, args):
                 """Uses the library class checker to check the method exists
@@ -1198,18 +1194,27 @@ class CodeGenerator(object):
                 """
                 children = node.children
                 class_name = children[0].value
+                method_name = children[1].value
                 # Load the object, if it's not static
+                is_static = True
                 if children[0].value not in self._t_env.types:
                         class_name = children[0].type_
                         self._gen_load_variable(children[0])
-                # Search for the method
-                class_s = self._t_env.get_class_or_interface_s(class_name)
-                method_name = node.children[1].value
-                class_s, method_s = self._get_method_s(class_s, method_name)
+                        is_static = False
+                class_s = None
+                method_s = None
+                try:
+                        # Search for the method
+                        class_s = self._t_env.get_class_or_interface_s(class_name)
+                        class_s, method_s = self._get_method_s(class_s,
+                                                               method_name)
+                except SymbolNotFoundError:
+                        # It was a library class
+                        pass
                 # Get the results from what the arguments are on the top of the
                 # stack
                 try:
-                        self._gen_args_list_node(node.children[-1],
+                        self._gen_args_list_node(node.children[-1], # TODO: NEED A VERSION OF THIS FOR LIB CLASSES - MAYBE I DO NEED A CLASS TO REPRESENT LIBRARY METHODS AND FIEKDS???
                                                  method_s.params)
                 except AttributeError:
                         # No args
@@ -1218,14 +1223,22 @@ class CodeGenerator(object):
                 # First need to get the correct operator, then need to check
                 # if it's an interface or class type
                 op = 'invokevirtual'
-                if 'static' in method_s.modifiers:
+                if is_static:
                         op = 'invokestatic'
-                elif 'private' in method_s.modifiers:
+                elif method_s is not None and 'private' in method_s.modifiers:
                         op = 'invokespecial'
-                if (class_name in self._t_env.classes.keys() or
-                    class_name in self._t_env.lib_classes.keys()):
+                if class_name in self._t_env.classes.keys():
                         method_sig = self._method_sigs[(class_s.name,
                                                         method_s.name)]
+                        self._add_iln(op + ' ' + method_sig)
+                elif class_name in self._t_env.lib_classes.values():
+                        # Arg types need to be worked out in order to get the
+                        # library class signature
+                        arg_types = []
+                        for arg in node.children[2].children:
+                                arg_types.append(arg.type_)
+                        get_sig = self._t_env.get_lib_method_sig
+                        method_sig = get_sig(class_name, method_name, arg_types)
                         self._add_iln(op + ' ' + method_sig)
                 else:
                         # It must be an object of type interface
@@ -1323,9 +1336,16 @@ class CodeGenerator(object):
                         # Load reference to the object held in the variable
                         self._visit(node.children[0])
                         class_name = node.children[0].type_
-                class_s = self._t_env.get_class_s(class_name)
-                class_s, field_s = self._get_field_s(class_s, field_name)
-                sig = self._field_sigs[class_s.name, field_s.name]
+                sig = ''
+                try:
+                        class_s = self._t_env.get_class_s(class_name)
+                        class_s, field_s = self._get_field_s(class_s,
+                                                             field_name)
+                        sig = self._field_sigs[class_s.name, field_s.name]
+                except SymbolNotFoundError:
+                        # It's in a library class
+                        sig = self._t_env.get_lib_field_sig(class_name,
+                                                            field_name)
                 self._add_iln('getfield ' + sig, ';Get the fields value')
         
         def _get_field_s(self, class_s, name): #TODO: REFACTOR INTO METHOD LOOKUP

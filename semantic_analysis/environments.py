@@ -90,32 +90,26 @@ class TopEnvironment(object):
                 key = tuple([class_, name] + arg_types)
                 return self._lib_method_sigs[key]
         
-        def add_lib_method_sig(self, class_, node):
+        def add_lib_method_sig(self, class_refed, class_, name, ret_type,
+                               arg_types):
                 """From a given class name, and method call node, create a
-                JVM style method signature string.
+                JVM style method signature string. classed_refed is the class
+                the field was referenced from, class_ is the class it's defined
+                in.
                 """
-                method_name = node.children[0].value
-                arg_types = []
-                sig = class_ + '/' + method_name
+                sig = class_ + '/' + name
                 try:
-                        try:
-                                # Assume it has params
-                                params_list = node.children[2].children
-                        except IndexError:
-                                # It was a method call to a super class
-                                params_list = node.children[1].children
                         # Add the params to the method_spec
                         method_spec = '('
-                        for param in params_list:
-                                arg_types += [param.type_]
-                                method_spec += get_jvm_type(param)
+                        for type_ in arg_types:
+                                method_spec += get_jvm_type(type_)
                         method_spec += ')'
                 except AttributeError:
                         # If there are no parameters
                         method_spec = '()'
-                method_spec += get_jvm_type(node)
+                method_spec += get_jvm_type(ret_type)
                 sig += method_spec
-                key = tuple([class_, method_name] + arg_types)
+                key = tuple([class_refed, name] + arg_types)
                 self._lib_method_sigs[key] = sig
         
         def get_lib_cons_sig(self, class_, arg_types):
@@ -152,12 +146,13 @@ class TopEnvironment(object):
                 key = (class_, name)
                 return self._lib_field_sigs[key]
         
-        def add_lib_field_sig(self, class_, name, type_):
+        def add_lib_field_sig(self, class_refed, class_, name, type_):
                 """From a given class and field name, create a JVM style field
-                signature string.
+                signature string.  classed_refed is the class the field was
+                referenced from, class_ is the class it's defined in.
                 """
                 sig = class_ + '/' + name + ' ' + get_jvm_type(type_)
-                self._lib_field_sigs[(class_, name)] = sig
+                self._lib_field_sigs[(class_refed, name)] = sig
 
         classes = property(get_classes)
         interfaces = property(_get_interfaces)
