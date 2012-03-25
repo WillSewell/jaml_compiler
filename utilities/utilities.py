@@ -1,5 +1,8 @@
 """An assortment of classes and scripts used throughout the program."""
 import re
+import os
+import subprocess
+from semantic_analysis.exceptions import SymbolNotFoundError
 
 class ArrayType(object):
         """A special type representing arrays."""
@@ -63,3 +66,27 @@ def is_main(method_s):
         except AttributeError: pass
         return False
 
+def run_lib_checker(args):
+        """Run the library class type checker program with the
+        specified arguments.
+        """
+        file_dir = os.path.dirname(__file__)
+        checker_dir = os.path.join(file_dir, 'lib_checker')
+        cmd = (['java', '-cp', checker_dir, 'LibChecker'] + 
+               args)
+        #stdout = subprocess.PIPE
+        #output = subprocess.Popen(cmd, stdout).communicate()[0]
+        popen = subprocess.Popen(cmd, stdout = subprocess.PIPE)
+        output = popen.communicate()[0]
+        output = output.rstrip(os.linesep)
+        # Check for an error
+        if output[0] == 'E':
+                raise SymbolNotFoundError(output.lstrip('E - '))
+        else:
+                # Return output where packages are delimited by /
+                return output.replace('.', '/')
+
+def convert_type_to_jvm(self, long_type):
+        """Convert a full name for a type to the single character
+        JVM abbreviation.
+        """

@@ -2,7 +2,6 @@
 semantically correct.
 """
 import os
-import subprocess
 from parser_ import parser_
 from symbols import ArraySymbol, VarSymbol
 import parser_.tree_nodes as nodes
@@ -13,7 +12,7 @@ from exceptions import (NotInitWarning, NoReturnError, SymbolNotFoundError,
                         ConstructorError, ClassSignatureError, AssignmentError,
                         VariableNameError, StaticError, ObjectCreationError)
 from utilities.utilities import (ArrayType, camel_2_underscore, get_full_type,
-                                 is_main)
+                                 is_main, run_lib_checker)
 
 # TODO: SPLIT LIB CLASSES INTO LIB CLASSES AND INTERFACES!
 
@@ -871,8 +870,13 @@ class TypeChecker(object):
                 dotted_name = full_class_name.replace('/', '.')
                 arg_types = self._get_arg_types(node, env)
                 method_name = node.children[0].value
-                return self._run_checker(['-method', dotted_name, method_name] +
-                                  arg_types)
+                ret_type = run_lib_checker(['-method', dotted_name,
+                                            method_name] + arg_types)
+                if ret_type[0] == '[':
+                        # It's an array, so must be converted to the array class
+                        convert = self._convert_jvm_array_type_to_class
+                        ret_type = convert(ret_type)
+                return ret_type
         
         def _get_arg_types(self, node, env):
                 """Used by _check_lib_method and _check_lib_cons to get a list
@@ -928,7 +932,7 @@ class TypeChecker(object):
                 full_class_name = get_full_type(class_, self.t_env)
                 dotted_name = full_class_name.replace('/', '.')
                 arg_types = self._get_arg_types(node, env)
-                self._run_checker(['-cons', dotted_name] + arg_types)
+                run_lib_checker(['-cons', dotted_name] + arg_types)
         
         def _visit_args_list_node(self, node, env):
                 """Tag the type of each argument."""
@@ -1002,7 +1006,7 @@ class TypeChecker(object):
                 except SymbolNotFoundError:
                         # It was in a library class
                         dotted_name = node.type_.replace('/', '.')
-                        self._run_checker(['-class', dotted_name])
+                        run_lib_checker(['-class', dotted_name])
         
         def _visit_implements_list_node(self, node, env):
                 """Check each interface that is implemented exists."""
@@ -1013,7 +1017,7 @@ class TypeChecker(object):
                         # If it's a library interface, check it exists
                         if interface.value in self._t_env.lib_classes.keys():
                                 dotted_name = node.type_.replace('/', '.')
-                                self._run_checker(['-class', dotted_name])
+                                run_lib_checker(['-class', dotted_name])
                         
         def _visit_id_node(self, node, env):
                 """If it's an identifier the type needs to be looked up in env.
@@ -1113,7 +1117,13 @@ class TypeChecker(object):
                 """Uses the library class checker to check the field exists."""
                 full_class_name = get_full_type(class_, self._t_env)
                 dotted_name = full_class_name.replace('/', '.')
-                return self._run_checker(['-field', dotted_name, field])
+                ret_type = run_lib_checker(['-field', dotted_name, field])
+                if ret_type[0] == '[':
+                        # It's an array, so must be converted to the array class
+                        convert = self._convert_jvm_array_type_to_class
+                        ret_type = convert(ret_type)
+                return ret_type
+                        
 
         def _visit_literal_node(self, node, env):
                 """Returns the literal's type."""
@@ -1158,7 +1168,7 @@ class TypeChecker(object):
         def _check_lib_class(self, class_, node, env):
                 """Check the libaray class exists. """
                 dotted_name = class_.replace('/', '.')
-                self._run_checker(['-class', dotted_name])
+                run_lib_checker(['-class', dotted_name])
 
         #######################################################################
         ## Interface checks
@@ -1203,26 +1213,37 @@ class TypeChecker(object):
                 # Check the parameter's types are legitimate
                 self.visit(node.children[3], env)
         
-        def _run_checker(self, args):
-                """Run the library class type checker program with the
-                specified arguments.
+        def _convert_jvm_array_type_to_class(self, jvm_type):
+                """Converts a JVM style array type (returned from checking
+                java library classes) into the array type representation used
+                in this program.
                 """
-                file_dir = os.path.dirname(__file__)
-                checker_dir = os.path.join(file_dir, 'lib_checker')
-                cmd = (['java', '-cp', checker_dir, 'LibChecker'] + 
-                       args)
-                #stdout = subprocess.PIPE
-                #output = subprocess.Popen(cmd, stdout).communicate()[0]
-                popen = subprocess.Popen(cmd, stdout = subprocess.PIPE)
-                output = popen.communicate()[0]
-                output = output.rstrip(os.linesep)
-                # Check for an error
-                if output[0] == 'E':
-                        raise SymbolNotFoundError(output.lstrip('E - '))
+                # Check number of dimensions - denoted by [s
+                num_d = 0
+                while jvm_type[0] != '[':
+                        jvm_type = jvm_type[1:]
+                        num_d += 1
+                type_ = ''
+                if jvm_type == 'Z':
+                        type_ = 'boolean'
+                elif jvm_type == 'B':
+                        type_ = 'byte'
+                elif jvm_type == 'C':
+                        type_ = 'char'
+                elif jvm_type == 'D':
+                        type_ = 'double'
+                elif jvm_type == 'F':
+                        type_ = 'float'
+                elif jvm_type == 'I':
+                        type_ = 'int'
+                elif jvm_type == 'J':
+                        type_ = 'long'
+                elif jvm_type == 'S':
+                        type_ = 'short'
                 else:
-                        # Return output where packages are delimited by /
-                        return output.replace('.', '/')
-
+                        # It's a class type
+                        type_ = jvm_type.lstrip('L').rstrip(';')
+                return ArrayType(type_, num_d)
 def analyse(program):
         """Type check a given program as a string, or a program as a text file.
         """

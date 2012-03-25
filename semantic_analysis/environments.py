@@ -16,6 +16,10 @@ class TopEnvironment(object):
                 self._types = ['boolean'] + self._nums + lib_classes.keys()
                 # Stores all library classes (currently only from java.lang)
                 self._lib_classes = lib_classes
+                # Stores signatures of library methods/constructors/fields
+                self._lib_method_sigs = {}
+                self._lib_field_sigs = {}
+                self._lib_cons_sigs = {}
 
         def put_class_s(self, symbol):
                 """Adds a class symbol to the dict."""
@@ -77,12 +81,31 @@ class TopEnvironment(object):
 
         def get_nums(self):
                 return self._nums
+        
+        def get_lib_method_sig(self, name):
+                return self._lib_method_sigs
+        
+#        def add_lib_method_sig(self, class_, name, arg_types, ret_type):
+#                sig = name
+#                if len(arg_types) == 0:
+#                        # If there are no parameters
+#                        method_spec = '()' + self._get_jvm_type(method_s)
+#                else:
+#                        # It has params, so add them to the method_spec
+#                        method_spec = '('
+#                        for param in method_s.params:
+#                                method_spec += self._get_jvm_type(param)
+#                        method_spec += ')' + ret_type
+#                self._lib_method_sigs[[class_, name] + arg_types]
 
         classes = property(get_classes)
         interfaces = property(_get_interfaces)
         lib_classes = property(get_lib_classes) # TODO: also need lib_interfaces!
         types = property(get_types)
         nums = property (get_nums)
+#        lib_method_sigs
+#        lib_field_sigs
+#        lib_cons_sigs
 
 class Environment(object):
         """Environment which represents the symbol table and other

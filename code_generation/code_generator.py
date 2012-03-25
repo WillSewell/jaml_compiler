@@ -179,7 +179,7 @@ class CodeGenerator(object):
                         self._field_sigs[(class_s.name, name)] = signature
         
         def _gen_method_sigs(self, class_s, t_env):
-                """Generate method and a constructor signature for a class."""
+                """Generate method and a constructor signatures for a class."""
                 for method in class_s.methods:
                         name = method.name
                         signature = class_s.name + '/'
@@ -311,7 +311,7 @@ class CodeGenerator(object):
                 self._add_iln('return')
                 self._add_ln('.end method')
         
-        def _gen_super_constructor(self, ):
+        def _gen_super_constructor(self):
                 """Generates the code to invoke a call to the super class'
                 constructor.
                 """
@@ -323,6 +323,17 @@ class CodeGenerator(object):
                 else:
                         sig = self._method_sigs[super_, '<init>']
                         self._add_iln('invokespecial ' + sig)
+        
+        def _get_lib_method_sig(self, class_, name, args):
+                """Uses the library class checker to check the method exists
+                with the argument types provided.
+                """
+                full_class_name = get_full_type(class_, self._t_env)
+                dotted_name = full_class_name.replace('/', '.')
+                arg_types = self._get_arg_types(node, env)
+                method_name = node.children[0].value
+                return run_lib_checker(['-method', dotted_name, method_name] +
+                                   arg_types)
         
         def _visit_field_dcl_node(self, node):
                 id_node = node.children[1]
@@ -1497,6 +1508,7 @@ class CodeGenerator(object):
                         # It's a class type
                         jvm_type += 'L' + type_ + ';'
                 return jvm_type
+        
         
         def _prefix(self, node):
                 """get's the correct instruction prefix given the type of the
