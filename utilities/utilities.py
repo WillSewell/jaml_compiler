@@ -1,8 +1,6 @@
 """An assortment of classes and scripts used throughout the program."""
 import re
-import os
-import subprocess
-from semantic_analysis.exceptions import SymbolNotFoundError
+import parser_.tree_nodes as nodes
 
 class ArrayType(object):
         """A special type representing arrays."""
@@ -66,27 +64,61 @@ def is_main(method_s):
         except AttributeError: pass
         return False
 
-def run_lib_checker(args):
-        """Run the library class type checker program with the
-        specified arguments.
+def get_jvm_type(node_or_symbol):
+        """Get's the jvm type signature for a given node, symbol, or simple
+        string representation of the type.
         """
-        file_dir = os.path.dirname(__file__)
-        checker_dir = os.path.join(file_dir, 'lib_checker')
-        cmd = (['java', '-cp', checker_dir, 'LibChecker'] + 
-               args)
-        #stdout = subprocess.PIPE
-        #output = subprocess.Popen(cmd, stdout).communicate()[0]
-        popen = subprocess.Popen(cmd, stdout = subprocess.PIPE)
-        output = popen.communicate()[0]
-        output = output.rstrip(os.linesep)
-        # Check for an error
-        if output[0] == 'E':
-                raise SymbolNotFoundError(output.lstrip('E - '))
+        type_ = ''
+        jvm_type = ''
+        # Work out if it needs array information
+        try:
+                try:
+                        # Try as if it's a method symbol
+                        if isinstance(node_or_symbol.type_, ArrayType):
+                                dimensions = node_or_symbol.type_.dimensions
+                                for _ in range(dimensions):
+                                        jvm_type += '['
+                except AttributeError:
+                        try:
+                                # Try as an array symbol
+                                for _ in range(node_or_symbol.dimensions):
+                                        jvm_type += '['
+                        except AttributeError:
+                                # It's an ast node
+                                node = node_or_symbol
+                                if isinstance(node, nodes.ArrayDclNode):
+                                        for _ in range(node.children[1]):
+                                                jvm_type += '['
+                                elif isinstance(node, nodes.ArrayInitNode):
+                                        for _ in node.children[1:]:
+                                                jvm_type += '['
+                        # Get the type symbol
+                        type_ = node_or_symbol.type_
+                try:
+                        type_ = node_or_symbol.type_.type_
+                except AttributeError: pass
+        except AttributeError:
+                # Treat it as a string representation of the type
+                type_ = node_or_symbol
+        if type_ == 'boolean':
+                jvm_type += 'Z'
+        elif type_ == 'byte':
+                jvm_type += 'B'
+        elif type_ == 'char':
+                jvm_type += 'C'
+        elif type_ == 'short':
+                jvm_type += 'S'
+        elif type_ == 'int':
+                jvm_type += 'I'
+        elif type_ == 'long':
+                jvm_type += 'J'
+        elif type_ == 'float':
+                jvm_type += 'F'
+        elif type_ == 'double':
+                jvm_type += 'D'
+        elif type_ == 'void':
+                jvm_type += 'V'
         else:
-                # Return output where packages are delimited by /
-                return output.replace('.', '/')
-
-def convert_type_to_jvm(self, long_type):
-        """Convert a full name for a type to the single character
-        JVM abbreviation.
-        """
+                # It's a class type
+                jvm_type += 'L' + type_ + ';'
+        return jvm_type

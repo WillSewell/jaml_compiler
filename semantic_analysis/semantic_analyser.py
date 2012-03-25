@@ -2,6 +2,7 @@
 semantically correct.
 """
 import os
+import subprocess
 from parser_ import parser_
 from symbols import ArraySymbol, VarSymbol
 import parser_.tree_nodes as nodes
@@ -12,7 +13,7 @@ from exceptions import (NotInitWarning, NoReturnError, SymbolNotFoundError,
                         ConstructorError, ClassSignatureError, AssignmentError,
                         VariableNameError, StaticError, ObjectCreationError)
 from utilities.utilities import (ArrayType, camel_2_underscore, get_full_type,
-                                 is_main, run_lib_checker)
+                                 is_main)
 
 # TODO: SPLIT LIB CLASSES INTO LIB CLASSES AND INTERFACES!
 
@@ -870,12 +871,17 @@ class TypeChecker(object):
                 dotted_name = full_class_name.replace('/', '.')
                 arg_types = self._get_arg_types(node, env)
                 method_name = node.children[0].value
-                ret_type = run_lib_checker(['-method', dotted_name,
+                ret_type = self._run_lib_checker(['-method', dotted_name,
                                             method_name] + arg_types)
                 if ret_type[0] == '[':
                         # It's an array, so must be converted to the array class
                         convert = self._convert_jvm_array_type_to_class
                         ret_type = convert(ret_type)
+                # Generate a JVM style method signature for use by the
+                # code generator
+                # TODO: MAY HAVE TO BE THE CLASS THAT IT WAS ACTUALLY CALLED ON, RATHER THAN THE CLASS IT ACTUALLY EXISTS IN... NOT SURE
+                node.type_ = ret_type
+                self._t_env.add_lib_method_sig(class_, node)
                 return ret_type
         
         def _get_arg_types(self, node, env):
@@ -932,7 +938,7 @@ class TypeChecker(object):
                 full_class_name = get_full_type(class_, self.t_env)
                 dotted_name = full_class_name.replace('/', '.')
                 arg_types = self._get_arg_types(node, env)
-                run_lib_checker(['-cons', dotted_name] + arg_types)
+                self._run_lib_checker(['-cons', dotted_name] + arg_types)
         
         def _visit_args_list_node(self, node, env):
                 """Tag the type of each argument."""
@@ -1006,7 +1012,7 @@ class TypeChecker(object):
                 except SymbolNotFoundError:
                         # It was in a library class
                         dotted_name = node.type_.replace('/', '.')
-                        run_lib_checker(['-class', dotted_name])
+                        self._run_lib_checker(['-class', dotted_name])
         
         def _visit_implements_list_node(self, node, env):
                 """Check each interface that is implemented exists."""
@@ -1017,7 +1023,7 @@ class TypeChecker(object):
                         # If it's a library interface, check it exists
                         if interface.value in self._t_env.lib_classes.keys():
                                 dotted_name = node.type_.replace('/', '.')
-                                run_lib_checker(['-class', dotted_name])
+                                self._run_lib_checker(['-class', dotted_name])
                         
         def _visit_id_node(self, node, env):
                 """If it's an identifier the type needs to be looked up in env.
@@ -1117,11 +1123,15 @@ class TypeChecker(object):
                 """Uses the library class checker to check the field exists."""
                 full_class_name = get_full_type(class_, self._t_env)
                 dotted_name = full_class_name.replace('/', '.')
-                ret_type = run_lib_checker(['-field', dotted_name, field])
+                ret_type = self._run_lib_checker(['-field', dotted_name, field])
                 if ret_type[0] == '[':
                         # It's an array, so must be converted to the array class
                         convert = self._convert_jvm_array_type_to_class
                         ret_type = convert(ret_type)
+                # Generate a JVM style field signature for use by the
+                # code generator
+                # TODO: MAY HAVE TO BE THE CLASS THAT IT WAS ACTUALLY CALLED ON, RATHER THAN THE CLASS IT ACTUALLY EXISTS IN... NOT SURE
+                self._t_env.add_lib_field_sig(class_, field, ret_type)
                 return ret_type
                         
 
@@ -1168,7 +1178,7 @@ class TypeChecker(object):
         def _check_lib_class(self, class_, node, env):
                 """Check the libaray class exists. """
                 dotted_name = class_.replace('/', '.')
-                run_lib_checker(['-class', dotted_name])
+                self._run_lib_checker(['-class', dotted_name])
 
         #######################################################################
         ## Interface checks
@@ -1212,6 +1222,26 @@ class TypeChecker(object):
                 self.visit(node.children[1], env)
                 # Check the parameter's types are legitimate
                 self.visit(node.children[3], env)
+                
+        def _run_lib_checker(self, args):
+                """Run the library class type checker program with the
+                specified arguments.
+                """
+                file_dir = os.path.dirname(__file__)
+                checker_dir = os.path.join(file_dir, 'lib_checker')
+                cmd = (['java', '-cp', checker_dir, 'LibChecker'] + 
+                       args)
+                #stdout = subprocess.PIPE
+                #output = subprocess.Popen(cmd, stdout).communicate()[0]
+                popen = subprocess.Popen(cmd, stdout = subprocess.PIPE)
+                output = popen.communicate()[0]
+                output = output.rstrip(os.linesep)
+                # Check for an error
+                if output[0] == 'E':
+                        raise SymbolNotFoundError(output.lstrip('E - '))
+                else:
+                        # Return output where packages are delimited by /
+                        return output.replace('.', '/')
         
         def _convert_jvm_array_type_to_class(self, jvm_type):
                 """Converts a JVM style array type (returned from checking

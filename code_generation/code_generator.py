@@ -3,9 +3,8 @@ syntax tree."""
 import os
 import subprocess
 from semantic_analysis import semantic_analyser
-from semantic_analysis.semantic_analyser import ArrayType
 import parser_.tree_nodes as nodes
-from utilities.utilities import camel_2_underscore, is_main
+from utilities.utilities import camel_2_underscore, is_main, get_jvm_type
 
 class FileReadError(Exception):
         """Raised when a reference to a variable is made when it has not been
@@ -174,7 +173,7 @@ class CodeGenerator(object):
                 for field in class_s.fields:
                         name = field.name
                         signature = (class_s.name + '/' + name + ' ' +
-                                     self._get_jvm_type(field))
+                                     get_jvm_type(field))
                         # Store the signature
                         self._field_sigs[(class_s.name, name)] = signature
         
@@ -201,16 +200,16 @@ class CodeGenerator(object):
                 if is_cons:
                         ret_type = 'V'
                 else:
-                        ret_type = self._get_jvm_type(method_s)
+                        ret_type = get_jvm_type(method_s)
                 method_spec = ''
                 if len(method_s.params) == 0:
                         # If there are no parameters
-                        method_spec = '()' + self._get_jvm_type(method_s)
+                        method_spec = '()' + get_jvm_type(method_s)
                 else:
                         # It has params, so add them to the method_spec
                         method_spec = '('
                         for param in method_s.params:
-                                method_spec += self._get_jvm_type(param)
+                                method_spec += get_jvm_type(param)
                         method_spec += ')' + ret_type
                 return method_spec
         
@@ -338,7 +337,7 @@ class CodeGenerator(object):
         def _visit_field_dcl_node(self, node):
                 id_node = node.children[1]
                 name = id_node.value
-                type_ = self._get_jvm_type(node)
+                type_ = get_jvm_type(node)
                 # Generate the signature
                 field_sig = '.field '
                 for modifier in node.modifiers:
@@ -349,7 +348,7 @@ class CodeGenerator(object):
         def _visit_field_dcl_assign_node(self, node):
                 id_node = node.children[1].children[0]
                 name = id_node.value
-                type_ = self._get_jvm_type(node)
+                type_ = get_jvm_type(node)
                 # Generate the signature
                 field_sig = '.field '
                 for modifier in node.modifiers:
@@ -370,7 +369,7 @@ class CodeGenerator(object):
                 method_spec = '('
                 try:
                         for param in node.children[1].children:
-                                method_spec += self._get_jvm_type(param)
+                                method_spec += get_jvm_type(param)
                 except AttributeError:
                         # No params
                         pass
@@ -410,11 +409,11 @@ class CodeGenerator(object):
                         method_spec = '('
                         try:
                                 for param in node.children[2].children:
-                                        method_spec += self._get_jvm_type(param)
+                                        method_spec += get_jvm_type(param)
                         except AttributeError:
                                 # No params
                                 pass
-                        method_spec += ')' + self._get_jvm_type(node)
+                        method_spec += ')' + get_jvm_type(node)
                         # Combine signature and spec
                         signature = name + method_spec
                         # Add modifiers
@@ -447,11 +446,11 @@ class CodeGenerator(object):
                 method_spec = '('
                 try:
                         for param in node.children[3].children:
-                                method_spec += self._get_jvm_type(param)
+                                method_spec += get_jvm_type(param)
                 except AttributeError:
                         # No params
                         pass
-                method_spec += ')' + self._get_jvm_type(node)
+                method_spec += ')' + get_jvm_type(node)
                 # Combine signature and spec
                 signature = name + method_spec
                 # Add modifiers
@@ -1358,7 +1357,7 @@ class CodeGenerator(object):
                                 # Get the sizes of each dimenion on the stack
                                 self._visit(child)
                         self._add_iln('multianewarray ' +
-                                      self._get_jvm_type(node) + ' ' +
+                                      get_jvm_type(node) + ' ' +
                                       str(len(node.children[1:])),
                                       ';Construct a new multidimensional array')
                 
@@ -1456,59 +1455,6 @@ class CodeGenerator(object):
                 # Write the signature
                 self._add_ln('.method abstract ' + signature)
                 self._add_ln('.end method')
-
-        def _get_jvm_type(self, node_or_symbol):
-                """Get's the jvm type signature for a given node or symbol."""
-                jvm_type = ''
-                # Work out if it needs array information
-                try:
-                        # Try as if it's a method symbol
-                        if isinstance(node_or_symbol.type_, ArrayType):
-                                dimensions = node_or_symbol.type_.dimensions
-                                for _ in range(dimensions):
-                                        jvm_type += '['
-                except AttributeError:
-                        try:
-                                # Try as an array symbol
-                                for _ in range(node_or_symbol.dimensions):
-                                        jvm_type += '['
-                        except AttributeError:
-                                # It's an ast node
-                                node = node_or_symbol
-                                if isinstance(node, nodes.ArrayDclNode):
-                                        for _ in range(node.children[1]):
-                                                jvm_type += '['
-                                elif isinstance(node, nodes.ArrayInitNode):
-                                        for _ in node.children[1:]:
-                                                jvm_type += '['
-                # Get the type symbol
-                type_ = node_or_symbol.type_
-                try:
-                        type_ = node_or_symbol.type_.type_
-                except AttributeError: pass
-                if type_ == 'boolean':
-                        jvm_type += 'Z'
-                elif type_ == 'byte':
-                        jvm_type += 'B'
-                elif type_ == 'char':
-                        jvm_type += 'C'
-                elif type_ == 'short':
-                        jvm_type += 'S'
-                elif type_ == 'int':
-                        jvm_type += 'I'
-                elif type_ == 'long':
-                        jvm_type += 'J'
-                elif type_ == 'float':
-                        jvm_type += 'F'
-                elif type_ == 'double':
-                        jvm_type += 'D'
-                elif type_ == 'void':
-                        jvm_type += 'V'
-                else:
-                        # It's a class type
-                        jvm_type += 'L' + type_ + ';'
-                return jvm_type
-        
         
         def _prefix(self, node):
                 """get's the correct instruction prefix given the type of the

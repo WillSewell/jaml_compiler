@@ -1,5 +1,6 @@
 from exceptions import SymbolNotFoundError
 from semantic_analysis.exceptions import VariableNameError
+from utilities.utilities import get_jvm_type
 
 class TopEnvironment(object):
         """This environment is used to store all the symbols publicly
@@ -82,30 +83,60 @@ class TopEnvironment(object):
         def get_nums(self):
                 return self._nums
         
-        def get_lib_method_sig(self, name):
-                return self._lib_method_sigs
+        def get_lib_method_sig(self, class_, name, arg_types):
+                """Get a library method signature given the class it's in, its
+                name, and the types of its arguments.
+                """
+                key = (class_, name) + arg_types
+                return self._lib_method_sigs[key]
         
-#        def add_lib_method_sig(self, class_, name, arg_types, ret_type):
-#                sig = name
-#                if len(arg_types) == 0:
-#                        # If there are no parameters
-#                        method_spec = '()' + self._get_jvm_type(method_s)
-#                else:
-#                        # It has params, so add them to the method_spec
-#                        method_spec = '('
-#                        for param in method_s.params:
-#                                method_spec += self._get_jvm_type(param)
-#                        method_spec += ')' + ret_type
-#                self._lib_method_sigs[[class_, name] + arg_types]
+        def add_lib_method_sig(self, class_, node):
+                """From a given class name, and method call node, create a
+                JVM style method signature string.
+                """
+                method_name = node.children[0].value
+                arg_types = []
+                sig = class_ + '/' + method_name
+                try:
+                        try:
+                                # Assume it has params
+                                params_list = node.children[2].children
+                        except IndexError:
+                                # It was a method call to a super class
+                                params_list = node.children[1].children
+                        # Add the params to the method_spec
+                        method_spec = '('
+                        for param in params_list:
+                                arg_types += [param.type_]
+                                method_spec += get_jvm_type(param)
+                        method_spec += ')'
+                except AttributeError:
+                        # If there are no parameters
+                        method_spec = '()'
+                method_spec += get_jvm_type(node)
+                sig += method_spec
+                key = tuple([class_, method_name] + arg_types)
+                self._lib_method_sigs[key] = sig
+        
+        def get_lib_field_sig(self, class_, name):
+                """Get a library field signature given the class it's in, its
+                name, and the types of its arguments.
+                """
+                key = (class_, name)
+                return self._lib_method_sigs[key]
+        
+        def add_lib_field_sig(self, class_, name, type):
+                """From a given class name, and field ref node, create a
+                JVM style field signature string.
+                """
+                sig = class_ + '/' + name + ' ' + get_jvm_type(type)
+                self._lib_method_sigs[(class_, name)] = sig
 
         classes = property(get_classes)
         interfaces = property(_get_interfaces)
         lib_classes = property(get_lib_classes) # TODO: also need lib_interfaces!
         types = property(get_types)
         nums = property (get_nums)
-#        lib_method_sigs
-#        lib_field_sigs
-#        lib_cons_sigs
 
 class Environment(object):
         """Environment which represents the symbol table and other
