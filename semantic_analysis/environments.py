@@ -87,7 +87,7 @@ class TopEnvironment(object):
                 """Get a library method signature given the class it's in, its
                 name, and the types of its arguments.
                 """
-                key = (class_, name) + arg_types
+                key = tuple([class_, name] + arg_types)
                 return self._lib_method_sigs[key]
         
         def add_lib_method_sig(self, class_, node):
@@ -118,19 +118,46 @@ class TopEnvironment(object):
                 key = tuple([class_, method_name] + arg_types)
                 self._lib_method_sigs[key] = sig
         
+        def get_lib_cons_sig(self, class_, arg_types):
+                """Get a library constructor signature given the class it's in,
+                its name, and the types of its arguments.
+                """
+                key = tuple([class_] + arg_types)
+                return self._lib_cons_sigs[key]
+        
+        def add_lib_cons_sig(self, class_, node):
+                """From a given class name, and object creation node, create a
+                JVM style constructor signature string.
+                """
+                arg_types = []
+                sig = class_ + '/<init>'
+                try:
+                        # Assume it has parameters
+                        method_spec = '('
+                        for param in node.children[1].children:
+                                arg_types += [param.type_]
+                                method_spec += get_jvm_type(param)
+                        method_spec += ')'
+                except AttributeError:
+                        # If there are no parameters
+                        method_spec = '()'
+                sig += get_jvm_type(node)
+                key = tuple([class_] + arg_types)
+                self._lib_method_sigs[key] = sig
+        
         def get_lib_field_sig(self, class_, name):
                 """Get a library field signature given the class it's in, its
                 name, and the types of its arguments.
                 """
                 key = (class_, name)
-                return self._lib_method_sigs[key]
+                return self._lib_field_sigs[key]
         
-        def add_lib_field_sig(self, class_, name, type):
-                """From a given class name, and field ref node, create a
-                JVM style field signature string.
+        def add_lib_field_sig(self, class_, name, type_):
+                """From a given class and field name, create a JVM style field
+                signature string.
                 """
-                sig = class_ + '/' + name + ' ' + get_jvm_type(type)
-                self._lib_method_sigs[(class_, name)] = sig
+                sig = class_ + '/' + name + ' ' + get_jvm_type(type_)
+                self._lib_field_sigs[(class_, name)] = sig
 
         classes = property(get_classes)
         interfaces = property(_get_interfaces)
