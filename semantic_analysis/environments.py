@@ -18,9 +18,9 @@ class TopEnvironment(object):
                 # Stores all library classes (currently only from java.lang)
                 self._lib_classes = lib_classes
                 # Stores signatures of library methods/constructors/fields
-                self._lib_method_sigs = {}
-                self._lib_field_sigs = {}
-                self._lib_cons_sigs = {}
+                self._lib_methods = []
+                self._lib_fields = []
+                self._lib_cons = []
 
         def put_class_s(self, symbol):
                 """Adds a class symbol to the dict."""
@@ -83,34 +83,21 @@ class TopEnvironment(object):
         def get_nums(self):
                 return self._nums
         
-        def get_lib_method_sig(self, class_, name, arg_types):
-                """Get a library method signature given the class it's in, its
-                name, and the types of its arguments.
+        def get_lib_method(self, invoked_class, name, arg_types):
+                """Get a library method signature given the type of the
+                object it was invoked in, its name, and the types of its
+                arguments.
                 """
-                key = tuple([class_, name] + arg_types)
-                return self._lib_method_sigs[key]
+                # Search through all the methods for a match
+                for lib_method in self._lib_methods:
+                        if (invoked_class == lib_method.invoked_class and
+                            name == lib_method.name and
+                            sorted(arg_types) == sorted(lib_method.arg_types)):
+                                return lib_method
         
-        def add_lib_method_sig(self, class_refed, class_, name, ret_type,
-                               arg_types):
-                """From a given class name, and method call node, create a
-                JVM style method signature string. classed_refed is the class
-                the field was referenced from, class_ is the class it's defined
-                in.
-                """
-                sig = class_ + '/' + name
-                try:
-                        # Add the params to the method_spec
-                        method_spec = '('
-                        for type_ in arg_types:
-                                method_spec += get_jvm_type(type_)
-                        method_spec += ')'
-                except AttributeError:
-                        # If there are no parameters
-                        method_spec = '()'
-                method_spec += get_jvm_type(ret_type)
-                sig += method_spec
-                key = tuple([class_refed, name] + arg_types)
-                self._lib_method_sigs[key] = sig
+        def add_lib_method_sig(self, lib_method):
+                """Add the library method symbol to the list."""
+                self._lib_methods += lib_method
         
         def get_lib_cons_sig(self, class_, arg_types):
                 """Get a library constructor signature given the class it's in,

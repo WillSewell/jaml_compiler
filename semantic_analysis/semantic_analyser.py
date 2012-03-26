@@ -915,12 +915,11 @@ class TypeChecker(object):
                         # It's an array, so must be converted to the array class
                         convert = self._convert_jvm_array_type_to_class
                         ret_type = convert(ret_type)
-                
-                symbol = LibMethodSymbol(method_name, ret_type, params,
-                     invoked_class, containing_class, is_static)
-                
-                self._t_env.add_lib_method_sig(class_, parent_class,
-                                               method_name, ret_type, arg_types)
+                # Create a symbol and add it to the t_env for the code
+                # generator to use later
+                symbol = LibMethodSymbol(method_name, ret_type, arg_types,
+                                         class_, parent_class, is_static)
+                self._t_env.add_lib_method_sig(symbol)
                 return ret_type
         
         def _get_arg_types(self, node, env):

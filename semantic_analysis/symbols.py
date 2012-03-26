@@ -193,22 +193,23 @@ class MethodSymbol(SymbolWithType, ModiferContainer):
         params = property(_get_params)
         has_ret = property(_get_has_ret, _set_has_ret)
 
-class LibMethodSymbol(MethodSymbol):
+class LibMethodSymbol(SymbolWithType, ModiferContainer):
         """Symbols that represent methods in library classes.
         invoked_class is the class the method was invoked in - this is used
         by the code generator to look up the method.
         containing_class is the class the method is actually defined in."""
-        def __init__(self, name, type_, params,
+        def __init__(self, name, type_, arg_types,
                      invoked_class, containing_class, is_static):
-                super(LibMethodSymbol, self).__init__(name, type_, params)
+                super(LibMethodSymbol, self).__init__(name, type_)
                 self._invoked_class = invoked_class
                 self._containing_class = containing_class
+                self._arg_types = arg_types
                 if is_static:
                         self.modifiers = ['static']
-                self._sig = self._create_sig(containing_class, name, params,
+                self._sig = self._create_sig(containing_class, name, arg_types,
                                              type_)
         
-        def _create_sig(self, containing_class, name, args, ret_type):
+        def _create_sig(self, containing_class, name, arg_types, ret_type):
                 """From a given class name, and method call node, create a
                 JVM style method signature string. classed_refed is the class
                 the field was referenced from, class_ is the class it's defined
@@ -218,8 +219,8 @@ class LibMethodSymbol(MethodSymbol):
                 try:
                         # Add the params to the method_spec
                         method_spec = '('
-                        for arg in args:
-                                method_spec += get_jvm_type(arg.type_)
+                        for type_ in arg_types:
+                                method_spec += get_jvm_type(type_)
                         method_spec += ')'
                 except AttributeError:
                         # If there are no parameters
@@ -232,7 +233,15 @@ class LibMethodSymbol(MethodSymbol):
                 """Get the JVM style signature of this method."""
                 return self._sig
         
+        def _get_invoked_class(self):
+                return self._invoked_class
+        
+        def _get_arg_types(self):
+                return self._arg_types
+        
         sig = property(_get_sig)
+        invoked_class = property(_get_invoked_class)
+        arg_types = property(_get_arg_types)
 
 class ConstructorSymbol(Symbol):
         """A special symbol for a class' constructor."""
