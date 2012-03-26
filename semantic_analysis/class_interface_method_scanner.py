@@ -251,6 +251,12 @@ class ClassInterfaceMethodScanner(object):
                         self._check_param_name(p_name)
                 return params
         
+        def get_param_symbols(self, node):
+                """A public facing interface to the above method for use by
+                the semantic analyser.
+                """
+                return self._visit_param_list_node(node)
+        
         def _check_param_name(self, name):
                 """Check the local variable does not have the same name as
                 a field or a type.

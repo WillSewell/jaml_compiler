@@ -1,5 +1,6 @@
 import semantic_analyser
 from exceptions import VariableNameError, SymbolNotFoundError
+from utilities.utilities import get_jvm_type
 
 class Symbol(object):
         """
@@ -140,7 +141,7 @@ class SymbolWithType(Symbol):
         type_ = property(_get_type)
 
 class MethodSymbol(SymbolWithType, ModiferContainer):
-        """Symbol that represent declared methods."""
+        """Symbols that represent declared methods."""
         def __init__(self, name, type_, params):
                 super(MethodSymbol, self).__init__(name, type_)
                 # Used by the type checker to make sure it has a return
@@ -191,6 +192,47 @@ class MethodSymbol(SymbolWithType, ModiferContainer):
 
         params = property(_get_params)
         has_ret = property(_get_has_ret, _set_has_ret)
+
+class LibMethodSymbol(MethodSymbol):
+        """Symbols that represent methods in library classes.
+        invoked_class is the class the method was invoked in - this is used
+        by the code generator to look up the method.
+        containing_class is the class the method is actually defined in."""
+        def __init__(self, name, type_, params,
+                     invoked_class, containing_class, is_static):
+                super(LibMethodSymbol, self).__init__(name, type_, params)
+                self._invoked_class = invoked_class
+                self._containing_class = containing_class
+                if is_static:
+                        self.modifiers = ['static']
+                self._sig = self._create_sig(containing_class, name, params,
+                                             type_)
+        
+        def _create_sig(self, containing_class, name, args, ret_type):
+                """From a given class name, and method call node, create a
+                JVM style method signature string. classed_refed is the class
+                the field was referenced from, class_ is the class it's defined
+                in.
+                """
+                sig = containing_class + '/' + name
+                try:
+                        # Add the params to the method_spec
+                        method_spec = '('
+                        for arg in args:
+                                method_spec += get_jvm_type(arg.type_)
+                        method_spec += ')'
+                except AttributeError:
+                        # If there are no parameters
+                        method_spec = '()'
+                method_spec += get_jvm_type(ret_type)
+                sig += method_spec
+                return sig
+        
+        def _get_sig(self):
+                """Get the JVM style signature of this method."""
+                return self._sig
+        
+        sig = property(_get_sig)
 
 class ConstructorSymbol(Symbol):
         """A special symbol for a class' constructor."""
