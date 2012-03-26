@@ -14,6 +14,7 @@ from exceptions import (NotInitWarning, NoReturnError, SymbolNotFoundError,
                         VariableNameError, StaticError, ObjectCreationError)
 from utilities.utilities import (ArrayType, camel_2_underscore, get_full_type,
                                  is_main, get_jvm_type)
+from semantic_analysis.symbols import LibFieldSymbol, LibConsSymbol
 
 # TODO: SPLIT LIB CLASSES INTO LIB CLASSES AND INTERFACES!
 # TODO: NOT CHECKING IF LIB METHODS/FIELDS ARE STATIC OR NOT
@@ -23,6 +24,10 @@ class TypeChecker(object):
         Also tags nodes in the AST with type information if applicable."""
 
         def __init__(self):
+                # Get the possible classes from java.lang and create a top
+                # level environment
+                lib_classes = self._scan_lib_classes()
+                self._t_env = TopEnvironment(lib_classes)
                 # Provides a more convenient way of calling these commonly
                 # used methods
                 self._get_class_s = self._t_env.get_class_s
@@ -31,12 +36,10 @@ class TypeChecker(object):
                 self._seen_main = False
                 
         def analyse(self, program):
-                """Type check a given program as a string, or a program as a text file.
+                """Type check a given program as a string, or a program as a
+                text file.
                 """
-                # Get the possible classes from java.lang
-                lib_classes = self._scan_lib_classes()
-                asts = parser_.parse(program, 'file', lib_classes)
-                self._t_env = TopEnvironment(lib_classes)
+                asts = parser_.parse(program, 'file', self._t_env.lib_classes)
                 # Add all global entities (classes and their methods) to the top level
                 # environment
                 self._scanner = ClassInterfaceMethodScanner(self._t_env)
@@ -765,7 +768,7 @@ class TypeChecker(object):
                 """Works in much the same way has the above method, but this
                 must look up methods in other classes.
                 """
-                # First get the name of the clas (the type) in order to get the
+                # First get the name of the class (the type) in order to get the
                 # correct class symbol
                 class_name = ''
                 is_static = False
@@ -919,7 +922,7 @@ class TypeChecker(object):
                 # generator to use later
                 symbol = LibMethodSymbol(method_name, ret_type, arg_types,
                                          class_, parent_class, is_static)
-                self._t_env.add_lib_method_sig(symbol)
+                self._t_env.add_lib_method(symbol)
                 return ret_type
         
         def _get_arg_types(self, node, env):
@@ -970,8 +973,6 @@ class TypeChecker(object):
                 except SymbolNotFoundError:
                         # Check if it's a library class
                         self._check_lib_cons(node, env)
-                        # Create a signature for the code generator
-                        self._t_env.add_lib_cons_sig(class_s.name, node)
                 node.type_ = get_full_type(node.children[0].value, self._t_env)
                 return node.type_
         
@@ -984,6 +985,10 @@ class TypeChecker(object):
                 dotted_name = full_class_name.replace('/', '.')
                 arg_types = self._get_arg_types(node, env)
                 self._run_lib_checker(['-cons', dotted_name] + arg_types)
+                # Generate a symbol for it and at it to _t_env
+                symbol = LibConsSymbol(class_, arg_types)
+                self._t_env.add_lib_cons(symbol)
+                # TODO: ADD A WAY TO CHECK ABSTRACT?  IN THE SAME WAY AS STATIC IS CHECKED FOR METHODS.
         
         def _visit_args_list_node(self, node, env):
                 """Tag the type of each argument."""
@@ -1169,17 +1174,17 @@ class TypeChecker(object):
                 full_class_name = get_full_type(class_, self._t_env)
                 dotted_name = full_class_name.replace('/', '.')
                 check = self._run_lib_checker
-                ret_type, parent_class = check(['-field', dotted_name, field])
-                if ret_type[0] == '[':
+                type_, containing_class, is_static = check(['-field',
+                                                            dotted_name, field])
+                if type_[0] == '[':
                         # It's an array, so must be converted to the array class
                         convert = self._convert_jvm_array_type_to_class
-                        ret_type = convert(ret_type)
-                # Generate a JVM style field signature for use by the
-                # code generator
-                # TODO: MAY HAVE TO BE THE CLASS THAT IT WAS ACTUALLY CALLED ON, RATHER THAN THE CLASS IT ACTUALLY EXISTS IN... NOT SURE
-                self._t_env.add_lib_field_sig(class_, parent_class, field,
-                                              ret_type)
-                return ret_type
+                        ret_type = convert(type_)
+                # Create a symbol for use by the code generator
+                symbol = LibFieldSymbol(field, type_, class_, containing_class,
+                                        is_static)
+                self._t_env.add_lib_field(symbol)
+                return type_
                         
 
         def _visit_literal_node(self, node, env):

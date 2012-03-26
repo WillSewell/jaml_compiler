@@ -95,9 +95,9 @@ class TopEnvironment(object):
                             sorted(arg_types) == sorted(lib_method.arg_types)):
                                 return lib_method
         
-        def add_lib_method_(self, lib_method):
+        def add_lib_method(self, lib_method):
                 """Add the library method symbol to the list."""
-                self._lib_methods += lib_method
+                self._lib_methods.append(lib_method)
         
         def get_lib_cons_sig(self, class_, arg_types):
                 """Get a library constructor signature given the class it's in,
@@ -110,7 +110,7 @@ class TopEnvironment(object):
         
         def add_lib_cons(self, symbol):
                 """Add a library class constructor symbol to the list."""
-                self._lib_cons += symbol
+                self._lib_cons.append(symbol)
         
         def get_lib_field(self, refed_class, name):
                 """Get a library field signature given the class it was
@@ -123,7 +123,7 @@ class TopEnvironment(object):
         
         def add_lib_field(self, symbol):
                 """Add a library field symbol to the list."""
-                self._lib_fields += symbol
+                self._lib_fields.append(symbol)
 
         classes = property(get_classes)
         interfaces = property(_get_interfaces)

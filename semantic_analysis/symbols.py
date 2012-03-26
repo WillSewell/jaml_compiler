@@ -264,13 +264,13 @@ class LibConsSymbol(Symbol):
         invoked_class is the class the method was invoked in - this is used
         by the code generator to look up the method.
         containing_class is the class the method is actually defined in."""
-        def __init__(self, name, arg_types, class_, is_static):
-                super(LibConsSymbol, self).__init__(name)
+        def __init__(self, class_, arg_types):
+                super(LibConsSymbol, self).__init__(class_)
                 self._class = class_
                 self._arg_types = arg_types
-                self._sig = self._create_sig(class_, name, arg_types)
+                self._sig = self._create_sig(class_, arg_types)
         
-        def _create_sig(self, class_, name, arg_types):
+        def _create_sig(self, class_, arg_types):
                 """From a given class name, and object creation node, create a
                 JVM style constructor signature string.
                 """

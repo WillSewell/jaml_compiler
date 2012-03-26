@@ -2,7 +2,7 @@
 syntax tree."""
 import os
 import subprocess
-from semantic_analysis import semantic_analyser
+from semantic_analysis.semantic_analyser import TypeChecker
 import parser_.tree_nodes as nodes
 from utilities.utilities import camel_2_underscore, is_main, get_jvm_type
 from semantic_analysis.exceptions import SymbolNotFoundError
@@ -96,7 +96,7 @@ class CodeGenerator(object):
                 string, and generates the assembly code file.
                 """
                 # Generate the type checked abstract syntax tree
-                asts, t_env = semantic_analyser.analyse(source)
+                asts, t_env = TypeChecker().analyse(source)
                 print asts
                 self._gen_field_method_sigs(t_env)
                 self._t_env = t_env
