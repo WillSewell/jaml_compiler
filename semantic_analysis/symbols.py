@@ -2,6 +2,8 @@ import semantic_analyser
 from exceptions import VariableNameError, SymbolNotFoundError
 from utilities.utilities import get_jvm_type
 
+# TODO: REFACTOR LIB SYMBOLS TO EXTEND FROM A SUPER CLASS IF I HAVE TIME
+
 class Symbol(object):
         """
         Represents a symbol to be stored in the Environment.  Using a class
@@ -256,6 +258,47 @@ class ConstructorSymbol(Symbol):
                 return self._params
 
         params = property(_get_params)
+        
+class LibConsSymbol(Symbol):
+        """Symbols that represent methods in library classes.
+        invoked_class is the class the method was invoked in - this is used
+        by the code generator to look up the method.
+        containing_class is the class the method is actually defined in."""
+        def __init__(self, name, arg_types, class_, is_static):
+                super(LibConsSymbol, self).__init__(name)
+                self._class = class_
+                self._arg_types = arg_types
+                self._sig = self._create_sig(class_, name, arg_types)
+        
+        def _create_sig(self, class_, name, arg_types):
+                """From a given class name, and object creation node, create a
+                JVM style constructor signature string.
+                """
+                sig = class_ + '/<init>'
+                try:
+                        # Assume it has parameters
+                        method_spec = '('
+                        for type_ in arg_types:
+                                method_spec += get_jvm_type(type_)
+                        method_spec += ')V'
+                except AttributeError:
+                        # If there are no parameters
+                        method_spec = '()V'
+                return sig + method_spec
+        
+        def _get_sig(self):
+                """Get the JVM style signature of this method."""
+                return self._sig
+        
+        def _get_invoked_class(self):
+                return self._invoked_class
+        
+        def _get_arg_types(self):
+                return self._arg_types
+        
+        sig = property(_get_sig)
+        invoked_class = property(_get_invoked_class)
+        arg_types = property(_get_arg_types)
 
 class SymbolWithInit(SymbolWithType):
         """Represents symbols that must be initialised before they are used."""
@@ -327,3 +370,37 @@ class VarSymbol(SymbolWithInit):
 class FieldSymbol(VarSymbol, ModiferContainer):
         """A special case of normal variables which can have modifiers."""
         pass
+
+class LibFieldSymbol(SymbolWithType, ModiferContainer):
+        """Symbols that represent fields in library classes.
+        refed_class is the class the method was referenced in - this is used
+        by the code generator to look up the method.
+        containing_class is the class the method is actually defined in."""
+        def __init__(self, name, type_, refed_class, containing_class,
+                     is_static):
+                super(LibFieldSymbol, self).__init__(name, type_)
+                self._refed_class = refed_class
+                self._containing_class = containing_class
+                if is_static:
+                        self.modifiers = ['static']
+                self._sig = self._create_sig(containing_class, name, type_)
+        
+        def _create_sig(self, containing_class, name, type_):
+                """From a given class and field name, create a JVM style field
+                signature string.  classed_refed is the class the field was
+                referenced from, class_ is the class it's defined in.
+                """
+                return containing_class + '/' + name + ' ' + get_jvm_type(type_)
+        
+        def _get_sig(self):
+                """Get the JVM style signature of this method."""
+                return self._sig
+        
+        def _get_refed_class(self):
+                return self._refed_class
+        
+        def _get_arg_types(self):
+                return self._arg_types
+        
+        sig = property(_get_sig)
+        refed_class = property(_get_refed_class)
