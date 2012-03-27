@@ -1,7 +1,7 @@
 """The test class for the module jaml.py."""
 import unittest
 import os
-from semantic_analysis import semantic_analyser
+from semantic_analysis.semantic_analyser import TypeChecker
 from semantic_analysis.exceptions import (NotInitWarning, NoReturnError,
                                           SymbolNotFoundError,
                                           MethodSignatureError, DimensionsError,
@@ -11,8 +11,12 @@ from semantic_analysis.exceptions import (NotInitWarning, NoReturnError,
                                           ClassSignatureError, StaticError)
 
 class TestSemanticAnalyser(unittest.TestCase):
-        this_file_path = os.path.dirname(__file__)
-        file_dir = os.path.join(this_file_path, 'test_files')
+        def setUp(self):
+                unittest.TestCase.setUp(self)
+                this_file_path = os.path.dirname(__file__)
+                self._file_dir = os.path.join(this_file_path, 'test_files')
+                type_checker = TypeChecker()
+                self._analyse = type_checker.analyse    
 
         def test_scan_classes_methods(self):
                 """Test that all referenced classes are scanned properly, and
@@ -50,7 +54,7 @@ class TestSemanticAnalyser(unittest.TestCase):
         def test_implements_not_exists_fail(self):
                 """Test the case where the interface does not exist."""
                 self.assertRaises(SymbolNotFoundError,
-                                  semantic_analyser.analyse,
+                                  self._analyse,
                                   'class X implements Y {}')
         
         def test_not_implemented_fail(self):
@@ -77,13 +81,13 @@ class TestSemanticAnalyser(unittest.TestCase):
                 another method.
                 """
                 self.assertRaises(SymbolNotFoundError,
-                                  semantic_analyser.analyse, 
+                                  self._analyse, 
                                   'class X { void x() { int x = 3; } ' +
                                   'void y() { x = 4;}}')
         
         def test_param_pass(self):
                 """Test parameters can be used within the method body."""
-                semantic_analyser.analyse('class X { void x(int y) ' +
+                self._analyse('class X { void x(int y) ' +
                                           '{int x = y;}}')
         
         def test_param_fail(self):
@@ -91,7 +95,7 @@ class TestSemanticAnalyser(unittest.TestCase):
                 elsewhere.
                 """
                 self.assertRaises(SymbolNotFoundError,
-                                  semantic_analyser.analyse,
+                                  self._analyse,
                                   'class x { void x(int y) {} ' +
                                   'void z(){int w = y;}}')
         
@@ -115,14 +119,14 @@ class TestSemanticAnalyser(unittest.TestCase):
         def test_multi_constructors_fail(self):
                 """Test an error is thrown when a class contains multiple
                 constructors."""
-                self.assertRaises(ConstructorError, semantic_analyser.analyse,
+                self.assertRaises(ConstructorError, self._analyse,
                                   'class X { X() {} X() {} }')
         
         def test_method_call_pass(self):
                 """Test that there is no error when a call is made to another
                 method within the same class.
                 """
-                semantic_analyser.analyse('class X {void x() {y();} ' +
+                self._analyse('class X {void x() {y();} ' +
                                           'void y(){} }')
         
         def test_method_call_fail(self):
@@ -130,14 +134,14 @@ class TestSemanticAnalyser(unittest.TestCase):
                 exist.
                 """
                 self.assertRaises(SymbolNotFoundError,
-                                  semantic_analyser.analyse,
+                                  self._analyse,
                                   'class X {void x() {z();} void y(){} }')
         
         def test_method_call_args_pass(self):
                 """Test that there is no error when the arguments match the
                 method signature.
                 """
-                semantic_analyser.analyse('class X {void x() ' +
+                self._analyse('class X {void x() ' +
                                           '{long w = 5; y(w + 5);} ' +
                                           'void y(long z){} }')
         
@@ -146,14 +150,14 @@ class TestSemanticAnalyser(unittest.TestCase):
                 arguments are provided when there should be one.
                 """
                 self.assertRaises(MethodSignatureError,
-                                  semantic_analyser.analyse,
+                                  self._analyse,
                                   'class X {void x() {y();} void y(long z){} }')
         
         def test_method_call_args_wrong_type_fail(self):
                 """Test an error is thrown when a method is called where
                 the arguments are of the incorrect type.
                 """
-                self.assertRaises(TypeError, semantic_analyser.analyse,
+                self.assertRaises(TypeError, self._analyse,
                                   'class X {void x() {boolean w = true; ' +
                                   'y(w);} void y(long z){} }')
         
@@ -161,30 +165,30 @@ class TestSemanticAnalyser(unittest.TestCase):
                 """Test that no error is raised when the correct type is
                 returned.
                 """
-                semantic_analyser.analyse('class X {short x(){return 6;}}')
+                self._analyse('class X {short x(){return 6;}}')
         
         def test_method_no_return_fail(self):
                 """Test that an error is raised when a method does not return
                 anything when it's signature states it should.
                 """
-                self.assertRaises(NoReturnError, semantic_analyser.analyse,
+                self.assertRaises(NoReturnError, self._analyse,
                                   'class X {short x(){}}')
         
         def test_method_wrong_return_fail(self):
                 """Test that an error is raised when a method returns an
                 incorrect type.
                 """
-                self.assertRaises(TypeError, semantic_analyser.analyse,
+                self.assertRaises(TypeError, self._analyse,
                                   'class X {short x(){return true;}}')
         
         def test_method_return_array_pass(self):
                 """Test no error raised when a method returns an array"""
-                semantic_analyser.analyse('class X {byte[][] x(){return new ' +
+                self._analyse('class X {byte[][] x(){return new ' +
                                           'byte[5][5];}}')
         
         def test_method_return_array_fail(self):
                 """Test error raised when array is not returned"""
-                self.assertRaises(TypeError, semantic_analyser.analyse,
+                self.assertRaises(TypeError, self._analyse,
                                   'class X {int[] x(){return 1;}}')
         
         def test_method_call_external_pass(self):
@@ -238,7 +242,7 @@ class TestSemanticAnalyser(unittest.TestCase):
                 is referenced from a static method.
                 """
                 self.assertRaises(StaticError,
-                                  semantic_analyser.analyse,
+                                  self._analyse,
                                   'class X { int x = 5; static void x()' +
                                   '{ int y = x;}}')
         
@@ -246,7 +250,7 @@ class TestSemanticAnalyser(unittest.TestCase):
                 """Test no error thrown when a private method is called
                 from within the same class.
                 """
-                semantic_analyser.analyse('class X { void x() {}' +
+                self._analyse('class X { void x() {}' +
                                           'void y() { x();} }')
         
         def test_private_method_fail(self):
@@ -271,20 +275,20 @@ class TestSemanticAnalyser(unittest.TestCase):
                 
         def test_field(self):
                 """Test that a field can be accessed from within a method."""
-                semantic_analyser.analyse('class X { int x; ' +
+                self._analyse('class X { int x; ' +
                                           'void x() {x = 5;}}')
         
         def test_final_field_assign_fail(self):
                 """Test error thrown when assignment is attemped with a final
                 field.
                 """
-                self.assertRaises(AssignmentError, semantic_analyser.analyse,
+                self.assertRaises(AssignmentError, self._analyse,
                                   'class X { final short y = 5;' +
                                   'void x(){y=5;}}')
         
         def test_final_field_inc_fail(self):
                 """Like above, but checks for decrementing."""
-                self.assertRaises(AssignmentError, semantic_analyser.analyse,
+                self.assertRaises(AssignmentError, self._analyse,
                                   'class X { final short y = 5;' +
                                   'void x(){y--;}}')
         
@@ -322,7 +326,7 @@ class TestSemanticAnalyser(unittest.TestCase):
                 """Test no error thrown when a private field is used in the
                 same class.
                 """
-                semantic_analyser.analyse('class X { private byte x = 1;' +
+                self._analyse('class X { private byte x = 1;' +
                                           'void y() { byte y = x;} }')
         
         def test_private_field_fail(self):
@@ -338,25 +342,25 @@ class TestSemanticAnalyser(unittest.TestCase):
         def test_name_clash_field_type(self):
                 """Test an error thrown when there is a name clash between
                 a type (class) name and a field name."""
-                self.assertRaises(VariableNameError, semantic_analyser.analyse,
+                self.assertRaises(VariableNameError, self._analyse,
                                   'class X { short X; }')
         
         def test_name_clash_param_field(self):
                 """Test an error thrown when there is a name clash between
                 a parameter name and a field name."""
-                self.assertRaises(VariableNameError, semantic_analyser.analyse,
+                self.assertRaises(VariableNameError, self._analyse,
                                   'class X { short x; void y(byte x){} }')
         
         def test_name_clash_local_param(self):
                 """Test an error thrown when there is a name clash between
                 a parameter name and a local variable name."""
-                self.assertRaises(VariableNameError, semantic_analyser.analyse,
+                self.assertRaises(VariableNameError, self._analyse,
                                   'class X { void y(byte x){int x = 5;} }')
         
         def test_name_clash_local_field(self):
                 """Test an error thrown when there is a name clash between
                 a field name and a local variable name."""
-                self.assertRaises(VariableNameError, semantic_analyser.analyse,
+                self.assertRaises(VariableNameError, self._analyse,
                                   'class X { double x; void y(){int x = 5;} }')
         
         def test_if_pass(self):
@@ -585,24 +589,24 @@ class TestSemanticAnalyser(unittest.TestCase):
         
         def analyse_stmt(self, stmt):
                 """Helper method used so that single line code can be tested
-                with having to declared a class and method for it to go in.
+                without having to declare a class and method for it to go in.
                 """
-                return semantic_analyser.analyse("""
-                                                  class X {
-                                                        void x() {
-                                                                """ +
-                                                                stmt +
-                                                                """
-                                                        }
-                                                  }
-                                                 """)
-        
+                return self._analyse("""
+                                     class X {
+                                        void x() {
+                                                """ +
+                                                stmt +
+                                                """
+                                        }
+                                     }
+                                     """)
+
         def analyse_file(self, file_name):
                 """Helper method to allow the semantic analyser to be run on a
                 particular file in the test_files folder.
                 """
-                path = os.path.join(self.file_dir, file_name)
-                return semantic_analyser.analyse(path)
+                path = os.path.join(self._file_dir, file_name)
+                return self._analyse(path)
         
         def get_type_node(self, root):
                 """Helper method for use by the conversion tests to get the
