@@ -910,6 +910,7 @@ class TypeChecker(object):
                 if len(node.children) == 3:
                         method_name = node.children[1].value
                 check = self._run_lib_checker
+                # TODO: CURRENT LIBARY METHODS CAN ONLY BE CALLED WIH THE SAME TYPE ARGUMENTS - SUB-TYPES WON'T WORK
                 ret_type, parent_class, is_static = check(['-method',
                                                            dotted_name,
                                                            method_name] +
@@ -922,6 +923,10 @@ class TypeChecker(object):
                 # generator to use later
                 symbol = LibMethodSymbol(method_name, ret_type, arg_types,
                                          class_, parent_class, is_static)
+                if is_static:
+                        symbol.modifiers = ['static']
+                else:
+                        symbol.modifiers = []
                 self._t_env.add_lib_method(symbol)
                 return ret_type
         
@@ -1179,10 +1184,14 @@ class TypeChecker(object):
                 if type_[0] == '[':
                         # It's an array, so must be converted to the array class
                         convert = self._convert_jvm_array_type_to_class
-                        ret_type = convert(type_)
+                        type_ = convert(type_)
                 # Create a symbol for use by the code generator
                 symbol = LibFieldSymbol(field, type_, class_, containing_class,
                                         is_static)
+                if is_static:
+                        symbol.modifiers = ['static']
+                else:
+                        symbol.modifiers = []
                 self._t_env.add_lib_field(symbol)
                 return type_
                         

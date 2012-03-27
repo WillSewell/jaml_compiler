@@ -48,7 +48,7 @@ class TestCodeGenerator(unittest.TestCase):
                 p = '{ int x = 1; if (x != 1 && x == 1) { print "fail";} else {print "pass";}}'
                 self._check_output(p, 'pass')
         
-        #Equality and relational oporators already tested in previous tests.
+        #Equality and relational operators already tested in previous tests.
         
         def test_add(self):
                 """Test simple addition in a print statement."""
@@ -67,56 +67,59 @@ class TestCodeGenerator(unittest.TestCase):
         
         def test_div(self):
                 """Test simple division in a print statement."""
-                p = self._wrap_stmt('{print 4/2;}')
+                p = self._wrap_stmt(self._wrap_print('4/2'))
                 self._check_output(p, '2')
         
         def test_not(self):
                 """Test that the not operator inverts the boolean expression: true."""
-                p = self._wrap_stmt('{print !true;}')
+                p = self._wrap_stmt(self._wrap_print('!true'))
                 self._check_output(p, 'false')
         
         def test_neg(self):
                 """Test that the negative operator makes the expression negative."""
-                p = self._wrap_stmt('{print -(2+2);}')
+                p = self._wrap_stmt(self._wrap_print('-(2+2)'))
                 self._check_output(p, '-4')
         
         def test_pos(self):
                 """Test that the positive operator has no effect on the expression's sign."""
-                p = self._wrap_stmt('{print +(-2);}')
+                p = self._wrap_stmt(self._wrap_print('+(-2)'))
                 self._check_output(p, '-2')
         
         def test_inc(self):
                 """Test that the increment operator increments by 1."""
-                p = self._wrap_stmt('{int x = 1; x++; print x;}')
+                p = self._wrap_stmt('int x = 1; x++;' + self._wrap_print('x'))
                 self._check_output(p, '2')
         
         def test_dec(self):
                 """Test that the decrement operator decrements by 1."""
-                p = self._wrap_stmt('{int x = 1; --x; print x;}')
+                p = self._wrap_stmt('int x = 1; --x;' + self._wrap_print('x'))
                 self._check_output(p, '0')
         
         def test_brackets(self):
                 """Test precedence rules are followed when parentheses are used."""
-                p = self._wrap_stmt('{print (1+1)/1;}')
+                p = self._wrap_stmt(self._wrap_print('(1+1)/1'))
                 self._check_output(p, '2')
         
-        def _wrap_print_stmt(self, stmt):
+        def _wrap_stmt(self, stmt):
                 """Helper method used so that single line code can be tested
                 without having to create a class and method for it to go in.
                 """
                 return ("""
-                      class X {
-                                void x() {
-                                        Console c = System.console();
-                                        PrintWriter out = c.writer();
-                                        out.println(
-                                                """ +
-                                                stmt +
-                                                """
-                                                );
+                        class X {
+                                static void main(String[] args) {
+                                        """ +
+                                        stmt +
+                                        """
                                 }
-                     }
-                     """)
+                       }
+                       """)
+        
+        def _wrap_print(self, stmt):
+                return ("""
+                        Console c = System.console();
+                        PrintWriter out = c.writer();
+                        out.println(""" + stmt + """);
+                        """)
         
         def _check_output(self, program, exptd_result):
                 """Checks the program was compiled correctly.

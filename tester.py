@@ -9,5 +9,5 @@ if __name__ == '__main__':
 #        print semantic_analyser.analyse('class X { int x = 5; static void x(){ int y = x;}}')
 #        print semantic_analyser.analyse(r'C:\Users\Will\workspace\jaml_compiler\semantic_analysis\semantic_analysis_test\test_files\test_method_call_external_pass.jml')[0]
         
-        CodeGenerator().compile_('class X {void x(){PrintStream ps = System.out; ps.println(10);}}')
+        CodeGenerator().compile_('class X {static void main(String[] args){PrintStream ps = System.out; ps.println(10);}}')
 #        CodeGenerator().compile_(r"C:\Users\Will\workspace\jaml_compiler\jaml_files\jaml\TestArray.jml")

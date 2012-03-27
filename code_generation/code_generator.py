@@ -4,7 +4,8 @@ import os
 import subprocess
 from semantic_analysis.semantic_analyser import TypeChecker
 import parser_.tree_nodes as nodes
-from utilities.utilities import camel_2_underscore, is_main, get_jvm_type
+from utilities.utilities import camel_2_underscore, is_main, get_jvm_type,\
+        get_full_type
 from semantic_analysis.exceptions import SymbolNotFoundError
 
 class FileReadError(Exception):
@@ -317,18 +318,9 @@ class CodeGenerator(object):
                 """
                 self._add_iln('aload_0', ';Load the current object')
                 super_ = self._t_env.get_class_s(self._cur_class).super_class
-                self._add_iln('invokespecial ' + super_ + '<init>()V')
-        
-        def _get_lib_method_sig(self, class_, name, args):
-                """Uses the library class checker to check the method exists
-                with the argument types provided.
-                """
-                full_class_name = get_full_type(class_, self._t_env)
-                dotted_name = full_class_name.replace('/', '.')
-                arg_types = self._get_arg_types(node, env)
-                method_name = node.children[0].value
-                return run_lib_checker(['-method', dotted_name, method_name] +
-                                   arg_types)
+                self._add_iln('invokespecial ' +
+                              get_full_type(super_, self._t_env) +
+                              '/<init>()V')
         
         def _visit_field_dcl_node(self, node):
                 id_node = node.children[1]
@@ -589,61 +581,6 @@ class CodeGenerator(object):
                                 pass
                 sig = self._method_sigs[super_, '<init>']
                 self._add_iln('invokespecial ' + super_ + '/' + sig)
-
-#        def _gen_print(self, node):
-#                """Generate code to print what is at the top of the stack  by using a
-#                method invocaion to a PrintStream object.
-#                """
-#                self._visit(children[0])
-#                # Convert 1 or 0 to a string which is true or false by using a
-#                # conditonal statement
-#                if children[0].type == 'boolean':
-#                        # Create a copy of _next_if so that the one held in this
-#                        # recursive call does not become modified in one of the
-#                        # child recursive method calls
-#                        next_if = str(self._next_if)
-#                        # Increment _next_if to uniquely identify the next if
-#                        # statement labels
-#                        self._next_if += 1
-#                        self._add_iln('ifeq IfFalse' + next_if,
-#                                    ';Jump to IfFalse: if if-stmt evaluates to false')
-#                        self._add_iln('ldc "true"', ';Load true onto the stack')
-#                        self._add_iln('goto IfEnd' + next_if, ';Go to the end of the conditional')
-#                        self._add_ln('IfFalse' + next_if + ':', ';Continue from here if if_stmt was false')
-#                        self._add_iln('ldc "false"', ';Load false onto the stack')					
-#                        self._add_ln('IfEnd' + next_if + ':', ';End the if statement')
-#                self._add_iln('getstatic java/lang/System/out Ljava/io/PrintStream;',
-#                                                  ';Get staic PrintStream object reference')
-#                # Each possible type must be printed in a different way (because the type must be passed to the print method)
-#                # Most of these statements swap the PrintStrean object ref with the value to print, but for longs and doubles, the reference
-#                # must be duplicated and pushed under the value to print (with dup_x2) because it takes up to words in length
-#                if children[0].type == 'string':
-#                        self._add_iln('swap', ';Swap the value to print with the reference to the PrintStream object')
-#                        self._add_iln('invokevirtual java/io/PrintStream/println(Ljava/lang/String;)V',
-#                                                          ';invoke print method')
-#                elif children[0].type == 'char':
-#                        self._add_iln('swap', ';Swap the value to print with the reference to the PrintStream object')
-#                        self._add_iln('invokevirtual java/io/PrintStream/println(C)V', ';invoke print method')
-#                elif children[0].type in ['byte', 'short', 'int']:
-#                        self._add_iln('swap', ';Swap the value to print with the reference to the PrintStream object')
-#                        self._add_iln('invokevirtual java/io/PrintStream/println(I)V', ';invoke print method')
-#                elif children[0].type == 'long':
-#                        self._add_iln('dup_x2', ';Duplicate the PrintStream and add it below the top two items on the ' +
-#                                                          'stack (the long)')
-#                        self._add_iln('pop', ';Pop the original PrintStream reference off the top of the stack')
-#                        self._add_iln('invokevirtual java/io/PrintStream/println(J)V', ';invoke print method')
-#                elif children[0].type == 'float':
-#                        self._add_iln('swap', ';Swap the value to print with the reference to the PrintStream object')
-#                        self._add_iln('invokevirtual java/io/PrintStream/println(F)V', ';invoke print method')
-#                elif children[0].type == 'double':
-#                        self._add_iln('dup_x2', ';Duplicate the PrintStream and add it below the top two items on the ' +
-#                                                          'stack (the long)')
-#                        self._add_iln('pop', ';Pop the original PrintStream reference off the top of the stack')
-#                        self._add_iln('invokevirtual java/io/PrintStream/println(D)V', ';invoke print method')
-#                elif children[0].type == 'boolean':
-#                        self._add_iln('swap', ';Swap the value to print with the reference to the PrintStream object')
-#                        self._add_iln('invokevirtual java/io/PrintStream/println(Ljava/lang/String;)V ',
-#                                                          ';invoke print method')
         
         def _visit_assign_node(self, node):
                 """For an assignment, generate code for the right hand side,
@@ -705,19 +642,28 @@ class CodeGenerator(object):
 
         def _add_convert_op(self, l_child, r_child):
                 """Helper method to convert one type to another before
-                assignment if needed.
+                assignment if needed.  Works for type-tagged tree nodes, or
+                string type descriptions.
                 """
-                is_prim = self._is_prim(l_child)
-                if l_child.type_ != r_child.type_ and is_prim:
-                        convert_op = None
+                l_type = l_child
+                r_type = r_child
+                # If either is a tree node, the type becomes the node's type
+                try:
+                        l_type = l_child.type_
+                except AttributeError: pass
+                try: 
                         r_type = r_child.type_
-                        if l_child.type_ in ['char', 'byte', 'short', 'int']:
+                except AttributeError: pass
+                is_prim = self._is_prim(l_type)
+                if l_type != r_type and is_prim:
+                        convert_op = None
+                        if l_type in ['char', 'byte', 'short', 'int']:
                                 convert_op = self._convert_num_to_int(r_type)
-                        elif l_child.type_ == 'long' :
+                        elif l_type == 'long' :
                                 convert_op = self._convert_num_to_long(r_type)
-                        elif l_child.type_ == 'float':
+                        elif l_type == 'float':
                                 convert_op = self._convert_num_to_float(r_type)
-                        elif l_child.type_ == 'double':
+                        elif l_type == 'double':
                                 convert_op = self._convert_num_to_double(r_type)
                         if convert_op is not None:
                                 self._add_iln(convert_op, 
@@ -1195,6 +1141,7 @@ class CodeGenerator(object):
                 children = node.children
                 class_name = children[0].value
                 method_name = children[1].value
+                args_list = children[-1]
                 # Load the object, if it's not static
                 is_static = True
                 if children[0].value not in self._t_env.types:
@@ -1208,17 +1155,23 @@ class CodeGenerator(object):
                         class_s = self._t_env.get_class_or_interface_s(class_name)
                         class_s, method_s = self._get_method_s(class_s,
                                                                method_name)
+                        # Get the results from what the arguments are on the top of the
+                        # stack
+                        try:
+                                self._gen_args_list_node(args_list.children, # TODO: NOT NEEDED FOR LIB CLASSES BECAUSE SUB CLASSES OF ARGS ARE NOT SUPPORTED SO FAR
+                                                         method_s.params)
+                        except AttributeError:
+                                # No args
+                                pass
                 except SymbolNotFoundError:
                         # It was a library class
-                        pass
-                # Get the results from what the arguments are on the top of the
-                # stack
-                try:
-                        self._gen_args_list_node(node.children[-1], # TODO: NEED A VERSION OF THIS FOR LIB CLASSES - MAYBE I DO NEED A CLASS TO REPRESENT LIBRARY METHODS AND FIEKDS???
-                                                 method_s.params)
-                except AttributeError:
-                        # No args
-                        pass
+                        arg_types = self._get_arg_types(args_list.children)
+                        method_s = self._t_env.get_lib_method(class_name,
+                                                              method_name,
+                                                              arg_types)
+                        # Generate the arguments
+                        for arg in args_list.children:
+                                self._visit(arg)
                 # Invoke the method
                 # First need to get the correct operator, then need to check
                 # if it's an interface or class type
@@ -1234,12 +1187,8 @@ class CodeGenerator(object):
                 elif class_name in self._t_env.lib_classes.values():
                         # Arg types need to be worked out in order to get the
                         # library class signature
-                        arg_types = []
-                        for arg in node.children[2].children:
-                                arg_types.append(arg.type_)
-                        get_sig = self._t_env.get_lib_method_sig
-                        method_sig = get_sig(class_name, method_name, arg_types)
-                        self._add_iln(op + ' ' + method_sig)
+                        sig = method_s.sig
+                        self._add_iln(op + ' ' + sig)
                 else:
                         # It must be an object of type interface
                         # Interfaces need the number of arguments too
@@ -1297,15 +1246,24 @@ class CodeGenerator(object):
                         # Recursively search in the super class
                         return self._get_method_s(super_s, name)
 
-        def _gen_args_list_node(self, node, params):
+        def _gen_args_list_node(self, args, params):
                 """Generate code for the arguments.  It takes he parameters
                 of the method that the arguments are being passed into, to
                 check if any type conversions are required.
                 """
-                for idx, child in enumerate(node.children):
+                for idx, child in enumerate(args):
                         self._visit(child)
                         # Add convertion op if needed
                         self._add_convert_op(params[idx], child)
+        
+        def _get_arg_types(self, args_list):
+                """From a list of args, produces a list of the argument's
+                types.
+                """
+                types = []
+                for arg in args_list:
+                        types.append(arg.type_)
+                return types
 
         def _visit_object_creator_node(self, node):
                 """Create a new object reference and invoke its constructor."""
@@ -1313,17 +1271,28 @@ class CodeGenerator(object):
                 self._add_iln('new ' + name,
                               ';Create a new instance of the class')
                 self._add_iln('dup', ';Duplicate the reference')
-                # Add the arguments
-                class_s = self._t_env.get_class_s(name)
-                method_s = class_s.constructor
+                
                 try:
-                        self._gen_args_list_node(node.children[1],
-                                                 method_s.params)
-                except IndexError:
-                        # No arguments
-                        pass
+                        class_s = self._t_env.get_class_s(name)
+                        cons_s = class_s.constructor
+                        # Add the arguments
+                        try:
+                                self._gen_args_list_node(node.children[1],
+                                                         cons_s.params)
+                        except IndexError:
+                                # No arguments
+                                pass
+                        sig = self._method_sigs[name, '<init>']
+                except SymbolNotFoundError:
+                        # Library class
+                        args_list = node.children[0].children
+                        arg_types = self._get_arg_types(args_list)
+                        cons_s = self._t_env.get_lib_cons(name, arg_types)
+                        # Generate the arguments
+                        for arg in args_list.children:
+                                self._visit(arg)
+                        sig = cons_s.sig
                 # Invoke the constructor
-                sig = self._method_sigs[name, '<init>']
                 self._add_iln('invokespecial ' + sig, ';Call the constructor')
         
         def _visit_field_ref_node(self, node):
@@ -1332,10 +1301,12 @@ class CodeGenerator(object):
                 """
                 field_name = node.children[1].value
                 class_name = node.children[0].value
+                is_static = True
                 if class_name not in self._t_env.types:
                         # Load reference to the object held in the variable
                         self._visit(node.children[0])
                         class_name = node.children[0].type_
+                        is_static = False
                 sig = ''
                 try:
                         class_s = self._t_env.get_class_s(class_name)
@@ -1344,9 +1315,13 @@ class CodeGenerator(object):
                         sig = self._field_sigs[class_s.name, field_s.name]
                 except SymbolNotFoundError:
                         # It's in a library class
-                        sig = self._t_env.get_lib_field_sig(class_name,
+                        field_s = self._t_env.get_lib_field(class_name,
                                                             field_name)
-                self._add_iln('getfield ' + sig, ';Get the fields value')
+                        sig = field_s.sig
+                op = 'getfield'
+                if is_static:
+                        op = 'getstatic'
+                self._add_iln(op + ' ' + sig, ';Get the fields value')
         
         def _get_field_s(self, class_s, name): #TODO: REFACTOR INTO METHOD LOOKUP
                 field_s = None
@@ -1494,12 +1469,11 @@ class CodeGenerator(object):
                         jvm_type += 'a'
                 return jvm_type
         
-        def _is_prim(self, node):
-                """Returns whether or not a node's type is a primitive type."""
-                type_ = node.type_
+        def _is_prim(self, type_):
+                """Returns whether or not a type is a primitive type."""
                 try:
                         # If it's an array type - get the type of that
-                        type_ = node.type_.type_
+                        type_ = type_.type_
                 except AttributeError: pass
                 if type_ in ['boolean', 'byte', 'char', 'short', 'int',
                                  'long', 'float', 'double']:

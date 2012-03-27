@@ -74,10 +74,9 @@ def get_jvm_type(node_or_symbol):
         try:
                 try:
                         # Try as if it's a method symbol
-                        if isinstance(node_or_symbol.type_, ArrayType):
-                                dimensions = node_or_symbol.type_.dimensions
-                                for _ in range(dimensions):
-                                        jvm_type += '['
+                        dimensions = node_or_symbol.type_.dimensions
+                        for _ in range(dimensions):
+                                jvm_type += '['
                 except AttributeError:
                         try:
                                 # Try as an array symbol

@@ -1,6 +1,5 @@
 from exceptions import SymbolNotFoundError
 from semantic_analysis.exceptions import VariableNameError
-from utilities.utilities import get_jvm_type
 
 class TopEnvironment(object):
         """This environment is used to store all the symbols publicly
@@ -99,7 +98,7 @@ class TopEnvironment(object):
                 """Add the library method symbol to the list."""
                 self._lib_methods.append(lib_method)
         
-        def get_lib_cons_sig(self, class_, arg_types):
+        def get_lib_cons(self, class_, arg_types):
                 """Get a library constructor signature given the class it's in,
                 its name, and the types of its arguments.
                 """
@@ -116,7 +115,7 @@ class TopEnvironment(object):
                 """Get a library field signature given the class it was
                 referenced in, and its name.
                 """
-                for lib_field in self._lib_cons:
+                for lib_field in self._lib_fields:
                         if (refed_class == lib_field.refed_class and
                             name == lib_field.name):
                                 return lib_field
