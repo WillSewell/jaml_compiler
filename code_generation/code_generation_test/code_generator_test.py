@@ -23,7 +23,7 @@ class TestCodeGenerator(unittest.TestCase):
         
         def test_nested_if(self):
                 """Test nested if statements."""
-                p = self._wrap_stmts('string s = "hello"; int x = 2; if (x > = 3) {' + self._wrap_print('"fail"') + '} else if (s == "hi") {' + self._wrap_print('"fail2"') + '} else {' + self._wrap_print('"pass"') + '}')
+                p = self._wrap_stmts('String s = "hello"; int x = 2; if (x > = 3) {' + self._wrap_print('"fail"') + '} else if (s == "hi") {' + self._wrap_print('"fail2"') + '} else {' + self._wrap_print('"pass"') + '}')
                 self._check_output(p, 'X', 'pass')
         
         def  test_while(self):
@@ -36,7 +36,7 @@ class TestCodeGenerator(unittest.TestCase):
         
         def  test_for(self):
                 """Test a for loop which loops five times, each time printing out "s"."""
-                p = self._wrap_stmts('string s = "s"; for (int i = 0; i <5; i = i + 1) {' + self._wrap_print('s') + '}')
+                p = self._wrap_stmts('String s = "s"; for (int i = 0; i <5; i = i + 1) {' + self._wrap_print('s') + '}')
                 nl = os.linesep
                 self._check_output(p, 'X', 's' + nl + 's' + nl + 's' + nl + 's' + nl + 's')
         
@@ -47,7 +47,7 @@ class TestCodeGenerator(unittest.TestCase):
         
         def test_and(self):
                 """Test the boolean and operator by including it in an if statement where both sides are true."""
-                p = self._wrap_stmts('int x = 1; if (x != 1 && x == 1) { print "fail";} else {' + self._wrap_print('"pass"') + '}')
+                p = self._wrap_stmts('int x = 1; if (x != 1 && x == 1) {' + self._wrap_print('"fail"') + '} else {' + self._wrap_print('"pass"') + '}')
                 self._check_output(p, 'X', 'pass')
         
         #Equality and relational operators already tested in previous tests.

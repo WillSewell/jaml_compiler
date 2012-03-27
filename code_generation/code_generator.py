@@ -691,7 +691,7 @@ class CodeGenerator(object):
                                       'the stack')
         
         def _visit_eq_node(self, node):
-                if node.type_ in self._t_env.nums + ['boolean']:
+                if node.children[0].type_ in self._t_env.nums + ['boolean']:
                         # It's a primitive type
                         self._gen_comp_code(node, False)
                 else:
@@ -711,22 +711,24 @@ class CodeGenerator(object):
                 must be looked up."""
                 children = node.children
                 self._visit(children[0])
-                convert_op = self._convert_num_to_int(children[0].type_)
-                if convert_op is not None:
-                        self._add_iln(convert_op, 
-                                      ';Convert for comparison')
-                self._visit(children[1])
-                convert_op = self._convert_num_to_int(children[1].type_)
-                if convert_op is not None:
-                        self._add_iln(convert_op,
-                                      ';Convert for comparison')
-                # Generate comparison code
-                type_ = self._get_greater_type(children[0].type_,
-                                               children[1].type_)
-                if is_object:
-                        self._gen_comp_object(node)
-                else:
+                if not is_object:
+                        # May need to convert primitive types
+                        convert_op = self._convert_num_to_int(children[0].type_)
+                        if convert_op is not None:
+                                self._add_iln(convert_op, 
+                                              ';Convert for comparison')
+                        self._visit(children[1])
+                        convert_op = self._convert_num_to_int(children[1].type_)
+                        if convert_op is not None:
+                                self._add_iln(convert_op,
+                                              ';Convert for comparison')
+                        # Generate comparison code
+                        type_ = self._get_greater_type(children[0].type_,
+                                                       children[1].type_)
                         self._gen_comp(node, type_)
+                else:
+                        self._visit(children[1])
+                        self._gen_comp_object(node)                       
         
         def _get_greater_type(self, type1, type2):
                 """From two primitive types, returns the one which is
@@ -1023,18 +1025,20 @@ class CodeGenerator(object):
                 next_not = str(self._next_not)
                 self._add_iln('ifeq IsFalse' + next_not,
                               ';If its 0, go to the code to change it to 1')
-                self._add_iln('lconst_0', ';It was 1, so change to 0')
+                self._add_iln('iconst_0', ';It was 1, so change to 0')
                 self._add_iln('goto NotEnd' + next_not, ';Exit the not code')
                 self._add_ln('IsFalse' + next_not + ':',
                              ';Start here to change to 1')
-                self._add_iln('lconst_1', ';Change to 1')
-                self._add_ln('NotEnd' + next_not + ':', 'Exit the not code')
+                self._add_iln('iconst_1', ';Change to 1')
+                self._add_ln('NotEnd' + next_not + ':', ';Exit the not code')
 
         def _visit_pos_node(self, node):
                 """Simply apply the neg operator to the top of the stack."""
                 self._visit(node.children[0])
-                self._add_iln(self._prefix(node.children[0]) + 'neg',
-                              ';Negates the integer on the top of the stack')
+                if node.value == '-':
+                        self._add_iln(self._prefix(node.children[0]) + 'neg',
+                                      ';Negates the integer on the top of ' +
+                                      'the stack')
         
         def _visit_inc_node(self, node):
                 """Used to increment or decrement a numerical variable or array
@@ -1411,10 +1415,10 @@ class CodeGenerator(object):
                                       '" (creats a new String object)')
                 else: # If it's a boolean, convert the value to 1 or 0
                         if node.value == True:
-                                self._add_iln('lconst_1',
+                                self._add_iln('iconst_1',
                                               ';Load constant boolean value 1')
                         else:
-                                self._add_iln('lconst_0',
+                                self._add_iln('iconst_0',
                                               ';Load constant boolean value 0')
         
         def _gen_return_void(self, node):

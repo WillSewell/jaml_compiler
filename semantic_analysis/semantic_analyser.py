@@ -694,7 +694,8 @@ class TypeChecker(object):
                 if self._visit(node.children[0], env) != 'boolean':
                         msg = 'Type error in not node, child is not "boolean"!'
                         raise TypeError(msg)
-                return node.value
+                node.type_ = 'boolean'
+                return 'boolean'
 
         def _visit_pos_node(self, node, env):
                 """Check the type is numerical."""
@@ -903,8 +904,12 @@ class TypeChecker(object):
                 """Uses the library class checker to check the method exists
                 with the argument types provided.
                 """
+                # The / delimiters must be converted to .s for the Java program
                 dotted_name = class_.replace('/', '.')
                 arg_types = self._get_arg_types(node, env)
+                dotted_arg_types = []
+                for type_ in arg_types:
+                        dotted_arg_types.append(type_.replace('/', '.'))
                 # Super method calls and others have the name in diff locations
                 method_name = node.children[0].value
                 if len(node.children) == 3:
@@ -914,7 +919,7 @@ class TypeChecker(object):
                 ret_type, parent_class, is_static = check(['-method',
                                                            dotted_name,
                                                            method_name] +
-                                                          arg_types)
+                                                          dotted_arg_types)
                 if ret_type[0] == '[':
                         # It's an array, so must be converted to the array class
                         convert = self._convert_jvm_array_type_to_class
@@ -989,6 +994,8 @@ class TypeChecker(object):
                 full_class_name = get_full_type(class_, self.t_env)
                 dotted_name = full_class_name.replace('/', '.')
                 arg_types = self._get_arg_types(node, env)
+                for idx, type_ in enumerate(arg_types):
+                        arg_types[idx] = type_.replace('/', '.')
                 self._run_lib_checker(['-cons', dotted_name] + arg_types)
                 # Generate a symbol for it and at it to _t_env
                 symbol = LibConsSymbol(class_, arg_types)
