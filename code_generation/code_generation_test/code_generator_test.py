@@ -6,99 +6,101 @@ from code_generation.code_generator import CodeGenerator
 
 class TestCodeGenerator(unittest.TestCase):
         """Test class where tests to be run are the methods."""
-        # Get an interpreter object for convenience
-        code_gen = CodeGenerator()
+        def setUp(self):
+                unittest.TestCase.setUp(self)
+                # Get an interpreter object for convenience
+                self._code_gen = CodeGenerator()
 
         def test_var_dcl(self):
                 """Test variable declarations."""
                 p = self._wrap_stmts('int x = 1;' + self._wrap_print('x'))
-                self._check_output(p, '1')
+                self._check_output(p, 'X', '1')
         
         def test_if(self):
                 """Test a simple if statement."""
                 p = self._wrap_stmts('int x = 2; if (x > 2) {' + self._wrap_print('"fail"') + '} else {' + self._wrap_print('"pass"') + '}')
-                self._check_output(p, "pass")
+                self._check_output(p, 'X', "pass")
         
         def test_nested_if(self):
                 """Test nested if statements."""
                 p = self._wrap_stmts('string s = "hello"; int x = 2; if (x > = 3) {' + self._wrap_print('"fail"') + '} else if (s == "hi") {' + self._wrap_print('"fail2"') + '} else {' + self._wrap_print('"pass"') + '}')
-                self._check_output(p, 'pass')
+                self._check_output(p, 'X', 'pass')
         
         def  test_while(self):
                 """Test a while statement that increments an int and prints out it's value."""
                 p = self._wrap_stmts('int i = 1; while (i <= 10) {' + self._wrap_print('i') + 'i = i + 1;}')
                 # The new lines are needed because each new print statement has a new line character after it
-                nl = self.nl
-                self._check_output(p, '1' + nl + '2' + nl + '3' + nl + '4' + nl + '5' + nl + '6' + nl + '7' + nl + '8' + nl + '9' + 
+                nl = os.linesep
+                self._check_output(p, 'X', '1' + nl + '2' + nl + '3' + nl + '4' + nl + '5' + nl + '6' + nl + '7' + nl + '8' + nl + '9' + 
                 						 nl + '10')
         
         def  test_for(self):
                 """Test a for loop which loops five times, each time printing out "s"."""
                 p = self._wrap_stmts('string s = "s"; for (int i = 0; i <5; i = i + 1) {' + self._wrap_print('s') + '}')
-                nl = self.nl
-                self._check_output(p, 's' + nl + 's' + nl + 's' + nl + 's' + nl + 's')
+                nl = os.linesep
+                self._check_output(p, 'X', 's' + nl + 's' + nl + 's' + nl + 's' + nl + 's')
         
         def test_or(self):
                 """Test the boolean or operator by including it in an if statement where only one side is true."""
                 p = self._wrap_stmts('int x = 1; if (x != 1 || x == 1) {' + self._wrap_print('"pass"') + '}')
-                self._check_output(p, 'pass')
+                self._check_output(p, 'X', 'pass')
         
         def test_and(self):
                 """Test the boolean and operator by including it in an if statement where both sides are true."""
                 p = self._wrap_stmts('int x = 1; if (x != 1 && x == 1) { print "fail";} else {' + self._wrap_print('"pass"') + '}')
-                self._check_output(p, 'pass')
+                self._check_output(p, 'X', 'pass')
         
         #Equality and relational operators already tested in previous tests.
         
         def test_add(self):
                 """Test simple addition in a print statement."""
                 p = self._wrap_stmts(self._wrap_print('1 + 1'))
-                self._check_output(p, '2')
+                self._check_output(p, 'X', '2')
         
         def test_sub(self):
                 """Test simple subtraction in a print statement."""
                 p = self._wrap_stmts(self._wrap_print('1 - 1'))
-                self._check_output(p, '0')
+                self._check_output(p, 'X', '0')
         
         def test_mul(self):
                 """Test simple multiplication in a print statement."""
                 p = self._wrap_stmts(self._wrap_print('2*2'))
-                self._check_output(p, '4')
+                self._check_output(p, 'X', '4')
         
         def test_div(self):
                 """Test simple division in a print statement."""
                 p = self._wrap_stmts(self._wrap_print('4/2'))
-                self._check_output(p, '2')
+                self._check_output(p, 'X', '2')
         
         def test_not(self):
                 """Test that the not operator inverts the boolean expression: true."""
                 p = self._wrap_stmts(self._wrap_print('!true'))
-                self._check_output(p, 'false')
+                self._check_output(p, 'X', 'false')
         
         def test_neg(self):
                 """Test that the negative operator makes the expression negative."""
                 p = self._wrap_stmts(self._wrap_print('-(2+2)'))
-                self._check_output(p, '-4')
+                self._check_output(p, 'X', '-4')
         
         def test_pos(self):
                 """Test that the positive operator has no effect on the expression's sign."""
                 p = self._wrap_stmts(self._wrap_print('+(-2)'))
-                self._check_output(p, '-2')
+                self._check_output(p, 'X', '-2')
         
         def test_inc(self):
                 """Test that the increment operator increments by 1."""
                 p = self._wrap_stmts('int x = 1; x++;' + self._wrap_print('x'))
-                self._check_output(p, '2')
+                self._check_output(p, 'X', '2')
         
         def test_dec(self):
                 """Test that the decrement operator decrements by 1."""
                 p = self._wrap_stmts('int x = 1; --x;' + self._wrap_print('x'))
-                self._check_output(p, '0')
+                self._check_output(p, 'X', '0')
         
         def test_brackets(self):
                 """Test precedence rules are followed when parentheses are used."""
                 p = self._wrap_stmts(self._wrap_print('(1+1)/1'))
-                self._check_output(p, '2')
+                self._check_output(p, 'X', '2')
         
         def _wrap_stmts(self, stmts):
                 """Helper method used so lines of code can be tested
@@ -116,24 +118,36 @@ class TestCodeGenerator(unittest.TestCase):
         
         def _wrap_print(self, stmt):
                 return ("""
-                        Console c = System.console();
-                        PrintWriter out = c.writer();
-                        out.println(""" + stmt + """);
+                        PrintStream ps = System.out;
+                        ps.println(""" + stmt + """);
                         """)
         
-        def _check_output(self, program, exptd_result):
+        def _check_output(self, program, class_name, exptd_result):
                 """Checks the program was compiled correctly.
                 
                 Given a program to run the compiler on, 
-                this method checks the result printed when the JVM is run with the code generator's output.
+                this method checks the result printed when the JVM is run with
+                the code generator's output.
                 """
+                output_dir = os.path.join(os.path.dirname(__file__), 'bin_test_files')
+                # Remove any old asm and binary files
+                self._cleanup(output_dir)
                 # Run the compiler with the program
-                self.code_gen.compile_(program, os.path.join(os.path.dirname(__file__), 'bin_test_files'))
+                self._code_gen.compile_(program, output_dir)
                 
                 # Run the JVM on the compiled file
-                file_dir = os.path.join(os.path.dirname(__file__), 'bin_test_files')
-                cmd = ['java', '-cp', file_dir, 'Default']
+                cmd = ['java', '-cp', output_dir, class_name]
                 output = subprocess.Popen(cmd, stdout=subprocess.PIPE).communicate()[0].rstrip(os.linesep)
                 
                 #Check the printed results match the expected result
                 self.assertEqual(output, exptd_result)
+        
+        def _cleanup(self, dir_):
+                """Removes all files in the directory."""
+                for file_ in os.listdir(dir_):
+                        file_path = os.path.join(dir_, file_)
+                        try:
+                                os.remove(file_path)
+                        except OSError:
+                                # It was a Folder
+                                pass

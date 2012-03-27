@@ -98,15 +98,18 @@ class CodeGenerator(object):
                 """
                 # Generate the type checked abstract syntax tree
                 asts, t_env = TypeChecker().analyse(source)
-                print asts
                 self._gen_field_method_sigs(t_env)
                 self._t_env = t_env
 
                 # Directories needed
                 code_gen_root = os.path.dirname(__file__)
                 project_root = os.path.dirname(code_gen_root)
-                asm_root = os.path.join(project_root, 'jaml_files', 'asm')
-                bin_root = os.path.join(project_root, 'jaml_files', 'bin')
+                if dst is None:
+                        asm_root = os.path.join(project_root, 'jaml_files', 'asm')
+                        bin_root = os.path.join(project_root, 'jaml_files', 'bin')
+                else:
+                        asm_root = dst
+                        bin_root = dst
 
                 # If it's a file, check it has the correct extension
                 try:
