@@ -493,7 +493,8 @@ class CodeGenerator(object):
                         # Do for arrays
                         var_name = node.children[1].children[0].value
                 except AttributeError: pass
-                self._cur_frame.new_var(var_name)
+                is_long = self._is_long(node.children[0].value)
+                self._cur_frame.new_var(var_name, is_long)
 
         
         def _visit_var_dcl_assign_node(self, node):
@@ -506,9 +507,19 @@ class CodeGenerator(object):
                         # Do for arrays
                         var_name = assign_node.children[0].children[0].value
                 except AttributeError: pass
-                self._cur_frame.new_var(var_name)
+                is_long = self._is_long(node.children[0].value)
+                self._cur_frame.new_var(var_name, is_long)
                 self._visit(assign_node)
-                        
+        
+        def _is_long(self, type_):
+                """Returns whether or not a type takes up two slots in memory;
+                e.i. longs and doubles.
+                """
+                is_long = False
+                if type_ in ['long', 'double']:
+                        is_long = True
+                return is_long
+        
         def _visit_if_node(self, node):
                 """Create a copy of _next_if so that the one held in this
                 recursive call does not become modified in one of the child
