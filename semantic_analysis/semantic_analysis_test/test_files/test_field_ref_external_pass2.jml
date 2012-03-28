@@ -1,3 +1,6 @@
 class test_field_ref_external_pass2 {
-        short y = 5;
+        short y;
+        test_field_ref_external_pass2() {
+                y = 5;
+        }
 }

@@ -16,9 +16,9 @@ class MethodSignatureError(Exception):
         """Raised when a method is called with incorrect number of arguments."""
         pass
 
-#class FieldError(Exception):
-#        """Raised when a field definition is not valid."""
-#        pass
+class FinalError(Exception):
+        """Raised when a final field or method is not used correctly."""
+        pass
 
 class DimensionsError(Exception):
         """Raised when the incorrect number of dimensions is used when

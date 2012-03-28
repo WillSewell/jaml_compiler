@@ -296,10 +296,14 @@ class CodeGenerator(object):
                                 # generate a default one
                                 self._gen_default_constructor()
                                 added_cons = True
-                        if isinstance(prev_child, nodes.ConstructorDclNode):
+                        if isinstance(child, nodes.ConstructorDclNode):
                                 added_cons = True
                         self._visit(child)
                         prev_child = child
+                if added_cons == False:
+                        # If there is still no constructor, it means there is
+                        # only field definitions, so generate a default one
+                        self._gen_default_constructor()
         
         def _gen_default_constructor(self):
                 """Generate a default constructor for when the class does not
@@ -1335,7 +1339,7 @@ class CodeGenerator(object):
                 try:
                         field_s = class_s.get_field(name)
                         return class_s, field_s
-                except AttributeError:
+                except SymbolNotFoundError:
                         # Field not in current class, so look in super
                         super_name = class_s.super_class
                         super_s = self._t_env.get_class_s(super_name)
@@ -1369,13 +1373,18 @@ class CodeGenerator(object):
                 """
                 self._gen_load_variable(node)
         
-        def _gen_load_variable(self, node):
+        def _gen_load_variable(self, node): # TODO: DOES THIS NEED TO DO FIELDS TOO?
                 """Generate code to load a variable, be it a local variable,
                 or a field.
                 """
-                if (self._cur_class, node.value) in self._field_sigs.keys():
-                        # It's a field, so load with field syntax
-                        # First load reference to the current object
+                try:
+                        # Use local variable load syntax
+                        var = str(self._cur_frame.get_var(node.value))
+                        self._add_iln(self._prefix(node) + 'load ' + var,
+                                      ';Load value stored in ' + var + ' (' +
+                                      node.value + ')')
+                except KeyError:
+                        # It must be a field
                         self._add_iln('aload_0', ';Load "this" in order to ' +
                                       'access the field')
                         # Find the field (could be in superclass)
@@ -1384,12 +1393,6 @@ class CodeGenerator(object):
                                                               node.value)
                         sig = self._field_sigs[class_s.name, field_s.name]
                         self._add_iln('getfield ' + sig, ';Get the fields value')
-                else:
-                        # Use local variable load syntax
-                        var = str(self._cur_frame.get_var(node.value))
-                        self._add_iln(self._prefix(node) + 'load ' + var,
-                                      ';Load value stored in ' + var + ' (' +
-                                      node.value + ')')
         
         def _visit_literal_node(self, node):
                 """If it's a literal, pop it onto the stack."""

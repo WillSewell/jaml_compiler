@@ -1,5 +1,5 @@
-from code_generation.code_generator import CodeGenerator
-#from semantic_analysis import semantic_analyser
+#from code_generation.code_generator import CodeGenerator
+from semantic_analysis.semantic_analyser import TypeChecker
 #from parser_ import parser_
 
 def wrap_print(stmt):
@@ -12,8 +12,8 @@ if __name__ == '__main__':
 #        print parser_.parse(r"N:\workspace\jaml_compiler\semantic_analysis\semantic_analysis_test\test_files\test_extends_pass.jml")
 #        print parser_.parse(r"N:\workspace\jaml_compiler\semantic_analysis\semantic_analysis_test\test_files\test_extends_pass.jml")
 
-#        print semantic_analyser.analyse('class X { int x = 5; static void x(){ int y = x;}}')
+        print TypeChecker().analyse('class X { final static short y = 5; static void x(){y--;}}')
 #        print semantic_analyser.analyse(r'C:\Users\Will\workspace\jaml_compiler\semantic_analysis\semantic_analysis_test\test_files\test_method_call_external_pass.jml')[0]
         
-        CodeGenerator().compile_('class X {static void main(String[] args){'+ wrap_print('!true') + '}}')
-#        CodeGenerator().compile_(r"C:\Users\Will\workspace\jaml_compiler\jaml_files\jaml\TestArray.jml")
+#        CodeGenerator().compile_('class X {static void main(String[] args){'+ wrap_print('!true') + '}}')
+#        CodeGenerator().compile_(r'\\smbhome.uscs.susx.ac.uk\wjs25\workspace\jaml_compiler\code_generation\code_generation_test\test_files\test_extends_field.jml')

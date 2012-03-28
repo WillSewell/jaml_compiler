@@ -138,14 +138,14 @@ class Parser(GenericParser):
                 return root
 
         def p_field_dcl_assign(self, args):
-                """ field_dcl_rest ::= type ID ASSIGN_OP expr ; """
+                """ field_dcl_rest ::= type ID ASSIGN_OP literal ; """
                 return self._var_dcl_assign_node('field', args)
-        def p_field_dcl_array_init1(self, args):
-                """ field_dcl_rest ::= type array_brackets ID ASSIGN_OP expr ; """
-                return self._var_dcl_array_init_node('field', args)
-        def p_field_dcl_array_init2(self, args):
-                """ field_dcl_rest ::= type ID array_brackets ASSIGN_OP expr ; """
-                return self._var_dcl_array_init_node('field', args)
+#        def p_field_dcl_array_init1(self, args):
+#                """ field_dcl_rest ::= type array_brackets ID ASSIGN_OP literal ; """
+#                return self._var_dcl_array_init_node('field', args)
+#        def p_field_dcl_array_init2(self, args):
+#                """ field_dcl_rest ::= type ID array_brackets ASSIGN_OP literal ; """
+#                return self._var_dcl_array_init_node('field', args)
         
         def p_field_modifiers(self, args):
                 """

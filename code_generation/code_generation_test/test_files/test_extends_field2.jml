@@ -1,0 +1,6 @@
+class test_extends_field2 {
+        int x;
+        test_extends_field2() {
+                x = 10;
+        }
+}

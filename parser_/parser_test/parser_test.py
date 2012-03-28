@@ -167,11 +167,8 @@ class TestParser(unittest.TestCase):
                 node_ids = [nodes.ClassNode, nodes.IdNode, nodes.EmptyNode,
                             nodes.EmptyNode, nodes.ClassBodyNode,
                             nodes.FieldDclAssignNode, nodes.TypeNode,
-                            nodes.AssignNode, nodes.ArrayDclNode,
-                            nodes.ArrayIdNode, nodes.DimensionsNode,
-                            nodes.ArrayInitNode, nodes.TypeNode,
-                            nodes.IntLNode]
-                node = parser_.parse('class X { int[] x = new int[10];}')
+                            nodes.AssignNode, nodes.IdNode, nodes.IntLNode]
+                node = parser_.parse('class X { static final int x = 5;}')
                 self.check_ast(node, node_ids, 0)
         
         def test_constructor(self):

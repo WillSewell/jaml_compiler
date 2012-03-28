@@ -10,6 +10,16 @@ class TestCodeGenerator(unittest.TestCase):
                 unittest.TestCase.setUp(self)
                 # Get an interpreter object for convenience
                 self._code_gen = CodeGenerator()
+                # Get the directory to get test files from
+                this_file_path = os.path.dirname(__file__)
+                self._file_dir = os.path.join(this_file_path, 'test_files')
+        
+        def test_extends_field(self):
+                """Test a subclass can use a field of a superclass."""
+                self._check_output_file('test_extends_field.jml', '10')
+        
+#        def test_extends_method(self):
+#                """Test a subclass can use a method of a superclass."""
 
         def test_var_dcl(self):
                 """Test variable declarations."""
@@ -18,36 +28,63 @@ class TestCodeGenerator(unittest.TestCase):
         
         def test_if(self):
                 """Test a simple if statement."""
-                p = self._wrap_stmts('int x = 2; if (x > 2) {' + self._wrap_print('"fail"') + '} else {' + self._wrap_print('"pass"') + '}')
+                p = self._wrap_stmts('int x = 2; if (x > 2) {' +
+                                     self._wrap_print('"fail"') +
+                                     '} else {' + self._wrap_print('"pass"') +
+                                     '}')
                 self._check_output(p, 'X', "pass")
         
         def test_nested_if(self):
                 """Test nested if statements."""
-                p = self._wrap_stmts('String s = "hello"; int x = 2; if (x > = 3) {' + self._wrap_print('"fail"') + '} else if (s == "hi") {' + self._wrap_print('"fail2"') + '} else {' + self._wrap_print('"pass"') + '}')
+                p = self._wrap_stmts('String s = "hello";' +
+                                     'int x = 2; if (x > = 3) {' +
+                                     self._wrap_print('"fail"') +
+                                     '} else if (s == "hi") {' +
+                                     self._wrap_print('"fail2"') +
+                                     '} else {' + self._wrap_print('"pass"') +
+                                     '}')
                 self._check_output(p, 'X', 'pass')
         
         def  test_while(self):
-                """Test a while statement that increments an int and prints out it's value."""
-                p = self._wrap_stmts('int i = 1; while (i <= 10) {' + self._wrap_print('i') + 'i = i + 1;}')
-                # The new lines are needed because each new print statement has a new line character after it
+                """Test a while statement that increments an int and prints out
+                it's value.
+                """
+                p = self._wrap_stmts('int i = 1; while (i <= 10) {' +
+                                     self._wrap_print('i') + 'i = i + 1;}')
+                # The new lines are needed because each new print statement has
+                # a new line character after it
                 nl = os.linesep
-                self._check_output(p, 'X', '1' + nl + '2' + nl + '3' + nl + '4' + nl + '5' + nl + '6' + nl + '7' + nl + '8' + nl + '9' + 
-                						 nl + '10')
+                self._check_output(p, 'X', '1' + nl + '2' + nl + '3' + nl +
+                                   '4' + nl + '5' + nl + '6' + nl + '7' + nl +
+                                   '8' + nl + '9' + nl + '10')
         
         def  test_for(self):
-                """Test a for loop which loops five times, each time printing out "s"."""
-                p = self._wrap_stmts('String s = "s"; for (int i = 0; i <5; i = i + 1) {' + self._wrap_print('s') + '}')
+                """Test a for loop which loops five times, each time printing
+                out "s".
+                """
+                p = self._wrap_stmts('String s = "s"; ' +
+                                     'for (int i = 0; i <5; i = i + 1) {' +
+                                     self._wrap_print('s') + '}')
                 nl = os.linesep
-                self._check_output(p, 'X', 's' + nl + 's' + nl + 's' + nl + 's' + nl + 's')
+                self._check_output(p, 'X', 's' + nl + 's' + nl + 's' + nl +
+                                   's' + nl + 's')
         
         def test_or(self):
-                """Test the boolean or operator by including it in an if statement where only one side is true."""
-                p = self._wrap_stmts('int x = 1; if (x != 1 || x == 1) {' + self._wrap_print('"pass"') + '}')
+                """Test the boolean or operator by including it in an if
+                statement where only one side is true.
+                """
+                p = self._wrap_stmts('int x = 1; if (x != 1 || x == 1) {' +
+                                     self._wrap_print('"pass"') + '}')
                 self._check_output(p, 'X', 'pass')
         
         def test_and(self):
-                """Test the boolean and operator by including it in an if statement where both sides are true."""
-                p = self._wrap_stmts('int x = 1; if (x != 1 && x == 1) {' + self._wrap_print('"fail"') + '} else {' + self._wrap_print('"pass"') + '}')
+                """Test the boolean and operator by including it in an if
+                statement where both sides are true.
+                """
+                p = self._wrap_stmts('int x = 1; if (x != 1 && x == 1) {'
+                                     + self._wrap_print('"fail"') +
+                                     '} else {' + self._wrap_print('"pass"') +
+                                     '}')
                 self._check_output(p, 'X', 'pass')
         
         #Equality and relational operators already tested in previous tests.
@@ -73,17 +110,23 @@ class TestCodeGenerator(unittest.TestCase):
                 self._check_output(p, 'X', '2')
         
         def test_not(self):
-                """Test that the not operator inverts the boolean expression: true."""
+                """Test that the not operator inverts the boolean expression:
+                true.
+                """
                 p = self._wrap_stmts(self._wrap_print('!true'))
                 self._check_output(p, 'X', 'false')
         
         def test_neg(self):
-                """Test that the negative operator makes the expression negative."""
+                """Test that the negative operator makes the expression
+                negative.
+                """
                 p = self._wrap_stmts(self._wrap_print('-(2+2)'))
                 self._check_output(p, 'X', '-4')
         
         def test_pos(self):
-                """Test that the positive operator has no effect on the expression's sign."""
+                """Test that the positive operator has no effect on the
+                expression's sign.
+                """
                 p = self._wrap_stmts(self._wrap_print('+(-2)'))
                 self._check_output(p, 'X', '-2')
         
@@ -98,7 +141,9 @@ class TestCodeGenerator(unittest.TestCase):
                 self._check_output(p, 'X', '0')
         
         def test_brackets(self):
-                """Test precedence rules are followed when parentheses are used."""
+                """Test precedence rules are followed when parentheses are
+                used.
+                """
                 p = self._wrap_stmts(self._wrap_print('(1+1)/1'))
                 self._check_output(p, 'X', '2')
         
@@ -129,7 +174,8 @@ class TestCodeGenerator(unittest.TestCase):
                 this method checks the result printed when the JVM is run with
                 the code generator's output.
                 """
-                output_dir = os.path.join(os.path.dirname(__file__), 'bin_test_files')
+                output_dir = os.path.join(os.path.dirname(__file__),
+                                          'bin_test_files')
                 # Remove any old asm and binary files
                 self._cleanup(output_dir)
                 # Run the compiler with the program
@@ -137,11 +183,21 @@ class TestCodeGenerator(unittest.TestCase):
                 
                 # Run the JVM on the compiled file
                 cmd = ['java', '-cp', output_dir, class_name]
-                output = subprocess.Popen(cmd, stdout=subprocess.PIPE).communicate()[0].rstrip(os.linesep)
+                popen = subprocess.Popen(cmd, stdout = subprocess.PIPE)
+                output = popen.communicate()[0]
+                output = output.rstrip(os.linesep)
                 
                 #Check the printed results match the expected result
                 self.assertEqual(output, exptd_result)
-        
+                
+        def _check_output_file(self, file_name, exptd_result):
+                """Helper method to allow the code generator to be run on a
+                particular file, and the output checked
+                """
+                path = os.path.join(self._file_dir, file_name)
+                class_name = file_name.rstrip('.jml')
+                return self._check_output(path, class_name, exptd_result)    
+            
         def _cleanup(self, dir_):
                 """Removes all files in the directory."""
                 for file_ in os.listdir(dir_):

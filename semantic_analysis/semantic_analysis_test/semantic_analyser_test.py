@@ -243,7 +243,7 @@ class TestSemanticAnalyser(unittest.TestCase):
                 """
                 self.assertRaises(StaticError,
                                   self._analyse,
-                                  'class X { int x = 5; static void x()' +
+                                  'class X {int x; X(){x=5;} static void x()' +
                                   '{ int y = x;}}')
         
         def test_pivate_method_pass(self):
@@ -279,18 +279,12 @@ class TestSemanticAnalyser(unittest.TestCase):
                                           'void x() {x = 5;}}')
         
         def test_final_field_assign_fail(self):
-                """Test error thrown when assignment is attemped with a final
+                """Test error thrown when assignment is attempted with a final
                 field.
                 """
                 self.assertRaises(AssignmentError, self._analyse,
-                                  'class X { final short y = 5;' +
+                                  'class X { static final short y = 5;' +
                                   'void x(){y=5;}}')
-        
-        def test_final_field_inc_fail(self):
-                """Like above, but checks for decrementing."""
-                self.assertRaises(AssignmentError, self._analyse,
-                                  'class X { final short y = 5;' +
-                                  'void x(){y--;}}')
         
         def test_field_ref_external_pass(self):
                 """Test no error thrown when a field is referenced in another
@@ -326,7 +320,7 @@ class TestSemanticAnalyser(unittest.TestCase):
                 """Test no error thrown when a private field is used in the
                 same class.
                 """
-                self._analyse('class X { private byte x = 1;' +
+                self._analyse('class X { private byte x; X(){x=1;}' +
                                           'void y() { byte y = x;} }')
         
         def test_private_field_fail(self):
@@ -546,7 +540,7 @@ class TestSemanticAnalyser(unittest.TestCase):
                 """Test no exception thrown when the type of the child node is
                 int.
                 """
-                self.analyse_stmt('1++;')
+                self.analyse_stmt('int x = 1; x++;')
         
         def test_dec_fail(self):
                 """Test exception thrown when the child node is not int."""

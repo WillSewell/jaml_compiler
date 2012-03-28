@@ -11,7 +11,8 @@ from class_interface_method_scanner import ClassInterfaceMethodScanner
 from exceptions import (NotInitWarning, NoReturnError, SymbolNotFoundError,
                         MethodSignatureError, DimensionsError,
                         ConstructorError, ClassSignatureError, AssignmentError,
-                        VariableNameError, StaticError, ObjectCreationError)
+                        VariableNameError, StaticError, ObjectCreationError,
+                        FinalError)
 from utilities.utilities import (ArrayType, camel_2_underscore, get_full_type,
                                  is_main, get_jvm_type)
 from semantic_analysis.symbols import LibFieldSymbol, LibConsSymbol
@@ -161,10 +162,26 @@ class TypeChecker(object):
                 return node.type_
         
         def _visit_field_dcl_assign_node(self, node, env):
-                self._visit(node.children[0], env)
-                # Check the variable initialisation
-                self._visit(node.children[1], env)
+                """Final fields are declared with an assignment to a literal
+                value (number or String).
+                """ # TODO: ALL THIS CURRENTLY DOESN'T WORK BECAUSE THE CODE GENERATOR NEEDS TO CREATE ASSIGNMENT CODE IN THE CONSTRUCTOR - DO IF I HAVE TIME! OTHERWISE REMOVE.
+                if ('final' not in node.modifiers and
+                    'static' not in node.modifiers):
+                        msg = ('Assignment with a field declaration can ' +
+                               'only be performed on final and final fields!')
+                        raise FinalError(msg)
                 node.type_ = self._visit(node.children[0], env)
+                # Check the variable initialisation
+                rh_type = self._visit(node.children[1].children[1], env)
+                try:
+                        self._check_num_types(node.type_, rh_type);
+                except TypeError:
+                        # It has to be a String
+                        if (node.type_ != 'java/lang/String' or 
+                            rh_type != 'java/lang/String'):
+                                msg = ('Assignment with a field declaration ' +
+                                       'must be of a numerical or string type!')
+                                raise TypeError(msg)
                 return node.type_
         
         def _visit_constructor_dcl_node(self, node, env):
@@ -430,7 +447,7 @@ class TypeChecker(object):
                 env.cur_method.has_ret = True
                 return ret_type
 
-        def _visit_assign_node(self, node, env):
+        def _visit_assign_node(self, node, env): # CAN'T ASSIGN TO A FIELD IN ANOTHER CLASS (CAN'T INC IT TOO)
                 """Make sure both sides are of the same type"""
                 # Update the variable to initialised
                 name = node.children[0].value
@@ -711,11 +728,16 @@ class TypeChecker(object):
                 """Check the type is numerical."""
                 nums = self._t_env.nums
                 if self._visit(node.children[0], env) not in nums:
-                        msg = 'Type error in inc node, child is not "int"!'
+                        msg = 'Type error in inc node, child is not a number!'
                         raise TypeError(msg)
                 # Check the variable being assigned to is not final
                 try:
-                        symbol = env.cur_class.get_field(node.value)
+                        field_name = node.children[0].value
+                        is_static = False
+                        if 'static' in env.cur_method.modifiers:
+                                is_static = True
+                        symbol = self._find_field(env.cur_class.name,
+                                                  field_name, is_static, env)
                         self._check_final(symbol)
                 except SymbolNotFoundError:
                         # It was not a field

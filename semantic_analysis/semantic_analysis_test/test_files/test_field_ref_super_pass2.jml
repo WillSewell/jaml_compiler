@@ -1,3 +1,6 @@
 class test_field_ref_super_pass2 {
-        int y = 5;
+        int y;
+        test_field_ref_super_pass2() {
+                y = 5;
+        }
 }
