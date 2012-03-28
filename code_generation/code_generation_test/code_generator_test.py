@@ -26,7 +26,7 @@ class TestCodeGenerator(unittest.TestCase):
                 """Test the case where a class invokes a method of an interface
                 which has been instantiated by a class.
                 """
-                
+                self._check_output_file('test_invoke_implemented_method.jml', '10')
 
         def test_var_dcl(self):
                 """Test variable declarations."""
