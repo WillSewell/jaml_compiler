@@ -1,0 +1,3 @@
+class test_extends_method2 {
+        long y(){return 10;}
+}

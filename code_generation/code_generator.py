@@ -17,7 +17,7 @@ class FileReadError(Exception):
 class Frame(object):
         """Used to store information regarding a method's current frame - i.e.
         local variables.""" #TODO: DOESN'T REALLY WORK FOR MAIN BECAUSE IT'S STATIC, SO FIRST ELEMENT IS FIRST PARAM, AND NOT "THIS"
-        def __init__(self, params, is_static):
+        def __init__(self, params, is_static, ret_type):
                 """Initialise the frame once visiting a new method node.
                 Static methods operate differently, because the first element
                 on the static is not a reference to "this".
@@ -25,6 +25,8 @@ class Frame(object):
                 # This stores all seen variables as keys, along with a reference to
                 # their storage location
                 self._var = dict()
+                # Stores the method's return type
+                self._ret_type = ret_type
                 # This holds the reference to next free storage location for a 
                 # variable
                 # Start at 1, because 0 is a reference to "this" 
@@ -63,6 +65,11 @@ class Frame(object):
                         self._next_var += 2
                 else:
                         self._next_var += 1
+        
+        def _get_ret_type(self):
+                return self._ret_type
+        
+        ret_type = property(_get_ret_type)
 
 class CodeGenerator(object):
         """This class contains all the methods and fields to do the code
@@ -286,7 +293,7 @@ class CodeGenerator(object):
         def _visit_class_body_node(self, node):
                 prev_child = None
                 added_cons = False
-                for child in node.children:
+                for child in sorted(node.children):
                         if (not added_cons and 
                             not isinstance(prev_child, nodes.ConstructorDclNode)
                             and (isinstance(child, nodes.MethodDclNode) or 
@@ -374,7 +381,7 @@ class CodeGenerator(object):
                 # Write the signature
                 self._add_ln('.method ' + signature)
                 # Create a new frame for this method
-                self._cur_frame = Frame(children[1], False)
+                self._cur_frame = Frame(children[1], False, 'void')
                 self._add_iln('.limit stack 10')
                 self._add_iln('.limit locals 100')
                 # If the constructor of the super class is no explicitly called
@@ -419,7 +426,8 @@ class CodeGenerator(object):
                         self._add_ln(full_sig + signature)
                 # Create a new frame for this method
                 is_static = children[0].value in self._t_env.types
-                self._cur_frame = Frame(children[2], is_static)
+                ret_type = get_full_type(children[1].value, self._t_env)
+                self._cur_frame = Frame(children[2], is_static, ret_type)
                 self._add_iln('.limit stack 10')
                 self._add_iln('.limit locals 100')
                 # Generate code for the method body
@@ -456,7 +464,8 @@ class CodeGenerator(object):
                 self._add_ln(full_sig + signature)
                 # Create a new frame for this method
                 is_static = 'static' in node.modifiers
-                self._cur_frame = Frame(children[3], is_static)
+                ret_type = get_full_type(children[1].value, self._t_env)
+                self._cur_frame = Frame(children[3], is_static, ret_type)
                 self._add_iln('.limit stack 10')
                 self._add_iln('.limit locals 100')
                 # Generate code for the method body
@@ -568,7 +577,10 @@ class CodeGenerator(object):
         def _visit_return_node(self, node):
                 ret_expr = node.children[0]
                 self._visit(ret_expr)
-                self._add_iln(self._prefix(ret_expr) + 'return',
+                # Add a convert operator is needed
+                method_type = self._cur_frame.ret_type
+                self._add_convert_op(method_type, ret_expr)
+                self._add_iln(self._prefix(method_type) + 'return',
                              ';Return from method')
         
         def _visit_super_constructor_call_node(self, node):
@@ -1128,14 +1140,14 @@ class CodeGenerator(object):
                               ';Load the local variable in location ' +
                               '0, which is a reference to the ' +
                               'current object')
-                class_s = self._t_env.get_class(self._cur_class)
+                class_s = self._t_env.get_class_s(self._cur_class)
                 method_name = node.children[0].value
                 # Search for the method
                 class_s, method_s = self._get_method_s(class_s, method_name)
                 # Get the results from what the arguments are on the top of the
                 # stack
                 try:
-                        self._gen_args_list_node(node.children[1],
+                        self._gen_args_list_node(node.children[1].children,
                                                  method_s.params)
                 except AttributeError:
                         # No args
@@ -1240,12 +1252,12 @@ class CodeGenerator(object):
                 method_sig = self._method_sigs[(class_s.name, method_s.name)]
                 self._add_iln('invokespecial ' + method_sig)
         
-        def _get_method_s(self, class_s, name):
+        def _get_method_s(self, class_s, name): # TODO: UPDATE FOR LIBRARY CLASSES NOW! SHOULD I EVEN ALLOW EXTENDING FROM LIB CLASSES?? STILL NEED TO SORT OUT OBJECT ANYWAY
                 method_s = None
                 try:
                         method_s = class_s.get_method(name)
                         return class_s, method_s
-                except AttributeError:
+                except SymbolNotFoundError:
                         # Method not in current class, so look in super
                         super_name = ''
                         try:
@@ -1463,16 +1475,22 @@ class CodeGenerator(object):
         
         def _prefix(self, node):
                 """get's the correct instruction prefix given the type of the
-                provided node.
+                provided node (or a string representation of a type).
                 """
+                # Assume it's a string representation of a type
+                type_ = node
+                try:
+                        # If it was a node that was passed in
+                        type_ = node.type_
+                except AttributeError: pass
                 jvm_type = ''
-                if node.type_ in ['boolean', 'byte', 'char', 'short', 'int']:
+                if type_ in ['boolean', 'byte', 'char', 'short', 'int']:
                         jvm_type += 'i'
-                elif node.type_ == 'long':
+                elif type_ == 'long':
                         jvm_type += 'l'
-                elif node.type_ == 'float':
+                elif type_ == 'float':
                         jvm_type += 'f'
-                elif node.type_ == 'double':
+                elif type_ == 'double':
                         jvm_type += 'd'
                 else:
                         # It's a class type or array

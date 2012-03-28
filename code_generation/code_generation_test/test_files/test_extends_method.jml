@@ -1,0 +1,11 @@
+class test_extends_method extends test_extends_method2 {
+        static void main(String[] args) {
+                new test_extends_method();
+        }
+        
+        test_extends_method() {
+                long z = y();
+                PrintStream ps = System.out;
+                ps.println(z);
+        }
+}

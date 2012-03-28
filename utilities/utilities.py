@@ -43,7 +43,7 @@ def get_full_type(type_, t_env):
         """This gets the full _name of the type, given the type information
         held in a top level environment.
         """
-        if type_ not in t_env.types:
+        if type_ not in t_env.types + ['void']:
                 raise TypeError('No such type as: ' + type_ + '!')
         # For a library class, get its full type
         if type_ in t_env.lib_classes.keys():
