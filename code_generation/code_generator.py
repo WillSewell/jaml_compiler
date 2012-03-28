@@ -158,9 +158,13 @@ class CodeGenerator(object):
                 """
                 for class_s in (t_env.classes.values() +
                                 t_env.interfaces.values()):
-                        self._gen_cons_sig(class_s, t_env)
                         self._gen_method_sigs(class_s, t_env)
-                        self._gen_field_sigs(class_s, t_env)
+                        try:
+                                self._gen_cons_sig(class_s, t_env)
+                                self._gen_field_sigs(class_s, t_env)
+                        except:
+                                # Not in interfaces
+                                pass
         
         def _gen_cons_sig(self, class_s, t_env):
                 """Generate the signature for the constructor."""
@@ -205,7 +209,7 @@ class CodeGenerator(object):
                         self._method_sigs[(class_s.name, name)] = signature
         
         def _gen_method_descriptor(self, method_s, is_cons):
-                """This method returns an jasmin style string which 
+                """This method returns a jasmin style string which 
                 represents the parameter types and return types for a method.
                 """
                 ret_type = ''
@@ -282,10 +286,10 @@ class CodeGenerator(object):
                         # There was no explicitly stated superclass
                         self._add_ln('.super java/lang/Object')
                 try:
-                        for interface in children[2]:
+                        for interface in children[2].children:
                                 self._add_ln('.implements ' + 
-                                             interface.children[0].value)
-                except TypeError:
+                                             interface.value)
+                except AttributeError:
                         # It does not implement an interface
                         pass
                 self._visit(children[3])
@@ -397,7 +401,7 @@ class CodeGenerator(object):
                         # so one must be added
                         self._add_iln('return')
                 self._add_ln('.end method')
-        
+        # TODO: MAKE ALL THESE USE _gen_method_descriptor !!!!
         def _visit_method_dcl_node(self, node):
                 children = node.children
                 if children[0].value == 'main':
@@ -420,6 +424,8 @@ class CodeGenerator(object):
                         signature = name + method_spec
                         # Add modifiers
                         full_sig = '.method '
+                        if 'private' not in node.modifiers:
+                                full_sig += 'public '
                         for modifier in node.modifiers:
                                 full_sig += modifier + ' '
                         # Write the signature
@@ -458,6 +464,8 @@ class CodeGenerator(object):
                 signature = name + method_spec
                 # Add modifiers
                 full_sig = '.method '
+                if 'private' not in node.modifiers:
+                        full_sig += 'public '
                 for modifier in node.modifiers:
                         full_sig += modifier + ' '
                 # Write the signature
@@ -1463,7 +1471,7 @@ class CodeGenerator(object):
                 else:
                         # Hack because there is no top-level interface, yet
                         # Jasmin requires one
-                        self._add_ln('.super java/lang/Cloneable')
+                        self._add_ln('.super java/lang/Object')
                 self._visit(children[2])
         
         def _visit_interface_body_node(self, node):
@@ -1479,9 +1487,12 @@ class CodeGenerator(object):
         def _gen_interface_method(self, node):
                 children = node.children
                 name = children[0].value
-                signature = self._method_sigs[self._cur_class, name]
+                interface_s = self._t_env.get_interface_s(self._cur_class)
+                method_s = interface_s.get_method(name)
+                signature = name
+                signature += self._gen_method_descriptor(method_s, False)
                 # Write the signature
-                self._add_ln('.method abstract ' + signature)
+                self._add_ln('.method public abstract ' + signature)
                 self._add_ln('.end method')
         
         def _prefix(self, node):

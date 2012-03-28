@@ -845,8 +845,12 @@ class TypeChecker(object):
                 try:
                         class_s = self._get_class_s(class_)
                 except SymbolNotFoundError:
-                        # The super class must be a Java library class
-                        return self._check_lib_method(class_, node, env)
+                        try:
+                                # See if it's an interface
+                                class_s = self._get_interface_s(class_)
+                        except:
+                                # The super class must be a Java library class
+                                return self._check_lib_method(class_, node, env)
                 try:
                         # Try and find the method in the class provided
                         # If the class is the current class, private
@@ -857,10 +861,14 @@ class TypeChecker(object):
                         method = node.children[0].value
                         if len(node.children) == 3:
                                 method = node.children[1].value
-                        if class_ == env.cur_class.name:
+                        try:
+                                if class_ == env.cur_class.name:
+                                        method_s = class_s.get_method(method)
+                                else:
+                                        method_s = class_s.get_public_method(method)
+                        except AttributeError:
+                                # For interfaces
                                 method_s = class_s.get_method(method)
-                        else:
-                                method_s = class_s.get_public_method(method)
                         # Check static
                         self._check_static(method_s, is_static)
                         # Check the arguments
@@ -874,9 +882,15 @@ class TypeChecker(object):
                                                         node.children[1], env)
                         return method_s.type_
                 except SymbolNotFoundError:
-                        # See if it is in a super class
-                        return self._find_method(class_s.super_class, node,
-                                                 is_static, env)
+                        try:
+                                # See if it is in a super class
+                                return self._find_method(class_s.super_class,
+                                                         node, is_static, env)
+                        except AttributeError:
+                                # Or super interface
+                                super_ = class_s.super_interface
+                                return self._find_method(super_, node,
+                                                         is_static, env)
         
         def _check_static(self, symbol, is_static):
                 """For a given method or field, this throws an error if it is

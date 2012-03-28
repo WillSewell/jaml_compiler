@@ -21,6 +21,12 @@ class TestCodeGenerator(unittest.TestCase):
         def test_extends_method(self):
                 """Test a subclass can use a method of a superclass."""
                 self._check_output_file('test_extends_method.jml', '10')
+        
+        def test_invoke_implemented_method(self):
+                """Test the case where a class invokes a method of an interface
+                which has been instantiated by a class.
+                """
+                
 
         def test_var_dcl(self):
                 """Test variable declarations."""

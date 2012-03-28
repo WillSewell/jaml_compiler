@@ -150,6 +150,7 @@ class MethodSymbol(SymbolWithType, ModiferContainer):
                 # Statement
                 self._has_ret = False
                 self._params = params
+                self._modifiers = []
                 
         def __eq__(self, other):
                 """This is so the attributes can be compared with another method
