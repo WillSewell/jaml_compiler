@@ -1,0 +1,5 @@
+class test_method_call_external2 {
+        float w() {
+                return 10.1F;
+        }
+}

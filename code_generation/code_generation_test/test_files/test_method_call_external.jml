@@ -1,0 +1,12 @@
+class test_method_call_external {
+        void x() {
+                test_method_call_external2 y = new test_method_call_external2();
+                float z = y.w();
+                PrintStream ps = System.out;
+                ps.println(z);
+        }
+        static void main(String[] args) {
+                test_method_call_external meth = new test_method_call_external();
+                meth.x();
+        }
+}

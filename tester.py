@@ -15,12 +15,5 @@ if __name__ == '__main__':
 #        print TypeChecker().analyse('class X { final static short y = 5; static void x(){y--;}}')
 #        print semantic_analyser.analyse(r'C:\Users\Will\workspace\jaml_compiler\semantic_analysis\semantic_analysis_test\test_files\test_method_call_external_pass.jml')[0]
         
-        CodeGenerator().compile_('class X { void meth() {' +
-                                   'byte[][] x = meth2();' +
-                                   'int y = x[0][0];' + wrap_print('y') +
-                                   '} byte[][] meth2() {' +
-                                   'byte[][] arr = new byte[5][5];'
-                                   'arr[0][0] = 5; return arr;} ' +
-                                   'static void main(String[] args) {' +
-                                   'X inst = new X();inst.meth();}}')
-#        CodeGenerator().compile_(r'\\smbhome.uscs.susx.ac.uk\wjs25\workspace\jaml_compiler\code_generation\code_generation_test\test_files\test_super_cons_explicitly_invoked.jml')
+#        CodeGenerator().compile_()
+        CodeGenerator().compile_(r'\\smbhome.uscs.susx.ac.uk\wjs25\workspace\jaml_compiler\code_generation\code_generation_test\test_files\test_method_call_external.jml')

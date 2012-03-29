@@ -78,6 +78,10 @@ class TestCodeGenerator(unittest.TestCase):
                                    'static void main(String[] args) {' +
                                    'X inst = new X();inst.meth();}}',
                                    'X', '5')
+        
+        def test_method_call_external(self):
+                """Test that a external method call is correctly compiled."""
+                self._check_output_file('test_method_call_external.jml','10.1')
 
         def test_var_dcl(self):
                 """Test variable declarations."""

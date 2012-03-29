@@ -108,9 +108,9 @@ class Scanner(GenericScanner):
 
         def t_double_float_l(self, s):
                 # Doubles and floats must be in one rule because otherwise the
-                # regex engine would always mactch 1.5F as a double and then
+                # regex engine would always match 1.5F as a double and then
                 # crash on the F because it's greedy.
-                r'\b([0-9]*\.[0-9]+)((d|D)?|(f|F)?)|[0-9]+((d|D)|(f|F))\b'
+                r'\b([0-9]*\.[0-9]+)(d|D|f|F)?|[0-9]+(d|D|f|F)\b'
                 # First check for a float
                 if s.find('f') != -1 or s.find('F') != -1:
                         attr = re.sub('f|F', '', s)
