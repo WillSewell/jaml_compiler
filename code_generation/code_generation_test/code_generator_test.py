@@ -119,6 +119,10 @@ class TestCodeGenerator(unittest.TestCase):
         def test_field_ref_static(self):
                 """Test a reference to a static final field."""
                 self._check_output_file('test_field_ref_static.jml', '10.5')
+        
+        def test_field_ref_super(self):
+                """Test a reference to a field in the super class."""
+                self._check_output_file('test_field_ref_super.jml', '10')
                 
         def test_var_dcl(self):
                 """Test variable declarations."""

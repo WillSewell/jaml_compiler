@@ -876,9 +876,12 @@ def find_refed_classes(node, seen, new, lib_classes, cur_dir):
                         class_name = children[0].value
                         if class_name not in seen:
                                 new.append(class_name)
-                        # Search in the arguments for methods calls
-                        new += find_refed_classes(node.children[1], seen, [],
-                                                  lib_classes, cur_dir)
+                        # Search in the arguments (if any)
+                        try:
+                                new += find_refed_classes(node.children[1],
+                                                          seen, [], lib_classes,
+                                                          cur_dir)
+                        except IndexError: pass
                 elif (isinstance(node, nodes.MethodCallLongNode) or
                       isinstance(node, nodes.FieldRefNode)):
                         # Check if the first child is a static reference to

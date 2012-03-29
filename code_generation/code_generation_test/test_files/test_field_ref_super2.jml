@@ -1,0 +1,7 @@
+class test_field_ref_super2 {
+        long f;
+        
+        test_field_ref_super2() {
+                f = 10;
+        }
+}

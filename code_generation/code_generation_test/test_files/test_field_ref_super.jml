@@ -1,0 +1,7 @@
+class test_field_ref_super extends test_field_ref_super2 {
+        static void main(String[] args) {
+                test_field_ref_super x = new test_field_ref_super();
+                PrintStream ps = System.out;
+                ps.println(x.f);
+        }
+}
