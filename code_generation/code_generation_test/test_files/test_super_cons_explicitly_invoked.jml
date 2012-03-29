@@ -1,0 +1,9 @@
+class test_super_cons_explicitly_invoked extends test_super_cons_explicitly_invoked2{
+        test_super_cons_explicitly_invoked() {
+                super("pass");
+        }
+        
+        static void main(String[] args) {
+        new test_super_cons_explicitly_invoked();
+        }
+}

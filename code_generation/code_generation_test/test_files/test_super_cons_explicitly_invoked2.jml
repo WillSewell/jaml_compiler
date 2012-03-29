@@ -1,0 +1,6 @@
+class test_super_cons_explicitly_invoked2{
+        test_super_cons_explicitly_invoked2(String arg) {
+                PrintStream ps = System.out;
+                ps.println(arg);
+        }
+}

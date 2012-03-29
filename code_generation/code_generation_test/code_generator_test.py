@@ -42,6 +42,18 @@ class TestCodeGenerator(unittest.TestCase):
                                    '} static void main(String[] args) {' +
                                    'X inst = new X();inst.meth("pass");}}',
                                    'X', 'pass')
+        
+        def test_super_cons_implicitly_invoked(self):
+                """Test that the super constructor is implicitly invoked."""
+                self._check_output_file('test_super_cons_implicitly_invoked' +
+                                        '.jml', 'pass')
+        
+        def test_super_cons_explicitly_invoked(self):
+                """Test that the super classes constructor can be explicitly
+                invoked correctly.
+                """
+                self._check_output_file('test_super_cons_explicitly_invoked' +
+                                        '.jml', 'pass')
 
         def test_var_dcl(self):
                 """Test variable declarations."""

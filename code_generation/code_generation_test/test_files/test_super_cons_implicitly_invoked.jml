@@ -1,0 +1,5 @@
+class test_super_cons_implicitly_invoked extends test_super_cons_implicitly_invoked2 {
+        static void main(String[] args) {
+        new test_super_cons_implicitly_invoked();
+        }
+}

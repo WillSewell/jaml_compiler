@@ -1,0 +1,6 @@
+class test_super_cons_implicitly_invoked2 {
+        test_super_cons_implicitly_invoked2() {
+                PrintStream ps = System.out;
+                ps.println("pass");
+        }
+}

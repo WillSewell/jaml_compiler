@@ -605,20 +605,21 @@ class CodeGenerator(object):
         def _visit_super_constructor_call_node(self, node):
                 self._add_iln('aload_0', ';Load the current object')
                 super_ = self._t_env.get_class_s(self._cur_class).super_class
-                if super_ == '':
-                        super_ = 'java/lang/Object'
-                else:
-                        # Get the arguments onto the stack
-                        try:
-                                super_s = self._t_env.get_class_s(super_)
-                                super_params = super_s.constructor.params
-                                self._gen_args_list_node(node.children[0],
-                                                         super_params)
-                        except AttributeError:
-                                # No argumnts
-                                pass
+#                if super_ == '':
+#                        super_ = 'java/lang/Object'
+#                else:
+                # Get the arguments onto the stack
+                try:
+                        super_s = self._t_env.get_class_s(super_)
+                        super_params = super_s.constructor.params
+                        args_list = node.children[0].children
+                        self._gen_args_list_node(args_list,
+                                                 super_params)
+                except AttributeError:
+                        # No argumnts
+                        pass
                 sig = self._method_sigs[super_, '<init>']
-                self._add_iln('invokespecial ' + super_ + '/' + sig)
+                self._add_iln('invokespecial ' + sig)
         
         def _visit_assign_node(self, node):
                 """For an assignment, generate code for the right hand side,
