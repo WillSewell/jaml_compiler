@@ -27,6 +27,21 @@ class TestCodeGenerator(unittest.TestCase):
                 which has been instantiated by a class.
                 """
                 self._check_output_file('test_invoke_implemented_method.jml', '10')
+                
+        def test_cons_param(self):
+                """Test that constructor parameters can be correctly used."""
+                self._check_output('class X { X(String x) {' +
+                                   self._wrap_print('x') +
+                                   '} static void main(String[] args) {' +
+                                   'X inst = new X("pass");}}', 'X', 'pass')
+        
+        def test_method_param(self):
+                """Test that method parameters can be correctly used."""
+                self._check_output('class X { void meth(String x) {' +
+                                   self._wrap_print('x') +
+                                   '} static void main(String[] args) {' +
+                                   'X inst = new X();inst.meth("pass");}}',
+                                   'X', 'pass')
 
         def test_var_dcl(self):
                 """Test variable declarations."""

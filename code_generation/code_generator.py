@@ -1319,7 +1319,8 @@ class CodeGenerator(object):
                         cons_s = class_s.constructor
                         # Add the arguments
                         try:
-                                self._gen_args_list_node(node.children[1],
+                                args_list = node.children[1].children
+                                self._gen_args_list_node(args_list,
                                                          cons_s.params)
                         except IndexError:
                                 # No arguments
