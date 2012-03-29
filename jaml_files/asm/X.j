@@ -1,5 +1,6 @@
 .class X
 .super java/lang/Object
+.field f I
 .method <init>()V
 	.limit stack 10
 	.limit locals 100
@@ -10,37 +11,22 @@
 .method public meth()V
 	.limit stack 10
 	.limit locals 100
-	aload_0 			;Load the local variable in location 0, which is a reference to the current object
-	invokevirtual X/meth2()[[B
-	astore 1			;Store top of stack in 1 (x)
-	aload 1				;Load the array to store into
-	ldc 0				;Load constant numerical value 0
-	aaload
-	ldc 0				;Load constant numerical value 0
-	baload
-	istore 2			;Store top of stack in 2 (y)
+	aload_0				;Load the current object to assign to field
+	ldc 5				;Load constant numerical value 5
+	putfield X/f I			;Store into field f
+	aload_0				;Load the current object to assign to field
+	aload_0				;Load "this" in order to access the field
+	getfield X/f I			;Get the fields value
+	ldc 1				;Push 1 or -1 onto the stack
+	iadd				;Add the 1 to the value
+	putfield X/f I			;Store into field f
 	getstatic java/lang/System/out Ljava/io/PrintStream; ;Get the fields value
-	astore 3			;Store top of stack in 3 (ps)
-	aload 3				;Load value stored in 3 (ps)
-	iload 2				;Load value stored in 2 (y)
+	astore 1			;Store top of stack in 1 (ps)
+	aload 1				;Load value stored in 1 (ps)
+	aload_0				;Load "this" in order to access the field
+	getfield X/f I			;Get the fields value
 	invokevirtual java/io/PrintStream/println(I)V
 	return
-.end method
-.method public meth2()[[B
-	.limit stack 10
-	.limit locals 100
-	ldc 5				;Load constant numerical value 5
-	ldc 5				;Load constant numerical value 5
-	multianewarray [[B 2		;Construct a new multidimensional array
-	astore 1			;Store top of stack in 1 (arr)
-	aload 1				;Load value stored in 1 (arr)
-	ldc 0				;Load constant numerical value 0
-	aaload
-	ldc 0				;Load constant numerical value 0
-	ldc 5				;Load constant numerical value 5
-	bastore				;Store the value in the array element
-	aload 1				;Load value stored in 1 (arr)
-	areturn				;Return from method
 .end method
 .method public static main([Ljava/lang/String;)V
 	.limit stack 10

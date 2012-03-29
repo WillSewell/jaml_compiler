@@ -658,8 +658,8 @@ class CodeGenerator(object):
                         # If it's a field, ref to the current object must be
                         # loaded before the value to assign
                         if (self._cur_class, var_name) in self._field_sigs.keys():
-                                self._add_iln('aload_0', ';Load the ' +
-                                               'current to put into field')
+                                self._add_iln('aload_0', ';Load the current ' +
+                                              'object to assign to field')
                         self._visit(children[1])
                         # Add conversion op if needed
                         self._add_convert_op(children[0], children[1]) 
@@ -1126,12 +1126,31 @@ class CodeGenerator(object):
                         self._add_iln(self._prefix(children[1]) + 'astore',
                                       ';Store the value in the array element')
                 except AttributeError:
-                        # Incrementing is far simpler for regular variables
-                        var = str(self._cur_frame.get_var(children[0].value))
-                        self._add_iln(self._prefix(children[0]) + 'inc ' + var +
-                                      ' ' + op + '1',
-                                      ';Increments variable ' + var + ' (' +
-                                      str(children[0].value)+ ')')
+                        try:
+                                # Incrementing is far simpler for variables
+                                name = children[0].value
+                                var = str(self._cur_frame.get_var(name))
+                                self._add_iln(self._prefix(children[0]) +
+                                              'inc ' + var + ' ' + op + '1',
+                                              ';Increments variable ' + var +
+                                              ' (' + name + ')')
+                        except KeyError:
+                                # It's a field
+                                # Ref to the current object must be loaded
+                                # before the value to assign
+                                self._add_iln('aload_0', ';Load the current ' +
+                                              'object to assign to field')
+                                self._gen_load_variable(children[0])
+                                self._add_iln('ldc ' + op + '1',
+                                      ';Push 1 or -1 onto the stack')
+                                self._add_iln(self._prefix(children[0]) + 'add',
+                                      ';Add the 1 to the value')
+                                sig = self._field_sigs[self._cur_class,
+                                                       children[0].value]
+                                self._add_iln('putfield ' + sig,
+                                              ';Store into field ' +
+                                              children[0].value)
+                                
                 
         def _visit_array_dcl_node(self, node):
                 var = str(self._cur_frame.get_var(node.children[0].value))

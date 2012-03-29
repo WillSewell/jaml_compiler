@@ -95,6 +95,22 @@ class TestCodeGenerator(unittest.TestCase):
                                    '} static void main(String[] args) {' +
                                    'X inst = new X();inst.meth();}}',
                                    'X', '10')
+        
+        def test_field_access(self):
+                """Test a simple field accessing in the same class."""
+                self._check_output('class X { int f; void meth() {' +
+                                   'f = 5;' + self._wrap_print('f') +
+                                   '} static void main(String[] args) {' +
+                                   'X inst = new X();inst.meth();}}',
+                                   'X', '5')
+        
+        def test_field_inc(self):
+                """Test incrementing a field in the current class."""
+                self._check_output('class X { int f; void meth() {' +
+                                   'f = 5;f++;' + wrap_print('f') +
+                                   '} static void main(String[] args) {' +
+                                   'X inst = new X();inst.meth();}}',
+                                   'X', '6')
 
         def test_var_dcl(self):
                 """Test variable declarations."""
