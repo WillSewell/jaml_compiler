@@ -54,6 +54,30 @@ class TestCodeGenerator(unittest.TestCase):
                 """
                 self._check_output_file('test_super_cons_explicitly_invoked' +
                                         '.jml', 'pass')
+        
+        def test_method_call(self):
+                """Test a simple method call to a method in the current class.
+                """
+                self._check_output('class X { void meth() {' +
+                                   'int x = meth2();' +
+                                   self._wrap_print('x') +
+                                   '} byte meth2() {return 5;} ' +
+                                   'static void main(String[] args) {' +
+                                   'X inst = new X();inst.meth();}}',
+                                   'X', '5')
+        
+        def test_method_return_array(self):
+                """Test a method in the same class correctly returns an array.
+                """
+                self._check_output('class X { void meth() {' +
+                                   'byte[][] x = meth2();' +
+                                   'int y = x[0][0];' + self._wrap_print('y') +
+                                   '} byte[][] meth2() {' +
+                                   'byte[][] arr = new byte[5][5];'
+                                   'arr[0][0] = 5; return arr;} ' +
+                                   'static void main(String[] args) {' +
+                                   'X inst = new X();inst.meth();}}',
+                                   'X', '5')
 
         def test_var_dcl(self):
                 """Test variable declarations."""

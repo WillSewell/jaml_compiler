@@ -161,7 +161,7 @@ class TestSemanticAnalyser(unittest.TestCase):
                                   'class X {void x() {boolean w = true; ' +
                                   'y(w);} void y(long z){} }')
         
-        def test_method_return_pass(self):
+        def test_method_return_pass(self): 
                 """Test that no error is raised when the correct type is
                 returned.
                 """

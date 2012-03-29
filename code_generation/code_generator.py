@@ -5,7 +5,7 @@ import subprocess
 from semantic_analysis.semantic_analyser import TypeChecker
 import parser_.tree_nodes as nodes
 from utilities.utilities import camel_2_underscore, is_main, get_jvm_type,\
-        get_full_type
+        get_full_type, ArrayType
 from semantic_analysis.exceptions import SymbolNotFoundError
 
 class FileReadError(Exception):
@@ -432,8 +432,7 @@ class CodeGenerator(object):
                         self._add_ln(full_sig + signature)
                 # Create a new frame for this method
                 is_static = children[0].value in self._t_env.types
-                ret_type = get_full_type(children[1].value, self._t_env)
-                self._cur_frame = Frame(children[2], is_static, ret_type)
+                self._cur_frame = Frame(children[2], is_static, node.type_)
                 self._add_iln('.limit stack 10')
                 self._add_iln('.limit locals 100')
                 # Generate code for the method body
@@ -472,8 +471,7 @@ class CodeGenerator(object):
                 self._add_ln(full_sig + signature)
                 # Create a new frame for this method
                 is_static = 'static' in node.modifiers
-                ret_type = get_full_type(children[1].value, self._t_env)
-                self._cur_frame = Frame(children[3], is_static, ret_type)
+                self._cur_frame = Frame(children[3], is_static, node.type_)
                 self._add_iln('.limit stack 10')
                 self._add_iln('.limit locals 100')
                 # Generate code for the method body
@@ -639,7 +637,7 @@ class CodeGenerator(object):
                                 # Load the indexes into the arrays
                                 # And then load each sub array
                                 self._visit(child)
-                                self.add_iln('aaload')
+                                self._add_iln('aaload')
                         # Push the final index
                         self._visit(children[0].children[-1])
                         # Load the value to assign
@@ -647,7 +645,8 @@ class CodeGenerator(object):
                         # Add conversion op if needed
                         self._add_convert_op(children[0], children[1])
                         # Store the value
-                        self._add_iln(self._prefix(children[1]) + 'astore',
+                        self._add_iln(self._array_prefix(children[0]) +
+                                      'store',
                                       ';Store the value in the array element')
                 except AttributeError:
                         # It's regular assignment
@@ -1149,11 +1148,11 @@ class CodeGenerator(object):
                         # Load the indexes into the arrays
                         # And then load each sub array
                         self._visit(child)
-                        self.add_iln('aaload')
+                        self._add_iln('aaload')
                 # Push the final index
                 self._visit(node.children[-1])
                 # Load the value
-                self._add_iln(self._prefix(node.children[0]) + 'aload')
+                self._add_iln(self._array_prefix(node.children[0].type_) + 'load')
                 
         def _visit_method_call_node(self, node):
                 self._add_iln('aload_0 ',
@@ -1498,14 +1497,15 @@ class CodeGenerator(object):
                 self._add_ln('.end method')
         
         def _prefix(self, node):
-                """get's the correct instruction prefix given the type of the
+                """Get's the correct instruction prefix given the type of the
                 provided node (or a string representation of a type).
                 """
                 # Assume it's a string representation of a type
                 type_ = node
                 try:
                         # If it was a node that was passed in
-                        type_ = node.type_
+                        if not isinstance(type_, ArrayType):
+                                type_ = node.type_
                 except AttributeError: pass
                 jvm_type = ''
                 if type_ in ['boolean', 'byte', 'char', 'short', 'int']:
@@ -1519,6 +1519,30 @@ class CodeGenerator(object):
                 else:
                         # It's a class type or array
                         jvm_type += 'a'
+                return jvm_type
+
+        def _array_prefix(self, type_):
+                """Like above, but works for the type of array elements."""
+                # Assume it's a string representation of a type
+                type_ = type_.type_
+                jvm_type = ''
+                if type_ == 'byte':
+                        jvm_type += 'ba'
+                elif type_ == 'char':
+                        jvm_type += 'ca'
+                elif type_ == 'short':
+                        jvm_type += 'sa'
+                elif type_ in ['boolean', 'int']:
+                        jvm_type += 'ia'
+                elif type_ == 'long':
+                        jvm_type += 'la'
+                elif type_ == 'float':
+                        jvm_type += 'fa'
+                elif type_ == 'double':
+                        jvm_type += 'da'
+                else:
+                        # It's a class type or array
+                        jvm_type += 'aa'
                 return jvm_type
         
         def _is_prim(self, type_):
