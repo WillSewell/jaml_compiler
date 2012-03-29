@@ -1,0 +1,7 @@
+class test_field_ref_external {
+        static void main(String[] args) {
+                test_field_ref_external2 x = new test_field_ref_external2();
+                PrintStream ps = System.out;
+                ps.println(x.f);
+        }
+}

@@ -1,0 +1,7 @@
+class test_field_ref_external2 {
+        String f;
+        
+        test_field_ref_external2() {
+                f = "pass";
+        }
+}

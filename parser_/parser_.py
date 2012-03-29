@@ -876,6 +876,9 @@ def find_refed_classes(node, seen, new, lib_classes, cur_dir):
                         class_name = children[0].value
                         if class_name not in seen:
                                 new.append(class_name)
+                        # Search in the arguments for methods calls
+                        new += find_refed_classes(node.children[1], seen, [],
+                                                  lib_classes, cur_dir)
                 elif (isinstance(node, nodes.MethodCallLongNode) or
                       isinstance(node, nodes.FieldRefNode)):
                         # Check if the first child is a static reference to
@@ -883,7 +886,14 @@ def find_refed_classes(node, seen, new, lib_classes, cur_dir):
                         id_node = node.children[0]
                         if check_static_ref(id_node, cur_dir):
                                 new.append(id_node.value)
+                        try:
+                                # Search in the arguments for methods calls
+                                new += find_refed_classes(node.children[2],
+                                                          seen, [], lib_classes,
+                                                          cur_dir)
+                        except IndexError: pass
                 else:
+                        # Keep searching through the AST
                         for child in children:
                                 new += find_refed_classes(child, seen, [],
                                                           lib_classes, cur_dir)

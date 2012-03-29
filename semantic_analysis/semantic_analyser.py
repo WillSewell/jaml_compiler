@@ -165,6 +165,7 @@ class TypeChecker(object):
                 """Final fields are declared with an assignment to a literal
                 value (number or String).
                 """ # TODO: ALL THIS CURRENTLY DOESN'T WORK BECAUSE THE CODE GENERATOR NEEDS TO CREATE ASSIGNMENT CODE IN THE CONSTRUCTOR - DO IF I HAVE TIME! OTHERWISE REMOVE.
+                # TODO: THERE IS A BUG IN JASMIN WHERE IT CONVERTS DOUBLES TO FLOATS, SO JAVA ERRORS WHEN A DOUBLE VALUE IS ASSIGNED TO IT HERE!
                 if ('final' not in node.modifiers and
                     'static' not in node.modifiers):
                         msg = ('Assignment with a field declaration can ' +
@@ -1058,6 +1059,7 @@ class TypeChecker(object):
                         is_static = True
                 else:
                         # It's an instance method
+                        self._visit(id_node, env)
                         var_s = self._get_var_s_from_id(id_node.value, env)
                         class_name = var_s.type_
                 field_name = node.children[1].value

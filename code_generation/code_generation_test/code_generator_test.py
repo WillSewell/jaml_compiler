@@ -107,11 +107,19 @@ class TestCodeGenerator(unittest.TestCase):
         def test_field_inc(self):
                 """Test incrementing a field in the current class."""
                 self._check_output('class X { int f; void meth() {' +
-                                   'f = 5;f++;' + wrap_print('f') +
+                                   'f = 5;f++;' + self._wrap_print('f') +
                                    '} static void main(String[] args) {' +
                                    'X inst = new X();inst.meth();}}',
                                    'X', '6')
-
+        
+        def test_field_ref_external(self):
+                """Test access to an external field."""
+                self._check_output_file('test_field_ref_external.jml', 'pass')
+        
+        def test_field_ref_static(self):
+                """Test a reference to a static final field."""
+                self._check_output_file('test_field_ref_static.jml', '10.5')
+                
         def test_var_dcl(self):
                 """Test variable declarations."""
                 p = self._wrap_stmts('int x = 1;' + self._wrap_print('x'))

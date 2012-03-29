@@ -1,0 +1,6 @@
+class test_field_ref_static {
+        static void main(String[] args) {
+                PrintStream ps = System.out;
+                ps.println(test_field_ref_static2.x);
+        }
+}
