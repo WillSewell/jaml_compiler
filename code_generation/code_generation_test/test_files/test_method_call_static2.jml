@@ -1,0 +1,5 @@
+class test_method_call_static2 {
+        static double getDoub() {
+                return 10d;
+        }
+}

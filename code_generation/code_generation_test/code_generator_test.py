@@ -82,6 +82,19 @@ class TestCodeGenerator(unittest.TestCase):
         def test_method_call_external(self):
                 """Test that a external method call is correctly compiled."""
                 self._check_output_file('test_method_call_external.jml','10.1')
+        
+        def test_method_call_static(self):
+                """Test a static external method call."""
+                self._check_output_file('test_method_call_static.jml', '10.0')
+        
+        def test_private_method_invokation(self):
+                """Test an invocation of a private method in the current class.
+                """
+                self._check_output('class X { private void meth() {' +
+                                   self._wrap_print('10') +
+                                   '} static void main(String[] args) {' +
+                                   'X inst = new X();inst.meth();}}',
+                                   'X', '10')
 
         def test_var_dcl(self):
                 """Test variable declarations."""
@@ -257,7 +270,8 @@ class TestCodeGenerator(unittest.TestCase):
                 particular file, and the output checked
                 """
                 path = os.path.join(self._file_dir, file_name)
-                class_name = file_name.rstrip('.jml')
+                # Remove the .jml extension
+                class_name = file_name[:-4]
                 return self._check_output(path, class_name, exptd_result)    
             
         def _cleanup(self, dir_):

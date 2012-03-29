@@ -905,6 +905,7 @@ def check_static_ref(id_node, cur_dir):
         """
         listing = os.listdir(cur_dir)
         for file_name in listing:
-                if id_node.value == file_name.rstrip('.jml'):
+                # Remove .jml extension from file name to get class name
+                if id_node.value == file_name[:-4]:
                         return True
         return False

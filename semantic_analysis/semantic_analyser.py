@@ -1342,7 +1342,8 @@ class TypeChecker(object):
                 output = output.rstrip(os.linesep)
                 # Check for an error
                 if output[0] == 'E':
-                        raise SymbolNotFoundError(output.lstrip('E - '))
+                        # Remove leading "E - " from the output
+                        raise SymbolNotFoundError(output[4:])
                 else:
                         # Return output where packages are delimited by /
                         output = output.replace('.', '/')
@@ -1389,5 +1390,6 @@ class TypeChecker(object):
                         type_ = 'short'
                 else:
                         # It's a class type
-                        type_ = jvm_type.lstrip('L').rstrip(';')
+                        # Remove the leading L and trailing ;
+                        type_ = jvm_type[1:-1]
                 return ArrayType(type_, num_d)

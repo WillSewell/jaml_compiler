@@ -1,0 +1,7 @@
+class test_method_call_static {
+        static void main(String[] args) {
+                double x = test_method_call_static2.getDoub();
+                PrintStream ps = System.out;
+                ps.println(x);
+        }
+}
