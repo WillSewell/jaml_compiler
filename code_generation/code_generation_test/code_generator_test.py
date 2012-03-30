@@ -30,18 +30,17 @@ class TestCodeGenerator(unittest.TestCase):
                 
         def test_cons_param(self):
                 """Test that constructor parameters can be correctly used."""
-                self._check_output('class X { X(String x) {' +
-                                   self._wrap_print('x') +
-                                   '} static void main(String[] args) {' +
-                                   'X inst = new X("pass");}}', 'X', 'pass')
+                p = ('class X { X(String x) {' + self._wrap_print('x') +
+                     '} static void main(String[] args) ' +
+                     '{X inst = new X("pass");}}')
+                self._check_output(p, 'X', 'pass')
         
         def test_method_param(self):
                 """Test that method parameters can be correctly used."""
-                self._check_output('class X { void meth(String x) {' +
-                                   self._wrap_print('x') +
-                                   '} static void main(String[] args) {' +
-                                   'X inst = new X();inst.meth("pass");}}',
-                                   'X', 'pass')
+                p = ('class X { void meth(String x){' + self._wrap_print('x') +
+                     '} static void main(String[] args) {' +
+                     'X inst = new X();inst.meth("pass");}}')
+                self._check_output(p, 'X', 'pass')
         
         def test_super_cons_implicitly_invoked(self):
                 """Test that the super constructor is implicitly invoked."""
@@ -58,26 +57,22 @@ class TestCodeGenerator(unittest.TestCase):
         def test_method_call(self):
                 """Test a simple method call to a method in the current class.
                 """
-                self._check_output('class X { void meth() {' +
-                                   'int x = meth2();' +
-                                   self._wrap_print('x') +
-                                   '} byte meth2() {return 5;} ' +
-                                   'static void main(String[] args) {' +
-                                   'X inst = new X();inst.meth();}}',
-                                   'X', '5')
+                p = ('class X { void meth() { int x = meth2();' +
+                     self._wrap_print('x') + '} byte meth2() {return 5;} ' +
+                     'static void main(String[] args) {' +
+                     'X inst = new X();inst.meth();}}')
+                self._check_output(p, 'X', '5')
         
         def test_method_return_array(self):
                 """Test a method in the same class correctly returns an array.
                 """
-                self._check_output('class X { void meth() {' +
-                                   'byte[][] x = meth2();' +
-                                   'int y = x[0][0];' + self._wrap_print('y') +
-                                   '} byte[][] meth2() {' +
-                                   'byte[][] arr = new byte[5][5];'
-                                   'arr[0][0] = 5; return arr;} ' +
-                                   'static void main(String[] args) {' +
-                                   'X inst = new X();inst.meth();}}',
-                                   'X', '5')
+                p = ('class X { void meth() { byte[][] x = meth2();' +
+                     'int y = x[0][0];' + self._wrap_print('y') +
+                     '} byte[][] meth2() { byte[][] arr = new byte[5][5];'
+                     'arr[0][0] = 5; return arr;} ' +
+                     'static void main(String[] args) {' +
+                     'X inst = new X();inst.meth();}}')
+                self._check_output(p, 'X', '5')
         
         def test_method_call_external(self):
                 """Test that a external method call is correctly compiled."""
@@ -98,19 +93,17 @@ class TestCodeGenerator(unittest.TestCase):
         
         def test_field_access(self):
                 """Test a simple field accessing in the same class."""
-                self._check_output('class X { int f; void meth() {' +
-                                   'f = 5;' + self._wrap_print('f') +
-                                   '} static void main(String[] args) {' +
-                                   'X inst = new X();inst.meth();}}',
-                                   'X', '5')
+                p = ('class X { int f; void meth() { f = 5;' + 
+                     self._wrap_print('f') + '} static void main(' +
+                     'String[] args) { X inst = new X();inst.meth();}}')
+                self._check_output(p, 'X', '5')
         
         def test_field_inc(self):
                 """Test incrementing a field in the current class."""
-                self._check_output('class X { int f; void meth() {' +
-                                   'f = 5;f++;' + self._wrap_print('f') +
-                                   '} static void main(String[] args) {' +
-                                   'X inst = new X();inst.meth();}}',
-                                   'X', '6')
+                p = ('class X { int f; void meth() {f = 5;f++;' + 
+                     self._wrap_print('f') + '} static void main(' +
+                     'String[] args) {X inst = new X();inst.meth();}}')
+                self._check_output(p, 'X', '6')
         
         def test_field_ref_external(self):
                 """Test access to an external field."""
@@ -126,11 +119,10 @@ class TestCodeGenerator(unittest.TestCase):
         
         def test_field_ref_private(self):
                 """Test a reference to a private field in the current class."""
-                self._check_output('class X { private void meth() {' +
-                                   self._wrap_print('10') +
-                                   '} static void main(String[] args) {' +
-                                   'X inst = new X();inst.meth();}}',
-                                   'X', '10') #TODO: FINISH
+                p = ('class X { private int x; X() {x = 10;' +
+                     self._wrap_print('x') + '} static void main ' +
+                     '(String[] args) { new X();}}')
+                self._check_output(p, 'X', '10') 
                 
         def test_var_dcl(self):
                 """Test variable declarations."""
@@ -257,6 +249,34 @@ class TestCodeGenerator(unittest.TestCase):
                 """
                 p = self._wrap_stmts(self._wrap_print('(1+1)/1'))
                 self._check_output(p, 'X', '2')
+        
+        def test_array(self):
+                """Test a simple array creation and access."""
+                p = self._wrap_stmts('String[] arr = new String[5];' +
+                                     'arr[0] = "Hello";' +
+                                     self._wrap_print('arr[0]'))
+                self._check_output(p, 'X', 'Hello')
+        
+        def test_multi_array(self):
+                """Test creation and access of a multi-dimensional array."""
+                p = self._wrap_stmts('int[][][] a = new int[5][10][1];' +
+                                     'a[2][1][0] = 10;' +
+                                     self._wrap_print('a[2][1][0]'))
+                self._check_output(p, 'X', '10')
+        
+        def test_array_init_loop(self):
+                """Test an array being initialised in a for loop and printed
+                in a for loop.
+                """
+                p = self._wrap_stmts('long[] a = new long[5];' +
+                                     'for (int i = 0; i < 5; i++) {' +
+                                     'a[i] = i;}' +
+                                     'for (int i = 4; i >= 0; i--) {' +
+                                     self._wrap_print('a[i]'))
+                nl = os.linesep
+                self._check_output(p, 'X', '4' + nl + '3' + nl + '2' + nl +
+                                   '1' + nl + '0')
+                                     
         
         def _wrap_stmts(self, stmts):
                 """Helper method used so lines of code can be tested

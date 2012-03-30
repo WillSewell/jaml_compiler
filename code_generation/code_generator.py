@@ -583,8 +583,8 @@ class CodeGenerator(object):
                 self._add_iln('ifeq ForEnd' + next_for, 
                               ';Jump to ForEnd if the boolean expression ' +
                               'evaluates to false to break out of loop')
-                self._visit(children[2])
                 self._visit(children[3])
+                self._visit(children[2])
                 self._add_iln('goto ForStart' + next_for,
                               ';Jump back to ForStart to create the loop ' +
                               'effect')
