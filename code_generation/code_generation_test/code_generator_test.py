@@ -205,6 +205,11 @@ class TestCodeGenerator(unittest.TestCase):
                 p = self._wrap_stmts(self._wrap_print('1 + 1'))
                 self._check_output(p, 'X', '2')
         
+        def test_concat(self):
+                """Test concatination of two strings."""
+                p = self._wrap_stmts(self._wrap_print('"fst" + "snd"'))
+                self._check_output(p, 'X', 'fstsnd')
+        
         def test_sub(self):
                 """Test simple subtraction in a print statement."""
                 p = self._wrap_stmts(self._wrap_print('1 - 1'))
