@@ -95,7 +95,7 @@ class TopEnvironment(object):
                                 return lib_method
                 # Method not found, so raise error
                 msg = ('Method ' + name + ' in class ' + invoked_class +
-                       'with the arguments types provided does not exist!')
+                       ' with the arguments types provided does not exist!')
                 raise SymbolNotFoundError(msg)
         
         def add_lib_method(self, lib_method):
@@ -112,7 +112,7 @@ class TopEnvironment(object):
                                 return lib_cons
                 # Constructor not found, so raise error
                 msg = ('Constructor of class ' + class_ +
-                       'does not accept arguments of the types provided!')
+                       ' does not accept arguments of the types provided!')
                 raise SymbolNotFoundError(msg)
         
         def add_lib_cons(self, symbol):
@@ -129,7 +129,7 @@ class TopEnvironment(object):
                                 return lib_field
                 # Field not found, so raise error
                 msg = ('Field ' + name + ' in class ' + refed_class +
-                       'does not exist!')
+                       ' does not exist!')
                 raise SymbolNotFoundError(msg)
         
         def add_lib_field(self, symbol):

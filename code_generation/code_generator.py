@@ -340,8 +340,12 @@ class CodeGenerator(object):
         
         def _visit_field_dcl_node(self, node):
                 id_node = node.children[1]
+                try:
+                        # Try for array fields
+                        id_node = node.children[1].children[0]
+                except AttributeError: pass
                 name = id_node.value
-                type_ = get_jvm_type(node)
+                type_ = get_jvm_type(node.children[1])
                 # Generate the signature
                 field_sig = '.field '
                 for modifier in node.modifiers:
@@ -351,8 +355,12 @@ class CodeGenerator(object):
         
         def _visit_field_dcl_assign_node(self, node):
                 id_node = node.children[1].children[0]
+                try:
+                        # Try for array fields
+                        id_node = node.children[1].children[0].children[0]
+                except AttributeError: pass
                 name = id_node.value
-                type_ = get_jvm_type(node)
+                type_ = get_jvm_type(node.children[1])
                 # Generate the signature
                 field_sig = '.field '
                 for modifier in node.modifiers:
@@ -1160,7 +1168,7 @@ class CodeGenerator(object):
 #                var_name = node.children[0].value
 #                self._add_iln('aload ' + str(self._cur_frame.get_var(var_name)),
 #                              ';Load the array to store into')
-                self._gen_load_variable(node)
+                self._gen_load_variable(node.children[0])
                 for child in node.children[1:-1]:
                         # Load the indexes into the arrays
                         # And then load each sub array

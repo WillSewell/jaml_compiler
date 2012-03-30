@@ -157,7 +157,7 @@ class TypeChecker(object):
                 return has_params
         
         def _visit_field_dcl_node(self, node, env):
-                self._visit(node.children[0], env)
+                self._visit(node.children[1], env)
                 node.type_ = self._visit(node.children[0], env)
                 return node.type_
         
@@ -171,6 +171,7 @@ class TypeChecker(object):
                         msg = ('Assignment with a field declaration can ' +
                                'only be performed on final and final fields!')
                         raise FinalError(msg)
+                self._visit(node.children[1], env)
                 node.type_ = self._visit(node.children[0], env)
                 # Check the variable initialisation
                 rh_type = self._visit(node.children[1].children[1], env)
@@ -749,7 +750,8 @@ class TypeChecker(object):
 
         def _visit_array_dcl_node(self, node, env):
                 """Simply return the array's type."""
-                node.type_ = env.get_var_s(node.children[0].value).type_
+                symbol = self._get_var_s_from_id(node.children[0].value, env)
+                node.type_ = symbol.type_
                 # Set children's types
                 for child in node.children:
                         child.type_ = node.type_.type_
