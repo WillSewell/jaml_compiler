@@ -513,7 +513,7 @@ class CodeGenerator(object):
                         # Do for arrays
                         var_name = assign_node.children[0].children[0].value
                 except AttributeError: pass
-                is_long = self._is_long(node.children[0].value)
+                is_long = self._is_long(node.children[1].type_)
                 self._cur_frame.new_var(var_name, is_long)
                 self._visit(assign_node)
         
@@ -1401,7 +1401,7 @@ class CodeGenerator(object):
                 if len(node.children) == 2:
                         # It has one dimension
                         self._visit(node.children[1])
-                        if self._is_prim(node):
+                        if self._is_prim(node.type_):
                                 # If the node is a primitive type
                                 self._add_iln('newarray ' + node.type_.type_,
                                              ';Construct new array')
@@ -1545,13 +1545,13 @@ class CodeGenerator(object):
                 # Assume it's a string representation of a type
                 type_ = type_.type_
                 jvm_type = ''
-                if type_ == 'byte':
+                if type_ in ['byte', 'boolean']:
                         jvm_type += 'ba'
                 elif type_ == 'char':
                         jvm_type += 'ca'
                 elif type_ == 'short':
                         jvm_type += 'sa'
-                elif type_ in ['boolean', 'int']:
+                elif type_ == 'int':
                         jvm_type += 'ia'
                 elif type_ == 'long':
                         jvm_type += 'la'

@@ -272,7 +272,7 @@ class TestCodeGenerator(unittest.TestCase):
                                      'for (int i = 0; i < 5; i++) {' +
                                      'a[i] = i;}' +
                                      'for (int i = 4; i >= 0; i--) {' +
-                                     self._wrap_print('a[i]'))
+                                     self._wrap_print('a[i]') + '}')
                 nl = os.linesep
                 self._check_output(p, 'X', '4' + nl + '3' + nl + '2' + nl +
                                    '1' + nl + '0')
