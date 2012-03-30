@@ -93,6 +93,10 @@ class TopEnvironment(object):
                             name == lib_method.name and
                             sorted(arg_types) == sorted(lib_method.arg_types)):
                                 return lib_method
+                # Method not found, so raise error
+                msg = ('Method ' + name + ' in class ' + invoked_class +
+                       'with the arguments types provided does not exist!')
+                raise SymbolNotFoundError(msg)
         
         def add_lib_method(self, lib_method):
                 """Add the library method symbol to the list."""
@@ -106,6 +110,10 @@ class TopEnvironment(object):
                         if (class_ == lib_cons.class_ and
                             sorted(arg_types) == sorted(lib_cons.arg_types)):
                                 return lib_cons
+                # Constructor not found, so raise error
+                msg = ('Constructor of class ' + class_ +
+                       'does not accept arguments of the types provided!')
+                raise SymbolNotFoundError(msg)
         
         def add_lib_cons(self, symbol):
                 """Add a library class constructor symbol to the list."""
@@ -119,6 +127,10 @@ class TopEnvironment(object):
                         if (refed_class == lib_field.refed_class and
                             name == lib_field.name):
                                 return lib_field
+                # Field not found, so raise error
+                msg = ('Field ' + name + ' in class ' + refed_class +
+                       'does not exist!')
+                raise SymbolNotFoundError(msg)
         
         def add_lib_field(self, symbol):
                 """Add a library field symbol to the list."""

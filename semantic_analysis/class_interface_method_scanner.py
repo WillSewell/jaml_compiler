@@ -2,6 +2,7 @@ from symbols import (ClassSymbol, InterfaceSymbol, MethodSymbol,
                      ConstructorSymbol, ArraySymbol, VarSymbol, FieldSymbol)
 from utilities.utilities import ArrayType, camel_2_underscore, get_full_type
 from exceptions import (MethodNotImplementedError, VariableNameError)
+from semantic_analysis.symbols import ArrayFieldSymbol
 
 class ClassInterfaceMethodScanner(object):
         """Provides an initial sweep through the higher level nodes in the ast
@@ -53,7 +54,7 @@ class ClassInterfaceMethodScanner(object):
                         class_s.super_class = parent
                 else:
                         # Set parent to Object, which is the implicit super
-                        class_s.super_class = 'Object'
+                        class_s.super_class = 'java/lang/Object'
                 # If it implements
                 try:
                         interfaces = node.children[2].children
@@ -119,6 +120,7 @@ class ClassInterfaceMethodScanner(object):
                 properties of the method, create a symbol for it, and returns
                 it.
                 """
+                field_s = None
                 try:
                         # For arrays
                         name = node.children[1].children[0].value
@@ -126,19 +128,20 @@ class ClassInterfaceMethodScanner(object):
                                               self._t_env)
                         dimensions = node.children[1].children[1].value
                         type_ = ArrayType(type_, dimensions)
+                        field_s = ArrayFieldSymbol(name, type_, dimensions)
                 except AttributeError:
                         # Regular variables
                         name = node.children[1].value
                         type_ = get_full_type(node.children[0].value,
                                               self._t_env)
+                        field_s = FieldSymbol(name, type_)
                 # Build up list of the names
                 self._field_names.append(name)
-                # Create and return the symbol
-                field_s = FieldSymbol(name, type_)
                 field_s.modifiers = node.modifiers
                 return field_s
         
         def _visit_field_dcl_assign_node(self, node):
+                field_s = None
                 try:
                         # For arrays
                         array_node = node.children[1].children[0]
@@ -147,12 +150,14 @@ class ClassInterfaceMethodScanner(object):
                                               self._t_env)
                         dimensions = array_node.children[1].value
                         type_ = ArrayType(type_, dimensions)
+                        field_s = ArrayFieldSymbol(name, type_, dimensions)
                 except AttributeError:
                         # Regular variables
                         name = node.children[1].children[0].value
                         type_ = get_full_type(node.children[0].value,
                                               self._t_env)
-                field_s = FieldSymbol(name, type_)
+                        field_s = FieldSymbol(name, type_)
+                self._field_names.append(name)
                 field_s.modifiers = node.modifiers
                 return field_s
 

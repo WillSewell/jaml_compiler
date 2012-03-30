@@ -4,8 +4,8 @@ import os
 import subprocess
 from semantic_analysis.semantic_analyser import TypeChecker
 import parser_.tree_nodes as nodes
-from utilities.utilities import camel_2_underscore, is_main, get_jvm_type,\
-        get_full_type, ArrayType
+from utilities.utilities import (camel_2_underscore, is_main, get_jvm_type,
+                                 ArrayType)
 from semantic_analysis.exceptions import SymbolNotFoundError
 
 class FileReadError(Exception):
@@ -336,9 +336,7 @@ class CodeGenerator(object):
                 """
                 self._add_iln('aload_0', ';Load the current object')
                 super_ = self._t_env.get_class_s(self._cur_class).super_class
-                self._add_iln('invokespecial ' +
-                              get_full_type(super_, self._t_env) +
-                              '/<init>()V')
+                self._add_iln('invokespecial ' + super_ + '/<init>()V')
         
         def _visit_field_dcl_node(self, node):
                 id_node = node.children[1]
@@ -571,7 +569,6 @@ class CodeGenerator(object):
                              ';Exit point for he loop')
         
         def _visit_for_node(self, node):
-                """"""
                 children = node.children
                 next_for = str(self._next_for)
                 self._next_for += 1
@@ -1160,9 +1157,10 @@ class CodeGenerator(object):
         
         def _visit_array_element_node(self, node):
                 """Get the value held in the array element."""
-                var_name = node.children[0].value
-                self._add_iln('aload ' + str(self._cur_frame.get_var(var_name)),
-                              ';Load the array to store into')
+#                var_name = node.children[0].value
+#                self._add_iln('aload ' + str(self._cur_frame.get_var(var_name)),
+#                              ';Load the array to store into')
+                self._gen_load_variable(node)
                 for child in node.children[1:-1]:
                         # Load the indexes into the arrays
                         # And then load each sub array
@@ -1369,34 +1367,32 @@ class CodeGenerator(object):
                         self._visit(node.children[0])
                         class_name = node.children[0].type_
                         is_static = False
-                sig = ''
-                try:
-                        class_s = self._t_env.get_class_s(class_name)
-                        class_s, field_s = self._get_field_s(class_s,
-                                                             field_name)
-                        sig = self._field_sigs[class_s.name, field_s.name]
-                except SymbolNotFoundError:
-                        # It's in a library class
-                        field_s = self._t_env.get_lib_field(class_name,
-                                                            field_name)
-                        sig = field_s.sig
+                sig = self._get_field_sig(class_name, field_name)
                 op = 'getfield'
                 if is_static:
                         op = 'getstatic'
                 self._add_iln(op + ' ' + sig, ';Get the fields value')
         
-        def _get_field_s(self, class_s, name): #TODO: REFACTOR INTO METHOD LOOKUP
-                field_s = None
+        def _get_field_sig(self, cname, fname):
+                """For a given current class name and field name, search
+                through the full inheritance tree for the correct signature
+                for the field.
+                """
                 try:
-                        field_s = class_s.get_field(name)
-                        return class_s, field_s
+                        class_s = self._t_env.get_class_s(cname)
+                        try:
+                                field_s = class_s.get_field(fname)
+                                return self._field_sigs[class_s.name, fname]
+                        except SymbolNotFoundError:
+                                # Field not in current class, so look in super
+                                super_name = class_s.super_class
+                                # Recursively search in the super class
+                                return self._get_field_sig(super_name, fname)
                 except SymbolNotFoundError:
-                        # Field not in current class, so look in super
-                        super_name = class_s.super_class
-                        super_s = self._t_env.get_class_s(super_name)
-                        # Recursively search in the super class
-                        return self._get_field_s(super_s, name)
-                
+                        # It's in a library class
+                        field_s = self._t_env.get_lib_field(cname, fname)
+                        return field_s.sig
+                        
         def _visit_array_init_node(self, node):
                 if len(node.children) == 2:
                         # It has one dimension
@@ -1439,10 +1435,9 @@ class CodeGenerator(object):
                         self._add_iln('aload_0', ';Load "this" in order to ' +
                                       'access the field')
                         # Find the field (could be in superclass)
-                        class_s = self._t_env.get_class_s(self._cur_class)
-                        class_s, field_s = self._get_field_s(class_s,
-                                                              node.value)
-                        sig = self._field_sigs[class_s.name, field_s.name]
+                        fname = node.value
+                        cname = self._cur_class
+                        sig = self._get_field_sig(cname, fname)
                         self._add_iln('getfield ' + sig, ';Get the fields value')
         
         def _visit_literal_node(self, node):

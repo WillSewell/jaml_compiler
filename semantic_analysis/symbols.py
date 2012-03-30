@@ -319,6 +319,10 @@ class ArraySymbol(SymbolWithInit):
         """A special type of symbol for arrays which additionally stores the
         number of dimensions.
         """
+        def __init__(self, name, type_, dimensions):
+                super(ArraySymbol, self).__init__(name, type_)
+                self._dimensions = dimensions
+        
         def __eq__(self, other):
                 """This is so the attributes can be compared with another array
                 symbol.  Needed when comparing method parameters
@@ -338,10 +342,6 @@ class ArraySymbol(SymbolWithInit):
         def __ne__(self, other):
                 """This is for != comparisons."""
                 return not self.__eq__(other)
-        
-        def __init__(self, name, type_, dimensions):
-                super(ArraySymbol, self).__init__(name, type_)
-                self._dimensions = dimensions
 
         def _get_dimensions(self):
                 return self._dimensions
@@ -370,6 +370,10 @@ class VarSymbol(SymbolWithInit):
 
 class FieldSymbol(VarSymbol, ModiferContainer):
         """A special case of normal variables which can have modifiers."""
+        pass
+
+class ArrayFieldSymbol(ArraySymbol, ModiferContainer):
+        """A special case of arrays which can have modifiers."""
         pass
 
 class LibFieldSymbol(SymbolWithType, ModiferContainer):

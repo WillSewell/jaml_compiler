@@ -427,7 +427,7 @@ class TypeChecker(object):
                         raise TypeError(msg)
                 self._visit(node.children[1], env)
 
-        def _visit_for_node(self, node, env):
+        def _visit_for_node(self, node, env): #TODO: BUG - THE VARIABLE (i) IS IN THE SCOPE OUTSIDE THE BODY OF THE LOOP - SHOULD BE ON THE INSIDE!
                 """Check a for statement, similar to if statement."""
                 self._visit(node.children[0], env)
                 if self._visit(node.children[1], env) != 'boolean':

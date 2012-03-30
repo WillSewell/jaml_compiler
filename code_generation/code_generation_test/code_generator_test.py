@@ -105,6 +105,14 @@ class TestCodeGenerator(unittest.TestCase):
                      'String[] args) {X inst = new X();inst.meth();}}')
                 self._check_output(p, 'X', '6')
         
+        def test_field_array(self):
+                """Test a field of array type correctly compiles."""
+                p = ('class X { int[] f; void meth() { f = new int[1];' +
+                     'f[0] = 5;' + self._wrap_print('f[0]') + '} ' +
+                     'static void main(String[] args) ' +
+                     '{ X inst = new X();inst.meth();}}')
+                self._check_output(p, 'X', '5')
+        
         def test_field_ref_external(self):
                 """Test access to an external field."""
                 self._check_output_file('test_field_ref_external.jml', 'pass')
@@ -271,11 +279,12 @@ class TestCodeGenerator(unittest.TestCase):
                 p = self._wrap_stmts('long[] a = new long[5];' +
                                      'for (int i = 0; i < 5; i++) {' +
                                      'a[i] = i;}' +
-                                     'for (int i = 4; i >= 0; i--) {' +
-                                     self._wrap_print('a[i]') + '}')
+                                     'for (int j = 4; j >= 0; j--) {' +
+                                     self._wrap_print('a[j]') + '}')
                 nl = os.linesep
                 self._check_output(p, 'X', '4' + nl + '3' + nl + '2' + nl +
                                    '1' + nl + '0')
+        
                                      
         
         def _wrap_stmts(self, stmts):
