@@ -123,6 +123,14 @@ class TestCodeGenerator(unittest.TestCase):
         def test_field_ref_super(self):
                 """Test a reference to a field in the super class."""
                 self._check_output_file('test_field_ref_super.jml', '10')
+        
+        def test_field_ref_private(self):
+                """Test a reference to a private field in the current class."""
+                self._check_output('class X { private void meth() {' +
+                                   self._wrap_print('10') +
+                                   '} static void main(String[] args) {' +
+                                   'X inst = new X();inst.meth();}}',
+                                   'X', '10') #TODO: FINISH
                 
         def test_var_dcl(self):
                 """Test variable declarations."""
