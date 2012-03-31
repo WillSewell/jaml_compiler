@@ -925,7 +925,7 @@ class CodeGenerator(object):
                         self._visit(node.children[1])
                         self._add_iln('invokevirtual java/lang/String/concat' +
                                       '(Ljava/lang/String;)Ljava/lang/String;',
-                                      'Use the built in concat method of ' +
+                                      ';Use the built in concat method of ' +
                                       'String')
                 else:
                         # Treat it as the arithmatic operator
