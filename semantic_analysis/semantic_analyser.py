@@ -1096,6 +1096,10 @@ class TypeChecker(object):
                         self._visit(child, env)
                 return node.type_
         
+        def _visit_matrix_init_node(self, node, env):
+                """Simply return the type."""
+                
+        
         def _visit_extends_node(self, node, env):
                 """Check code for an extends node - the class or interface that
                 is extended from must exist.

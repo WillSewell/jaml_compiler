@@ -470,7 +470,7 @@ class Parser(GenericParser):
                 cond_or_expr ::= cond_and_expr
                 cond_or_expr ::= cond_or_expr OR_OP cond_and_expr
                 """
-                # SAY HOW DID cond_or_expr OR_OP cond_and_expr  rather than:
+                # TODO: SAY HOW DID cond_or_expr OR_OP cond_and_expr  rather than:
                 # cond_and_expr OR_OP cond_or_expr because the parser
                 # algorithm favours it: see wikipedia
 
@@ -509,15 +509,29 @@ class Parser(GenericParser):
         def p_relation_expr(self, args):
                 """
                 relation_expr ::= add_expr
-                relation_expr ::= relation_expr REL_OP add_expr
+                relation_expr ::= relation_expr rel_op add_expr
                 """
                 if len(args) == 3:
-                        root = nodes.RelNode(args[1].attr)
+                        root = nodes.RelNode(args[1])
                         root.add_children([args[0], args[2]])
                         return root
                 else:
                         return args[0]
-
+        
+        def p_relation_op(self, args):
+                """
+                rel_op ::= > 
+                rel_op ::= <
+                rel_op ::= > ASSIGN_OP
+                rel_op ::= < ASSIGN_OP
+                """
+                # These cannot be grouped as single tokens because <, > and =
+                # characters are used in other syntactic areas
+                if len(args) == 1:
+                        return args[0].name
+                else:
+                        return args[0].name + '='
+                
         def p_add_expr(self, args):
                 """
                 add_expr ::= mul_expr
@@ -621,20 +635,7 @@ class Parser(GenericParser):
                         root.add_child(id_)
                 root.add_child(args[3])
                 return root
-#        def p_method_call_this(self, args):
-#                """ method_call ::= THIS method_call_rest ( ) """
-#                root = nodes.MethodCallThisNode()
-#                for id_ in args[1]:
-#                        root.add_child(id_)
-#                root.add_child(nodes.EmptyNode())
-#                return root
-#        def p_method_call_this_args(self, args):
-#                """ method_call ::= THIS method_call_rest ( args_list ) """
-#                root = nodes.MethodCallThisNode()
-#                for id_ in args[1]:
-#                        root.add_child(id_)
-#                root.add_child(args[3])
-#                return root
+
         def p_method_call_super(self, args):
                 """ method_call ::= SUPER method_call_rest ( ) """
                 root = nodes.MethodCallSuperNode()
@@ -868,7 +869,7 @@ def parse(f, start = 'file', lib_classes = None):
         except IOError:
                 # Simply parse the program held in the string
                 tokens = scanner.tokenize(f)
-#                print tokens
+                print tokens
                 ast = parser.parse(tokens)
                 ast_wrapper = nodes.ProgramASTs()
                 ast_wrapper.append(ast)
