@@ -468,16 +468,16 @@ class Parser(GenericParser):
         def p_cond_or_expr(self, args):
                 """
                 cond_or_expr ::= cond_and_expr
-                cond_or_expr ::= cond_or_expr OR_OP cond_and_expr
+                cond_or_expr ::= cond_or_expr | | cond_and_expr
                 """
                 # TODO: SAY HOW DID cond_or_expr OR_OP cond_and_expr  rather than:
                 # cond_and_expr OR_OP cond_or_expr because the parser
                 # algorithm favours it: see wikipedia
 
-                #ALSO CREATE A FUNCTION TO DO ALL THESE DUPLICATED THING???
-                if len(args) == 3:
+                #TODO: ALSO CREATE A FUNCTION TO DO ALL THESE DUPLICATED THING???
+                if len(args) == 4:
                         root = nodes.CondNode('||')
-                        root.add_children([args[0], args[2]])
+                        root.add_children([args[0], args[3]])
                         return root
                 else:
                         return args[0]
@@ -703,9 +703,10 @@ class Parser(GenericParser):
                 return args[0] + [args[2]]
         
         def p_matrix_element(self, args):
-                """ matrix_element = ID < expr , expr > """
+                """ matrix_element = ID | expr , expr | """
                 root = nodes.MatrixElementNode()
-                root.add_children([args[0], args[2], args[4]])
+                root.add_child(nodes.IdNode(args[0].attr))
+                root.add_children([args[2], args[4]])
                 return root
 
         def p_sting_l(self, args):
@@ -752,7 +753,7 @@ class Parser(GenericParser):
                         root.add_child(index)
                 return root
         def p_creator_matrix(self, args):
-                """ creator ::= < expr , expr > """
+                """ creator ::= | expr , expr | """
                 root = nodes.MatrixInitNode()
                 root.add_children([args[1], args[3]])
                 return root
@@ -869,7 +870,7 @@ def parse(f, start = 'file', lib_classes = None):
         except IOError:
                 # Simply parse the program held in the string
                 tokens = scanner.tokenize(f)
-#                print tokens
+                print tokens
                 ast = parser.parse(tokens)
                 ast_wrapper = nodes.ProgramASTs()
                 ast_wrapper.append(ast)

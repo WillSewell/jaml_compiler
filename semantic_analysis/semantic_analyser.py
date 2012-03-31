@@ -20,6 +20,8 @@ from semantic_analysis.symbols import LibFieldSymbol, LibConsSymbol
 # TODO: SPLIT LIB CLASSES INTO LIB CLASSES AND INTERFACES!
 # TODO: NOT CHECKING IF LIB METHODS/FIELDS ARE STATIC OR NOT
 
+#TODO: NEED TO INFORCE DIMENSION RULES WITH MATRIX OPERATIONS
+
 class TypeChecker(object):
         """This class allows for type checking of a particular program.
         Also tags nodes in the AST with type information if applicable."""

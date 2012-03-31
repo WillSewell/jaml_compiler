@@ -42,6 +42,14 @@ class Scanner(GenericScanner):
                 self.rv = []
                 GenericScanner.tokenize(self, input_)
                 return self.rv
+        
+        def _convert_rel_op(self, op_str):
+                if op_str == '<' or op_str == '>':
+                        return op_str
+                elif re.match(r'>\s*=', op_str) != None:
+                        return '>='
+                else: # It's <=
+                        return '<='
 
         def t_whitespace(self, s):
                 r'\s+'
@@ -165,6 +173,8 @@ class Scanner(GenericScanner):
                         t = Token('PRIVATE')
                 elif s == 'super':
                         t = Token('SUPER')
+#                elif s == 'this':
+#                        t = Token('THIS')
                 elif s == 'void':
                         t = Token('VOID')
                 else:
@@ -198,6 +208,11 @@ class Scanner(GenericScanner):
                 t = Token('AND_OP')
                 self.rv.append(t)
         
+        def t_rel_op(self, s):
+                r'(<|>)(\s*=)?'
+                t = Token('REL_OP', self._convert_rel_op(s))
+                self.rv.append(t)
+        
         # These must be grouped into one method for the same reasons as outlined
         # for the t_assign_eq_not_op method
         def t_add_op(self, s):
@@ -214,11 +229,11 @@ class Scanner(GenericScanner):
                 self.rv.append(t)
         
         def t_brackets(self, s):
-                r'\(|\)|\[|\]|\{|\}|<|>'
+                r'\(|\)|\[|\]|\{|\}'
                 t = Token(s)
                 self.rv.append(t)
         
         def t_punct(self, s):
-                r',|\.|;'
+                r',|\.|;|\||\|'
                 t = Token(s)
                 self.rv.append(t)

@@ -267,6 +267,16 @@ class TestParser(unittest.TestCase):
                 node = parser_.parse('{boolean x[][] = new boolean[5][10-1];}',
                                      'block')
                 self.check_ast(node, node_ids, 0)
+        
+        def test_matrix_init(self):
+                """Test an matrix declaration with an initialisation."""
+                node_ids = [nodes.BlockNode, nodes.VarDclAssignNode,
+                            nodes.TypeNode, nodes.AssignNode, nodes.IdNode,
+                            nodes.MatrixInitNode, nodes.IntLNode,
+                            nodes.AddNode, nodes.IntLNode, nodes.IntLNode]
+                node = parser_.parse('{matrix x = <5, 10-1>;}',
+                                     'block')
+                self.check_ast(node, node_ids, 0)
 
         def test_stmt_empty(self):
                 """Test the case where there is an empy line of code."""
@@ -360,6 +370,22 @@ class TestParser(unittest.TestCase):
                             nodes.IntLNode, nodes.IntLNode,
                             nodes.BooleanLNode]
                 node = parser_.parse('{x[4][5] = true;}', 'block')
+                self.check_ast(node, node_ids, 0)
+        
+        def test_matrix_assign(self):
+                """Test an matrix initialisation."""
+                node_ids = [nodes.BlockNode, nodes.AssignNode, nodes.IdNode,
+                            nodes.MatrixInitNode, nodes.IntLNode,
+                            nodes.IntLNode]
+                node = parser_.parse('{x = <5, 5>;}', 'block')
+                self.check_ast(node, node_ids, 0)
+
+        def test_matrix_element_assign(self):
+                """Test an assignment of an matrix element."""
+                node_ids = [nodes.BlockNode, nodes.AssignNode,
+                            nodes.MatrixElementNode, nodes.IdNode,
+                            nodes.IntLNode, nodes.IntLNode, nodes.IntLNode]
+                node = parser_.parse('{x<1,5> = 20;}', 'block')
                 self.check_ast(node, node_ids, 0)
 
         def test_cond_expr(self):
