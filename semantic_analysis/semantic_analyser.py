@@ -651,14 +651,22 @@ class TypeChecker(object):
                 lh_type = self._visit(node.children[0], env)
                 rh_type = self._visit(node.children[1], env)
                 # First check for numerical operations
-                if lh_type in self._t_env.nums:
+                if lh_type == 'matrix':
+                        if rh_type != 'matrix':
+                                msg = ('Type error in additive node, right ' +
+                                       'child must be a matrix!')
+                                raise TypeError(msg)
+                        else:
+                                node.type_ = 'matrix'
+                elif lh_type in self._t_env.nums:
                         if rh_type not in self._t_env.nums:
                                 msg = ('Type error in additive node, right ' +
                                        'child is not a number!')
                                 raise TypeError(msg)
-                        node.type_ =  self._num_operator_type(node.children[0],
-                                                              node.children[1])
-                        return node.type_
+                        else:
+                                get_type = self._num_operator_type
+                                node.type_ =  get_type(node.children[0],
+                                                       node.children[1])
                 # If it's used to concatenate strings, check they match
                 elif lh_type == 'java/lang/String':
                         if rh_type != 'java/lang/String':
@@ -666,26 +674,33 @@ class TypeChecker(object):
                                        'child is not "String"!')
                                 raise TypeError(msg)
                         node.type_ = 'java/lang/String'
-                        return node.type_
                 else:
                         msg = ('Type error in + node, type must be String ' +
                                'or a number!')
                         raise TypeError(msg)
+                return node.type_
 
         def _visit_mul_node(self, node, env):
                 """Check both sides are numerical."""
                 lh_type = self._visit(node.children[0], env)
                 rh_type = self._visit(node.children[1], env)
-                if lh_type not in self._t_env.nums:
-                        msg = ('Type error in multiplicative node, left ' +
-                               'child is not a number!')
+                # Matrix type only allowed for multiplication, not division
+                if node.value == '*' and lh_type == 'matrix':
+                        if rh_type != 'matrix':
+                                msg = ('Type error at *, right child must ' +
+                                       'be a matrix!')
+                                raise TypeError(msg)
+                        else:
+                                node.type_ = 'matrix'
+                elif (lh_type not in self._t_env.nums or 
+                      rh_type not in self._t_env.nums):
+                        msg = ('Type error in multiplicative node - both ' +
+                               'children must be numbers are matrices!')
                         raise TypeError(msg)
-                if rh_type not in self._t_env.nums:
-                        msg = ('Type error in multiplicative node, right ' +
-                               'child is not a number!')
-                        raise TypeError(msg)
-                node.type_ = self._num_operator_type(node.children[0],
-                                                node.children[1])
+                else:
+                        # Tag the correct type
+                        node.type_ = self._num_operator_type(node.children[0],
+                                                        node.children[1])
                 return node.type_
 
         def _num_operator_type(self, l_child, r_child):
