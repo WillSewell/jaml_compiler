@@ -360,7 +360,7 @@ class CodeGenerator(object):
                         id_node = node.children[1].children[0].children[0]
                 except AttributeError: pass
                 name = id_node.value
-                type_ = get_jvm_type(node.children[1])
+                type_ = get_jvm_type(node.children[1].children[1])
                 # Generate the signature
                 field_sig = '.field '
                 for modifier in node.modifiers:

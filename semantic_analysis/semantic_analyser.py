@@ -171,7 +171,7 @@ class TypeChecker(object):
                         msg = ('Assignment with a field declaration can ' +
                                'only be performed on final and final fields!')
                         raise FinalError(msg)
-                self._visit(node.children[1], env)
+                self._visit(node.children[1].children[0], env)
                 node.type_ = self._visit(node.children[0], env)
                 # Check the variable initialisation
                 rh_type = self._visit(node.children[1].children[1], env)
@@ -557,7 +557,7 @@ class TypeChecker(object):
                 else:
                         #TODO: SEE TODO FOR SEARCH FOR FIELDS IN SUPER CLASSES
                         rh_class = self._get_class_s(rh_type)
-                        if rh_class.super_class != 'Object':
+                        if rh_class.super_class != 'java/lang/Object':
                                 super_name = rh_class.super_class
                                 return self._is_equal_types(lh_type, super_name)
                         else:
