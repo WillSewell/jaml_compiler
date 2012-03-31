@@ -257,6 +257,10 @@ class ArrayElementNode(InteriorNode):
         def __str__(self):
                 return 'Array Element Node'
 
+class MatrixElementNode(InteriorNode):
+        def __str__(self):
+                return 'Matrix Element Node'
+
 class MethodCallNode(InteriorNode):
         def __str__(self):
                 return 'Method Call Node'
@@ -296,6 +300,10 @@ class ObjectCreatorNode(InteriorNode):
 class ArrayInitNode(InteriorNode):
         def __str__(self):
                 return 'Array Initialisation Node'
+        
+class MatrixInitNode(InteriorNode):
+        def __str__(self):
+                return 'Matrix Initialisation Node'
 
 class LeafNode(TreeNode): pass
 

@@ -135,7 +135,7 @@ class Scanner(GenericScanner):
                 r'\b[a-zA-Z_][a-zA-Z0-9_]*\b'
                 # check for reserved words
                 if s in ['char', 'byte', 'short', 'int', 'long', 'float', 
-                         'double', 'boolean']:
+                         'double', 'boolean', 'matrix']:
                         t = Token('TYPE', s)
                 elif s == 'null':
                         t = Token('NULL_L', None)
@@ -229,7 +229,7 @@ class Scanner(GenericScanner):
                 self.rv.append(t)
         
         def t_brackets(self, s):
-                r'\(|\)|\[|\]|\{|\}'
+                r'\(|\)|\[|\]|\{|\}|<|>'
                 t = Token(s)
                 self.rv.append(t)
         

@@ -581,6 +581,9 @@ class Parser(GenericParser):
         def p_primary_array(self, args):
                 """ primary ::= array_element """
                 return args[0]
+        def p_primary_matrix(self, args):
+                """ primary ::= matrix_element """
+                return args[0]
         def p_primary_literal(self, args):
                 """ primary ::= literal """
                 return args[0]
@@ -697,6 +700,12 @@ class Parser(GenericParser):
         def p_array_suffix2(self, args):
                 """ array_suffix ::= array_suffix [ expr ]  """
                 return args[0] + [args[2]]
+        
+        def p_matrix_element(self, args):
+                """ matrix_element = ID < expr , expr > """
+                root = nodes.MatrixElementNode()
+                root.add_children([args[0], args[2], args[4]])
+                return root
 
         def p_sting_l(self, args):
                 """ literal ::= STR_L """
@@ -734,12 +743,17 @@ class Parser(GenericParser):
                 root = nodes.ObjectCreatorNode()
                 root.add_children([args[1], args[3]])
                 return root
-        def p_creator2(self, args):
+        def p_creator_array(self, args):
                 """ creator ::= NEW type array_suffix """
                 root = nodes.ArrayInitNode()
                 root.add_child(args[1])
                 for index in args[2]:
                         root.add_child(index)
+                return root
+        def p_creator_matrix(self, args):
+                """ creator ::= < expr , expr > """
+                root = nodes.MatrixInitNode()
+                root.add_children([args[1], args[3]])
                 return root
 
 ################################################################################
