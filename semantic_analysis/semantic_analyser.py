@@ -778,7 +778,11 @@ class TypeChecker(object):
                 # Set children's types
                 node.children[0].type_ = symbol.type_
                 for child in node.children[1:]:
-                        self._visit(child, env)
+                        idx_type = self._visit(child, env)
+                        if idx_type != 'int':
+                                msg = ('The indices into arrays must be of ' +
+                                       'an integer type!')
+                                raise TypeError(msg)
                 return node.type_
 
         def _visit_method_call_node(self, node, env):
@@ -1093,7 +1097,11 @@ class TypeChecker(object):
                 # Set the types of the children
                 node.children[0].type_ = node.type_
                 for child in node.children[1:]:
-                        self._visit(child, env)
+                        size_type = self._visit(child, env)
+                        if size_type != 'int':
+                                msg = ('The sizes of array dimensions must ' +
+                                       'be specified by an integer!')
+                                raise TypeError(msg)
                 return node.type_
         
         def _visit_matrix_init_node(self, node, env):
