@@ -869,7 +869,7 @@ def parse(f, start = 'file', lib_classes = None):
         except IOError:
                 # Simply parse the program held in the string
                 tokens = scanner.tokenize(f)
-                print tokens
+#                print tokens
                 ast = parser.parse(tokens)
                 ast_wrapper = nodes.ProgramASTs()
                 ast_wrapper.append(ast)

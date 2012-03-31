@@ -784,6 +784,24 @@ class TypeChecker(object):
                                        'an integer type!')
                                 raise TypeError(msg)
                 return node.type_
+        
+        def _visit_matrix_element_node(self, node, env):
+                """Check the matrix has been declared, and the number of
+                dimensions match.
+                """
+                # First check it has been declared by looking it up in
+                # env (also getting its type)
+                self._get_var_s_from_id(node.children[0].value, env)
+                # The type is double since each cell stores a double number
+                node.type_ = 'double'
+                # Check index types are int
+                for child in node.children:
+                        idx_type = self._visit(child, env)
+                        if idx_type != 'int':
+                                msg = ('The indices into arrays must be of ' +
+                                       'an integer type!')
+                                raise TypeError(msg)
+                return node.type_
 
         def _visit_method_call_node(self, node, env):
                 """Check the method exists, the types are the same, and the
@@ -1090,7 +1108,7 @@ class TypeChecker(object):
                 return node.type_
 
         def _visit_array_init_node(self, node, env):
-                """Simply return the type."""
+                """Check the indices and return the type."""
                 type_ = self._visit(node.children[0], env)
                 dimensions = len(node.children) - 1
                 node.type_ =  ArrayType(type_, dimensions)
@@ -1105,8 +1123,15 @@ class TypeChecker(object):
                 return node.type_
         
         def _visit_matrix_init_node(self, node, env):
-                """Simply return the type."""
-                
+                """Check the indices and return the type."""
+                for child in node.children:
+                        size_type = self._visit(child, env)
+                        if size_type != 'int':
+                                msg = ('The sizes of matrix dimensions must ' +
+                                       'be specified by an integer!')
+                                raise TypeError(msg)
+                node.type_ = 'matrix'
+                return node.type_
         
         def _visit_extends_node(self, node, env):
                 """Check code for an extends node - the class or interface that
