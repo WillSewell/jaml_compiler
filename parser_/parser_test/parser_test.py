@@ -274,7 +274,7 @@ class TestParser(unittest.TestCase):
                             nodes.TypeNode, nodes.AssignNode, nodes.IdNode,
                             nodes.MatrixInitNode, nodes.IntLNode,
                             nodes.AddNode, nodes.IntLNode, nodes.IntLNode]
-                node = parser_.parse('{matrix x = <5, 10-1>;}',
+                node = parser_.parse('{matrix x = |5, 10-1|;}',
                                      'block')
                 self.check_ast(node, node_ids, 0)
 
@@ -377,7 +377,7 @@ class TestParser(unittest.TestCase):
                 node_ids = [nodes.BlockNode, nodes.AssignNode, nodes.IdNode,
                             nodes.MatrixInitNode, nodes.IntLNode,
                             nodes.IntLNode]
-                node = parser_.parse('{x = <5, 5>;}', 'block')
+                node = parser_.parse('{x = |5, 5|;}', 'block')
                 self.check_ast(node, node_ids, 0)
 
         def test_matrix_element_assign(self):
@@ -385,7 +385,7 @@ class TestParser(unittest.TestCase):
                 node_ids = [nodes.BlockNode, nodes.AssignNode,
                             nodes.MatrixElementNode, nodes.IdNode,
                             nodes.IntLNode, nodes.IntLNode, nodes.IntLNode]
-                node = parser_.parse('{x<1,5> = 20;}', 'block')
+                node = parser_.parse('{x|1 , 5| = 5;}', 'block')
                 self.check_ast(node, node_ids, 0)
 
         def test_cond_expr(self):

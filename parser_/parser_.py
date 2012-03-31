@@ -509,28 +509,14 @@ class Parser(GenericParser):
         def p_relation_expr(self, args):
                 """
                 relation_expr ::= add_expr
-                relation_expr ::= relation_expr rel_op add_expr
+                relation_expr ::= relation_expr REL_OP add_expr
                 """
                 if len(args) == 3:
-                        root = nodes.RelNode(args[1])
+                        root = nodes.RelNode(args[1].attr)
                         root.add_children([args[0], args[2]])
                         return root
                 else:
                         return args[0]
-        
-        def p_relation_op(self, args):
-                """
-                rel_op ::= > 
-                rel_op ::= <
-                rel_op ::= > ASSIGN_OP
-                rel_op ::= < ASSIGN_OP
-                """
-                # These cannot be grouped as single tokens because <, > and =
-                # characters are used in other syntactic areas
-                if len(args) == 1:
-                        return args[0].name
-                else:
-                        return args[0].name + '='
                 
         def p_add_expr(self, args):
                 """
@@ -703,7 +689,7 @@ class Parser(GenericParser):
                 return args[0] + [args[2]]
         
         def p_matrix_element(self, args):
-                """ matrix_element = ID | expr , expr | """
+                """ matrix_element ::= ID | expr , expr | """
                 root = nodes.MatrixElementNode()
                 root.add_child(nodes.IdNode(args[0].attr))
                 root.add_children([args[2], args[4]])

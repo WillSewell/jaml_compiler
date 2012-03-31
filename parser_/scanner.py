@@ -198,11 +198,6 @@ class Scanner(GenericScanner):
                         t = Token('EQ_OP', s)
                 self.rv.append(t)
         
-        def t_or_op(self, s):
-                r'\|\|'
-                t = Token('OR_OP')
-                self.rv.append(t)
-        
         def t_and_op(self, s):
                 r'&&'
                 t = Token('AND_OP')
