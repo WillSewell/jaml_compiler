@@ -66,6 +66,13 @@ class Frame(object):
                 else:
                         self._next_var += 1
         
+        def new_matrix(self, var, d1, d2):
+                """Creates a new matrix local variable."""
+                self._var[var] = self._next_var
+                # Work out number of elements and multiply by two because the
+                # matrix elements have values of type double
+                self._next_var = self._next_var + d1 * d2 * 2
+        
         def _get_ret_type(self):
                 return self._ret_type
         
@@ -507,7 +514,6 @@ class CodeGenerator(object):
                 except AttributeError: pass
                 is_long = self._is_long(node.children[0].value)
                 self._cur_frame.new_var(var_name, is_long)
-
         
         def _visit_var_dcl_assign_node(self, node):
                 """Create a new variable in the frame, and visit the assignment

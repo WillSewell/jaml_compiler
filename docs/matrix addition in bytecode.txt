@@ -1,0 +1,19 @@
+aload a3
+iload p3
+aload a1
+iload p1
+daload
+aload a2
+iload p1
+daload
+dadd
+dastore
+inc p3 1
+inc p1 1
+inc p2 1
+
+
+a3 is the array to store the result in
+a1 and a2 are the arrays to be added together
+p's are the indices
+
