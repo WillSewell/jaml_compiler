@@ -12,10 +12,13 @@ class ArrayType(object):
                 """This is so the attributes can be compared with another array
                 type.
                 """
-                if isinstance(other, ArrayType):
-                        if self.type_ == other.type_:
-                                if self.dimensions == other.dimensions:
+                try:
+                        if self._type == other.type_:
+                                if self._dimensions == other.dimensions:
                                         return True
+                except AttributeError:
+                        # Not an array type
+                        pass
                 return False
 
         def __ne__(self, other):
@@ -30,6 +33,39 @@ class ArrayType(object):
 
         type_ = property(_get_type)
         dimensions = property(_get_dimensions)
+
+class MatrixType(object):
+        """A special type representing matrices."""
+        def __init__(self, dimension1, dimension2):
+                # Stores the length of each dimension
+                self._dimension1 = dimension1
+                self._dimension2 = dimension2
+
+        def __eq__(self, other):
+                """This is so the attributes can be compared with another
+                matrix type
+                """
+                try:
+                        if self._dimension1 == other.dimension1:
+                                if self._dimension2 == other.dimension2:
+                                        return True
+                except AttributeError:
+                        # Not a matrix type
+                        pass
+                return False
+
+        def __ne__(self, other):
+                """This is for != comparisons."""
+                return not self.__eq__(other)
+
+        def _get_dimension1(self):
+                return self._dimension1
+        
+        def _get_dimension2(self):
+                return self._dimension2
+
+        dimension1 = property(_get_dimension1)
+        dimension2 = property(_get_dimension2)
         
 def camel_2_underscore(string):
         """Converts a CamelCase string to one where the words are
