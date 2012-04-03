@@ -4,8 +4,135 @@ from scanner import Scanner
 import tree_nodes as nodes
 
 class Parser(GenericParser):
-        def __init__(self, start):
+        def __init__(self, start = 'file'):
                 GenericParser.__init__(self, start)
+        
+        def run_parser(self, file_, lib_classes = None):
+                """parses a jml file and returns a list of abstract syntax trees, or
+                parses a string containing JaML code.
+                """
+                scanner = Scanner()
+                # Try and parse a file, if this fails, parse a sting of JaML code
+                try:
+                        # This is to see if it's a file or not
+                        open(file_)
+                        # Stores the directory of the main class
+                        dir_ = os.path.dirname(file_)
+                        # Add the name of the main class to begin with
+                        file_name = os.path.basename(file_)
+                        class_name = file_name.replace('.jml', '')
+                        # 'seen' stores names of all already seen class references
+                        seen = [class_name]
+                        # Stores classes to parse
+                        to_parse = [class_name]
+                        # Stores the ASTs of parsed classes
+                        parsed = nodes.ProgramASTs()
+                        while to_parse:
+                                # Append file information to the class names
+                                file_name = os.path.join(dir_, to_parse[0] + '.jml')
+                                # Get the raw input
+                                raw = open(file_name)
+                                input_ = raw.read()
+                                # Scan and parse the file
+                                tokens = scanner.tokenize(input_)
+        #                        print tokens
+                                ast = self.parse(tokens)
+                                # Check the class and file are named the same
+                                if to_parse[0] != ast.children[0].value:
+                                        raise NameError('Class name and file name ' +
+                                                        'do not match!')
+                                to_parse.pop(0)
+        
+                                parsed.append(ast)
+                                # Fined classes reference from the one just parsed
+                                if lib_classes == None:
+                                        lib_classes = {}
+                                refed_classes = self._find_refed_classes
+                                refed_classes = refed_classes(ast, seen, [],
+                                                              lib_classes, dir_)
+                                seen += refed_classes
+                                to_parse += refed_classes
+                        return parsed
+                except IOError:
+                        # Simply parse the program held in the string
+                        tokens = scanner.tokenize(file_)
+#                        print tokens
+                        ast = self.parse(tokens)
+                        ast_wrapper = nodes.ProgramASTs()
+                        ast_wrapper.append(ast)
+                        return ast_wrapper
+
+        def _find_refed_classes(self, node, seen, new, lib_classes, cur_dir):
+                """Gets the names of all referenced classes in the abstract
+                syntax tree.
+                """
+                # Uses a depth first search looking for var_dcl, object_creator
+                # and extends nodes
+                refed_classes = self._find_refed_classes
+                try:
+                        # The try will fail if it's a leaf
+                        children = node.children
+                        # Need to check object_creator nodes because subclasses
+                        # that are assigned to variables of type superclass
+                        # must also be parsed.  Also, extends nodes must be
+                        # checked.
+                        if isinstance(node, nodes.ObjectCreatorNode):
+                                class_name = children[0].value
+                                if class_name not in seen:
+                                        new.append(class_name)
+                                # Search in the arguments (if any)
+                                try:
+                                        new += refed_classes(node.children[1],
+                                                             seen, [],
+                                                             lib_classes,
+                                                             cur_dir)
+                                except IndexError: pass
+                        elif (isinstance(node, nodes.MethodCallLongNode) or
+                              isinstance(node, nodes.FieldRefNode)):
+                                # Check if the first child is a static reference
+                                # to a class, if it is, add the class to parse
+                                id_node = node.children[0]
+                                if self._check_static_ref(id_node, cur_dir):
+                                        new.append(id_node.value)
+                                try:
+                                        # Search in the arguments for methods
+                                        # calls
+                                        new += refed_classes(node.children[2],
+                                                             seen, [],
+                                                             lib_classes,
+                                                             cur_dir)
+                                except IndexError: pass
+                        else:
+                                # Keep searching through the AST
+                                for child in children:
+                                        new += refed_classes(child, seen, [],
+                                                             lib_classes,
+                                                             cur_dir)
+                except AttributeError:
+                        if node.value not in seen:
+                                is_class1 = isinstance(node,
+                                                       nodes.ClassTypeNode) 
+                                is_class = (is_class1 and node.value not in
+                                            lib_classes.keys())
+                                is_extends = isinstance(node, nodes.ExtendsNode)
+                                is_implements = isinstance(node,
+                                                           nodes.ImplementsNode)
+                                if is_class or is_extends or is_implements:
+                                        seen.append(node.value)
+                                        new.append(node.value)
+                return new
+
+        def _check_static_ref(self, id_node, cur_dir):
+                """For a given identifier, this checks if it is a static
+                reference to a class by searching for files in the same folder
+                as the current class from one with the matching name.
+                """
+                listing = os.listdir(cur_dir)
+                for file_name in listing:
+                        # Remove .jml extension from file name to get class name
+                        if id_node.value == file_name[:-4]:
+                                return True
+                return False
 
         def p_file(self, args):
                 """
@@ -806,121 +933,3 @@ class Parser(GenericParser):
                 root.add_children([args[0], nodes.DimensionsNode(args[1])])
                 root.add_child(args[3])
                 return root
-
-def parse(f, start = 'file', lib_classes = None):
-        """parses a jml file and returns a list of abstract syntax trees, or
-        parses a string containing JaML code.
-        """
-        scanner = Scanner()
-        parser = Parser(start)
-        # Try and parse a file, if this fails, parse a sting of JaML code
-        try:
-                # This is to see if it's a file or not
-                open(f)
-                # Stores the directory of the main class
-                dir_ = os.path.dirname(f)
-                # Add the name of the main class to begin with
-                file_name = os.path.basename(f)
-                class_name = file_name.replace('.jml', '')
-                # 'seen' stores names of all already seen class references
-                seen = [class_name]
-                # Stores classes to parse
-                to_parse = [class_name]
-                # Stores the ASTs of parsed classes
-                parsed = nodes.ProgramASTs()
-                while to_parse:
-                        # Append file information to the class names
-                        file_name = os.path.join(dir_, to_parse[0] + '.jml')
-                        # Get the raw input
-                        raw = open(file_name)
-                        input_ = raw.read()
-                        # Scan and parse the file
-                        tokens = scanner.tokenize(input_)
-#                        print tokens
-                        ast = parser.parse(tokens)
-                        # Check the class and file are named the same
-                        if to_parse[0] != ast.children[0].value:
-                                raise NameError('Class name and file name ' +
-                                                'do not match!')
-                        to_parse.pop(0)
-
-                        parsed.append(ast)
-                        # Fined classes reference from the one just parsed
-                        if lib_classes == None:
-                                lib_classes = {}
-                        refed_classes = find_refed_classes(ast, seen, [],
-                                                           lib_classes, dir_)
-                        seen += refed_classes
-                        to_parse += refed_classes
-                return parsed
-        except IOError:
-                # Simply parse the program held in the string
-                tokens = scanner.tokenize(f)
-                print tokens
-                ast = parser.parse(tokens)
-                ast_wrapper = nodes.ProgramASTs()
-                ast_wrapper.append(ast)
-                return ast_wrapper
-
-def find_refed_classes(node, seen, new, lib_classes, cur_dir):
-        """Gets the names of all referenced classes in the abstract syntax tree.
-        """
-        # Uses a depth first search looking for var_dcl, object_creator and
-        # extends nodes
-        try:
-                # The try will fail if it's a leaf
-                children = node.children
-                # Need to check object_creator nodes because subclasses
-                # that are assigned to variables of type superclass
-                # must also be parsed.  Also, extends nodes must be
-                # checked.
-                if isinstance(node, nodes.ObjectCreatorNode):
-                        class_name = children[0].value
-                        if class_name not in seen:
-                                new.append(class_name)
-                        # Search in the arguments (if any)
-                        try:
-                                new += find_refed_classes(node.children[1],
-                                                          seen, [], lib_classes,
-                                                          cur_dir)
-                        except IndexError: pass
-                elif (isinstance(node, nodes.MethodCallLongNode) or
-                      isinstance(node, nodes.FieldRefNode)):
-                        # Check if the first child is a static reference to
-                        # a class, if it is, add the class to parse
-                        id_node = node.children[0]
-                        if check_static_ref(id_node, cur_dir):
-                                new.append(id_node.value)
-                        try:
-                                # Search in the arguments for methods calls
-                                new += find_refed_classes(node.children[2],
-                                                          seen, [], lib_classes,
-                                                          cur_dir)
-                        except IndexError: pass
-                else:
-                        # Keep searching through the AST
-                        for child in children:
-                                new += find_refed_classes(child, seen, [],
-                                                          lib_classes, cur_dir)
-        except AttributeError:
-                if node.value not in seen:
-                        is_class1 = isinstance(node, nodes.ClassTypeNode) 
-                        is_class = is_class1 and node.value not in lib_classes.keys()
-                        is_extends = isinstance(node, nodes.ExtendsNode)
-                        is_implements = isinstance(node, nodes.ImplementsNode)
-                        if is_class or is_extends or is_implements:
-                                seen.append(node.value)
-                                new.append(node.value)
-        return new
-
-def check_static_ref(id_node, cur_dir):
-        """For a given identifier, this checks if it is a static reference to
-        a class by searching for files in the same folder as the current
-        class from one with the matching name.
-        """
-        listing = os.listdir(cur_dir)
-        for file_name in listing:
-                # Remove .jml extension from file name to get class name
-                if id_node.value == file_name[:-4]:
-                        return True
-        return False

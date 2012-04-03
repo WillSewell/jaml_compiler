@@ -3,7 +3,7 @@ semantically correct.
 """
 import os
 import subprocess
-from parser_ import parser_
+from parser_.parser_ import Parser
 from symbols import ArraySymbol, VarSymbol, LibMethodSymbol
 import parser_.tree_nodes as nodes
 from environments import TopEnvironment, Environment
@@ -42,7 +42,8 @@ class TypeChecker(object):
                 """Type check a given program as a string, or a program as a
                 text file.
                 """
-                asts = parser_.parse(program, 'file', self._t_env.lib_classes)
+                p = Parser('file')
+                asts = p.run_parser(program, self._t_env.lib_classes)
                 # Add all global entities (classes and their methods) to the top level
                 # environment
                 self._scanner = ClassInterfaceMethodScanner(self._t_env)

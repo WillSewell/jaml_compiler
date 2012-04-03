@@ -1,6 +1,6 @@
 """The test class for the module yapps_parser.py."""
 import unittest
-from parser_ import parser_
+from parser_.parser_ import Parser
 import parser_.tree_nodes as nodes
 
 class TestParser(unittest.TestCase):
@@ -9,86 +9,87 @@ class TestParser(unittest.TestCase):
         def test_id_mixed_case_num(self):
                 """Test mixed case IDs with numbers and an underscore."""
                 # Error will be thrown if iDEntif1er_ is not recognised as an ID
-                output = parser_.parse('iDEntif1er_', 'primary')
+                output = Parser('primary').run_parser('iDEntif1er_')
                 # Check it is an ID
                 self.assertEqual(output[0].value, 'iDEntif1er_')
 
         def test_id_whitespace(self):
                 """Whitespace should be ignored, check no error thrown."""
-                output = parser_.parse('  iDEntif1er ', 'primary')
+                output = Parser('primary').run_parser('  iDEntif1er ')
                 # Check whitespace removed
                 self.assertEqual(output[0].value, "iDEntif1er")
 
         def test_id_start_with_upper(self):
                 """Test ID recognised when it starts with an upper case letter.
                 """
-                parser_.parse('Hi', 'primary')
+                Parser('primary').run_parser('Hi')
 
         def test_id_contains_reserved_word(self):
-                """ Test that ID is still recognised when it contains a reserved
-                word.
+                """ Test that ID is still recognised when it contains a
+                reserved word.
                 """
-                parser_.parse('whiler', 'primary')
+                Parser('primary').run_parser('whiler')
 
         def test_id_error_reserved_word(self):
                 """Test an exception is thrown when a reserved word is used as
                 an ID.
                 """
-                self.assertRaises(SystemExit, parser_.parse, 'while',
-                                  'primary')
+                self.assertRaises(SystemExit, Parser('primary').run_parser,
+                                  'while')
 
         def test_id_error_start_with_num(self):
                 """Test exception thrown when ID starts with a number."""
-                self.assertRaises(SystemExit, parser_.parse, '1test', 'primary')
+                self.assertRaises(SystemExit, Parser('primary').run_parser,
+                                  '1test')
 
         # NOTE - Newer version of PyUnit now has assertIsInstance(), for now we
         # must make do with self.assertTrue(isinstance())
         def test_int_recognised(self):
                 """Test that integer is recognised."""
-                node = parser_.parse('1234', 'literal')
+                node = Parser('literal').run_parser('1234')
                 self.assertTrue(isinstance(node[0], nodes.IntLNode))
 
         def test_long_recognised(self):
                 """Test that longs are recognised."""
-                node = parser_.parse('1234L', 'literal')
+                node = Parser('literal').run_parser('1234L')
                 self.assertTrue(isinstance(node[0], nodes.LongLNode))
 
         def test_float_recognised(self):
                 """Test that floats are recognised."""
-                node = parser_.parse('1234f', 'literal')
+                node = Parser('literal').run_parser('1234f')
                 self.assertTrue(isinstance(node[0], nodes.FloatLNode))
 
         def test_double_recognised(self):
                 """Test that doubles are recognised."""
-                node = parser_.parse('12.34D', 'literal')
+                node = Parser('literal').run_parser('12.34D')
                 self.assertTrue(isinstance(node[0], nodes.DoubleLNode))
 
         def test_double_recognised_no_d(self):
                 """Test that doubles are recognised when the literal has a
                 decimal point, but no 'd' or 'D'.
                 """
-                node = parser_.parse('12.34', 'literal')
+                node = Parser('literal').run_parser('12.34')
                 self.assertTrue(isinstance(node[0], nodes.DoubleLNode))
 
         def test_string_recognised(self):
                 """Test that strings are recognised"""
-                node = parser_.parse('"this IS a string 123"', 'literal')
+                node = Parser('literal').run_parser('"this IS a string 123"')
                 self.assertTrue(isinstance(node[0], nodes.StringLNode))
 
         def test_char_recognised(self):
                 """Test that chars are recognised."""
-                node = parser_.parse("'x'", 'literal')
+                node = Parser('literal').run_parser("'x'")
                 self.assertTrue(isinstance(node[0], nodes.CharLNode))
 
         def test_bool_recognised(self):
                 """Test that boolean literals are recognised."""
-                node = parser_.parse('true', 'literal')
+                node = Parser('literal').run_parser('true')
                 # Check the node is a boolean
                 self.assertTrue(isinstance(node[0], nodes.BooleanLNode))
 
         def test_nl_tab(self):
                 """Test new lines and tabs are correctly ignored."""
-                parser_.parse('{x\n\r=\t\t2\n;}', 'block')
+                Parser('block').run_parser('{x\n\r=\t\t2\n;}')
 
         ########################################################################
         ## TEST PARSER RULES
@@ -108,7 +109,7 @@ class TestParser(unittest.TestCase):
                 """Test a class which extends another is correctly parsed."""
                 node_ids = [nodes.ClassNode, nodes.IdNode, nodes.ExtendsNode,
                             nodes.EmptyNode, nodes.EmptyNode]
-                node = parser_.parse('class X extends Y {}')
+                node = Parser().run_parser('class X extends Y {}')
                 self.check_ast(node, node_ids, 0)
 
         def test_class_implements(self):
@@ -118,7 +119,7 @@ class TestParser(unittest.TestCase):
                 node_ids = [nodes.ClassNode, nodes.IdNode, nodes.EmptyNode,
                             nodes.ImplementsListNode, nodes.ImplementsNode,
                             nodes.EmptyNode]
-                node = parser_.parse('class X implements Y {}')
+                node = Parser().run_parser('class X implements Y {}')
                 self.check_ast(node, node_ids, 0)
 
         def test_class_multi_implements(self):
@@ -128,22 +129,22 @@ class TestParser(unittest.TestCase):
                 node_ids = [nodes.ClassNode, nodes.IdNode, nodes.EmptyNode,
                             nodes.ImplementsListNode, nodes.ImplementsNode,
                             nodes.ImplementsNode, nodes.EmptyNode]
-                node = parser_.parse('class X implements Y, Z {}')
+                node = Parser().run_parser('class X implements Y, Z {}')
                 self.check_ast(node, node_ids, 0)
 
         def test_class_extends_implements(self):
-                """Test a class which extends a class and implements and interface
-                is correctly parsed.
+                """Test a class which extends a class and implements and
+                interface is correctly parsed.
                 """
                 node_ids = [nodes.ClassNode, nodes.IdNode, nodes.ExtendsNode,
                             nodes.ImplementsListNode, nodes.ImplementsNode,
                             nodes.EmptyNode]
-                node = parser_.parse('class X extends Y implements Z{}')
+                node = Parser().run_parser('class X extends Y implements Z{}')
                 self.check_ast(node, node_ids, 0)
 
         def test_class_modifier(self):
                 """Test that a class modifier is correctly added."""
-                node = parser_.parse('abstract class X {}')
+                node = Parser().run_parser('abstract class X {}')
                 self.assertEqual(node[0].modifiers, ['abstract'])
 
         def test_interface(self):
@@ -153,12 +154,13 @@ class TestParser(unittest.TestCase):
                             nodes.IdNode, nodes.ClassTypeNode,
                             nodes.ParamListNode, nodes.ParamDclNode,
                             nodes.ClassTypeNode, nodes.IdNode]
-                node = parser_.parse('interface X {Type X(Type2 y);}')
+                node = Parser().run_parser('interface X {Type X(Type2 y);}')
                 self.check_ast(node, node_ids, 0)
                 
         def test_field_modifier(self):
                 """Test that field modifiers are correctly added."""
-                node = parser_.parse('class X { private static final int x;}')
+                node = Parser().run_parser('class X { ' +
+                                           'private static final int x;}')
                 self.assertEqual(node[0].children[3].children[0].modifiers,
                                  ['private', 'static', 'final'])
         
@@ -168,7 +170,7 @@ class TestParser(unittest.TestCase):
                             nodes.EmptyNode, nodes.ClassBodyNode,
                             nodes.FieldDclAssignNode, nodes.TypeNode,
                             nodes.AssignNode, nodes.IdNode, nodes.IntLNode]
-                node = parser_.parse('class X { static final int x = 5;}')
+                node = Parser().run_parser('class X { static final int x = 5;}')
                 self.check_ast(node, node_ids, 0)
         
         def test_constructor(self):
@@ -178,7 +180,7 @@ class TestParser(unittest.TestCase):
                             nodes.ConstructorDclNode, nodes.IdNode,
                             nodes.ParamListNode, nodes.ParamDclNode,
                             nodes.TypeNode, nodes.IdNode, nodes.EmptyNode]
-                node = parser_.parse('class X {X(int y){}}')
+                node = Parser().run_parser('class X {X(int y){}}')
                 self.check_ast(node, node_ids, 0)
 
         def test_method_array(self):
@@ -190,8 +192,8 @@ class TestParser(unittest.TestCase):
                             nodes.TypeNode, nodes.IdNode,
                             nodes.ParamDclNode, nodes.TypeNode,
                             nodes.IdNode, nodes.EmptyNode]
-                node = parser_.parse('byte[][] X(int x, char z) {}',
-                                     'method_dcl')
+                node = Parser('method_dcl').run_parser('byte[][] ' +
+                                                       'X(int x, char z){}')
                 self.check_ast(node, node_ids, 0)
 
         def test_method_param_array(self):
@@ -203,27 +205,27 @@ class TestParser(unittest.TestCase):
                             nodes.ParamDclNode, nodes.TypeNode,
                             nodes.ArrayDclNode, nodes.ArrayIdNode,
                             nodes.DimensionsNode, nodes.EmptyNode]
-                node = parser_.parse('byte X(int x[][][]) {}',
-                                     'method_dcl')
+                node = Parser('method_dcl').run_parser('byte X(int x[][][]) {}')
                 self.check_ast(node, node_ids, 0)
         
         def test_abstract_method(self):
                 """Test an abstract method in a class."""
-                node = parser_.parse('abstract class X { ' +
+                node = Parser().run_parser('abstract class X { ' +
                                      'abstract int x();}')[0]
                 self.assertTrue(isinstance(node.children[3].children[0],
                                            nodes.AbsMethodDclNode))
         
         def test_method_modifier(self):
                 """Test that field modifiers are correctly added."""
-                node = parser_.parse('class X { final static int x(){}}')[0]
+                node = Parser().run_parser('class X { ' +
+                                           'final static int x(){}}')[0]
                 self.assertEqual(node.children[3].children[0].modifiers,
                                  ['final', 'static'])
 
         def test_empty_block_stmt(self):
                 """Test an empty block statement parses."""
                 node_ids = [nodes.EmptyNode]
-                node = parser_.parse('{}', 'block')
+                node = Parser('block').run_parser('{}')
                 # Check there are no children of the block
                 self.check_ast(node, node_ids, 0)
 
@@ -236,7 +238,7 @@ class TestParser(unittest.TestCase):
                 node_ids = [nodes.BlockNode, nodes.VarDclNode, nodes.TypeNode,
                             nodes.IdNode]
                 # Parse the Java code
-                node = parser_.parse('{int x;}', 'block')
+                node = Parser('block').run_parser('{int x;}')
                 # Check the AST against the list of node_ids
                 self.check_ast(node, node_ids, 0)
 
@@ -245,7 +247,7 @@ class TestParser(unittest.TestCase):
                 node_ids = [nodes.BlockNode, nodes.VarDclAssignNode,
                             nodes.TypeNode, nodes.AssignNode, nodes.IdNode,
                             nodes.IntLNode]
-                node = parser_.parse('{int x = 10;}', 'block')
+                node = Parser('block').run_parser('{int x = 10;}')
                 self.check_ast(node, node_ids, 0)
 
         def test_array_dcl(self):
@@ -253,7 +255,7 @@ class TestParser(unittest.TestCase):
                 node_ids = [nodes.BlockNode, nodes.VarDclNode, nodes.TypeNode,
                             nodes.ArrayDclNode, nodes.ArrayIdNode,
                             nodes.DimensionsNode]
-                node = parser_.parse('{int x[];}', 'block')
+                node = Parser('block').run_parser('{int x[];}')
                 self.check_ast(node, node_ids, 0)
 
         def test_array_init(self):
@@ -264,8 +266,8 @@ class TestParser(unittest.TestCase):
                             nodes.DimensionsNode, nodes.ArrayInitNode,
                             nodes.TypeNode, nodes.IntLNode, nodes.AddNode,
                             nodes.IntLNode, nodes.IntLNode]
-                node = parser_.parse('{boolean x[][] = new boolean[5][10-1];}',
-                                     'block')
+                node = Parser('block').run_parser('{boolean x[][] = ' +
+                                                  'new boolean[5][10-1];}')
                 self.check_ast(node, node_ids, 0)
         
         def test_matrix_init(self):
@@ -274,14 +276,13 @@ class TestParser(unittest.TestCase):
                             nodes.TypeNode, nodes.AssignNode, nodes.IdNode,
                             nodes.MatrixInitNode, nodes.IntLNode,
                             nodes.AddNode, nodes.IntLNode, nodes.IntLNode]
-                node = parser_.parse('{matrix x = |5, 10-1|;}',
-                                     'block')
+                node = Parser('block').run_parser('{matrix x = |5, 10-1|;}')
                 self.check_ast(node, node_ids, 0)
 
         def test_stmt_empty(self):
                 """Test the case where there is an empy line of code."""
                 node_ids = [nodes.BlockNode, nodes.EmptyNode]
-                node = parser_.parse('{;}', 'block')
+                node = Parser('block').run_parser('{;}')
                 self.check_ast(node, node_ids, 0)
 
         def test_stmt_expr(self):
@@ -290,7 +291,7 @@ class TestParser(unittest.TestCase):
                 """
                 node_ids = [nodes.BlockNode, nodes.AssignNode, nodes.IdNode,
                             nodes.IdNode]
-                node = parser_.parse('{x = y;}', 'block')
+                node = Parser('block').run_parser('{x = y;}')
                 self.check_ast(node, node_ids, 0)
 
         def test_if_stmt(self):
@@ -298,7 +299,7 @@ class TestParser(unittest.TestCase):
                 node_ids = [nodes.IfNode, nodes.RelNode, nodes.IdNode,
                             nodes.IdNode, nodes.BlockNode, nodes.AddNode,
                             nodes.IdNode, nodes.IntLNode]
-                node = parser_.parse('if (x > y) {x - 1;}', 'if_stmt')
+                node = Parser('if_stmt').run_parser('if (x > y) {x - 1;}')
                 self.check_ast(node, node_ids, 0)
 
         def test_if_else_stmt(self):
@@ -308,8 +309,8 @@ class TestParser(unittest.TestCase):
                             nodes.AddNode, nodes.IdNode, nodes.IntLNode,
                             nodes.BlockNode,nodes.AddNode, nodes.IdNode,
                             nodes.IdNode]
-                node = parser_.parse('{if (x > y) {x - 1;} else {x - y;}}',
-                                     'block')
+                node = Parser('block').run_parser('{if (x > y) {x - 1;} ' +
+                                                  'else {x - y;}}')
                 self.check_ast(node, node_ids, 0)
 
         def test_nested_if_stmts(self):
@@ -322,8 +323,9 @@ class TestParser(unittest.TestCase):
                             nodes.AssignNode, nodes.IdNode,
                             nodes.IntLNode, nodes.BlockNode,
                             nodes.AddNode, nodes.IdNode, nodes.IntLNode]
-                node = parser_.parse('{if (x > y) {x - 1;} else if (y == 3){' +
-                                     'y = 3;} else{y + 2;}}', 'block')
+                node = Parser('block').run_parser('{if (x > y) {x - 1;} ' +
+                                                  'else if (y == 3){y = 3;} ' +
+                                                  'else{y + 2;}}')
                 self.check_ast(node, node_ids, 0)
 
         def test_while_stmt(self):
@@ -333,7 +335,7 @@ class TestParser(unittest.TestCase):
                 node_ids = [nodes.WhileNode, nodes.EqNode, nodes.IdNode,
                             nodes.IntLNode, nodes.BlockNode,
                             nodes.AddNode, nodes.IdNode, nodes.IntLNode]
-                node = parser_.parse('while(x==1){x+10;}', 'while_stmt')
+                node = Parser('while_stmt').run_parser('while(x==1){x+10;}')
                 self.check_ast(node, node_ids, 0)
 
         def test_for_stmt(self):
@@ -344,15 +346,15 @@ class TestParser(unittest.TestCase):
                             nodes.IntLNode, nodes.IncNode, nodes.IdNode,
                             nodes.BlockNode, nodes.AddNode, nodes.IdNode,
                             nodes.IntLNode]
-                node = parser_.parse('for (int x = 1; x < 2; x++){' +
-                                     'y + 1;}', 'for_stmt')
+                node = Parser('for_stmt').run_parser('for (int x = 1; ' +
+                                                     'x < 2; x++){y + 1;}')
                 self.check_ast(node, node_ids, 0)
 
         def test_assign(self):
                 """Test a simple assigment expression."""
                 node_ids = [nodes.BlockNode, nodes.AssignNode, nodes.IdNode,
                             nodes.IdNode]
-                node = parser_.parse('{x = y;}', 'block')
+                node = Parser('block').run_parser('{x = y;}')
                 self.check_ast(node, node_ids, 0)
 
         def test_array_assign(self):
@@ -360,7 +362,7 @@ class TestParser(unittest.TestCase):
                 node_ids = [nodes.BlockNode, nodes.AssignNode, nodes.IdNode,
                             nodes.ArrayInitNode, nodes.TypeNode,
                             nodes.IntLNode]
-                node = parser_.parse('{x = new float[5];}', 'block')
+                node = Parser('block').run_parser('{x = new float[5];}')
                 self.check_ast(node, node_ids, 0)
 
         def test_array_element_assign(self):
@@ -369,7 +371,7 @@ class TestParser(unittest.TestCase):
                             nodes.ArrayElementNode, nodes.IdNode,
                             nodes.IntLNode, nodes.IntLNode,
                             nodes.BooleanLNode]
-                node = parser_.parse('{x[4][5] = true;}', 'block')
+                node = Parser('block').run_parser('{x[4][5] = true;}')
                 self.check_ast(node, node_ids, 0)
         
         def test_matrix_assign(self):
@@ -377,7 +379,7 @@ class TestParser(unittest.TestCase):
                 node_ids = [nodes.BlockNode, nodes.AssignNode, nodes.IdNode,
                             nodes.MatrixInitNode, nodes.IntLNode,
                             nodes.IntLNode]
-                node = parser_.parse('{x = |5, 5|;}', 'block')
+                node = Parser('block').run_parser('{x = |5, 5|;}')
                 self.check_ast(node, node_ids, 0)
 
         def test_matrix_element_assign(self):
@@ -385,42 +387,42 @@ class TestParser(unittest.TestCase):
                 node_ids = [nodes.BlockNode, nodes.AssignNode,
                             nodes.MatrixElementNode, nodes.IdNode,
                             nodes.IntLNode, nodes.IntLNode, nodes.IntLNode]
-                node = parser_.parse('{x|1 , 5| = 5;}', 'block')
+                node = Parser('block').run_parser('{x|1 , 5| = 5;}')
                 self.check_ast(node, node_ids, 0)
 
         def test_cond_expr(self):
                 """Test a simple conditional expression."""
                 node_ids = [nodes.BlockNode, nodes.CondNode, nodes.IdNode,
                             nodes.IdNode]
-                node = parser_.parse('{x || y;}', 'block')
+                node = Parser('block').run_parser('{x || y;}')
                 self.check_ast(node, node_ids, 0)
 
         def test_eq_expr(self):
                 """Test a simple equality expression."""
                 node_ids = [nodes.BlockNode, nodes.EqNode, nodes.IdNode,
                             nodes.IdNode]
-                node = parser_.parse('{x != y;}', 'block')
+                node = Parser('block').run_parser('{x != y;}')
                 self.check_ast(node, node_ids, 0)
 
         def test_rel_expr(self):
                 """Test a simple relation expression."""
                 node_ids = [nodes.BlockNode, nodes.RelNode, nodes.IdNode,
                             nodes.IdNode]
-                node = parser_.parse('{x >= y;}', 'block')
+                node = Parser('block').run_parser('{x >= y;}')
                 self.check_ast(node, node_ids, 0)
 
         def test_add_expr(self):
                 """Test a simple additive expression."""
                 node_ids = [nodes.BlockNode, nodes.AddNode, nodes.IdNode,
                             nodes.IdNode]
-                node = parser_.parse('{x + y;}', 'block')
+                node = Parser('block').run_parser('{x + y;}')
                 self.check_ast(node, node_ids, 0)
 
         def test_mul_expr(self):
                 """Test a simple multiplicative expression."""
                 node_ids = [nodes.BlockNode, nodes.MulNode, nodes.IdNode,
                             nodes.IdNode]
-                node = parser_.parse('{x / y;}', 'block')
+                node = Parser('block').run_parser('{x / y;}')
                 self.check_ast(node, node_ids, 0)
 
         def test_unary_expr(self):
@@ -429,16 +431,16 @@ class TestParser(unittest.TestCase):
                 """
                 node_ids = [nodes.BlockNode, nodes.AddNode, nodes.PosNode,
                             nodes.IntLNode, nodes.IntLNode]
-                node = parser_.parse('{-1 + 2;}', 'block')
+                node = Parser('block').run_parser('{-1 + 2;}')
                 self.check_ast(node, node_ids, 0)
 
         def test_unary_expr_prefix(self):
-                """Test the unary expression where a minus sign prefexes the
+                """Test the unary expression where a minus sign prefixes the
                 literal.
                 """
                 node_ids = [nodes.BlockNode, nodes.PosNode,
                             nodes.IntLNode]
-                node = parser_.parse('{-1;}', 'block')
+                node = Parser('block').run_parser('{-1;}')
                 self.check_ast(node, node_ids, 0)
 
         def test_unary_expr_inc_prefix(self):
@@ -447,7 +449,7 @@ class TestParser(unittest.TestCase):
                 """
                 node_ids = [nodes.BlockNode, nodes.IncNode,
                             nodes.IntLNode]
-                node = parser_.parse('{++1;}', 'block')
+                node = Parser('block').run_parser('{++1;}')
                 self.check_ast(node, node_ids, 0)
 
         def test_unary_expr_dec_suffix(self):
@@ -456,7 +458,7 @@ class TestParser(unittest.TestCase):
                 """
                 node_ids = [nodes.BlockNode, nodes.IncNode,
                             nodes.IntLNode]
-                node = parser_.parse('{1--;}', 'block')
+                node = Parser('block').run_parser('{1--;}')
                 self.check_ast(node, node_ids, 0)
 
         def test_paran(self):
@@ -467,43 +469,43 @@ class TestParser(unittest.TestCase):
                             nodes.IdNode, nodes.AddNode, nodes.IdNode,
                             nodes.IdNode, nodes.AddNode, nodes.IdNode,
                             nodes.IdNode]
-                node = parser_.parse('{x * (y + z) * (y - x);}', 'block')
+                node = Parser('block').run_parser('{x * (y + z) * (y - x);}')
                 self.check_ast(node, node_ids, 0)
 
         def test_method_call_long(self):
                 """Test a call to a method in another class parses."""
                 node_ids = [nodes.BlockNode, nodes.MethodCallLongNode,
                             nodes.IdNode, nodes.IdNode, nodes.EmptyNode]
-                node = parser_.parse('{x.y();}', 'block')
+                node = Parser('block').run_parser('{x.y();}')
                 self.check_ast(node, node_ids, 0)
         
         def test_method_call_super(self):
                 """Test a call to a method in the super class."""
                 node_ids = [nodes.BlockNode, nodes.MethodCallSuperNode,
                             nodes.IdNode, nodes.ArgsListNode, nodes.IdNode]
-                node = parser_.parse('{super.y(x);}', 'block')
+                node = Parser('block').run_parser('{super.y(x);}')
                 self.check_ast(node, node_ids, 0)
         
         def test_field_ref(self):
                 """Test a reference to a field in another class."""
                 node_ids = [nodes.BlockNode, nodes.FieldRefNode,
                             nodes.IdNode, nodes.IdNode]
-                node = parser_.parse('{x.y;}', 'block')
+                node = Parser('block').run_parser('{x.y;}')
                 self.check_ast(node, node_ids, 0)
         
         def test_field_ref_super(self):
                 """Test a reference to a field in the super class."""
                 node_ids = [nodes.BlockNode, nodes.FieldRefSuperNode,
                             nodes.IdNode]
-                node = parser_.parse('{super.y;}', 'block')
+                node = Parser('block').run_parser('{super.y;}')
                 self.check_ast(node, node_ids, 0)
                 
         def check_ast(self, nodel, node_types, index):
-                """Checks the ast against the node ids profided.
+                """Checks the ast against the node ids provided.
 
                 node is the current root of the tree.
                 node_ids is the list of node_ids the tree should contain,
-                in pre order.
+                in pre-order.
                 index is the number of nodes visit so far, and the index into
                 the list of node_ids.
                 """
