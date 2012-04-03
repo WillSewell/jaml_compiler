@@ -935,11 +935,16 @@ class CodeGenerator(object):
                                       ';Use the built in concat method of ' +
                                       'String')
                 elif node.type_ == 'matrix':
-                        idx_name = 'idx' + str(self._next_mat_idx)
-                        self._add_iln('lconst_0', 'Initialise index')
-                        self._cur_frame.new_var(idx_name, False)
-                        idx_loc = str(self._cur_frame.get_var(idx_name))
-                        self._add_iln('istore ' + idx_loc, 'Store index')
+                        idx1_name = 'idx' + str(self._next_mat_idx)
+                        self._add_iln('lconst_0', 'Initialise rows index')
+                        self._cur_frame.new_var(idx1_name, False)
+                        idx1_loc = str(self._cur_frame.get_var(idx1_name))
+                        self._add_iln('istore ' + idx1_loc, 'Store index')
+                        idx2_name = 'idx' + str(self._next_mat_idx)
+                        self._add_iln('lconst_0', 'Initialise cols index')
+                        self._cur_frame.new_var(idx2_name, False)
+                        idx2_loc = str(self._cur_frame.get_var(idx2_name))
+                        self._add_iln('istore ' + idx2_loc, 'Store index')
                         # NEED TO ADD LOOPING EFFECT!
                         for child in node.children[1:]:
                                 # Get the sizes of each dimension on the stack
@@ -947,16 +952,16 @@ class CodeGenerator(object):
                         self._add_iln('multianewarray ' +
                                       get_jvm_type(node) + ' 2',
                                       ';Construct a new array to store result')
-                        self._add_iln('iload ' + idx_loc, 'Load index')
+                        self._add_iln('iload ' + idx1_loc, 'Load index')
                         self._visit(node.children[0]) # Load matrix 1
-                        self._add_iln('iload ' + idx_loc, 'Load index')
+                        self._add_iln('iload ' + idx1_loc, 'Load index')
                         self._add_iln('daload', 'Load current matrix element')
                         self._visit(node.children[1]) # Load matrix 2
-                        self._add_iln('iload ' + idx_loc, 'Load index')
+                        self._add_iln('iload ' + idx1_loc, 'Load index')
                         self._add_iln('daload', 'Load current matrix element')
                         self._add_iln('dadd', 'Add both element values')
                         self._add_iln('dastore', 'Store result in new array')
-                        self._add_iln('iinc ' + idx_loc + ' 1',
+                        self._add_iln('iinc ' + idx1_loc + ' 1',
                                       'Increment the index')
 
 
