@@ -92,6 +92,7 @@ class CodeGenerator(object):
                 self._next_for = 0
                 self._next_comp = 0
                 self._next_not = 0
+                self._next_mat_idx = 0
                 # This stores all the instructions which will be written to the
                 # output file
                 self._out = ''
@@ -933,8 +934,34 @@ class CodeGenerator(object):
                                       '(Ljava/lang/String;)Ljava/lang/String;',
                                       ';Use the built in concat method of ' +
                                       'String')
+                elif node.type_ == 'matrix':
+                        idx_name = 'idx' + str(self._next_mat_idx)
+                        self._add_iln('lconst_0', 'Initialise index')
+                        self._cur_frame.new_var(idx_name, False)
+                        idx_loc = str(self._cur_frame.get_var(idx_name))
+                        self._add_iln('istore ' + idx_loc, 'Store index')
+                        # NEED TO ADD LOOPING EFFECT!
+                        for child in node.children[1:]:
+                                # Get the sizes of each dimension on the stack
+                                self._visit(child)
+                        self._add_iln('multianewarray ' +
+                                      get_jvm_type(node) + ' 2',
+                                      ';Construct a new array to store result')
+                        self._add_iln('iload ' + idx_loc, 'Load index')
+                        self._visit(node.children[0]) # Load matrix 1
+                        self._add_iln('iload ' + idx_loc, 'Load index')
+                        self._add_iln('daload', 'Load current matrix element')
+                        self._visit(node.children[1]) # Load matrix 2
+                        self._add_iln('iload ' + idx_loc, 'Load index')
+                        self._add_iln('daload', 'Load current matrix element')
+                        self._add_iln('dadd', 'Add both element values')
+                        self._add_iln('dastore', 'Store result in new array')
+                        self._add_iln('iinc ' + idx_loc + ' 1',
+                                      'Increment the index')
+
+
                 else:
-                        # Treat it as the arithmatic operator
+                        # Treat it as the arithmetic operator
                         self._gen_arith(node)
 
         def _visit_mul_node(self, node):
@@ -1427,6 +1454,15 @@ class CodeGenerator(object):
                                       get_jvm_type(node) + ' ' +
                                       str(len(node.children[1:])),
                                       ';Construct a new multidimensional array')
+        
+        def _visit_matrix_init_node(self, node):
+                for child in node.children[1:]:
+                        # Get the sizes of each dimenion on the stack
+                        self._visit(child)
+                self._add_iln('multianewarray ' +
+                              get_jvm_type(node) + ' ' +
+                              str(len(node.children[1:])),
+                              ';Construct a new multidimensional array')
                 
         def _visit_id_node(self, node):
                 """If it's an identifier, load the value from memory - the
