@@ -1,0 +1,37 @@
+113: iconst_0
+114: istore  4
+
+116: iload   4
+118: aload_1
+119: arraylength
+120: if_icmpge       169
+123: iconst_0
+124: istore  5
+
+126: iload   5
+128: aload_1
+129: iconst_1
+130: aaload
+131: arraylength
+132: if_icmpge       163
+135: aload_3
+136: iload   4
+138: aaload
+139: iload   5
+141: aload_1
+142: iload   4
+144: aaload
+145: iload   5
+147: daload
+148: aload_2
+149: iload   4
+151: aaload
+152: iload   5
+154: daload
+155: dadd
+156: dastore
+157: iinc    5, 1
+160: goto    126
+
+163: iinc    4, 1
+166: goto    116

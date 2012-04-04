@@ -93,6 +93,8 @@ class CodeGenerator(object):
                 self._next_comp = 0
                 self._next_not = 0
                 self._next_mat_idx = 0
+                self._next_mat_rows = 0
+                self._net_mat_cols = 0
                 # This stores all the instructions which will be written to the
                 # output file
                 self._out = ''
@@ -935,17 +937,30 @@ class CodeGenerator(object):
                                       ';Use the built in concat method of ' +
                                       'String')
                 elif node.type_ == 'matrix':
+                        next_mat_rows = str(self._next_mat_rows)
+                        next_mat_cols = str(self._next_mat_cols)
+                        self._next_mat_rows += 1
+                        self._next_mat_cols += 1
+                        # Create and store the indices for rows/cols
                         idx1_name = 'idx' + str(self._next_mat_idx)
-                        self._add_iln('lconst_0', 'Initialise rows index')
+                        self._add_iln('iconst_0', 'Initialise rows index')
                         self._cur_frame.new_var(idx1_name, False)
                         idx1_loc = str(self._cur_frame.get_var(idx1_name))
                         self._add_iln('istore ' + idx1_loc, 'Store index')
                         idx2_name = 'idx' + str(self._next_mat_idx)
-                        self._add_iln('lconst_0', 'Initialise cols index')
+                        self._add_iln('iconst_0', 'Initialise cols index')
                         self._cur_frame.new_var(idx2_name, False)
                         idx2_loc = str(self._cur_frame.get_var(idx2_name))
                         self._add_iln('istore ' + idx2_loc, 'Store index')
-                        # NEED TO ADD LOOPING EFFECT!
+                        self._add_ln('MatRowStart' + next_mat_rows + ':',
+                                     ';Start of loop through rows')
+                        self._add_iln('iload ' + idx1_loc, 'Load index')
+                        # Load the left hand matrix to compare the size
+                        self._visit(node.children[0])
+                        self._add_iln('arraylength', 'Get its size')
+                        self._add_iln('if_icmpge MatRowEnd' + next_mat_rows,
+                                      'Check if idx has reached the size of ' +
+                                      'the rows')
                         for child in node.children[1:]:
                                 # Get the sizes of each dimension on the stack
                                 self._visit(child)
