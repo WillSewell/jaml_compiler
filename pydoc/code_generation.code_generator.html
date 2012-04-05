@@ -1,0 +1,166 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module code_generation.code_generator</title>
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong><a href="code_generation.html"><font color="#ffffff">code_generation</font></a>.code_generator</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:////smbhome.uscs.susx.ac.uk/wjs25/workspace/jaml_compiler/code_generation/code_generator.py">\\smbhome.uscs.susx.ac.uk\wjs25\workspace\jaml_compiler\code_generation\code_generator.py</a></font></td></tr></table>
+    <p><tt>This&nbsp;module&nbsp;generates&nbsp;Jasmin&nbsp;assembly&nbsp;code&nbsp;from&nbsp;a&nbsp;type&nbsp;checked&nbsp;abstract<br>
+syntax&nbsp;tree.</tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="parser_.tree_nodes.html">parser_.tree_nodes</a><br>
+</td><td width="25%" valign=top><a href="os.html">os</a><br>
+</td><td width="25%" valign=top><a href="subprocess.html">subprocess</a><br>
+</td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ee77aa">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Classes</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#ee77aa"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl>
+<dt><font face="helvetica, arial"><a href="__builtin__.html#object">__builtin__.object</a>
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="code_generation.code_generator.html#CodeGenerator">CodeGenerator</a>
+</font></dt><dt><font face="helvetica, arial"><a href="code_generation.code_generator.html#Frame">Frame</a>
+</font></dt></dl>
+</dd>
+<dt><font face="helvetica, arial"><a href="exceptions.html#Exception">exceptions.Exception</a>(<a href="exceptions.html#BaseException">exceptions.BaseException</a>)
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="code_generation.code_generator.html#FileReadError">FileReadError</a>
+</font></dt></dl>
+</dd>
+</dl>
+ <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="CodeGenerator">class <strong>CodeGenerator</strong></a>(<a href="__builtin__.html#object">__builtin__.object</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>This&nbsp;class&nbsp;contains&nbsp;all&nbsp;the&nbsp;methods&nbsp;and&nbsp;fields&nbsp;to&nbsp;do&nbsp;the&nbsp;code<br>
+generation.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="CodeGenerator-__init__"><strong>__init__</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="CodeGenerator-compile_"><strong>compile_</strong></a>(self, source, dst<font color="#909090">=None</font>)</dt><dd><tt>This&nbsp;is&nbsp;the&nbsp;public&nbsp;method&nbsp;which&nbsp;takes&nbsp;the&nbsp;source&nbsp;file&nbsp;or<br>
+string,&nbsp;and&nbsp;generates&nbsp;the&nbsp;assembly&nbsp;code&nbsp;file.</tt></dd></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="FileReadError">class <strong>FileReadError</strong></a>(<a href="exceptions.html#Exception">exceptions.Exception</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>Raised&nbsp;when&nbsp;a&nbsp;reference&nbsp;to&nbsp;a&nbsp;variable&nbsp;is&nbsp;made&nbsp;when&nbsp;it&nbsp;has&nbsp;not&nbsp;been<br>
+initialised.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="code_generation.code_generator.html#FileReadError">FileReadError</a></dd>
+<dd><a href="exceptions.html#Exception">exceptions.Exception</a></dd>
+<dd><a href="exceptions.html#BaseException">exceptions.BaseException</a></dd>
+<dd><a href="__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<hr>
+Methods inherited from <a href="exceptions.html#Exception">exceptions.Exception</a>:<br>
+<dl><dt><a name="FileReadError-__init__"><strong>__init__</strong></a>(...)</dt><dd><tt>x.<a href="#FileReadError-__init__">__init__</a>(...)&nbsp;initializes&nbsp;x;&nbsp;see&nbsp;x.__class__.__doc__&nbsp;for&nbsp;signature</tt></dd></dl>
+
+<hr>
+Data and other attributes inherited from <a href="exceptions.html#Exception">exceptions.Exception</a>:<br>
+<dl><dt><strong>__new__</strong> = &lt;built-in method __new__ of type object&gt;<dd><tt>T.<a href="#FileReadError-__new__">__new__</a>(S,&nbsp;...)&nbsp;-&gt;&nbsp;a&nbsp;new&nbsp;<a href="__builtin__.html#object">object</a>&nbsp;with&nbsp;type&nbsp;S,&nbsp;a&nbsp;subtype&nbsp;of&nbsp;T</tt></dl>
+
+<hr>
+Methods inherited from <a href="exceptions.html#BaseException">exceptions.BaseException</a>:<br>
+<dl><dt><a name="FileReadError-__delattr__"><strong>__delattr__</strong></a>(...)</dt><dd><tt>x.<a href="#FileReadError-__delattr__">__delattr__</a>('name')&nbsp;&lt;==&gt;&nbsp;del&nbsp;x.name</tt></dd></dl>
+
+<dl><dt><a name="FileReadError-__getattribute__"><strong>__getattribute__</strong></a>(...)</dt><dd><tt>x.<a href="#FileReadError-__getattribute__">__getattribute__</a>('name')&nbsp;&lt;==&gt;&nbsp;x.name</tt></dd></dl>
+
+<dl><dt><a name="FileReadError-__getitem__"><strong>__getitem__</strong></a>(...)</dt><dd><tt>x.<a href="#FileReadError-__getitem__">__getitem__</a>(y)&nbsp;&lt;==&gt;&nbsp;x[y]</tt></dd></dl>
+
+<dl><dt><a name="FileReadError-__getslice__"><strong>__getslice__</strong></a>(...)</dt><dd><tt>x.<a href="#FileReadError-__getslice__">__getslice__</a>(i,&nbsp;j)&nbsp;&lt;==&gt;&nbsp;x[i:j]<br>
+&nbsp;<br>
+Use&nbsp;of&nbsp;negative&nbsp;indices&nbsp;is&nbsp;not&nbsp;supported.</tt></dd></dl>
+
+<dl><dt><a name="FileReadError-__reduce__"><strong>__reduce__</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="FileReadError-__repr__"><strong>__repr__</strong></a>(...)</dt><dd><tt>x.<a href="#FileReadError-__repr__">__repr__</a>()&nbsp;&lt;==&gt;&nbsp;repr(x)</tt></dd></dl>
+
+<dl><dt><a name="FileReadError-__setattr__"><strong>__setattr__</strong></a>(...)</dt><dd><tt>x.<a href="#FileReadError-__setattr__">__setattr__</a>('name',&nbsp;value)&nbsp;&lt;==&gt;&nbsp;x.name&nbsp;=&nbsp;value</tt></dd></dl>
+
+<dl><dt><a name="FileReadError-__setstate__"><strong>__setstate__</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="FileReadError-__str__"><strong>__str__</strong></a>(...)</dt><dd><tt>x.<a href="#FileReadError-__str__">__str__</a>()&nbsp;&lt;==&gt;&nbsp;str(x)</tt></dd></dl>
+
+<dl><dt><a name="FileReadError-__unicode__"><strong>__unicode__</strong></a>(...)</dt></dl>
+
+<hr>
+Data descriptors inherited from <a href="exceptions.html#BaseException">exceptions.BaseException</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+</dl>
+<dl><dt><strong>args</strong></dt>
+</dl>
+<dl><dt><strong>message</strong></dt>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="Frame">class <strong>Frame</strong></a>(<a href="__builtin__.html#object">__builtin__.object</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>Used&nbsp;to&nbsp;store&nbsp;information&nbsp;regarding&nbsp;a&nbsp;method's&nbsp;current&nbsp;frame&nbsp;-&nbsp;i.e.<br>
+local&nbsp;variables.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="Frame-__init__"><strong>__init__</strong></a>(self, params, is_static, ret_type)</dt><dd><tt>Initialise&nbsp;the&nbsp;frame&nbsp;once&nbsp;visiting&nbsp;a&nbsp;new&nbsp;method&nbsp;node.<br>
+Static&nbsp;methods&nbsp;operate&nbsp;differently,&nbsp;because&nbsp;the&nbsp;first&nbsp;element<br>
+on&nbsp;the&nbsp;static&nbsp;is&nbsp;not&nbsp;a&nbsp;reference&nbsp;to&nbsp;"this".</tt></dd></dl>
+
+<dl><dt><a name="Frame-get_var"><strong>get_var</strong></a>(self, var)</dt><dd><tt>For&nbsp;a&nbsp;given&nbsp;variable&nbsp;name,&nbsp;gets&nbsp;the&nbsp;location&nbsp;in&nbsp;the&nbsp;array&nbsp;of<br>
+local&nbsp;variables.</tt></dd></dl>
+
+<dl><dt><a name="Frame-new_matrix"><strong>new_matrix</strong></a>(self, var, d1, d2)</dt><dd><tt>Creates&nbsp;a&nbsp;new&nbsp;matrix&nbsp;local&nbsp;variable.</tt></dd></dl>
+
+<dl><dt><a name="Frame-new_var"><strong>new_var</strong></a>(self, var, is_long<font color="#909090">=False</font>)</dt><dd><tt>Creates&nbsp;a&nbsp;storage&nbsp;location&nbsp;for&nbsp;a&nbsp;new&nbsp;variable.&nbsp;&nbsp;is_long&nbsp;is<br>
+True&nbsp;for&nbsp;longs&nbsp;and&nbsp;doubles&nbsp;because&nbsp;they&nbsp;take&nbsp;up&nbsp;two&nbsp;storage<br>
+locations.</tt></dd></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>ret_type</strong></dt>
+</dl>
+</td></tr></table></td></tr></table>
+</body></html>

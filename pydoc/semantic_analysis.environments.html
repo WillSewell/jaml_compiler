@@ -1,0 +1,145 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module semantic_analysis.environments</title>
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong><a href="semantic_analysis.html"><font color="#ffffff">semantic_analysis</font></a>.environments</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:////smbhome.uscs.susx.ac.uk/wjs25/workspace/jaml_compiler/semantic_analysis/environments.py">\\smbhome.uscs.susx.ac.uk\wjs25\workspace\jaml_compiler\semantic_analysis\environments.py</a></font></td></tr></table>
+    <p></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ee77aa">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Classes</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#ee77aa"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl>
+<dt><font face="helvetica, arial"><a href="__builtin__.html#object">__builtin__.object</a>
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="semantic_analysis.environments.html#Environment">Environment</a>
+</font></dt><dt><font face="helvetica, arial"><a href="semantic_analysis.environments.html#TopEnvironment">TopEnvironment</a>
+</font></dt></dl>
+</dd>
+</dl>
+ <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="Environment">class <strong>Environment</strong></a>(<a href="__builtin__.html#object">__builtin__.object</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt><a href="#Environment">Environment</a>&nbsp;which&nbsp;represents&nbsp;the&nbsp;symbol&nbsp;table&nbsp;and&nbsp;other<br>
+information,&nbsp;such&nbsp;as&nbsp;current&nbsp;meothd,&nbsp;of&nbsp;the&nbsp;current&nbsp;block.<br>
+It&nbsp;holds&nbsp;a&nbsp;pointer&nbsp;to&nbsp;the&nbsp;environment&nbsp;of&nbsp;the&nbsp;outer&nbsp;block.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="Environment-__init__"><strong>__init__</strong></a>(self, env)</dt><dd><tt>Creates&nbsp;a&nbsp;new&nbsp;<a href="#Environment">Environment</a>,&nbsp;env&nbsp;is&nbsp;the&nbsp;parent&nbsp;environment.</tt></dd></dl>
+
+<dl><dt><a name="Environment-add_parent"><strong>add_parent</strong></a>(self, env)</dt></dl>
+
+<dl><dt><a name="Environment-get_cur_class"><strong>get_cur_class</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="Environment-get_cur_method"><strong>get_cur_method</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="Environment-get_var_s"><strong>get_var_s</strong></a>(self, symbol)</dt><dd><tt>Gets&nbsp;a&nbsp;symbol&nbsp;from&nbsp;any&nbsp;of&nbsp;the&nbsp;symbol&nbsp;tables&nbsp;in&nbsp;the&nbsp;current<br>
+scope.&nbsp;None&nbsp;is&nbsp;returned&nbsp;if&nbsp;it&nbsp;is&nbsp;not&nbsp;in&nbsp;the&nbsp;table.</tt></dd></dl>
+
+<dl><dt><a name="Environment-put_var_s"><strong>put_var_s</strong></a>(self, symbol)</dt><dd><tt>Adds&nbsp;a&nbsp;variable&nbsp;or&nbsp;array&nbsp;symbol&nbsp;to&nbsp;the&nbsp;variable&nbsp;current<br>
+symbol&nbsp;table.</tt></dd></dl>
+
+<dl><dt><a name="Environment-set_cur_class"><strong>set_cur_class</strong></a>(self, class_)</dt></dl>
+
+<dl><dt><a name="Environment-set_cur_method"><strong>set_cur_method</strong></a>(self, method)</dt></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>cur_class</strong></dt>
+</dl>
+<dl><dt><strong>cur_method</strong></dt>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="TopEnvironment">class <strong>TopEnvironment</strong></a>(<a href="__builtin__.html#object">__builtin__.object</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>This&nbsp;environment&nbsp;is&nbsp;used&nbsp;to&nbsp;store&nbsp;all&nbsp;the&nbsp;symbols&nbsp;publicly<br>
+available&nbsp;to&nbsp;all&nbsp;code.&nbsp;&nbsp;This&nbsp;is&nbsp;essentially&nbsp;all&nbsp;the&nbsp;classes&nbsp;(which&nbsp;in<br>
+turn&nbsp;store&nbsp;their&nbsp;methods).&nbsp;&nbsp;This&nbsp;also&nbsp;stores&nbsp;the&nbsp;possible&nbsp;types.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="TopEnvironment-__init__"><strong>__init__</strong></a>(self, lib_classes)</dt></dl>
+
+<dl><dt><a name="TopEnvironment-add_lib_cons"><strong>add_lib_cons</strong></a>(self, symbol)</dt><dd><tt>Add&nbsp;a&nbsp;library&nbsp;class&nbsp;constructor&nbsp;symbol&nbsp;to&nbsp;the&nbsp;list.</tt></dd></dl>
+
+<dl><dt><a name="TopEnvironment-add_lib_field"><strong>add_lib_field</strong></a>(self, symbol)</dt><dd><tt>Add&nbsp;a&nbsp;library&nbsp;field&nbsp;symbol&nbsp;to&nbsp;the&nbsp;list.</tt></dd></dl>
+
+<dl><dt><a name="TopEnvironment-add_lib_method"><strong>add_lib_method</strong></a>(self, lib_method)</dt><dd><tt>Add&nbsp;the&nbsp;library&nbsp;method&nbsp;symbol&nbsp;to&nbsp;the&nbsp;list.</tt></dd></dl>
+
+<dl><dt><a name="TopEnvironment-add_type"><strong>add_type</strong></a>(self, type_)</dt></dl>
+
+<dl><dt><a name="TopEnvironment-get_class_or_interface_s"><strong>get_class_or_interface_s</strong></a>(self, name)</dt><dd><tt>Returns&nbsp;a&nbsp;class&nbsp;or&nbsp;interface&nbsp;symbol.</tt></dd></dl>
+
+<dl><dt><a name="TopEnvironment-get_class_s"><strong>get_class_s</strong></a>(self, name)</dt><dd><tt>Gets&nbsp;the&nbsp;requested&nbsp;class&nbsp;symbol,&nbsp;or&nbsp;returns&nbsp;an&nbsp;error&nbsp;if<br>
+it&nbsp;does&nbsp;not&nbsp;exist.</tt></dd></dl>
+
+<dl><dt><a name="TopEnvironment-get_classes"><strong>get_classes</strong></a>(self)</dt><dd><tt>Returns&nbsp;all&nbsp;class&nbsp;symbols.</tt></dd></dl>
+
+<dl><dt><a name="TopEnvironment-get_interface_s"><strong>get_interface_s</strong></a>(self, name)</dt><dd><tt>Gets&nbsp;the&nbsp;requested&nbsp;interface&nbsp;symbol,&nbsp;or&nbsp;returns&nbsp;an&nbsp;error&nbsp;if<br>
+it&nbsp;does&nbsp;not&nbsp;exist.</tt></dd></dl>
+
+<dl><dt><a name="TopEnvironment-get_lib_classes"><strong>get_lib_classes</strong></a>(self)</dt><dd><tt>Return&nbsp;the&nbsp;list&nbsp;of&nbsp;library&nbsp;classes.</tt></dd></dl>
+
+<dl><dt><a name="TopEnvironment-get_lib_cons"><strong>get_lib_cons</strong></a>(self, class_, arg_types)</dt><dd><tt>Get&nbsp;a&nbsp;library&nbsp;constructor&nbsp;signature&nbsp;given&nbsp;the&nbsp;class&nbsp;it's&nbsp;in,<br>
+its&nbsp;name,&nbsp;and&nbsp;the&nbsp;types&nbsp;of&nbsp;its&nbsp;arguments.</tt></dd></dl>
+
+<dl><dt><a name="TopEnvironment-get_lib_field"><strong>get_lib_field</strong></a>(self, refed_class, name)</dt><dd><tt>Get&nbsp;a&nbsp;library&nbsp;field&nbsp;signature&nbsp;given&nbsp;the&nbsp;class&nbsp;it&nbsp;was<br>
+referenced&nbsp;in,&nbsp;and&nbsp;its&nbsp;name.</tt></dd></dl>
+
+<dl><dt><a name="TopEnvironment-get_lib_method"><strong>get_lib_method</strong></a>(self, invoked_class, name, arg_types)</dt><dd><tt>Get&nbsp;a&nbsp;library&nbsp;method&nbsp;signature&nbsp;given&nbsp;the&nbsp;type&nbsp;of&nbsp;the<br>
+<a href="__builtin__.html#object">object</a>&nbsp;it&nbsp;was&nbsp;invoked&nbsp;in,&nbsp;its&nbsp;name,&nbsp;and&nbsp;the&nbsp;types&nbsp;of&nbsp;its<br>
+arguments.</tt></dd></dl>
+
+<dl><dt><a name="TopEnvironment-get_nums"><strong>get_nums</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="TopEnvironment-get_types"><strong>get_types</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="TopEnvironment-put_class_s"><strong>put_class_s</strong></a>(self, symbol)</dt><dd><tt>Adds&nbsp;a&nbsp;class&nbsp;symbol&nbsp;to&nbsp;the&nbsp;dict.</tt></dd></dl>
+
+<dl><dt><a name="TopEnvironment-put_interface_s"><strong>put_interface_s</strong></a>(self, symbol)</dt><dd><tt>Adds&nbsp;an&nbsp;interface&nbsp;symbol&nbsp;to&nbsp;the&nbsp;dict.</tt></dd></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>classes</strong></dt>
+<dd><tt>Returns&nbsp;all&nbsp;class&nbsp;symbols.</tt></dd>
+</dl>
+<dl><dt><strong>interfaces</strong></dt>
+<dd><tt>Returns&nbsp;all&nbsp;interface&nbsp;symbols.</tt></dd>
+</dl>
+<dl><dt><strong>lib_classes</strong></dt>
+<dd><tt>Return&nbsp;the&nbsp;list&nbsp;of&nbsp;library&nbsp;classes.</tt></dd>
+</dl>
+<dl><dt><strong>nums</strong></dt>
+</dl>
+<dl><dt><strong>types</strong></dt>
+</dl>
+</td></tr></table></td></tr></table>
+</body></html>

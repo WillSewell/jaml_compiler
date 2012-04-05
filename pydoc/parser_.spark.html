@@ -1,0 +1,341 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module parser_.spark</title>
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong><a href="parser_.html"><font color="#ffffff">parser_</font></a>.spark</strong></big></big> (version SPARK-0.7 (pre-alpha-7))</font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:////smbhome.uscs.susx.ac.uk/wjs25/workspace/jaml_compiler/parser_/spark.py">\\smbhome.uscs.susx.ac.uk\wjs25\workspace\jaml_compiler\parser_\spark.py</a></font></td></tr></table>
+    <p><tt>#@PydevCodeAnalysisIgnore<br>
+#&nbsp;&nbsp;Copyright&nbsp;(c)&nbsp;1998-2002&nbsp;John&nbsp;Aycock<br>
+#&nbsp;&nbsp;<br>
+#&nbsp;&nbsp;Permission&nbsp;is&nbsp;hereby&nbsp;granted,&nbsp;free&nbsp;of&nbsp;charge,&nbsp;to&nbsp;any&nbsp;person&nbsp;obtaining<br>
+#&nbsp;&nbsp;a&nbsp;copy&nbsp;of&nbsp;this&nbsp;software&nbsp;and&nbsp;associated&nbsp;documentation&nbsp;files&nbsp;(the<br>
+#&nbsp;&nbsp;"Software"),&nbsp;to&nbsp;deal&nbsp;in&nbsp;the&nbsp;Software&nbsp;without&nbsp;restriction,&nbsp;including<br>
+#&nbsp;&nbsp;without&nbsp;limitation&nbsp;the&nbsp;rights&nbsp;to&nbsp;use,&nbsp;copy,&nbsp;modify,&nbsp;merge,&nbsp;publish,<br>
+#&nbsp;&nbsp;distribute,&nbsp;sublicense,&nbsp;and/or&nbsp;sell&nbsp;copies&nbsp;of&nbsp;the&nbsp;Software,&nbsp;and&nbsp;to<br>
+#&nbsp;&nbsp;permit&nbsp;persons&nbsp;to&nbsp;whom&nbsp;the&nbsp;Software&nbsp;is&nbsp;furnished&nbsp;to&nbsp;do&nbsp;so,&nbsp;subject&nbsp;to<br>
+#&nbsp;&nbsp;the&nbsp;following&nbsp;conditions:<br>
+#&nbsp;&nbsp;<br>
+#&nbsp;&nbsp;The&nbsp;above&nbsp;copyright&nbsp;notice&nbsp;and&nbsp;this&nbsp;permission&nbsp;notice&nbsp;shall&nbsp;be<br>
+#&nbsp;&nbsp;included&nbsp;in&nbsp;all&nbsp;copies&nbsp;or&nbsp;substantial&nbsp;portions&nbsp;of&nbsp;the&nbsp;Software.<br>
+#&nbsp;&nbsp;<br>
+#&nbsp;&nbsp;THE&nbsp;SOFTWARE&nbsp;IS&nbsp;PROVIDED&nbsp;"AS&nbsp;IS",&nbsp;WITHOUT&nbsp;WARRANTY&nbsp;OF&nbsp;ANY&nbsp;KIND,<br>
+#&nbsp;&nbsp;EXPRESS&nbsp;OR&nbsp;IMPLIED,&nbsp;INCLUDING&nbsp;BUT&nbsp;NOT&nbsp;LIMITED&nbsp;TO&nbsp;THE&nbsp;WARRANTIES&nbsp;OF<br>
+#&nbsp;&nbsp;MERCHANTABILITY,&nbsp;FITNESS&nbsp;FOR&nbsp;A&nbsp;PARTICULAR&nbsp;PURPOSE&nbsp;AND&nbsp;NONINFRINGEMENT.<br>
+#&nbsp;&nbsp;IN&nbsp;NO&nbsp;EVENT&nbsp;SHALL&nbsp;THE&nbsp;AUTHORS&nbsp;OR&nbsp;COPYRIGHT&nbsp;HOLDERS&nbsp;BE&nbsp;LIABLE&nbsp;FOR&nbsp;ANY<br>
+#&nbsp;&nbsp;CLAIM,&nbsp;DAMAGES&nbsp;OR&nbsp;OTHER&nbsp;LIABILITY,&nbsp;WHETHER&nbsp;IN&nbsp;AN&nbsp;ACTION&nbsp;OF&nbsp;CONTRACT,<br>
+#&nbsp;&nbsp;TORT&nbsp;OR&nbsp;OTHERWISE,&nbsp;ARISING&nbsp;FROM,&nbsp;OUT&nbsp;OF&nbsp;OR&nbsp;IN&nbsp;CONNECTION&nbsp;WITH&nbsp;THE<br>
+#&nbsp;&nbsp;SOFTWARE&nbsp;OR&nbsp;THE&nbsp;USE&nbsp;OR&nbsp;OTHER&nbsp;DEALINGS&nbsp;IN&nbsp;THE&nbsp;SOFTWARE.</tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="re.html">re</a><br>
+</td><td width="25%" valign=top><a href="string.html">string</a><br>
+</td><td width="25%" valign=top><a href="sys.html">sys</a><br>
+</td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ee77aa">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Classes</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#ee77aa"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl>
+<dt><font face="helvetica, arial"><a href="parser_.spark.html#GenericASTTraversal">GenericASTTraversal</a>
+</font></dt><dt><font face="helvetica, arial"><a href="parser_.spark.html#GenericASTTraversalPruningException">GenericASTTraversalPruningException</a>
+</font></dt><dt><font face="helvetica, arial"><a href="parser_.spark.html#GenericParser">GenericParser</a>
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="parser_.spark.html#GenericASTBuilder">GenericASTBuilder</a>
+</font></dt><dt><font face="helvetica, arial"><a href="parser_.spark.html#GenericASTMatcher">GenericASTMatcher</a>
+</font></dt></dl>
+</dd>
+<dt><font face="helvetica, arial"><a href="parser_.spark.html#GenericScanner">GenericScanner</a>
+</font></dt></dl>
+ <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="GenericASTBuilder">class <strong>GenericASTBuilder</strong></a>(<a href="parser_.spark.html#GenericParser">GenericParser</a>)</font></td></tr>
+    
+<tr><td bgcolor="#ffc8d8"><tt>&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="GenericASTBuilder-__init__"><strong>__init__</strong></a>(self, AST, start)</dt></dl>
+
+<dl><dt><a name="GenericASTBuilder-buildASTNode"><strong>buildASTNode</strong></a>(self, args, lhs)</dt></dl>
+
+<dl><dt><a name="GenericASTBuilder-nonterminal"><strong>nonterminal</strong></a>(self, type, args)</dt></dl>
+
+<dl><dt><a name="GenericASTBuilder-preprocess"><strong>preprocess</strong></a>(self, rule, func)</dt></dl>
+
+<dl><dt><a name="GenericASTBuilder-terminal"><strong>terminal</strong></a>(self, token)</dt></dl>
+
+<hr>
+Methods inherited from <a href="parser_.spark.html#GenericParser">GenericParser</a>:<br>
+<dl><dt><a name="GenericASTBuilder-__getstate__"><strong>__getstate__</strong></a>(self)</dt><dd><tt>#&nbsp;&nbsp;When&nbsp;pickling,&nbsp;take&nbsp;the&nbsp;time&nbsp;to&nbsp;generate&nbsp;the&nbsp;full&nbsp;state&nbsp;machine;<br>
+#&nbsp;&nbsp;some&nbsp;information&nbsp;is&nbsp;then&nbsp;extraneous,&nbsp;too.&nbsp;&nbsp;Unfortunately&nbsp;we<br>
+#&nbsp;&nbsp;can't&nbsp;save&nbsp;the&nbsp;rule2func&nbsp;map.</tt></dd></dl>
+
+<dl><dt><a name="GenericASTBuilder-__setstate__"><strong>__setstate__</strong></a>(self, D)</dt></dl>
+
+<dl><dt><a name="GenericASTBuilder-add"><strong>add</strong></a>(self, set, item, i<font color="#909090">=None</font>, predecessor<font color="#909090">=None</font>, causal<font color="#909090">=None</font>)</dt></dl>
+
+<dl><dt><a name="GenericASTBuilder-addRule"><strong>addRule</strong></a>(self, doc, func, _preprocess<font color="#909090">=1</font>)</dt></dl>
+
+<dl><dt><a name="GenericASTBuilder-ambiguity"><strong>ambiguity</strong></a>(self, rules)</dt></dl>
+
+<dl><dt><a name="GenericASTBuilder-augment"><strong>augment</strong></a>(self, start)</dt></dl>
+
+<dl><dt><a name="GenericASTBuilder-buildTree"><strong>buildTree</strong></a>(self, nt, item, tokens, k)</dt></dl>
+
+<dl><dt><a name="GenericASTBuilder-causal"><strong>causal</strong></a>(self, key)</dt></dl>
+
+<dl><dt><a name="GenericASTBuilder-collectRules"><strong>collectRules</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="GenericASTBuilder-computeNull"><strong>computeNull</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="GenericASTBuilder-deriveEpsilon"><strong>deriveEpsilon</strong></a>(self, nt)</dt></dl>
+
+<dl><dt><a name="GenericASTBuilder-error"><strong>error</strong></a>(self, token)</dt></dl>
+
+<dl><dt><a name="GenericASTBuilder-finalState"><strong>finalState</strong></a>(self, tokens)</dt></dl>
+
+<dl><dt><a name="GenericASTBuilder-goto"><strong>goto</strong></a>(self, state, sym)</dt></dl>
+
+<dl><dt><a name="GenericASTBuilder-gotoST"><strong>gotoST</strong></a>(self, state, st)</dt></dl>
+
+<dl><dt><a name="GenericASTBuilder-gotoT"><strong>gotoT</strong></a>(self, state, t)</dt></dl>
+
+<dl><dt><a name="GenericASTBuilder-isnullable"><strong>isnullable</strong></a>(self, sym)</dt></dl>
+
+<dl><dt><a name="GenericASTBuilder-makeNewRules"><strong>makeNewRules</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="GenericASTBuilder-makeSet"><strong>makeSet</strong></a>(self, token, sets, i)</dt></dl>
+
+<dl><dt><a name="GenericASTBuilder-makeSet_fast"><strong>makeSet_fast</strong></a>(self, token, sets, i)</dt></dl>
+
+<dl><dt><a name="GenericASTBuilder-makeState"><strong>makeState</strong></a>(self, state, sym)</dt></dl>
+
+<dl><dt><a name="GenericASTBuilder-makeState0"><strong>makeState0</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="GenericASTBuilder-parse"><strong>parse</strong></a>(self, tokens)</dt></dl>
+
+<dl><dt><a name="GenericASTBuilder-predecessor"><strong>predecessor</strong></a>(self, key, causal)</dt></dl>
+
+<dl><dt><a name="GenericASTBuilder-resolve"><strong>resolve</strong></a>(self, list)</dt></dl>
+
+<dl><dt><a name="GenericASTBuilder-skip"><strong>skip</strong></a>(self, (lhs, rhs), pos<font color="#909090">=0</font>)</dt></dl>
+
+<dl><dt><a name="GenericASTBuilder-typestring"><strong>typestring</strong></a>(self, token)</dt></dl>
+
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="GenericASTMatcher">class <strong>GenericASTMatcher</strong></a>(<a href="parser_.spark.html#GenericParser">GenericParser</a>)</font></td></tr>
+    
+<tr><td bgcolor="#ffc8d8"><tt>&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="GenericASTMatcher-__init__"><strong>__init__</strong></a>(self, start, ast)</dt></dl>
+
+<dl><dt><a name="GenericASTMatcher-foundMatch"><strong>foundMatch</strong></a>(self, args, func)</dt></dl>
+
+<dl><dt><a name="GenericASTMatcher-match"><strong>match</strong></a>(self, ast<font color="#909090">=None</font>)</dt></dl>
+
+<dl><dt><a name="GenericASTMatcher-match_r"><strong>match_r</strong></a>(self, node)</dt></dl>
+
+<dl><dt><a name="GenericASTMatcher-preprocess"><strong>preprocess</strong></a>(self, rule, func)</dt></dl>
+
+<dl><dt><a name="GenericASTMatcher-resolve"><strong>resolve</strong></a>(self, list)</dt></dl>
+
+<hr>
+Methods inherited from <a href="parser_.spark.html#GenericParser">GenericParser</a>:<br>
+<dl><dt><a name="GenericASTMatcher-__getstate__"><strong>__getstate__</strong></a>(self)</dt><dd><tt>#&nbsp;&nbsp;When&nbsp;pickling,&nbsp;take&nbsp;the&nbsp;time&nbsp;to&nbsp;generate&nbsp;the&nbsp;full&nbsp;state&nbsp;machine;<br>
+#&nbsp;&nbsp;some&nbsp;information&nbsp;is&nbsp;then&nbsp;extraneous,&nbsp;too.&nbsp;&nbsp;Unfortunately&nbsp;we<br>
+#&nbsp;&nbsp;can't&nbsp;save&nbsp;the&nbsp;rule2func&nbsp;map.</tt></dd></dl>
+
+<dl><dt><a name="GenericASTMatcher-__setstate__"><strong>__setstate__</strong></a>(self, D)</dt></dl>
+
+<dl><dt><a name="GenericASTMatcher-add"><strong>add</strong></a>(self, set, item, i<font color="#909090">=None</font>, predecessor<font color="#909090">=None</font>, causal<font color="#909090">=None</font>)</dt></dl>
+
+<dl><dt><a name="GenericASTMatcher-addRule"><strong>addRule</strong></a>(self, doc, func, _preprocess<font color="#909090">=1</font>)</dt></dl>
+
+<dl><dt><a name="GenericASTMatcher-ambiguity"><strong>ambiguity</strong></a>(self, rules)</dt></dl>
+
+<dl><dt><a name="GenericASTMatcher-augment"><strong>augment</strong></a>(self, start)</dt></dl>
+
+<dl><dt><a name="GenericASTMatcher-buildTree"><strong>buildTree</strong></a>(self, nt, item, tokens, k)</dt></dl>
+
+<dl><dt><a name="GenericASTMatcher-causal"><strong>causal</strong></a>(self, key)</dt></dl>
+
+<dl><dt><a name="GenericASTMatcher-collectRules"><strong>collectRules</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="GenericASTMatcher-computeNull"><strong>computeNull</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="GenericASTMatcher-deriveEpsilon"><strong>deriveEpsilon</strong></a>(self, nt)</dt></dl>
+
+<dl><dt><a name="GenericASTMatcher-error"><strong>error</strong></a>(self, token)</dt></dl>
+
+<dl><dt><a name="GenericASTMatcher-finalState"><strong>finalState</strong></a>(self, tokens)</dt></dl>
+
+<dl><dt><a name="GenericASTMatcher-goto"><strong>goto</strong></a>(self, state, sym)</dt></dl>
+
+<dl><dt><a name="GenericASTMatcher-gotoST"><strong>gotoST</strong></a>(self, state, st)</dt></dl>
+
+<dl><dt><a name="GenericASTMatcher-gotoT"><strong>gotoT</strong></a>(self, state, t)</dt></dl>
+
+<dl><dt><a name="GenericASTMatcher-isnullable"><strong>isnullable</strong></a>(self, sym)</dt></dl>
+
+<dl><dt><a name="GenericASTMatcher-makeNewRules"><strong>makeNewRules</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="GenericASTMatcher-makeSet"><strong>makeSet</strong></a>(self, token, sets, i)</dt></dl>
+
+<dl><dt><a name="GenericASTMatcher-makeSet_fast"><strong>makeSet_fast</strong></a>(self, token, sets, i)</dt></dl>
+
+<dl><dt><a name="GenericASTMatcher-makeState"><strong>makeState</strong></a>(self, state, sym)</dt></dl>
+
+<dl><dt><a name="GenericASTMatcher-makeState0"><strong>makeState0</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="GenericASTMatcher-parse"><strong>parse</strong></a>(self, tokens)</dt></dl>
+
+<dl><dt><a name="GenericASTMatcher-predecessor"><strong>predecessor</strong></a>(self, key, causal)</dt></dl>
+
+<dl><dt><a name="GenericASTMatcher-skip"><strong>skip</strong></a>(self, (lhs, rhs), pos<font color="#909090">=0</font>)</dt></dl>
+
+<dl><dt><a name="GenericASTMatcher-typestring"><strong>typestring</strong></a>(self, token)</dt></dl>
+
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="GenericASTTraversal">class <strong>GenericASTTraversal</strong></a></font></td></tr>
+    
+<tr><td bgcolor="#ffc8d8"><tt>&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="GenericASTTraversal-__init__"><strong>__init__</strong></a>(self, ast)</dt></dl>
+
+<dl><dt><a name="GenericASTTraversal-default"><strong>default</strong></a>(self, node)</dt></dl>
+
+<dl><dt><a name="GenericASTTraversal-postorder"><strong>postorder</strong></a>(self, node<font color="#909090">=None</font>)</dt></dl>
+
+<dl><dt><a name="GenericASTTraversal-preorder"><strong>preorder</strong></a>(self, node<font color="#909090">=None</font>)</dt></dl>
+
+<dl><dt><a name="GenericASTTraversal-prune"><strong>prune</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="GenericASTTraversal-typestring"><strong>typestring</strong></a>(self, node)</dt></dl>
+
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="GenericASTTraversalPruningException">class <strong>GenericASTTraversalPruningException</strong></a></font></td></tr>
+    
+<tr><td bgcolor="#ffc8d8"><tt>&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"></td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="GenericParser">class <strong>GenericParser</strong></a></font></td></tr>
+    
+<tr><td bgcolor="#ffc8d8"><tt>&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="GenericParser-__getstate__"><strong>__getstate__</strong></a>(self)</dt><dd><tt>#&nbsp;&nbsp;When&nbsp;pickling,&nbsp;take&nbsp;the&nbsp;time&nbsp;to&nbsp;generate&nbsp;the&nbsp;full&nbsp;state&nbsp;machine;<br>
+#&nbsp;&nbsp;some&nbsp;information&nbsp;is&nbsp;then&nbsp;extraneous,&nbsp;too.&nbsp;&nbsp;Unfortunately&nbsp;we<br>
+#&nbsp;&nbsp;can't&nbsp;save&nbsp;the&nbsp;rule2func&nbsp;map.</tt></dd></dl>
+
+<dl><dt><a name="GenericParser-__init__"><strong>__init__</strong></a>(self, start)</dt></dl>
+
+<dl><dt><a name="GenericParser-__setstate__"><strong>__setstate__</strong></a>(self, D)</dt></dl>
+
+<dl><dt><a name="GenericParser-add"><strong>add</strong></a>(self, set, item, i<font color="#909090">=None</font>, predecessor<font color="#909090">=None</font>, causal<font color="#909090">=None</font>)</dt></dl>
+
+<dl><dt><a name="GenericParser-addRule"><strong>addRule</strong></a>(self, doc, func, _preprocess<font color="#909090">=1</font>)</dt></dl>
+
+<dl><dt><a name="GenericParser-ambiguity"><strong>ambiguity</strong></a>(self, rules)</dt></dl>
+
+<dl><dt><a name="GenericParser-augment"><strong>augment</strong></a>(self, start)</dt></dl>
+
+<dl><dt><a name="GenericParser-buildTree"><strong>buildTree</strong></a>(self, nt, item, tokens, k)</dt></dl>
+
+<dl><dt><a name="GenericParser-causal"><strong>causal</strong></a>(self, key)</dt></dl>
+
+<dl><dt><a name="GenericParser-collectRules"><strong>collectRules</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="GenericParser-computeNull"><strong>computeNull</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="GenericParser-deriveEpsilon"><strong>deriveEpsilon</strong></a>(self, nt)</dt></dl>
+
+<dl><dt><a name="GenericParser-error"><strong>error</strong></a>(self, token)</dt></dl>
+
+<dl><dt><a name="GenericParser-finalState"><strong>finalState</strong></a>(self, tokens)</dt></dl>
+
+<dl><dt><a name="GenericParser-goto"><strong>goto</strong></a>(self, state, sym)</dt></dl>
+
+<dl><dt><a name="GenericParser-gotoST"><strong>gotoST</strong></a>(self, state, st)</dt></dl>
+
+<dl><dt><a name="GenericParser-gotoT"><strong>gotoT</strong></a>(self, state, t)</dt></dl>
+
+<dl><dt><a name="GenericParser-isnullable"><strong>isnullable</strong></a>(self, sym)</dt></dl>
+
+<dl><dt><a name="GenericParser-makeNewRules"><strong>makeNewRules</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="GenericParser-makeSet"><strong>makeSet</strong></a>(self, token, sets, i)</dt></dl>
+
+<dl><dt><a name="GenericParser-makeSet_fast"><strong>makeSet_fast</strong></a>(self, token, sets, i)</dt></dl>
+
+<dl><dt><a name="GenericParser-makeState"><strong>makeState</strong></a>(self, state, sym)</dt></dl>
+
+<dl><dt><a name="GenericParser-makeState0"><strong>makeState0</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="GenericParser-parse"><strong>parse</strong></a>(self, tokens)</dt></dl>
+
+<dl><dt><a name="GenericParser-predecessor"><strong>predecessor</strong></a>(self, key, causal)</dt></dl>
+
+<dl><dt><a name="GenericParser-preprocess"><strong>preprocess</strong></a>(self, rule, func)</dt><dd><tt>#&nbsp;&nbsp;A&nbsp;hook&nbsp;for&nbsp;<a href="#GenericASTBuilder">GenericASTBuilder</a>&nbsp;and&nbsp;<a href="#GenericASTMatcher">GenericASTMatcher</a>.&nbsp;&nbsp;Mess<br>
+#&nbsp;&nbsp;thee&nbsp;not&nbsp;with&nbsp;this;&nbsp;nor&nbsp;shall&nbsp;thee&nbsp;toucheth&nbsp;the&nbsp;_preprocess<br>
+#&nbsp;&nbsp;argument&nbsp;to&nbsp;addRule.</tt></dd></dl>
+
+<dl><dt><a name="GenericParser-resolve"><strong>resolve</strong></a>(self, list)</dt></dl>
+
+<dl><dt><a name="GenericParser-skip"><strong>skip</strong></a>(self, (lhs, rhs), pos<font color="#909090">=0</font>)</dt></dl>
+
+<dl><dt><a name="GenericParser-typestring"><strong>typestring</strong></a>(self, token)</dt></dl>
+
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="GenericScanner">class <strong>GenericScanner</strong></a></font></td></tr>
+    
+<tr><td bgcolor="#ffc8d8"><tt>&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="GenericScanner-__init__"><strong>__init__</strong></a>(self, flags<font color="#909090">=0</font>)</dt></dl>
+
+<dl><dt><a name="GenericScanner-error"><strong>error</strong></a>(self, s, pos)</dt></dl>
+
+<dl><dt><a name="GenericScanner-makeRE"><strong>makeRE</strong></a>(self, name)</dt></dl>
+
+<dl><dt><a name="GenericScanner-position"><strong>position</strong></a>(self, newpos<font color="#909090">=None</font>)</dt></dl>
+
+<dl><dt><a name="GenericScanner-reflect"><strong>reflect</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="GenericScanner-t_default"><strong>t_default</strong></a>(self, s)</dt><dd><tt>(&nbsp;.&nbsp;|&nbsp;\n&nbsp;)+</tt></dd></dl>
+
+<dl><dt><a name="GenericScanner-tokenize"><strong>tokenize</strong></a>(self, s)</dt></dl>
+
+</td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#55aa55">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><strong>__version__</strong> = 'SPARK-0.7 (pre-alpha-7)'</td></tr></table>
+</body></html>

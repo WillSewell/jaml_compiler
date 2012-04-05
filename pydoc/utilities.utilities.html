@@ -1,0 +1,112 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module utilities.utilities</title>
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong><a href="utilities.html"><font color="#ffffff">utilities</font></a>.utilities</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:////smbhome.uscs.susx.ac.uk/wjs25/workspace/jaml_compiler/utilities/utilities.py">\\smbhome.uscs.susx.ac.uk\wjs25\workspace\jaml_compiler\utilities\utilities.py</a></font></td></tr></table>
+    <p><tt>An&nbsp;assortment&nbsp;of&nbsp;classes&nbsp;and&nbsp;scripts&nbsp;used&nbsp;throughout&nbsp;the&nbsp;program.</tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="parser_.tree_nodes.html">parser_.tree_nodes</a><br>
+</td><td width="25%" valign=top><a href="re.html">re</a><br>
+</td><td width="25%" valign=top></td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ee77aa">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Classes</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#ee77aa"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl>
+<dt><font face="helvetica, arial"><a href="__builtin__.html#object">__builtin__.object</a>
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="utilities.utilities.html#ArrayType">ArrayType</a>
+</font></dt><dt><font face="helvetica, arial"><a href="utilities.utilities.html#MatrixType">MatrixType</a>
+</font></dt></dl>
+</dd>
+</dl>
+ <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="ArrayType">class <strong>ArrayType</strong></a>(<a href="__builtin__.html#object">__builtin__.object</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>A&nbsp;special&nbsp;type&nbsp;representing&nbsp;arrays.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="ArrayType-__eq__"><strong>__eq__</strong></a>(self, other)</dt><dd><tt>This&nbsp;is&nbsp;so&nbsp;the&nbsp;attributes&nbsp;can&nbsp;be&nbsp;compared&nbsp;with&nbsp;another&nbsp;array<br>
+type.</tt></dd></dl>
+
+<dl><dt><a name="ArrayType-__init__"><strong>__init__</strong></a>(self, type_, dimensions)</dt></dl>
+
+<dl><dt><a name="ArrayType-__ne__"><strong>__ne__</strong></a>(self, other)</dt><dd><tt>This&nbsp;is&nbsp;for&nbsp;!=&nbsp;comparisons.</tt></dd></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>dimensions</strong></dt>
+</dl>
+<dl><dt><strong>type_</strong></dt>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="MatrixType">class <strong>MatrixType</strong></a>(<a href="__builtin__.html#object">__builtin__.object</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>A&nbsp;special&nbsp;type&nbsp;representing&nbsp;matrices.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="MatrixType-__eq__"><strong>__eq__</strong></a>(self, other)</dt><dd><tt>This&nbsp;is&nbsp;so&nbsp;the&nbsp;attributes&nbsp;can&nbsp;be&nbsp;compared&nbsp;with&nbsp;another<br>
+matrix&nbsp;type</tt></dd></dl>
+
+<dl><dt><a name="MatrixType-__init__"><strong>__init__</strong></a>(self, dimension1, dimension2)</dt></dl>
+
+<dl><dt><a name="MatrixType-__ne__"><strong>__ne__</strong></a>(self, other)</dt><dd><tt>This&nbsp;is&nbsp;for&nbsp;!=&nbsp;comparisons.</tt></dd></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>dimension1</strong></dt>
+</dl>
+<dl><dt><strong>dimension2</strong></dt>
+</dl>
+</td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#eeaa77">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt><a name="-camel_2_underscore"><strong>camel_2_underscore</strong></a>(string)</dt><dd><tt>Converts&nbsp;a&nbsp;CamelCase&nbsp;string&nbsp;to&nbsp;one&nbsp;where&nbsp;the&nbsp;words&nbsp;are<br>
+separated_by_underscores.<br>
+From:&nbsp;<a href="http://stackoverflow.com/a/1176023/1018290">http://stackoverflow.com/a/1176023/1018290</a></tt></dd></dl>
+ <dl><dt><a name="-get_full_type"><strong>get_full_type</strong></a>(type_, t_env)</dt><dd><tt>This&nbsp;gets&nbsp;the&nbsp;full&nbsp;_name&nbsp;of&nbsp;the&nbsp;type,&nbsp;given&nbsp;the&nbsp;type&nbsp;information<br>
+held&nbsp;in&nbsp;a&nbsp;top&nbsp;level&nbsp;environment.</tt></dd></dl>
+ <dl><dt><a name="-get_jvm_type"><strong>get_jvm_type</strong></a>(node_or_symbol)</dt><dd><tt>Get's&nbsp;the&nbsp;jvm&nbsp;type&nbsp;signature&nbsp;for&nbsp;a&nbsp;given&nbsp;node,&nbsp;symbol,&nbsp;or&nbsp;simple<br>
+string&nbsp;representation&nbsp;of&nbsp;the&nbsp;type.</tt></dd></dl>
+ <dl><dt><a name="-is_main"><strong>is_main</strong></a>(method_s)</dt><dd><tt>For&nbsp;a&nbsp;given&nbsp;method,&nbsp;checks&nbsp;whether&nbsp;it&nbsp;is&nbsp;the&nbsp;main&nbsp;method.</tt></dd></dl>
+</td></tr></table>
+</body></html>

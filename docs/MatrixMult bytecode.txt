@@ -1,0 +1,61 @@
+   120: aload_1
+   121: arraylength
+   istore 4
+   130: aload_2
+   131: arraylength
+   istore 5
+
+   115: iconst_0
+   116: istore  6
+   118: iload   6
+   iload 4
+   122: if_icmpge       190
+
+   115: iconst_0
+   istore 7
+   128: iload   7
+   iload 5
+   132: iconst_1
+   133: isub
+   134: if_icmpge       184
+
+   137: iconst_0
+   138: istore  8
+   140: iload   8
+   iload 8
+   144: if_icmpge       178
+
+   // Load array element in array 3 to add into
+   147: aload_3
+   148: iload   6
+   150: aaload
+   151: iload   7
+   153: dup2
+   154: daload
+
+   // Load element array 1
+   155: aload_1
+   156: iload   6
+   158: aaload
+   159: iload   8
+   161: daload
+
+   // Load element in array 2
+   162: aload_2
+   163: iload   8
+   165: aaload
+   166: iload   7
+   168: daload
+
+   // Multiply array 1 and array 2 elements
+   169: dmul
+
+   // Add result to what was in array 3
+   170: dadd
+   171: dastore
+
+   172: iinc    6, 1
+   175: goto    140
+   178: iinc    5, 1
+   181: goto    128
+   184: iinc    4, 1

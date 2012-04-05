@@ -1,0 +1,749 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module semantic_analysis.symbols</title>
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong><a href="semantic_analysis.html"><font color="#ffffff">semantic_analysis</font></a>.symbols</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:////smbhome.uscs.susx.ac.uk/wjs25/workspace/jaml_compiler/semantic_analysis/symbols.py">\\smbhome.uscs.susx.ac.uk\wjs25\workspace\jaml_compiler\semantic_analysis\symbols.py</a></font></td></tr></table>
+    <p></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="semantic_analysis.semantic_analyser.html">semantic_analysis.semantic_analyser</a><br>
+</td><td width="25%" valign=top></td><td width="25%" valign=top></td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ee77aa">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Classes</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#ee77aa"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl>
+<dt><font face="helvetica, arial"><a href="__builtin__.html#object">__builtin__.object</a>
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="semantic_analysis.symbols.html#ModiferContainer">ModiferContainer</a>
+</font></dt><dt><font face="helvetica, arial"><a href="semantic_analysis.symbols.html#Symbol">Symbol</a>
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="semantic_analysis.symbols.html#ClassInterfaceSymbol">ClassInterfaceSymbol</a>
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="semantic_analysis.symbols.html#ClassSymbol">ClassSymbol</a>(<a href="semantic_analysis.symbols.html#ClassInterfaceSymbol">ClassInterfaceSymbol</a>, <a href="semantic_analysis.symbols.html#ModiferContainer">ModiferContainer</a>)
+</font></dt><dt><font face="helvetica, arial"><a href="semantic_analysis.symbols.html#InterfaceSymbol">InterfaceSymbol</a>
+</font></dt></dl>
+</dd>
+<dt><font face="helvetica, arial"><a href="semantic_analysis.symbols.html#ConstructorSymbol">ConstructorSymbol</a>
+</font></dt><dt><font face="helvetica, arial"><a href="semantic_analysis.symbols.html#LibConsSymbol">LibConsSymbol</a>
+</font></dt><dt><font face="helvetica, arial"><a href="semantic_analysis.symbols.html#SymbolWithType">SymbolWithType</a>
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="semantic_analysis.symbols.html#LibFieldSymbol">LibFieldSymbol</a>(<a href="semantic_analysis.symbols.html#SymbolWithType">SymbolWithType</a>, <a href="semantic_analysis.symbols.html#ModiferContainer">ModiferContainer</a>)
+</font></dt><dt><font face="helvetica, arial"><a href="semantic_analysis.symbols.html#LibMethodSymbol">LibMethodSymbol</a>(<a href="semantic_analysis.symbols.html#SymbolWithType">SymbolWithType</a>, <a href="semantic_analysis.symbols.html#ModiferContainer">ModiferContainer</a>)
+</font></dt><dt><font face="helvetica, arial"><a href="semantic_analysis.symbols.html#MethodSymbol">MethodSymbol</a>(<a href="semantic_analysis.symbols.html#SymbolWithType">SymbolWithType</a>, <a href="semantic_analysis.symbols.html#ModiferContainer">ModiferContainer</a>)
+</font></dt><dt><font face="helvetica, arial"><a href="semantic_analysis.symbols.html#SymbolWithInit">SymbolWithInit</a>
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="semantic_analysis.symbols.html#ArraySymbol">ArraySymbol</a>
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="semantic_analysis.symbols.html#ArrayFieldSymbol">ArrayFieldSymbol</a>(<a href="semantic_analysis.symbols.html#ArraySymbol">ArraySymbol</a>, <a href="semantic_analysis.symbols.html#ModiferContainer">ModiferContainer</a>)
+</font></dt></dl>
+</dd>
+<dt><font face="helvetica, arial"><a href="semantic_analysis.symbols.html#VarSymbol">VarSymbol</a>
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="semantic_analysis.symbols.html#FieldSymbol">FieldSymbol</a>(<a href="semantic_analysis.symbols.html#VarSymbol">VarSymbol</a>, <a href="semantic_analysis.symbols.html#ModiferContainer">ModiferContainer</a>)
+</font></dt></dl>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd>
+</dl>
+ <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="ArrayFieldSymbol">class <strong>ArrayFieldSymbol</strong></a>(<a href="semantic_analysis.symbols.html#ArraySymbol">ArraySymbol</a>, <a href="semantic_analysis.symbols.html#ModiferContainer">ModiferContainer</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>A&nbsp;special&nbsp;case&nbsp;of&nbsp;arrays&nbsp;which&nbsp;can&nbsp;have&nbsp;modifiers.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="semantic_analysis.symbols.html#ArrayFieldSymbol">ArrayFieldSymbol</a></dd>
+<dd><a href="semantic_analysis.symbols.html#ArraySymbol">ArraySymbol</a></dd>
+<dd><a href="semantic_analysis.symbols.html#SymbolWithInit">SymbolWithInit</a></dd>
+<dd><a href="semantic_analysis.symbols.html#SymbolWithType">SymbolWithType</a></dd>
+<dd><a href="semantic_analysis.symbols.html#Symbol">Symbol</a></dd>
+<dd><a href="semantic_analysis.symbols.html#ModiferContainer">ModiferContainer</a></dd>
+<dd><a href="__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Methods inherited from <a href="semantic_analysis.symbols.html#ArraySymbol">ArraySymbol</a>:<br>
+<dl><dt><a name="ArrayFieldSymbol-__eq__"><strong>__eq__</strong></a>(self, other)</dt><dd><tt>This&nbsp;is&nbsp;so&nbsp;the&nbsp;attributes&nbsp;can&nbsp;be&nbsp;compared&nbsp;with&nbsp;another&nbsp;array<br>
+symbol.&nbsp;&nbsp;Needed&nbsp;when&nbsp;comparing&nbsp;method&nbsp;parameters</tt></dd></dl>
+
+<dl><dt><a name="ArrayFieldSymbol-__init__"><strong>__init__</strong></a>(self, name, type_, dimensions)</dt></dl>
+
+<dl><dt><a name="ArrayFieldSymbol-__ne__"><strong>__ne__</strong></a>(self, other)</dt><dd><tt>This&nbsp;is&nbsp;for&nbsp;!=&nbsp;comparisons.</tt></dd></dl>
+
+<hr>
+Data descriptors inherited from <a href="semantic_analysis.symbols.html#ArraySymbol">ArraySymbol</a>:<br>
+<dl><dt><strong>dimensions</strong></dt>
+</dl>
+<hr>
+Data descriptors inherited from <a href="semantic_analysis.symbols.html#SymbolWithInit">SymbolWithInit</a>:<br>
+<dl><dt><strong>is_init</strong></dt>
+</dl>
+<hr>
+Data descriptors inherited from <a href="semantic_analysis.symbols.html#SymbolWithType">SymbolWithType</a>:<br>
+<dl><dt><strong>type_</strong></dt>
+</dl>
+<hr>
+Data descriptors inherited from <a href="semantic_analysis.symbols.html#Symbol">Symbol</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>name</strong></dt>
+</dl>
+<hr>
+Data descriptors inherited from <a href="semantic_analysis.symbols.html#ModiferContainer">ModiferContainer</a>:<br>
+<dl><dt><strong>modifiers</strong></dt>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="ArraySymbol">class <strong>ArraySymbol</strong></a>(<a href="semantic_analysis.symbols.html#SymbolWithInit">SymbolWithInit</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>A&nbsp;special&nbsp;type&nbsp;of&nbsp;symbol&nbsp;for&nbsp;arrays&nbsp;which&nbsp;additionally&nbsp;stores&nbsp;the<br>
+number&nbsp;of&nbsp;dimensions.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="semantic_analysis.symbols.html#ArraySymbol">ArraySymbol</a></dd>
+<dd><a href="semantic_analysis.symbols.html#SymbolWithInit">SymbolWithInit</a></dd>
+<dd><a href="semantic_analysis.symbols.html#SymbolWithType">SymbolWithType</a></dd>
+<dd><a href="semantic_analysis.symbols.html#Symbol">Symbol</a></dd>
+<dd><a href="__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="ArraySymbol-__eq__"><strong>__eq__</strong></a>(self, other)</dt><dd><tt>This&nbsp;is&nbsp;so&nbsp;the&nbsp;attributes&nbsp;can&nbsp;be&nbsp;compared&nbsp;with&nbsp;another&nbsp;array<br>
+symbol.&nbsp;&nbsp;Needed&nbsp;when&nbsp;comparing&nbsp;method&nbsp;parameters</tt></dd></dl>
+
+<dl><dt><a name="ArraySymbol-__init__"><strong>__init__</strong></a>(self, name, type_, dimensions)</dt></dl>
+
+<dl><dt><a name="ArraySymbol-__ne__"><strong>__ne__</strong></a>(self, other)</dt><dd><tt>This&nbsp;is&nbsp;for&nbsp;!=&nbsp;comparisons.</tt></dd></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>dimensions</strong></dt>
+</dl>
+<hr>
+Data descriptors inherited from <a href="semantic_analysis.symbols.html#SymbolWithInit">SymbolWithInit</a>:<br>
+<dl><dt><strong>is_init</strong></dt>
+</dl>
+<hr>
+Data descriptors inherited from <a href="semantic_analysis.symbols.html#SymbolWithType">SymbolWithType</a>:<br>
+<dl><dt><strong>type_</strong></dt>
+</dl>
+<hr>
+Data descriptors inherited from <a href="semantic_analysis.symbols.html#Symbol">Symbol</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>name</strong></dt>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="ClassInterfaceSymbol">class <strong>ClassInterfaceSymbol</strong></a>(<a href="semantic_analysis.symbols.html#Symbol">Symbol</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>Generic&nbsp;symbol&nbsp;which&nbsp;represents&nbsp;both&nbsp;classes&nbsp;and&nbsp;interfaces.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="semantic_analysis.symbols.html#ClassInterfaceSymbol">ClassInterfaceSymbol</a></dd>
+<dd><a href="semantic_analysis.symbols.html#Symbol">Symbol</a></dd>
+<dd><a href="__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="ClassInterfaceSymbol-__init__"><strong>__init__</strong></a>(self, name)</dt></dl>
+
+<dl><dt><a name="ClassInterfaceSymbol-add_method"><strong>add_method</strong></a>(self, method)</dt></dl>
+
+<dl><dt><a name="ClassInterfaceSymbol-get_method"><strong>get_method</strong></a>(self, name)</dt></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>methods</strong></dt>
+</dl>
+<hr>
+Data descriptors inherited from <a href="semantic_analysis.symbols.html#Symbol">Symbol</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>name</strong></dt>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="ClassSymbol">class <strong>ClassSymbol</strong></a>(<a href="semantic_analysis.symbols.html#ClassInterfaceSymbol">ClassInterfaceSymbol</a>, <a href="semantic_analysis.symbols.html#ModiferContainer">ModiferContainer</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt><a href="#Symbol">Symbol</a>&nbsp;that&nbsp;represent&nbsp;classes.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="semantic_analysis.symbols.html#ClassSymbol">ClassSymbol</a></dd>
+<dd><a href="semantic_analysis.symbols.html#ClassInterfaceSymbol">ClassInterfaceSymbol</a></dd>
+<dd><a href="semantic_analysis.symbols.html#Symbol">Symbol</a></dd>
+<dd><a href="semantic_analysis.symbols.html#ModiferContainer">ModiferContainer</a></dd>
+<dd><a href="__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="ClassSymbol-__init__"><strong>__init__</strong></a>(self, name)</dt></dl>
+
+<dl><dt><a name="ClassSymbol-add_field"><strong>add_field</strong></a>(self, field)</dt></dl>
+
+<dl><dt><a name="ClassSymbol-add_interface"><strong>add_interface</strong></a>(self, interface)</dt></dl>
+
+<dl><dt><a name="ClassSymbol-get_field"><strong>get_field</strong></a>(self, name)</dt></dl>
+
+<dl><dt><a name="ClassSymbol-get_public_field"><strong>get_public_field</strong></a>(self, name)</dt></dl>
+
+<dl><dt><a name="ClassSymbol-get_public_method"><strong>get_public_method</strong></a>(self, name)</dt></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>constructor</strong></dt>
+</dl>
+<dl><dt><strong>fields</strong></dt>
+</dl>
+<dl><dt><strong>interfaces</strong></dt>
+</dl>
+<dl><dt><strong>public_methods</strong></dt>
+</dl>
+<dl><dt><strong>super_class</strong></dt>
+</dl>
+<hr>
+Methods inherited from <a href="semantic_analysis.symbols.html#ClassInterfaceSymbol">ClassInterfaceSymbol</a>:<br>
+<dl><dt><a name="ClassSymbol-add_method"><strong>add_method</strong></a>(self, method)</dt></dl>
+
+<dl><dt><a name="ClassSymbol-get_method"><strong>get_method</strong></a>(self, name)</dt></dl>
+
+<hr>
+Data descriptors inherited from <a href="semantic_analysis.symbols.html#ClassInterfaceSymbol">ClassInterfaceSymbol</a>:<br>
+<dl><dt><strong>methods</strong></dt>
+</dl>
+<hr>
+Data descriptors inherited from <a href="semantic_analysis.symbols.html#Symbol">Symbol</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>name</strong></dt>
+</dl>
+<hr>
+Data descriptors inherited from <a href="semantic_analysis.symbols.html#ModiferContainer">ModiferContainer</a>:<br>
+<dl><dt><strong>modifiers</strong></dt>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="ConstructorSymbol">class <strong>ConstructorSymbol</strong></a>(<a href="semantic_analysis.symbols.html#Symbol">Symbol</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>A&nbsp;special&nbsp;symbol&nbsp;for&nbsp;a&nbsp;class'&nbsp;constructor.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="semantic_analysis.symbols.html#ConstructorSymbol">ConstructorSymbol</a></dd>
+<dd><a href="semantic_analysis.symbols.html#Symbol">Symbol</a></dd>
+<dd><a href="__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="ConstructorSymbol-__init__"><strong>__init__</strong></a>(self, name, params)</dt></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>params</strong></dt>
+</dl>
+<hr>
+Data descriptors inherited from <a href="semantic_analysis.symbols.html#Symbol">Symbol</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>name</strong></dt>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="FieldSymbol">class <strong>FieldSymbol</strong></a>(<a href="semantic_analysis.symbols.html#VarSymbol">VarSymbol</a>, <a href="semantic_analysis.symbols.html#ModiferContainer">ModiferContainer</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>A&nbsp;special&nbsp;case&nbsp;of&nbsp;normal&nbsp;variables&nbsp;which&nbsp;can&nbsp;have&nbsp;modifiers.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="semantic_analysis.symbols.html#FieldSymbol">FieldSymbol</a></dd>
+<dd><a href="semantic_analysis.symbols.html#VarSymbol">VarSymbol</a></dd>
+<dd><a href="semantic_analysis.symbols.html#SymbolWithInit">SymbolWithInit</a></dd>
+<dd><a href="semantic_analysis.symbols.html#SymbolWithType">SymbolWithType</a></dd>
+<dd><a href="semantic_analysis.symbols.html#Symbol">Symbol</a></dd>
+<dd><a href="semantic_analysis.symbols.html#ModiferContainer">ModiferContainer</a></dd>
+<dd><a href="__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Methods inherited from <a href="semantic_analysis.symbols.html#VarSymbol">VarSymbol</a>:<br>
+<dl><dt><a name="FieldSymbol-__eq__"><strong>__eq__</strong></a>(self, other)</dt><dd><tt>This&nbsp;is&nbsp;so&nbsp;the&nbsp;attributes&nbsp;can&nbsp;be&nbsp;compared&nbsp;with&nbsp;another&nbsp;var<br>
+symbol.&nbsp;&nbsp;Needed&nbsp;when&nbsp;comparing&nbsp;method&nbsp;parameters</tt></dd></dl>
+
+<dl><dt><a name="FieldSymbol-__ne__"><strong>__ne__</strong></a>(self, other)</dt><dd><tt>This&nbsp;is&nbsp;for&nbsp;!=&nbsp;comparisons.</tt></dd></dl>
+
+<hr>
+Methods inherited from <a href="semantic_analysis.symbols.html#SymbolWithInit">SymbolWithInit</a>:<br>
+<dl><dt><a name="FieldSymbol-__init__"><strong>__init__</strong></a>(self, name, type_)</dt></dl>
+
+<hr>
+Data descriptors inherited from <a href="semantic_analysis.symbols.html#SymbolWithInit">SymbolWithInit</a>:<br>
+<dl><dt><strong>is_init</strong></dt>
+</dl>
+<hr>
+Data descriptors inherited from <a href="semantic_analysis.symbols.html#SymbolWithType">SymbolWithType</a>:<br>
+<dl><dt><strong>type_</strong></dt>
+</dl>
+<hr>
+Data descriptors inherited from <a href="semantic_analysis.symbols.html#Symbol">Symbol</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>name</strong></dt>
+</dl>
+<hr>
+Data descriptors inherited from <a href="semantic_analysis.symbols.html#ModiferContainer">ModiferContainer</a>:<br>
+<dl><dt><strong>modifiers</strong></dt>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="InterfaceSymbol">class <strong>InterfaceSymbol</strong></a>(<a href="semantic_analysis.symbols.html#ClassInterfaceSymbol">ClassInterfaceSymbol</a>)</font></td></tr>
+    
+<tr><td bgcolor="#ffc8d8"><tt>&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="semantic_analysis.symbols.html#InterfaceSymbol">InterfaceSymbol</a></dd>
+<dd><a href="semantic_analysis.symbols.html#ClassInterfaceSymbol">ClassInterfaceSymbol</a></dd>
+<dd><a href="semantic_analysis.symbols.html#Symbol">Symbol</a></dd>
+<dd><a href="__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="InterfaceSymbol-__init__"><strong>__init__</strong></a>(self, name)</dt></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>super_interface</strong></dt>
+</dl>
+<hr>
+Methods inherited from <a href="semantic_analysis.symbols.html#ClassInterfaceSymbol">ClassInterfaceSymbol</a>:<br>
+<dl><dt><a name="InterfaceSymbol-add_method"><strong>add_method</strong></a>(self, method)</dt></dl>
+
+<dl><dt><a name="InterfaceSymbol-get_method"><strong>get_method</strong></a>(self, name)</dt></dl>
+
+<hr>
+Data descriptors inherited from <a href="semantic_analysis.symbols.html#ClassInterfaceSymbol">ClassInterfaceSymbol</a>:<br>
+<dl><dt><strong>methods</strong></dt>
+</dl>
+<hr>
+Data descriptors inherited from <a href="semantic_analysis.symbols.html#Symbol">Symbol</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>name</strong></dt>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="LibConsSymbol">class <strong>LibConsSymbol</strong></a>(<a href="semantic_analysis.symbols.html#Symbol">Symbol</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>Symbols&nbsp;that&nbsp;represent&nbsp;methods&nbsp;in&nbsp;library&nbsp;classes.<br>
+invoked_class&nbsp;is&nbsp;the&nbsp;class&nbsp;the&nbsp;method&nbsp;was&nbsp;invoked&nbsp;in&nbsp;-&nbsp;this&nbsp;is&nbsp;used<br>
+by&nbsp;the&nbsp;code&nbsp;generator&nbsp;to&nbsp;look&nbsp;up&nbsp;the&nbsp;method.<br>
+containing_class&nbsp;is&nbsp;the&nbsp;class&nbsp;the&nbsp;method&nbsp;is&nbsp;actually&nbsp;defined&nbsp;in.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="semantic_analysis.symbols.html#LibConsSymbol">LibConsSymbol</a></dd>
+<dd><a href="semantic_analysis.symbols.html#Symbol">Symbol</a></dd>
+<dd><a href="__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="LibConsSymbol-__init__"><strong>__init__</strong></a>(self, class_, arg_types)</dt></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>arg_types</strong></dt>
+</dl>
+<dl><dt><strong>invoked_class</strong></dt>
+</dl>
+<dl><dt><strong>sig</strong></dt>
+<dd><tt>Get&nbsp;the&nbsp;JVM&nbsp;style&nbsp;signature&nbsp;of&nbsp;this&nbsp;method.</tt></dd>
+</dl>
+<hr>
+Data descriptors inherited from <a href="semantic_analysis.symbols.html#Symbol">Symbol</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>name</strong></dt>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="LibFieldSymbol">class <strong>LibFieldSymbol</strong></a>(<a href="semantic_analysis.symbols.html#SymbolWithType">SymbolWithType</a>, <a href="semantic_analysis.symbols.html#ModiferContainer">ModiferContainer</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>Symbols&nbsp;that&nbsp;represent&nbsp;fields&nbsp;in&nbsp;library&nbsp;classes.<br>
+refed_class&nbsp;is&nbsp;the&nbsp;class&nbsp;the&nbsp;method&nbsp;was&nbsp;referenced&nbsp;in&nbsp;-&nbsp;this&nbsp;is&nbsp;used<br>
+by&nbsp;the&nbsp;code&nbsp;generator&nbsp;to&nbsp;look&nbsp;up&nbsp;the&nbsp;method.<br>
+containing_class&nbsp;is&nbsp;the&nbsp;class&nbsp;the&nbsp;method&nbsp;is&nbsp;actually&nbsp;defined&nbsp;in.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="semantic_analysis.symbols.html#LibFieldSymbol">LibFieldSymbol</a></dd>
+<dd><a href="semantic_analysis.symbols.html#SymbolWithType">SymbolWithType</a></dd>
+<dd><a href="semantic_analysis.symbols.html#Symbol">Symbol</a></dd>
+<dd><a href="semantic_analysis.symbols.html#ModiferContainer">ModiferContainer</a></dd>
+<dd><a href="__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="LibFieldSymbol-__init__"><strong>__init__</strong></a>(self, name, type_, refed_class, containing_class, is_static)</dt></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>refed_class</strong></dt>
+</dl>
+<dl><dt><strong>sig</strong></dt>
+<dd><tt>Get&nbsp;the&nbsp;JVM&nbsp;style&nbsp;signature&nbsp;of&nbsp;this&nbsp;method.</tt></dd>
+</dl>
+<hr>
+Data descriptors inherited from <a href="semantic_analysis.symbols.html#SymbolWithType">SymbolWithType</a>:<br>
+<dl><dt><strong>type_</strong></dt>
+</dl>
+<hr>
+Data descriptors inherited from <a href="semantic_analysis.symbols.html#Symbol">Symbol</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>name</strong></dt>
+</dl>
+<hr>
+Data descriptors inherited from <a href="semantic_analysis.symbols.html#ModiferContainer">ModiferContainer</a>:<br>
+<dl><dt><strong>modifiers</strong></dt>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="LibMethodSymbol">class <strong>LibMethodSymbol</strong></a>(<a href="semantic_analysis.symbols.html#SymbolWithType">SymbolWithType</a>, <a href="semantic_analysis.symbols.html#ModiferContainer">ModiferContainer</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>Symbols&nbsp;that&nbsp;represent&nbsp;methods&nbsp;in&nbsp;library&nbsp;classes.<br>
+invoked_class&nbsp;is&nbsp;the&nbsp;class&nbsp;the&nbsp;method&nbsp;was&nbsp;invoked&nbsp;in&nbsp;-&nbsp;this&nbsp;is&nbsp;used<br>
+by&nbsp;the&nbsp;code&nbsp;generator&nbsp;to&nbsp;look&nbsp;up&nbsp;the&nbsp;method.<br>
+containing_class&nbsp;is&nbsp;the&nbsp;class&nbsp;the&nbsp;method&nbsp;is&nbsp;actually&nbsp;defined&nbsp;in.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="semantic_analysis.symbols.html#LibMethodSymbol">LibMethodSymbol</a></dd>
+<dd><a href="semantic_analysis.symbols.html#SymbolWithType">SymbolWithType</a></dd>
+<dd><a href="semantic_analysis.symbols.html#Symbol">Symbol</a></dd>
+<dd><a href="semantic_analysis.symbols.html#ModiferContainer">ModiferContainer</a></dd>
+<dd><a href="__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="LibMethodSymbol-__init__"><strong>__init__</strong></a>(self, name, type_, arg_types, invoked_class, containing_class, is_static)</dt></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>arg_types</strong></dt>
+</dl>
+<dl><dt><strong>invoked_class</strong></dt>
+</dl>
+<dl><dt><strong>sig</strong></dt>
+<dd><tt>Get&nbsp;the&nbsp;JVM&nbsp;style&nbsp;signature&nbsp;of&nbsp;this&nbsp;method.</tt></dd>
+</dl>
+<hr>
+Data descriptors inherited from <a href="semantic_analysis.symbols.html#SymbolWithType">SymbolWithType</a>:<br>
+<dl><dt><strong>type_</strong></dt>
+</dl>
+<hr>
+Data descriptors inherited from <a href="semantic_analysis.symbols.html#Symbol">Symbol</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>name</strong></dt>
+</dl>
+<hr>
+Data descriptors inherited from <a href="semantic_analysis.symbols.html#ModiferContainer">ModiferContainer</a>:<br>
+<dl><dt><strong>modifiers</strong></dt>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="MethodSymbol">class <strong>MethodSymbol</strong></a>(<a href="semantic_analysis.symbols.html#SymbolWithType">SymbolWithType</a>, <a href="semantic_analysis.symbols.html#ModiferContainer">ModiferContainer</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>Symbols&nbsp;that&nbsp;represent&nbsp;declared&nbsp;methods.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="semantic_analysis.symbols.html#MethodSymbol">MethodSymbol</a></dd>
+<dd><a href="semantic_analysis.symbols.html#SymbolWithType">SymbolWithType</a></dd>
+<dd><a href="semantic_analysis.symbols.html#Symbol">Symbol</a></dd>
+<dd><a href="semantic_analysis.symbols.html#ModiferContainer">ModiferContainer</a></dd>
+<dd><a href="__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="MethodSymbol-__eq__"><strong>__eq__</strong></a>(self, other)</dt><dd><tt>This&nbsp;is&nbsp;so&nbsp;the&nbsp;attributes&nbsp;can&nbsp;be&nbsp;compared&nbsp;with&nbsp;another&nbsp;method<br>
+symbol.&nbsp;&nbsp;Needed&nbsp;to&nbsp;compare&nbsp;class&nbsp;method&nbsp;signatures&nbsp;with&nbsp;<br>
+interface&nbsp;method&nbsp;signatures.</tt></dd></dl>
+
+<dl><dt><a name="MethodSymbol-__init__"><strong>__init__</strong></a>(self, name, type_, params)</dt></dl>
+
+<dl><dt><a name="MethodSymbol-__ne__"><strong>__ne__</strong></a>(self, other)</dt><dd><tt>This&nbsp;is&nbsp;for&nbsp;!=&nbsp;comparisons.</tt></dd></dl>
+
+<dl><dt><a name="MethodSymbol-add_param"><strong>add_param</strong></a>(self, param)</dt></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>has_ret</strong></dt>
+</dl>
+<dl><dt><strong>params</strong></dt>
+</dl>
+<hr>
+Data descriptors inherited from <a href="semantic_analysis.symbols.html#SymbolWithType">SymbolWithType</a>:<br>
+<dl><dt><strong>type_</strong></dt>
+</dl>
+<hr>
+Data descriptors inherited from <a href="semantic_analysis.symbols.html#Symbol">Symbol</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>name</strong></dt>
+</dl>
+<hr>
+Data descriptors inherited from <a href="semantic_analysis.symbols.html#ModiferContainer">ModiferContainer</a>:<br>
+<dl><dt><strong>modifiers</strong></dt>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="ModiferContainer">class <strong>ModiferContainer</strong></a>(<a href="__builtin__.html#object">__builtin__.object</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>Subclasses&nbsp;are&nbsp;those&nbsp;which&nbsp;can&nbsp;have&nbsp;modifiers.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Data descriptors defined here:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>modifiers</strong></dt>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="Symbol">class <strong>Symbol</strong></a>(<a href="__builtin__.html#object">__builtin__.object</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>Represents&nbsp;a&nbsp;symbol&nbsp;to&nbsp;be&nbsp;stored&nbsp;in&nbsp;the&nbsp;Environment.&nbsp;&nbsp;Using&nbsp;a&nbsp;class<br>
+rather&nbsp;than&nbsp;a&nbsp;simpler&nbsp;data&nbsp;structure,&nbsp;such&nbsp;as&nbsp;a&nbsp;list&nbsp;of&nbsp;symbol<br>
+attributes&nbsp;allows&nbsp;for&nbsp;easier&nbsp;code&nbsp;modification.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="Symbol-__init__"><strong>__init__</strong></a>(self, name)</dt></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>name</strong></dt>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="SymbolWithInit">class <strong>SymbolWithInit</strong></a>(<a href="semantic_analysis.symbols.html#SymbolWithType">SymbolWithType</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>Represents&nbsp;symbols&nbsp;that&nbsp;must&nbsp;be&nbsp;initialised&nbsp;before&nbsp;they&nbsp;are&nbsp;used.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="semantic_analysis.symbols.html#SymbolWithInit">SymbolWithInit</a></dd>
+<dd><a href="semantic_analysis.symbols.html#SymbolWithType">SymbolWithType</a></dd>
+<dd><a href="semantic_analysis.symbols.html#Symbol">Symbol</a></dd>
+<dd><a href="__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="SymbolWithInit-__init__"><strong>__init__</strong></a>(self, name, type_)</dt></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>is_init</strong></dt>
+</dl>
+<hr>
+Data descriptors inherited from <a href="semantic_analysis.symbols.html#SymbolWithType">SymbolWithType</a>:<br>
+<dl><dt><strong>type_</strong></dt>
+</dl>
+<hr>
+Data descriptors inherited from <a href="semantic_analysis.symbols.html#Symbol">Symbol</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>name</strong></dt>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="SymbolWithType">class <strong>SymbolWithType</strong></a>(<a href="semantic_analysis.symbols.html#Symbol">Symbol</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>Represents&nbsp;symbols&nbsp;that&nbsp;have&nbsp;a&nbsp;type&nbsp;associated&nbsp;with&nbsp;them.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="semantic_analysis.symbols.html#SymbolWithType">SymbolWithType</a></dd>
+<dd><a href="semantic_analysis.symbols.html#Symbol">Symbol</a></dd>
+<dd><a href="__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="SymbolWithType-__init__"><strong>__init__</strong></a>(self, name, type_)</dt></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>type_</strong></dt>
+</dl>
+<hr>
+Data descriptors inherited from <a href="semantic_analysis.symbols.html#Symbol">Symbol</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>name</strong></dt>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="VarSymbol">class <strong>VarSymbol</strong></a>(<a href="semantic_analysis.symbols.html#SymbolWithInit">SymbolWithInit</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>Represents&nbsp;standard&nbsp;variable&nbsp;symbols.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="semantic_analysis.symbols.html#VarSymbol">VarSymbol</a></dd>
+<dd><a href="semantic_analysis.symbols.html#SymbolWithInit">SymbolWithInit</a></dd>
+<dd><a href="semantic_analysis.symbols.html#SymbolWithType">SymbolWithType</a></dd>
+<dd><a href="semantic_analysis.symbols.html#Symbol">Symbol</a></dd>
+<dd><a href="__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="VarSymbol-__eq__"><strong>__eq__</strong></a>(self, other)</dt><dd><tt>This&nbsp;is&nbsp;so&nbsp;the&nbsp;attributes&nbsp;can&nbsp;be&nbsp;compared&nbsp;with&nbsp;another&nbsp;var<br>
+symbol.&nbsp;&nbsp;Needed&nbsp;when&nbsp;comparing&nbsp;method&nbsp;parameters</tt></dd></dl>
+
+<dl><dt><a name="VarSymbol-__ne__"><strong>__ne__</strong></a>(self, other)</dt><dd><tt>This&nbsp;is&nbsp;for&nbsp;!=&nbsp;comparisons.</tt></dd></dl>
+
+<hr>
+Methods inherited from <a href="semantic_analysis.symbols.html#SymbolWithInit">SymbolWithInit</a>:<br>
+<dl><dt><a name="VarSymbol-__init__"><strong>__init__</strong></a>(self, name, type_)</dt></dl>
+
+<hr>
+Data descriptors inherited from <a href="semantic_analysis.symbols.html#SymbolWithInit">SymbolWithInit</a>:<br>
+<dl><dt><strong>is_init</strong></dt>
+</dl>
+<hr>
+Data descriptors inherited from <a href="semantic_analysis.symbols.html#SymbolWithType">SymbolWithType</a>:<br>
+<dl><dt><strong>type_</strong></dt>
+</dl>
+<hr>
+Data descriptors inherited from <a href="semantic_analysis.symbols.html#Symbol">Symbol</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>name</strong></dt>
+</dl>
+</td></tr></table></td></tr></table>
+</body></html>

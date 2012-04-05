@@ -1,0 +1,2964 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module parser_.tree_nodes</title>
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong><a href="parser_.html"><font color="#ffffff">parser_</font></a>.tree_nodes</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:////smbhome.uscs.susx.ac.uk/wjs25/workspace/jaml_compiler/parser_/tree_nodes.py">\\smbhome.uscs.susx.ac.uk\wjs25\workspace\jaml_compiler\parser_\tree_nodes.py</a></font></td></tr></table>
+    <p></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ee77aa">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Classes</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#ee77aa"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl>
+<dt><font face="helvetica, arial"><a href="__builtin__.html#list">__builtin__.list</a>(<a href="__builtin__.html#object">__builtin__.object</a>)
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="parser_.tree_nodes.html#ProgramASTs">ProgramASTs</a>
+</font></dt></dl>
+</dd>
+<dt><font face="helvetica, arial"><a href="__builtin__.html#object">__builtin__.object</a>
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="parser_.tree_nodes.html#TreeNode">TreeNode</a>
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="parser_.tree_nodes.html#AbsMethodDclArrayNode">AbsMethodDclArrayNode</a>
+</font></dt><dt><font face="helvetica, arial"><a href="parser_.tree_nodes.html#AbsMethodDclNode">AbsMethodDclNode</a>
+</font></dt><dt><font face="helvetica, arial"><a href="parser_.tree_nodes.html#AddNode">AddNode</a>
+</font></dt><dt><font face="helvetica, arial"><a href="parser_.tree_nodes.html#ArgsListNode">ArgsListNode</a>
+</font></dt><dt><font face="helvetica, arial"><a href="parser_.tree_nodes.html#ArrayDclNode">ArrayDclNode</a>
+</font></dt><dt><font face="helvetica, arial"><a href="parser_.tree_nodes.html#ArrayElementNode">ArrayElementNode</a>
+</font></dt><dt><font face="helvetica, arial"><a href="parser_.tree_nodes.html#ArrayInitNode">ArrayInitNode</a>
+</font></dt><dt><font face="helvetica, arial"><a href="parser_.tree_nodes.html#AssignNode">AssignNode</a>
+</font></dt><dt><font face="helvetica, arial"><a href="parser_.tree_nodes.html#BlockNode">BlockNode</a>
+</font></dt><dt><font face="helvetica, arial"><a href="parser_.tree_nodes.html#ClassBodyNode">ClassBodyNode</a>
+</font></dt><dt><font face="helvetica, arial"><a href="parser_.tree_nodes.html#CondNode">CondNode</a>
+</font></dt><dt><font face="helvetica, arial"><a href="parser_.tree_nodes.html#EqNode">EqNode</a>
+</font></dt><dt><font face="helvetica, arial"><a href="parser_.tree_nodes.html#FieldRefNode">FieldRefNode</a>
+</font></dt><dt><font face="helvetica, arial"><a href="parser_.tree_nodes.html#FieldRefSuperNode">FieldRefSuperNode</a>
+</font></dt><dt><font face="helvetica, arial"><a href="parser_.tree_nodes.html#ForNode">ForNode</a>
+</font></dt><dt><font face="helvetica, arial"><a href="parser_.tree_nodes.html#IfNode">IfNode</a>
+</font></dt><dt><font face="helvetica, arial"><a href="parser_.tree_nodes.html#ImplementsListNode">ImplementsListNode</a>
+</font></dt><dt><font face="helvetica, arial"><a href="parser_.tree_nodes.html#IncNode">IncNode</a>
+</font></dt><dt><font face="helvetica, arial"><a href="parser_.tree_nodes.html#InterfaceBodyNode">InterfaceBodyNode</a>
+</font></dt><dt><font face="helvetica, arial"><a href="parser_.tree_nodes.html#InterfaceNode">InterfaceNode</a>
+</font></dt><dt><font face="helvetica, arial"><a href="parser_.tree_nodes.html#MatrixElementNode">MatrixElementNode</a>
+</font></dt><dt><font face="helvetica, arial"><a href="parser_.tree_nodes.html#MatrixInitNode">MatrixInitNode</a>
+</font></dt><dt><font face="helvetica, arial"><a href="parser_.tree_nodes.html#MethodCallLongNode">MethodCallLongNode</a>
+</font></dt><dt><font face="helvetica, arial"><a href="parser_.tree_nodes.html#MethodCallNode">MethodCallNode</a>
+</font></dt><dt><font face="helvetica, arial"><a href="parser_.tree_nodes.html#MethodCallSuperNode">MethodCallSuperNode</a>
+</font></dt><dt><font face="helvetica, arial"><a href="parser_.tree_nodes.html#MethodCallThisNode">MethodCallThisNode</a>
+</font></dt><dt><font face="helvetica, arial"><a href="parser_.tree_nodes.html#MulNode">MulNode</a>
+</font></dt><dt><font face="helvetica, arial"><a href="parser_.tree_nodes.html#NodeWithModifiers">NodeWithModifiers</a>
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="parser_.tree_nodes.html#ClassAttributeNode">ClassAttributeNode</a>
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="parser_.tree_nodes.html#ConstructorDclNode">ConstructorDclNode</a>
+</font></dt><dt><font face="helvetica, arial"><a href="parser_.tree_nodes.html#FieldDclAssignNode">FieldDclAssignNode</a>
+</font></dt><dt><font face="helvetica, arial"><a href="parser_.tree_nodes.html#FieldDclNode">FieldDclNode</a>
+</font></dt><dt><font face="helvetica, arial"><a href="parser_.tree_nodes.html#MethodDclArrayNode">MethodDclArrayNode</a>
+</font></dt><dt><font face="helvetica, arial"><a href="parser_.tree_nodes.html#MethodDclNode">MethodDclNode</a>
+</font></dt></dl>
+</dd>
+<dt><font face="helvetica, arial"><a href="parser_.tree_nodes.html#ClassNode">ClassNode</a>
+</font></dt></dl>
+</dd>
+<dt><font face="helvetica, arial"><a href="parser_.tree_nodes.html#NotNode">NotNode</a>
+</font></dt><dt><font face="helvetica, arial"><a href="parser_.tree_nodes.html#ObjectCreatorNode">ObjectCreatorNode</a>
+</font></dt><dt><font face="helvetica, arial"><a href="parser_.tree_nodes.html#ParamDclNode">ParamDclNode</a>
+</font></dt><dt><font face="helvetica, arial"><a href="parser_.tree_nodes.html#ParamListNode">ParamListNode</a>
+</font></dt><dt><font face="helvetica, arial"><a href="parser_.tree_nodes.html#PosNode">PosNode</a>
+</font></dt><dt><font face="helvetica, arial"><a href="parser_.tree_nodes.html#RelNode">RelNode</a>
+</font></dt><dt><font face="helvetica, arial"><a href="parser_.tree_nodes.html#ReturnNode">ReturnNode</a>
+</font></dt><dt><font face="helvetica, arial"><a href="parser_.tree_nodes.html#SuperConstructorCallNode">SuperConstructorCallNode</a>
+</font></dt><dt><font face="helvetica, arial"><a href="parser_.tree_nodes.html#VarDclAssignNode">VarDclAssignNode</a>
+</font></dt><dt><font face="helvetica, arial"><a href="parser_.tree_nodes.html#VarDclNode">VarDclNode</a>
+</font></dt><dt><font face="helvetica, arial"><a href="parser_.tree_nodes.html#WhileNode">WhileNode</a>
+</font></dt></dl>
+</dd>
+<dt><font face="helvetica, arial"><a href="parser_.tree_nodes.html#LeafNode">LeafNode</a>
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="parser_.tree_nodes.html#ArrayIdNode">ArrayIdNode</a>
+</font></dt><dt><font face="helvetica, arial"><a href="parser_.tree_nodes.html#ClassTypeNode">ClassTypeNode</a>
+</font></dt><dt><font face="helvetica, arial"><a href="parser_.tree_nodes.html#DimensionsNode">DimensionsNode</a>
+</font></dt><dt><font face="helvetica, arial"><a href="parser_.tree_nodes.html#EmptyNode">EmptyNode</a>
+</font></dt><dt><font face="helvetica, arial"><a href="parser_.tree_nodes.html#ExtendsNode">ExtendsNode</a>
+</font></dt><dt><font face="helvetica, arial"><a href="parser_.tree_nodes.html#IdNode">IdNode</a>
+</font></dt><dt><font face="helvetica, arial"><a href="parser_.tree_nodes.html#ImplementsNode">ImplementsNode</a>
+</font></dt><dt><font face="helvetica, arial"><a href="parser_.tree_nodes.html#LiteralNode">LiteralNode</a>
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="parser_.tree_nodes.html#BooleanLNode">BooleanLNode</a>
+</font></dt><dt><font face="helvetica, arial"><a href="parser_.tree_nodes.html#CharLNode">CharLNode</a>
+</font></dt><dt><font face="helvetica, arial"><a href="parser_.tree_nodes.html#DoubleLNode">DoubleLNode</a>
+</font></dt><dt><font face="helvetica, arial"><a href="parser_.tree_nodes.html#FloatLNode">FloatLNode</a>
+</font></dt><dt><font face="helvetica, arial"><a href="parser_.tree_nodes.html#IntLNode">IntLNode</a>
+</font></dt><dt><font face="helvetica, arial"><a href="parser_.tree_nodes.html#LongLNode">LongLNode</a>
+</font></dt><dt><font face="helvetica, arial"><a href="parser_.tree_nodes.html#NullLNode">NullLNode</a>
+</font></dt><dt><font face="helvetica, arial"><a href="parser_.tree_nodes.html#StringLNode">StringLNode</a>
+</font></dt></dl>
+</dd>
+<dt><font face="helvetica, arial"><a href="parser_.tree_nodes.html#ReturnVoidNode">ReturnVoidNode</a>
+</font></dt><dt><font face="helvetica, arial"><a href="parser_.tree_nodes.html#TypeNode">TypeNode</a>
+</font></dt></dl>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd>
+</dl>
+ <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="AbsMethodDclArrayNode">class <strong>AbsMethodDclArrayNode</strong></a>(<a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>)</font></td></tr>
+    
+<tr><td bgcolor="#ffc8d8"><tt>&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="parser_.tree_nodes.html#AbsMethodDclArrayNode">AbsMethodDclArrayNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#TreeNode">TreeNode</a></dd>
+<dd><a href="__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="AbsMethodDclArrayNode-__str__"><strong>__str__</strong></a>(self)</dt></dl>
+
+<hr>
+Methods inherited from <a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>:<br>
+<dl><dt><a name="AbsMethodDclArrayNode-__init__"><strong>__init__</strong></a>(self, value<font color="#909090">=''</font>)</dt><dd><tt>Initialise&nbsp;with&nbsp;a&nbsp;node_id.</tt></dd></dl>
+
+<dl><dt><a name="AbsMethodDclArrayNode-add_child"><strong>add_child</strong></a>(self, child)</dt><dd><tt>Add&nbsp;a&nbsp;child&nbsp;to&nbsp;the&nbsp;<a href="__builtin__.html#list">list</a>&nbsp;of&nbsp;child&nbsp;nodes.</tt></dd></dl>
+
+<dl><dt><a name="AbsMethodDclArrayNode-add_children"><strong>add_children</strong></a>(self, children)</dt></dl>
+
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>:<br>
+<dl><dt><strong>children</strong></dt>
+<dd><tt>Get&nbsp;all&nbsp;the&nbsp;child&nbsp;nodes.</tt></dd>
+</dl>
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#TreeNode">TreeNode</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>type_</strong></dt>
+</dl>
+<dl><dt><strong>value</strong></dt>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="AbsMethodDclNode">class <strong>AbsMethodDclNode</strong></a>(<a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>)</font></td></tr>
+    
+<tr><td bgcolor="#ffc8d8"><tt>&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="parser_.tree_nodes.html#AbsMethodDclNode">AbsMethodDclNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#TreeNode">TreeNode</a></dd>
+<dd><a href="__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="AbsMethodDclNode-__str__"><strong>__str__</strong></a>(self)</dt></dl>
+
+<hr>
+Methods inherited from <a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>:<br>
+<dl><dt><a name="AbsMethodDclNode-__init__"><strong>__init__</strong></a>(self, value<font color="#909090">=''</font>)</dt><dd><tt>Initialise&nbsp;with&nbsp;a&nbsp;node_id.</tt></dd></dl>
+
+<dl><dt><a name="AbsMethodDclNode-add_child"><strong>add_child</strong></a>(self, child)</dt><dd><tt>Add&nbsp;a&nbsp;child&nbsp;to&nbsp;the&nbsp;<a href="__builtin__.html#list">list</a>&nbsp;of&nbsp;child&nbsp;nodes.</tt></dd></dl>
+
+<dl><dt><a name="AbsMethodDclNode-add_children"><strong>add_children</strong></a>(self, children)</dt></dl>
+
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>:<br>
+<dl><dt><strong>children</strong></dt>
+<dd><tt>Get&nbsp;all&nbsp;the&nbsp;child&nbsp;nodes.</tt></dd>
+</dl>
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#TreeNode">TreeNode</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>type_</strong></dt>
+</dl>
+<dl><dt><strong>value</strong></dt>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="AddNode">class <strong>AddNode</strong></a>(<a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>)</font></td></tr>
+    
+<tr><td bgcolor="#ffc8d8"><tt>&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="parser_.tree_nodes.html#AddNode">AddNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#TreeNode">TreeNode</a></dd>
+<dd><a href="__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="AddNode-__str__"><strong>__str__</strong></a>(self)</dt></dl>
+
+<hr>
+Methods inherited from <a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>:<br>
+<dl><dt><a name="AddNode-__init__"><strong>__init__</strong></a>(self, value<font color="#909090">=''</font>)</dt><dd><tt>Initialise&nbsp;with&nbsp;a&nbsp;node_id.</tt></dd></dl>
+
+<dl><dt><a name="AddNode-add_child"><strong>add_child</strong></a>(self, child)</dt><dd><tt>Add&nbsp;a&nbsp;child&nbsp;to&nbsp;the&nbsp;<a href="__builtin__.html#list">list</a>&nbsp;of&nbsp;child&nbsp;nodes.</tt></dd></dl>
+
+<dl><dt><a name="AddNode-add_children"><strong>add_children</strong></a>(self, children)</dt></dl>
+
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>:<br>
+<dl><dt><strong>children</strong></dt>
+<dd><tt>Get&nbsp;all&nbsp;the&nbsp;child&nbsp;nodes.</tt></dd>
+</dl>
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#TreeNode">TreeNode</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>type_</strong></dt>
+</dl>
+<dl><dt><strong>value</strong></dt>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="ArgsListNode">class <strong>ArgsListNode</strong></a>(<a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>)</font></td></tr>
+    
+<tr><td bgcolor="#ffc8d8"><tt>&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="parser_.tree_nodes.html#ArgsListNode">ArgsListNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#TreeNode">TreeNode</a></dd>
+<dd><a href="__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="ArgsListNode-__str__"><strong>__str__</strong></a>(self)</dt></dl>
+
+<hr>
+Methods inherited from <a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>:<br>
+<dl><dt><a name="ArgsListNode-__init__"><strong>__init__</strong></a>(self, value<font color="#909090">=''</font>)</dt><dd><tt>Initialise&nbsp;with&nbsp;a&nbsp;node_id.</tt></dd></dl>
+
+<dl><dt><a name="ArgsListNode-add_child"><strong>add_child</strong></a>(self, child)</dt><dd><tt>Add&nbsp;a&nbsp;child&nbsp;to&nbsp;the&nbsp;<a href="__builtin__.html#list">list</a>&nbsp;of&nbsp;child&nbsp;nodes.</tt></dd></dl>
+
+<dl><dt><a name="ArgsListNode-add_children"><strong>add_children</strong></a>(self, children)</dt></dl>
+
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>:<br>
+<dl><dt><strong>children</strong></dt>
+<dd><tt>Get&nbsp;all&nbsp;the&nbsp;child&nbsp;nodes.</tt></dd>
+</dl>
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#TreeNode">TreeNode</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>type_</strong></dt>
+</dl>
+<dl><dt><strong>value</strong></dt>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="ArrayDclNode">class <strong>ArrayDclNode</strong></a>(<a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>)</font></td></tr>
+    
+<tr><td bgcolor="#ffc8d8"><tt>&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="parser_.tree_nodes.html#ArrayDclNode">ArrayDclNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#TreeNode">TreeNode</a></dd>
+<dd><a href="__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="ArrayDclNode-__str__"><strong>__str__</strong></a>(self)</dt></dl>
+
+<hr>
+Methods inherited from <a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>:<br>
+<dl><dt><a name="ArrayDclNode-__init__"><strong>__init__</strong></a>(self, value<font color="#909090">=''</font>)</dt><dd><tt>Initialise&nbsp;with&nbsp;a&nbsp;node_id.</tt></dd></dl>
+
+<dl><dt><a name="ArrayDclNode-add_child"><strong>add_child</strong></a>(self, child)</dt><dd><tt>Add&nbsp;a&nbsp;child&nbsp;to&nbsp;the&nbsp;<a href="__builtin__.html#list">list</a>&nbsp;of&nbsp;child&nbsp;nodes.</tt></dd></dl>
+
+<dl><dt><a name="ArrayDclNode-add_children"><strong>add_children</strong></a>(self, children)</dt></dl>
+
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>:<br>
+<dl><dt><strong>children</strong></dt>
+<dd><tt>Get&nbsp;all&nbsp;the&nbsp;child&nbsp;nodes.</tt></dd>
+</dl>
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#TreeNode">TreeNode</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>type_</strong></dt>
+</dl>
+<dl><dt><strong>value</strong></dt>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="ArrayElementNode">class <strong>ArrayElementNode</strong></a>(<a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>)</font></td></tr>
+    
+<tr><td bgcolor="#ffc8d8"><tt>&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="parser_.tree_nodes.html#ArrayElementNode">ArrayElementNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#TreeNode">TreeNode</a></dd>
+<dd><a href="__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="ArrayElementNode-__str__"><strong>__str__</strong></a>(self)</dt></dl>
+
+<hr>
+Methods inherited from <a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>:<br>
+<dl><dt><a name="ArrayElementNode-__init__"><strong>__init__</strong></a>(self, value<font color="#909090">=''</font>)</dt><dd><tt>Initialise&nbsp;with&nbsp;a&nbsp;node_id.</tt></dd></dl>
+
+<dl><dt><a name="ArrayElementNode-add_child"><strong>add_child</strong></a>(self, child)</dt><dd><tt>Add&nbsp;a&nbsp;child&nbsp;to&nbsp;the&nbsp;<a href="__builtin__.html#list">list</a>&nbsp;of&nbsp;child&nbsp;nodes.</tt></dd></dl>
+
+<dl><dt><a name="ArrayElementNode-add_children"><strong>add_children</strong></a>(self, children)</dt></dl>
+
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>:<br>
+<dl><dt><strong>children</strong></dt>
+<dd><tt>Get&nbsp;all&nbsp;the&nbsp;child&nbsp;nodes.</tt></dd>
+</dl>
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#TreeNode">TreeNode</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>type_</strong></dt>
+</dl>
+<dl><dt><strong>value</strong></dt>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="ArrayIdNode">class <strong>ArrayIdNode</strong></a>(<a href="parser_.tree_nodes.html#LeafNode">LeafNode</a>)</font></td></tr>
+    
+<tr><td bgcolor="#ffc8d8"><tt>&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="parser_.tree_nodes.html#ArrayIdNode">ArrayIdNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#LeafNode">LeafNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#TreeNode">TreeNode</a></dd>
+<dd><a href="__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="ArrayIdNode-__str__"><strong>__str__</strong></a>(self)</dt></dl>
+
+<hr>
+Methods inherited from <a href="parser_.tree_nodes.html#TreeNode">TreeNode</a>:<br>
+<dl><dt><a name="ArrayIdNode-__init__"><strong>__init__</strong></a>(self, value<font color="#909090">=''</font>)</dt><dd><tt>Initialise&nbsp;with&nbsp;a&nbsp;node_id,&nbsp;e.g.&nbsp;"int"&nbsp;for&nbsp;an&nbsp;integer&nbsp;node.</tt></dd></dl>
+
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#TreeNode">TreeNode</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>type_</strong></dt>
+</dl>
+<dl><dt><strong>value</strong></dt>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="ArrayInitNode">class <strong>ArrayInitNode</strong></a>(<a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>)</font></td></tr>
+    
+<tr><td bgcolor="#ffc8d8"><tt>&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="parser_.tree_nodes.html#ArrayInitNode">ArrayInitNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#TreeNode">TreeNode</a></dd>
+<dd><a href="__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="ArrayInitNode-__str__"><strong>__str__</strong></a>(self)</dt></dl>
+
+<hr>
+Methods inherited from <a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>:<br>
+<dl><dt><a name="ArrayInitNode-__init__"><strong>__init__</strong></a>(self, value<font color="#909090">=''</font>)</dt><dd><tt>Initialise&nbsp;with&nbsp;a&nbsp;node_id.</tt></dd></dl>
+
+<dl><dt><a name="ArrayInitNode-add_child"><strong>add_child</strong></a>(self, child)</dt><dd><tt>Add&nbsp;a&nbsp;child&nbsp;to&nbsp;the&nbsp;<a href="__builtin__.html#list">list</a>&nbsp;of&nbsp;child&nbsp;nodes.</tt></dd></dl>
+
+<dl><dt><a name="ArrayInitNode-add_children"><strong>add_children</strong></a>(self, children)</dt></dl>
+
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>:<br>
+<dl><dt><strong>children</strong></dt>
+<dd><tt>Get&nbsp;all&nbsp;the&nbsp;child&nbsp;nodes.</tt></dd>
+</dl>
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#TreeNode">TreeNode</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>type_</strong></dt>
+</dl>
+<dl><dt><strong>value</strong></dt>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="AssignNode">class <strong>AssignNode</strong></a>(<a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>)</font></td></tr>
+    
+<tr><td bgcolor="#ffc8d8"><tt>&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="parser_.tree_nodes.html#AssignNode">AssignNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#TreeNode">TreeNode</a></dd>
+<dd><a href="__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="AssignNode-__str__"><strong>__str__</strong></a>(self)</dt></dl>
+
+<hr>
+Methods inherited from <a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>:<br>
+<dl><dt><a name="AssignNode-__init__"><strong>__init__</strong></a>(self, value<font color="#909090">=''</font>)</dt><dd><tt>Initialise&nbsp;with&nbsp;a&nbsp;node_id.</tt></dd></dl>
+
+<dl><dt><a name="AssignNode-add_child"><strong>add_child</strong></a>(self, child)</dt><dd><tt>Add&nbsp;a&nbsp;child&nbsp;to&nbsp;the&nbsp;<a href="__builtin__.html#list">list</a>&nbsp;of&nbsp;child&nbsp;nodes.</tt></dd></dl>
+
+<dl><dt><a name="AssignNode-add_children"><strong>add_children</strong></a>(self, children)</dt></dl>
+
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>:<br>
+<dl><dt><strong>children</strong></dt>
+<dd><tt>Get&nbsp;all&nbsp;the&nbsp;child&nbsp;nodes.</tt></dd>
+</dl>
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#TreeNode">TreeNode</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>type_</strong></dt>
+</dl>
+<dl><dt><strong>value</strong></dt>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="BlockNode">class <strong>BlockNode</strong></a>(<a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>)</font></td></tr>
+    
+<tr><td bgcolor="#ffc8d8"><tt>&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="parser_.tree_nodes.html#BlockNode">BlockNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#TreeNode">TreeNode</a></dd>
+<dd><a href="__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="BlockNode-__str__"><strong>__str__</strong></a>(self)</dt></dl>
+
+<hr>
+Methods inherited from <a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>:<br>
+<dl><dt><a name="BlockNode-__init__"><strong>__init__</strong></a>(self, value<font color="#909090">=''</font>)</dt><dd><tt>Initialise&nbsp;with&nbsp;a&nbsp;node_id.</tt></dd></dl>
+
+<dl><dt><a name="BlockNode-add_child"><strong>add_child</strong></a>(self, child)</dt><dd><tt>Add&nbsp;a&nbsp;child&nbsp;to&nbsp;the&nbsp;<a href="__builtin__.html#list">list</a>&nbsp;of&nbsp;child&nbsp;nodes.</tt></dd></dl>
+
+<dl><dt><a name="BlockNode-add_children"><strong>add_children</strong></a>(self, children)</dt></dl>
+
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>:<br>
+<dl><dt><strong>children</strong></dt>
+<dd><tt>Get&nbsp;all&nbsp;the&nbsp;child&nbsp;nodes.</tt></dd>
+</dl>
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#TreeNode">TreeNode</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>type_</strong></dt>
+</dl>
+<dl><dt><strong>value</strong></dt>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="BooleanLNode">class <strong>BooleanLNode</strong></a>(<a href="parser_.tree_nodes.html#LiteralNode">LiteralNode</a>)</font></td></tr>
+    
+<tr><td bgcolor="#ffc8d8"><tt>&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="parser_.tree_nodes.html#BooleanLNode">BooleanLNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#LiteralNode">LiteralNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#LeafNode">LeafNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#TreeNode">TreeNode</a></dd>
+<dd><a href="__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="BooleanLNode-__str__"><strong>__str__</strong></a>(self)</dt></dl>
+
+<hr>
+Methods inherited from <a href="parser_.tree_nodes.html#TreeNode">TreeNode</a>:<br>
+<dl><dt><a name="BooleanLNode-__init__"><strong>__init__</strong></a>(self, value<font color="#909090">=''</font>)</dt><dd><tt>Initialise&nbsp;with&nbsp;a&nbsp;node_id,&nbsp;e.g.&nbsp;"int"&nbsp;for&nbsp;an&nbsp;integer&nbsp;node.</tt></dd></dl>
+
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#TreeNode">TreeNode</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>type_</strong></dt>
+</dl>
+<dl><dt><strong>value</strong></dt>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="CharLNode">class <strong>CharLNode</strong></a>(<a href="parser_.tree_nodes.html#LiteralNode">LiteralNode</a>)</font></td></tr>
+    
+<tr><td bgcolor="#ffc8d8"><tt>&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="parser_.tree_nodes.html#CharLNode">CharLNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#LiteralNode">LiteralNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#LeafNode">LeafNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#TreeNode">TreeNode</a></dd>
+<dd><a href="__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="CharLNode-__str__"><strong>__str__</strong></a>(self)</dt></dl>
+
+<hr>
+Methods inherited from <a href="parser_.tree_nodes.html#TreeNode">TreeNode</a>:<br>
+<dl><dt><a name="CharLNode-__init__"><strong>__init__</strong></a>(self, value<font color="#909090">=''</font>)</dt><dd><tt>Initialise&nbsp;with&nbsp;a&nbsp;node_id,&nbsp;e.g.&nbsp;"int"&nbsp;for&nbsp;an&nbsp;integer&nbsp;node.</tt></dd></dl>
+
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#TreeNode">TreeNode</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>type_</strong></dt>
+</dl>
+<dl><dt><strong>value</strong></dt>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="ClassAttributeNode">class <strong>ClassAttributeNode</strong></a>(<a href="parser_.tree_nodes.html#NodeWithModifiers">NodeWithModifiers</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>Class&nbsp;attributes&nbsp;are&nbsp;field,&nbsp;constructors&nbsp;and&nbsp;methods.&nbsp;&nbsp;They&nbsp;need&nbsp;to<br>
+implement&nbsp;the&nbsp;__lt__&nbsp;method,&nbsp;so&nbsp;that&nbsp;they&nbsp;can&nbsp;be&nbsp;sorted&nbsp;in&nbsp;such&nbsp;a&nbsp;way<br>
+that&nbsp;they&nbsp;are&nbsp;in&nbsp;the&nbsp;same&nbsp;order&nbsp;as&nbsp;mentioned&nbsp;above.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="parser_.tree_nodes.html#ClassAttributeNode">ClassAttributeNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#NodeWithModifiers">NodeWithModifiers</a></dd>
+<dd><a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#TreeNode">TreeNode</a></dd>
+<dd><a href="__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="ClassAttributeNode-__init__"><strong>__init__</strong></a>(self, order)</dt></dl>
+
+<dl><dt><a name="ClassAttributeNode-__lt__"><strong>__lt__</strong></a>(self, other)</dt></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>order</strong></dt>
+</dl>
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#NodeWithModifiers">NodeWithModifiers</a>:<br>
+<dl><dt><strong>modifiers</strong></dt>
+</dl>
+<hr>
+Methods inherited from <a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>:<br>
+<dl><dt><a name="ClassAttributeNode-add_child"><strong>add_child</strong></a>(self, child)</dt><dd><tt>Add&nbsp;a&nbsp;child&nbsp;to&nbsp;the&nbsp;<a href="__builtin__.html#list">list</a>&nbsp;of&nbsp;child&nbsp;nodes.</tt></dd></dl>
+
+<dl><dt><a name="ClassAttributeNode-add_children"><strong>add_children</strong></a>(self, children)</dt></dl>
+
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>:<br>
+<dl><dt><strong>children</strong></dt>
+<dd><tt>Get&nbsp;all&nbsp;the&nbsp;child&nbsp;nodes.</tt></dd>
+</dl>
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#TreeNode">TreeNode</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>type_</strong></dt>
+</dl>
+<dl><dt><strong>value</strong></dt>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="ClassBodyNode">class <strong>ClassBodyNode</strong></a>(<a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>)</font></td></tr>
+    
+<tr><td bgcolor="#ffc8d8"><tt>&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="parser_.tree_nodes.html#ClassBodyNode">ClassBodyNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#TreeNode">TreeNode</a></dd>
+<dd><a href="__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="ClassBodyNode-__str__"><strong>__str__</strong></a>(self)</dt></dl>
+
+<hr>
+Methods inherited from <a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>:<br>
+<dl><dt><a name="ClassBodyNode-__init__"><strong>__init__</strong></a>(self, value<font color="#909090">=''</font>)</dt><dd><tt>Initialise&nbsp;with&nbsp;a&nbsp;node_id.</tt></dd></dl>
+
+<dl><dt><a name="ClassBodyNode-add_child"><strong>add_child</strong></a>(self, child)</dt><dd><tt>Add&nbsp;a&nbsp;child&nbsp;to&nbsp;the&nbsp;<a href="__builtin__.html#list">list</a>&nbsp;of&nbsp;child&nbsp;nodes.</tt></dd></dl>
+
+<dl><dt><a name="ClassBodyNode-add_children"><strong>add_children</strong></a>(self, children)</dt></dl>
+
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>:<br>
+<dl><dt><strong>children</strong></dt>
+<dd><tt>Get&nbsp;all&nbsp;the&nbsp;child&nbsp;nodes.</tt></dd>
+</dl>
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#TreeNode">TreeNode</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>type_</strong></dt>
+</dl>
+<dl><dt><strong>value</strong></dt>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="ClassNode">class <strong>ClassNode</strong></a>(<a href="parser_.tree_nodes.html#NodeWithModifiers">NodeWithModifiers</a>)</font></td></tr>
+    
+<tr><td bgcolor="#ffc8d8"><tt>&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="parser_.tree_nodes.html#ClassNode">ClassNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#NodeWithModifiers">NodeWithModifiers</a></dd>
+<dd><a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#TreeNode">TreeNode</a></dd>
+<dd><a href="__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="ClassNode-__str__"><strong>__str__</strong></a>(self)</dt></dl>
+
+<hr>
+Methods inherited from <a href="parser_.tree_nodes.html#NodeWithModifiers">NodeWithModifiers</a>:<br>
+<dl><dt><a name="ClassNode-__init__"><strong>__init__</strong></a>(self)</dt><dd><tt>Initialise&nbsp;the&nbsp;modifiers.</tt></dd></dl>
+
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#NodeWithModifiers">NodeWithModifiers</a>:<br>
+<dl><dt><strong>modifiers</strong></dt>
+</dl>
+<hr>
+Methods inherited from <a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>:<br>
+<dl><dt><a name="ClassNode-add_child"><strong>add_child</strong></a>(self, child)</dt><dd><tt>Add&nbsp;a&nbsp;child&nbsp;to&nbsp;the&nbsp;<a href="__builtin__.html#list">list</a>&nbsp;of&nbsp;child&nbsp;nodes.</tt></dd></dl>
+
+<dl><dt><a name="ClassNode-add_children"><strong>add_children</strong></a>(self, children)</dt></dl>
+
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>:<br>
+<dl><dt><strong>children</strong></dt>
+<dd><tt>Get&nbsp;all&nbsp;the&nbsp;child&nbsp;nodes.</tt></dd>
+</dl>
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#TreeNode">TreeNode</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>type_</strong></dt>
+</dl>
+<dl><dt><strong>value</strong></dt>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="ClassTypeNode">class <strong>ClassTypeNode</strong></a>(<a href="parser_.tree_nodes.html#LeafNode">LeafNode</a>)</font></td></tr>
+    
+<tr><td bgcolor="#ffc8d8"><tt>&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="parser_.tree_nodes.html#ClassTypeNode">ClassTypeNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#LeafNode">LeafNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#TreeNode">TreeNode</a></dd>
+<dd><a href="__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="ClassTypeNode-__str__"><strong>__str__</strong></a>(self)</dt></dl>
+
+<hr>
+Methods inherited from <a href="parser_.tree_nodes.html#TreeNode">TreeNode</a>:<br>
+<dl><dt><a name="ClassTypeNode-__init__"><strong>__init__</strong></a>(self, value<font color="#909090">=''</font>)</dt><dd><tt>Initialise&nbsp;with&nbsp;a&nbsp;node_id,&nbsp;e.g.&nbsp;"int"&nbsp;for&nbsp;an&nbsp;integer&nbsp;node.</tt></dd></dl>
+
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#TreeNode">TreeNode</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>type_</strong></dt>
+</dl>
+<dl><dt><strong>value</strong></dt>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="CondNode">class <strong>CondNode</strong></a>(<a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>)</font></td></tr>
+    
+<tr><td bgcolor="#ffc8d8"><tt>&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="parser_.tree_nodes.html#CondNode">CondNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#TreeNode">TreeNode</a></dd>
+<dd><a href="__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="CondNode-__str__"><strong>__str__</strong></a>(self)</dt></dl>
+
+<hr>
+Methods inherited from <a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>:<br>
+<dl><dt><a name="CondNode-__init__"><strong>__init__</strong></a>(self, value<font color="#909090">=''</font>)</dt><dd><tt>Initialise&nbsp;with&nbsp;a&nbsp;node_id.</tt></dd></dl>
+
+<dl><dt><a name="CondNode-add_child"><strong>add_child</strong></a>(self, child)</dt><dd><tt>Add&nbsp;a&nbsp;child&nbsp;to&nbsp;the&nbsp;<a href="__builtin__.html#list">list</a>&nbsp;of&nbsp;child&nbsp;nodes.</tt></dd></dl>
+
+<dl><dt><a name="CondNode-add_children"><strong>add_children</strong></a>(self, children)</dt></dl>
+
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>:<br>
+<dl><dt><strong>children</strong></dt>
+<dd><tt>Get&nbsp;all&nbsp;the&nbsp;child&nbsp;nodes.</tt></dd>
+</dl>
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#TreeNode">TreeNode</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>type_</strong></dt>
+</dl>
+<dl><dt><strong>value</strong></dt>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="ConstructorDclNode">class <strong>ConstructorDclNode</strong></a>(<a href="parser_.tree_nodes.html#ClassAttributeNode">ClassAttributeNode</a>)</font></td></tr>
+    
+<tr><td bgcolor="#ffc8d8"><tt>&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="parser_.tree_nodes.html#ConstructorDclNode">ConstructorDclNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#ClassAttributeNode">ClassAttributeNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#NodeWithModifiers">NodeWithModifiers</a></dd>
+<dd><a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#TreeNode">TreeNode</a></dd>
+<dd><a href="__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="ConstructorDclNode-__init__"><strong>__init__</strong></a>(self)</dt><dd><tt>Set&nbsp;the&nbsp;order&nbsp;to&nbsp;1&nbsp;-&nbsp;appears&nbsp;second.</tt></dd></dl>
+
+<dl><dt><a name="ConstructorDclNode-__str__"><strong>__str__</strong></a>(self)</dt></dl>
+
+<hr>
+Methods inherited from <a href="parser_.tree_nodes.html#ClassAttributeNode">ClassAttributeNode</a>:<br>
+<dl><dt><a name="ConstructorDclNode-__lt__"><strong>__lt__</strong></a>(self, other)</dt></dl>
+
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#ClassAttributeNode">ClassAttributeNode</a>:<br>
+<dl><dt><strong>order</strong></dt>
+</dl>
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#NodeWithModifiers">NodeWithModifiers</a>:<br>
+<dl><dt><strong>modifiers</strong></dt>
+</dl>
+<hr>
+Methods inherited from <a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>:<br>
+<dl><dt><a name="ConstructorDclNode-add_child"><strong>add_child</strong></a>(self, child)</dt><dd><tt>Add&nbsp;a&nbsp;child&nbsp;to&nbsp;the&nbsp;<a href="__builtin__.html#list">list</a>&nbsp;of&nbsp;child&nbsp;nodes.</tt></dd></dl>
+
+<dl><dt><a name="ConstructorDclNode-add_children"><strong>add_children</strong></a>(self, children)</dt></dl>
+
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>:<br>
+<dl><dt><strong>children</strong></dt>
+<dd><tt>Get&nbsp;all&nbsp;the&nbsp;child&nbsp;nodes.</tt></dd>
+</dl>
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#TreeNode">TreeNode</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>type_</strong></dt>
+</dl>
+<dl><dt><strong>value</strong></dt>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="DimensionsNode">class <strong>DimensionsNode</strong></a>(<a href="parser_.tree_nodes.html#LeafNode">LeafNode</a>)</font></td></tr>
+    
+<tr><td bgcolor="#ffc8d8"><tt>&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="parser_.tree_nodes.html#DimensionsNode">DimensionsNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#LeafNode">LeafNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#TreeNode">TreeNode</a></dd>
+<dd><a href="__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="DimensionsNode-__str__"><strong>__str__</strong></a>(self)</dt></dl>
+
+<hr>
+Methods inherited from <a href="parser_.tree_nodes.html#TreeNode">TreeNode</a>:<br>
+<dl><dt><a name="DimensionsNode-__init__"><strong>__init__</strong></a>(self, value<font color="#909090">=''</font>)</dt><dd><tt>Initialise&nbsp;with&nbsp;a&nbsp;node_id,&nbsp;e.g.&nbsp;"int"&nbsp;for&nbsp;an&nbsp;integer&nbsp;node.</tt></dd></dl>
+
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#TreeNode">TreeNode</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>type_</strong></dt>
+</dl>
+<dl><dt><strong>value</strong></dt>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="DoubleLNode">class <strong>DoubleLNode</strong></a>(<a href="parser_.tree_nodes.html#LiteralNode">LiteralNode</a>)</font></td></tr>
+    
+<tr><td bgcolor="#ffc8d8"><tt>&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="parser_.tree_nodes.html#DoubleLNode">DoubleLNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#LiteralNode">LiteralNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#LeafNode">LeafNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#TreeNode">TreeNode</a></dd>
+<dd><a href="__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="DoubleLNode-__str__"><strong>__str__</strong></a>(self)</dt></dl>
+
+<hr>
+Methods inherited from <a href="parser_.tree_nodes.html#TreeNode">TreeNode</a>:<br>
+<dl><dt><a name="DoubleLNode-__init__"><strong>__init__</strong></a>(self, value<font color="#909090">=''</font>)</dt><dd><tt>Initialise&nbsp;with&nbsp;a&nbsp;node_id,&nbsp;e.g.&nbsp;"int"&nbsp;for&nbsp;an&nbsp;integer&nbsp;node.</tt></dd></dl>
+
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#TreeNode">TreeNode</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>type_</strong></dt>
+</dl>
+<dl><dt><strong>value</strong></dt>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="EmptyNode">class <strong>EmptyNode</strong></a>(<a href="parser_.tree_nodes.html#LeafNode">LeafNode</a>)</font></td></tr>
+    
+<tr><td bgcolor="#ffc8d8"><tt>&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="parser_.tree_nodes.html#EmptyNode">EmptyNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#LeafNode">LeafNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#TreeNode">TreeNode</a></dd>
+<dd><a href="__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="EmptyNode-__str__"><strong>__str__</strong></a>(self)</dt></dl>
+
+<hr>
+Methods inherited from <a href="parser_.tree_nodes.html#TreeNode">TreeNode</a>:<br>
+<dl><dt><a name="EmptyNode-__init__"><strong>__init__</strong></a>(self, value<font color="#909090">=''</font>)</dt><dd><tt>Initialise&nbsp;with&nbsp;a&nbsp;node_id,&nbsp;e.g.&nbsp;"int"&nbsp;for&nbsp;an&nbsp;integer&nbsp;node.</tt></dd></dl>
+
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#TreeNode">TreeNode</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>type_</strong></dt>
+</dl>
+<dl><dt><strong>value</strong></dt>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="EqNode">class <strong>EqNode</strong></a>(<a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>)</font></td></tr>
+    
+<tr><td bgcolor="#ffc8d8"><tt>&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="parser_.tree_nodes.html#EqNode">EqNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#TreeNode">TreeNode</a></dd>
+<dd><a href="__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="EqNode-__str__"><strong>__str__</strong></a>(self)</dt></dl>
+
+<hr>
+Methods inherited from <a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>:<br>
+<dl><dt><a name="EqNode-__init__"><strong>__init__</strong></a>(self, value<font color="#909090">=''</font>)</dt><dd><tt>Initialise&nbsp;with&nbsp;a&nbsp;node_id.</tt></dd></dl>
+
+<dl><dt><a name="EqNode-add_child"><strong>add_child</strong></a>(self, child)</dt><dd><tt>Add&nbsp;a&nbsp;child&nbsp;to&nbsp;the&nbsp;<a href="__builtin__.html#list">list</a>&nbsp;of&nbsp;child&nbsp;nodes.</tt></dd></dl>
+
+<dl><dt><a name="EqNode-add_children"><strong>add_children</strong></a>(self, children)</dt></dl>
+
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>:<br>
+<dl><dt><strong>children</strong></dt>
+<dd><tt>Get&nbsp;all&nbsp;the&nbsp;child&nbsp;nodes.</tt></dd>
+</dl>
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#TreeNode">TreeNode</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>type_</strong></dt>
+</dl>
+<dl><dt><strong>value</strong></dt>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="ExtendsNode">class <strong>ExtendsNode</strong></a>(<a href="parser_.tree_nodes.html#LeafNode">LeafNode</a>)</font></td></tr>
+    
+<tr><td bgcolor="#ffc8d8"><tt>&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="parser_.tree_nodes.html#ExtendsNode">ExtendsNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#LeafNode">LeafNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#TreeNode">TreeNode</a></dd>
+<dd><a href="__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="ExtendsNode-__str__"><strong>__str__</strong></a>(self)</dt></dl>
+
+<hr>
+Methods inherited from <a href="parser_.tree_nodes.html#TreeNode">TreeNode</a>:<br>
+<dl><dt><a name="ExtendsNode-__init__"><strong>__init__</strong></a>(self, value<font color="#909090">=''</font>)</dt><dd><tt>Initialise&nbsp;with&nbsp;a&nbsp;node_id,&nbsp;e.g.&nbsp;"int"&nbsp;for&nbsp;an&nbsp;integer&nbsp;node.</tt></dd></dl>
+
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#TreeNode">TreeNode</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>type_</strong></dt>
+</dl>
+<dl><dt><strong>value</strong></dt>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="FieldDclAssignNode">class <strong>FieldDclAssignNode</strong></a>(<a href="parser_.tree_nodes.html#ClassAttributeNode">ClassAttributeNode</a>)</font></td></tr>
+    
+<tr><td bgcolor="#ffc8d8"><tt>&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="parser_.tree_nodes.html#FieldDclAssignNode">FieldDclAssignNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#ClassAttributeNode">ClassAttributeNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#NodeWithModifiers">NodeWithModifiers</a></dd>
+<dd><a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#TreeNode">TreeNode</a></dd>
+<dd><a href="__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="FieldDclAssignNode-__init__"><strong>__init__</strong></a>(self)</dt><dd><tt>Set&nbsp;the&nbsp;order&nbsp;to&nbsp;0&nbsp;-&nbsp;appears&nbsp;first.</tt></dd></dl>
+
+<dl><dt><a name="FieldDclAssignNode-__str__"><strong>__str__</strong></a>(self)</dt></dl>
+
+<hr>
+Methods inherited from <a href="parser_.tree_nodes.html#ClassAttributeNode">ClassAttributeNode</a>:<br>
+<dl><dt><a name="FieldDclAssignNode-__lt__"><strong>__lt__</strong></a>(self, other)</dt></dl>
+
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#ClassAttributeNode">ClassAttributeNode</a>:<br>
+<dl><dt><strong>order</strong></dt>
+</dl>
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#NodeWithModifiers">NodeWithModifiers</a>:<br>
+<dl><dt><strong>modifiers</strong></dt>
+</dl>
+<hr>
+Methods inherited from <a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>:<br>
+<dl><dt><a name="FieldDclAssignNode-add_child"><strong>add_child</strong></a>(self, child)</dt><dd><tt>Add&nbsp;a&nbsp;child&nbsp;to&nbsp;the&nbsp;<a href="__builtin__.html#list">list</a>&nbsp;of&nbsp;child&nbsp;nodes.</tt></dd></dl>
+
+<dl><dt><a name="FieldDclAssignNode-add_children"><strong>add_children</strong></a>(self, children)</dt></dl>
+
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>:<br>
+<dl><dt><strong>children</strong></dt>
+<dd><tt>Get&nbsp;all&nbsp;the&nbsp;child&nbsp;nodes.</tt></dd>
+</dl>
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#TreeNode">TreeNode</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>type_</strong></dt>
+</dl>
+<dl><dt><strong>value</strong></dt>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="FieldDclNode">class <strong>FieldDclNode</strong></a>(<a href="parser_.tree_nodes.html#ClassAttributeNode">ClassAttributeNode</a>)</font></td></tr>
+    
+<tr><td bgcolor="#ffc8d8"><tt>&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="parser_.tree_nodes.html#FieldDclNode">FieldDclNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#ClassAttributeNode">ClassAttributeNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#NodeWithModifiers">NodeWithModifiers</a></dd>
+<dd><a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#TreeNode">TreeNode</a></dd>
+<dd><a href="__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="FieldDclNode-__init__"><strong>__init__</strong></a>(self)</dt><dd><tt>Set&nbsp;the&nbsp;order&nbsp;to&nbsp;0&nbsp;-&nbsp;appears&nbsp;first.</tt></dd></dl>
+
+<dl><dt><a name="FieldDclNode-__str__"><strong>__str__</strong></a>(self)</dt></dl>
+
+<hr>
+Methods inherited from <a href="parser_.tree_nodes.html#ClassAttributeNode">ClassAttributeNode</a>:<br>
+<dl><dt><a name="FieldDclNode-__lt__"><strong>__lt__</strong></a>(self, other)</dt></dl>
+
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#ClassAttributeNode">ClassAttributeNode</a>:<br>
+<dl><dt><strong>order</strong></dt>
+</dl>
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#NodeWithModifiers">NodeWithModifiers</a>:<br>
+<dl><dt><strong>modifiers</strong></dt>
+</dl>
+<hr>
+Methods inherited from <a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>:<br>
+<dl><dt><a name="FieldDclNode-add_child"><strong>add_child</strong></a>(self, child)</dt><dd><tt>Add&nbsp;a&nbsp;child&nbsp;to&nbsp;the&nbsp;<a href="__builtin__.html#list">list</a>&nbsp;of&nbsp;child&nbsp;nodes.</tt></dd></dl>
+
+<dl><dt><a name="FieldDclNode-add_children"><strong>add_children</strong></a>(self, children)</dt></dl>
+
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>:<br>
+<dl><dt><strong>children</strong></dt>
+<dd><tt>Get&nbsp;all&nbsp;the&nbsp;child&nbsp;nodes.</tt></dd>
+</dl>
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#TreeNode">TreeNode</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>type_</strong></dt>
+</dl>
+<dl><dt><strong>value</strong></dt>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="FieldRefNode">class <strong>FieldRefNode</strong></a>(<a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>)</font></td></tr>
+    
+<tr><td bgcolor="#ffc8d8"><tt>&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="parser_.tree_nodes.html#FieldRefNode">FieldRefNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#TreeNode">TreeNode</a></dd>
+<dd><a href="__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="FieldRefNode-__str__"><strong>__str__</strong></a>(self)</dt></dl>
+
+<hr>
+Methods inherited from <a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>:<br>
+<dl><dt><a name="FieldRefNode-__init__"><strong>__init__</strong></a>(self, value<font color="#909090">=''</font>)</dt><dd><tt>Initialise&nbsp;with&nbsp;a&nbsp;node_id.</tt></dd></dl>
+
+<dl><dt><a name="FieldRefNode-add_child"><strong>add_child</strong></a>(self, child)</dt><dd><tt>Add&nbsp;a&nbsp;child&nbsp;to&nbsp;the&nbsp;<a href="__builtin__.html#list">list</a>&nbsp;of&nbsp;child&nbsp;nodes.</tt></dd></dl>
+
+<dl><dt><a name="FieldRefNode-add_children"><strong>add_children</strong></a>(self, children)</dt></dl>
+
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>:<br>
+<dl><dt><strong>children</strong></dt>
+<dd><tt>Get&nbsp;all&nbsp;the&nbsp;child&nbsp;nodes.</tt></dd>
+</dl>
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#TreeNode">TreeNode</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>type_</strong></dt>
+</dl>
+<dl><dt><strong>value</strong></dt>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="FieldRefSuperNode">class <strong>FieldRefSuperNode</strong></a>(<a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>)</font></td></tr>
+    
+<tr><td bgcolor="#ffc8d8"><tt>&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="parser_.tree_nodes.html#FieldRefSuperNode">FieldRefSuperNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#TreeNode">TreeNode</a></dd>
+<dd><a href="__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="FieldRefSuperNode-__str__"><strong>__str__</strong></a>(self)</dt></dl>
+
+<hr>
+Methods inherited from <a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>:<br>
+<dl><dt><a name="FieldRefSuperNode-__init__"><strong>__init__</strong></a>(self, value<font color="#909090">=''</font>)</dt><dd><tt>Initialise&nbsp;with&nbsp;a&nbsp;node_id.</tt></dd></dl>
+
+<dl><dt><a name="FieldRefSuperNode-add_child"><strong>add_child</strong></a>(self, child)</dt><dd><tt>Add&nbsp;a&nbsp;child&nbsp;to&nbsp;the&nbsp;<a href="__builtin__.html#list">list</a>&nbsp;of&nbsp;child&nbsp;nodes.</tt></dd></dl>
+
+<dl><dt><a name="FieldRefSuperNode-add_children"><strong>add_children</strong></a>(self, children)</dt></dl>
+
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>:<br>
+<dl><dt><strong>children</strong></dt>
+<dd><tt>Get&nbsp;all&nbsp;the&nbsp;child&nbsp;nodes.</tt></dd>
+</dl>
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#TreeNode">TreeNode</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>type_</strong></dt>
+</dl>
+<dl><dt><strong>value</strong></dt>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="FloatLNode">class <strong>FloatLNode</strong></a>(<a href="parser_.tree_nodes.html#LiteralNode">LiteralNode</a>)</font></td></tr>
+    
+<tr><td bgcolor="#ffc8d8"><tt>&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="parser_.tree_nodes.html#FloatLNode">FloatLNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#LiteralNode">LiteralNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#LeafNode">LeafNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#TreeNode">TreeNode</a></dd>
+<dd><a href="__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="FloatLNode-__str__"><strong>__str__</strong></a>(self)</dt></dl>
+
+<hr>
+Methods inherited from <a href="parser_.tree_nodes.html#TreeNode">TreeNode</a>:<br>
+<dl><dt><a name="FloatLNode-__init__"><strong>__init__</strong></a>(self, value<font color="#909090">=''</font>)</dt><dd><tt>Initialise&nbsp;with&nbsp;a&nbsp;node_id,&nbsp;e.g.&nbsp;"int"&nbsp;for&nbsp;an&nbsp;integer&nbsp;node.</tt></dd></dl>
+
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#TreeNode">TreeNode</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>type_</strong></dt>
+</dl>
+<dl><dt><strong>value</strong></dt>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="ForNode">class <strong>ForNode</strong></a>(<a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>)</font></td></tr>
+    
+<tr><td bgcolor="#ffc8d8"><tt>&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="parser_.tree_nodes.html#ForNode">ForNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#TreeNode">TreeNode</a></dd>
+<dd><a href="__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="ForNode-__str__"><strong>__str__</strong></a>(self)</dt></dl>
+
+<hr>
+Methods inherited from <a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>:<br>
+<dl><dt><a name="ForNode-__init__"><strong>__init__</strong></a>(self, value<font color="#909090">=''</font>)</dt><dd><tt>Initialise&nbsp;with&nbsp;a&nbsp;node_id.</tt></dd></dl>
+
+<dl><dt><a name="ForNode-add_child"><strong>add_child</strong></a>(self, child)</dt><dd><tt>Add&nbsp;a&nbsp;child&nbsp;to&nbsp;the&nbsp;<a href="__builtin__.html#list">list</a>&nbsp;of&nbsp;child&nbsp;nodes.</tt></dd></dl>
+
+<dl><dt><a name="ForNode-add_children"><strong>add_children</strong></a>(self, children)</dt></dl>
+
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>:<br>
+<dl><dt><strong>children</strong></dt>
+<dd><tt>Get&nbsp;all&nbsp;the&nbsp;child&nbsp;nodes.</tt></dd>
+</dl>
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#TreeNode">TreeNode</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>type_</strong></dt>
+</dl>
+<dl><dt><strong>value</strong></dt>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="IdNode">class <strong>IdNode</strong></a>(<a href="parser_.tree_nodes.html#LeafNode">LeafNode</a>)</font></td></tr>
+    
+<tr><td bgcolor="#ffc8d8"><tt>&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="parser_.tree_nodes.html#IdNode">IdNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#LeafNode">LeafNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#TreeNode">TreeNode</a></dd>
+<dd><a href="__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="IdNode-__str__"><strong>__str__</strong></a>(self)</dt></dl>
+
+<hr>
+Methods inherited from <a href="parser_.tree_nodes.html#TreeNode">TreeNode</a>:<br>
+<dl><dt><a name="IdNode-__init__"><strong>__init__</strong></a>(self, value<font color="#909090">=''</font>)</dt><dd><tt>Initialise&nbsp;with&nbsp;a&nbsp;node_id,&nbsp;e.g.&nbsp;"int"&nbsp;for&nbsp;an&nbsp;integer&nbsp;node.</tt></dd></dl>
+
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#TreeNode">TreeNode</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>type_</strong></dt>
+</dl>
+<dl><dt><strong>value</strong></dt>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="IfNode">class <strong>IfNode</strong></a>(<a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>)</font></td></tr>
+    
+<tr><td bgcolor="#ffc8d8"><tt>&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="parser_.tree_nodes.html#IfNode">IfNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#TreeNode">TreeNode</a></dd>
+<dd><a href="__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="IfNode-__str__"><strong>__str__</strong></a>(self)</dt></dl>
+
+<hr>
+Methods inherited from <a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>:<br>
+<dl><dt><a name="IfNode-__init__"><strong>__init__</strong></a>(self, value<font color="#909090">=''</font>)</dt><dd><tt>Initialise&nbsp;with&nbsp;a&nbsp;node_id.</tt></dd></dl>
+
+<dl><dt><a name="IfNode-add_child"><strong>add_child</strong></a>(self, child)</dt><dd><tt>Add&nbsp;a&nbsp;child&nbsp;to&nbsp;the&nbsp;<a href="__builtin__.html#list">list</a>&nbsp;of&nbsp;child&nbsp;nodes.</tt></dd></dl>
+
+<dl><dt><a name="IfNode-add_children"><strong>add_children</strong></a>(self, children)</dt></dl>
+
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>:<br>
+<dl><dt><strong>children</strong></dt>
+<dd><tt>Get&nbsp;all&nbsp;the&nbsp;child&nbsp;nodes.</tt></dd>
+</dl>
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#TreeNode">TreeNode</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>type_</strong></dt>
+</dl>
+<dl><dt><strong>value</strong></dt>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="ImplementsListNode">class <strong>ImplementsListNode</strong></a>(<a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>)</font></td></tr>
+    
+<tr><td bgcolor="#ffc8d8"><tt>&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="parser_.tree_nodes.html#ImplementsListNode">ImplementsListNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#TreeNode">TreeNode</a></dd>
+<dd><a href="__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="ImplementsListNode-__str__"><strong>__str__</strong></a>(self)</dt></dl>
+
+<hr>
+Methods inherited from <a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>:<br>
+<dl><dt><a name="ImplementsListNode-__init__"><strong>__init__</strong></a>(self, value<font color="#909090">=''</font>)</dt><dd><tt>Initialise&nbsp;with&nbsp;a&nbsp;node_id.</tt></dd></dl>
+
+<dl><dt><a name="ImplementsListNode-add_child"><strong>add_child</strong></a>(self, child)</dt><dd><tt>Add&nbsp;a&nbsp;child&nbsp;to&nbsp;the&nbsp;<a href="__builtin__.html#list">list</a>&nbsp;of&nbsp;child&nbsp;nodes.</tt></dd></dl>
+
+<dl><dt><a name="ImplementsListNode-add_children"><strong>add_children</strong></a>(self, children)</dt></dl>
+
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>:<br>
+<dl><dt><strong>children</strong></dt>
+<dd><tt>Get&nbsp;all&nbsp;the&nbsp;child&nbsp;nodes.</tt></dd>
+</dl>
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#TreeNode">TreeNode</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>type_</strong></dt>
+</dl>
+<dl><dt><strong>value</strong></dt>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="ImplementsNode">class <strong>ImplementsNode</strong></a>(<a href="parser_.tree_nodes.html#LeafNode">LeafNode</a>)</font></td></tr>
+    
+<tr><td bgcolor="#ffc8d8"><tt>&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="parser_.tree_nodes.html#ImplementsNode">ImplementsNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#LeafNode">LeafNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#TreeNode">TreeNode</a></dd>
+<dd><a href="__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="ImplementsNode-__str__"><strong>__str__</strong></a>(self)</dt></dl>
+
+<hr>
+Methods inherited from <a href="parser_.tree_nodes.html#TreeNode">TreeNode</a>:<br>
+<dl><dt><a name="ImplementsNode-__init__"><strong>__init__</strong></a>(self, value<font color="#909090">=''</font>)</dt><dd><tt>Initialise&nbsp;with&nbsp;a&nbsp;node_id,&nbsp;e.g.&nbsp;"int"&nbsp;for&nbsp;an&nbsp;integer&nbsp;node.</tt></dd></dl>
+
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#TreeNode">TreeNode</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>type_</strong></dt>
+</dl>
+<dl><dt><strong>value</strong></dt>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="IncNode">class <strong>IncNode</strong></a>(<a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>)</font></td></tr>
+    
+<tr><td bgcolor="#ffc8d8"><tt>&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="parser_.tree_nodes.html#IncNode">IncNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#TreeNode">TreeNode</a></dd>
+<dd><a href="__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="IncNode-__str__"><strong>__str__</strong></a>(self)</dt></dl>
+
+<hr>
+Methods inherited from <a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>:<br>
+<dl><dt><a name="IncNode-__init__"><strong>__init__</strong></a>(self, value<font color="#909090">=''</font>)</dt><dd><tt>Initialise&nbsp;with&nbsp;a&nbsp;node_id.</tt></dd></dl>
+
+<dl><dt><a name="IncNode-add_child"><strong>add_child</strong></a>(self, child)</dt><dd><tt>Add&nbsp;a&nbsp;child&nbsp;to&nbsp;the&nbsp;<a href="__builtin__.html#list">list</a>&nbsp;of&nbsp;child&nbsp;nodes.</tt></dd></dl>
+
+<dl><dt><a name="IncNode-add_children"><strong>add_children</strong></a>(self, children)</dt></dl>
+
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>:<br>
+<dl><dt><strong>children</strong></dt>
+<dd><tt>Get&nbsp;all&nbsp;the&nbsp;child&nbsp;nodes.</tt></dd>
+</dl>
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#TreeNode">TreeNode</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>type_</strong></dt>
+</dl>
+<dl><dt><strong>value</strong></dt>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="IntLNode">class <strong>IntLNode</strong></a>(<a href="parser_.tree_nodes.html#LiteralNode">LiteralNode</a>)</font></td></tr>
+    
+<tr><td bgcolor="#ffc8d8"><tt>&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="parser_.tree_nodes.html#IntLNode">IntLNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#LiteralNode">LiteralNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#LeafNode">LeafNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#TreeNode">TreeNode</a></dd>
+<dd><a href="__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="IntLNode-__str__"><strong>__str__</strong></a>(self)</dt></dl>
+
+<hr>
+Methods inherited from <a href="parser_.tree_nodes.html#TreeNode">TreeNode</a>:<br>
+<dl><dt><a name="IntLNode-__init__"><strong>__init__</strong></a>(self, value<font color="#909090">=''</font>)</dt><dd><tt>Initialise&nbsp;with&nbsp;a&nbsp;node_id,&nbsp;e.g.&nbsp;"int"&nbsp;for&nbsp;an&nbsp;integer&nbsp;node.</tt></dd></dl>
+
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#TreeNode">TreeNode</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>type_</strong></dt>
+</dl>
+<dl><dt><strong>value</strong></dt>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="InterfaceBodyNode">class <strong>InterfaceBodyNode</strong></a>(<a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>)</font></td></tr>
+    
+<tr><td bgcolor="#ffc8d8"><tt>&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="parser_.tree_nodes.html#InterfaceBodyNode">InterfaceBodyNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#TreeNode">TreeNode</a></dd>
+<dd><a href="__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="InterfaceBodyNode-__str__"><strong>__str__</strong></a>(self)</dt></dl>
+
+<hr>
+Methods inherited from <a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>:<br>
+<dl><dt><a name="InterfaceBodyNode-__init__"><strong>__init__</strong></a>(self, value<font color="#909090">=''</font>)</dt><dd><tt>Initialise&nbsp;with&nbsp;a&nbsp;node_id.</tt></dd></dl>
+
+<dl><dt><a name="InterfaceBodyNode-add_child"><strong>add_child</strong></a>(self, child)</dt><dd><tt>Add&nbsp;a&nbsp;child&nbsp;to&nbsp;the&nbsp;<a href="__builtin__.html#list">list</a>&nbsp;of&nbsp;child&nbsp;nodes.</tt></dd></dl>
+
+<dl><dt><a name="InterfaceBodyNode-add_children"><strong>add_children</strong></a>(self, children)</dt></dl>
+
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>:<br>
+<dl><dt><strong>children</strong></dt>
+<dd><tt>Get&nbsp;all&nbsp;the&nbsp;child&nbsp;nodes.</tt></dd>
+</dl>
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#TreeNode">TreeNode</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>type_</strong></dt>
+</dl>
+<dl><dt><strong>value</strong></dt>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="InterfaceNode">class <strong>InterfaceNode</strong></a>(<a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>)</font></td></tr>
+    
+<tr><td bgcolor="#ffc8d8"><tt>&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="parser_.tree_nodes.html#InterfaceNode">InterfaceNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#TreeNode">TreeNode</a></dd>
+<dd><a href="__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="InterfaceNode-__str__"><strong>__str__</strong></a>(self)</dt></dl>
+
+<hr>
+Methods inherited from <a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>:<br>
+<dl><dt><a name="InterfaceNode-__init__"><strong>__init__</strong></a>(self, value<font color="#909090">=''</font>)</dt><dd><tt>Initialise&nbsp;with&nbsp;a&nbsp;node_id.</tt></dd></dl>
+
+<dl><dt><a name="InterfaceNode-add_child"><strong>add_child</strong></a>(self, child)</dt><dd><tt>Add&nbsp;a&nbsp;child&nbsp;to&nbsp;the&nbsp;<a href="__builtin__.html#list">list</a>&nbsp;of&nbsp;child&nbsp;nodes.</tt></dd></dl>
+
+<dl><dt><a name="InterfaceNode-add_children"><strong>add_children</strong></a>(self, children)</dt></dl>
+
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>:<br>
+<dl><dt><strong>children</strong></dt>
+<dd><tt>Get&nbsp;all&nbsp;the&nbsp;child&nbsp;nodes.</tt></dd>
+</dl>
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#TreeNode">TreeNode</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>type_</strong></dt>
+</dl>
+<dl><dt><strong>value</strong></dt>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="InteriorNode">class <strong>InteriorNode</strong></a>(<a href="parser_.tree_nodes.html#TreeNode">TreeNode</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>An&nbsp;interior&nbsp;node&nbsp;of&nbsp;the&nbsp;AST&nbsp;tree.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#TreeNode">TreeNode</a></dd>
+<dd><a href="__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="InteriorNode-__init__"><strong>__init__</strong></a>(self, value<font color="#909090">=''</font>)</dt><dd><tt>Initialise&nbsp;with&nbsp;a&nbsp;node_id.</tt></dd></dl>
+
+<dl><dt><a name="InteriorNode-add_child"><strong>add_child</strong></a>(self, child)</dt><dd><tt>Add&nbsp;a&nbsp;child&nbsp;to&nbsp;the&nbsp;<a href="__builtin__.html#list">list</a>&nbsp;of&nbsp;child&nbsp;nodes.</tt></dd></dl>
+
+<dl><dt><a name="InteriorNode-add_children"><strong>add_children</strong></a>(self, children)</dt></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>children</strong></dt>
+<dd><tt>Get&nbsp;all&nbsp;the&nbsp;child&nbsp;nodes.</tt></dd>
+</dl>
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#TreeNode">TreeNode</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>type_</strong></dt>
+</dl>
+<dl><dt><strong>value</strong></dt>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="LeafNode">class <strong>LeafNode</strong></a>(<a href="parser_.tree_nodes.html#TreeNode">TreeNode</a>)</font></td></tr>
+    
+<tr><td bgcolor="#ffc8d8"><tt>&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="parser_.tree_nodes.html#LeafNode">LeafNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#TreeNode">TreeNode</a></dd>
+<dd><a href="__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Methods inherited from <a href="parser_.tree_nodes.html#TreeNode">TreeNode</a>:<br>
+<dl><dt><a name="LeafNode-__init__"><strong>__init__</strong></a>(self, value<font color="#909090">=''</font>)</dt><dd><tt>Initialise&nbsp;with&nbsp;a&nbsp;node_id,&nbsp;e.g.&nbsp;"int"&nbsp;for&nbsp;an&nbsp;integer&nbsp;node.</tt></dd></dl>
+
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#TreeNode">TreeNode</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>type_</strong></dt>
+</dl>
+<dl><dt><strong>value</strong></dt>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="LiteralNode">class <strong>LiteralNode</strong></a>(<a href="parser_.tree_nodes.html#LeafNode">LeafNode</a>)</font></td></tr>
+    
+<tr><td bgcolor="#ffc8d8"><tt>&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="parser_.tree_nodes.html#LiteralNode">LiteralNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#LeafNode">LeafNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#TreeNode">TreeNode</a></dd>
+<dd><a href="__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Methods inherited from <a href="parser_.tree_nodes.html#TreeNode">TreeNode</a>:<br>
+<dl><dt><a name="LiteralNode-__init__"><strong>__init__</strong></a>(self, value<font color="#909090">=''</font>)</dt><dd><tt>Initialise&nbsp;with&nbsp;a&nbsp;node_id,&nbsp;e.g.&nbsp;"int"&nbsp;for&nbsp;an&nbsp;integer&nbsp;node.</tt></dd></dl>
+
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#TreeNode">TreeNode</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>type_</strong></dt>
+</dl>
+<dl><dt><strong>value</strong></dt>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="LongLNode">class <strong>LongLNode</strong></a>(<a href="parser_.tree_nodes.html#LiteralNode">LiteralNode</a>)</font></td></tr>
+    
+<tr><td bgcolor="#ffc8d8"><tt>&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="parser_.tree_nodes.html#LongLNode">LongLNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#LiteralNode">LiteralNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#LeafNode">LeafNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#TreeNode">TreeNode</a></dd>
+<dd><a href="__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="LongLNode-__str__"><strong>__str__</strong></a>(self)</dt></dl>
+
+<hr>
+Methods inherited from <a href="parser_.tree_nodes.html#TreeNode">TreeNode</a>:<br>
+<dl><dt><a name="LongLNode-__init__"><strong>__init__</strong></a>(self, value<font color="#909090">=''</font>)</dt><dd><tt>Initialise&nbsp;with&nbsp;a&nbsp;node_id,&nbsp;e.g.&nbsp;"int"&nbsp;for&nbsp;an&nbsp;integer&nbsp;node.</tt></dd></dl>
+
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#TreeNode">TreeNode</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>type_</strong></dt>
+</dl>
+<dl><dt><strong>value</strong></dt>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="MatrixElementNode">class <strong>MatrixElementNode</strong></a>(<a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>)</font></td></tr>
+    
+<tr><td bgcolor="#ffc8d8"><tt>&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="parser_.tree_nodes.html#MatrixElementNode">MatrixElementNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#TreeNode">TreeNode</a></dd>
+<dd><a href="__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="MatrixElementNode-__str__"><strong>__str__</strong></a>(self)</dt></dl>
+
+<hr>
+Methods inherited from <a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>:<br>
+<dl><dt><a name="MatrixElementNode-__init__"><strong>__init__</strong></a>(self, value<font color="#909090">=''</font>)</dt><dd><tt>Initialise&nbsp;with&nbsp;a&nbsp;node_id.</tt></dd></dl>
+
+<dl><dt><a name="MatrixElementNode-add_child"><strong>add_child</strong></a>(self, child)</dt><dd><tt>Add&nbsp;a&nbsp;child&nbsp;to&nbsp;the&nbsp;<a href="__builtin__.html#list">list</a>&nbsp;of&nbsp;child&nbsp;nodes.</tt></dd></dl>
+
+<dl><dt><a name="MatrixElementNode-add_children"><strong>add_children</strong></a>(self, children)</dt></dl>
+
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>:<br>
+<dl><dt><strong>children</strong></dt>
+<dd><tt>Get&nbsp;all&nbsp;the&nbsp;child&nbsp;nodes.</tt></dd>
+</dl>
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#TreeNode">TreeNode</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>type_</strong></dt>
+</dl>
+<dl><dt><strong>value</strong></dt>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="MatrixInitNode">class <strong>MatrixInitNode</strong></a>(<a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>)</font></td></tr>
+    
+<tr><td bgcolor="#ffc8d8"><tt>&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="parser_.tree_nodes.html#MatrixInitNode">MatrixInitNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#TreeNode">TreeNode</a></dd>
+<dd><a href="__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="MatrixInitNode-__str__"><strong>__str__</strong></a>(self)</dt></dl>
+
+<hr>
+Methods inherited from <a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>:<br>
+<dl><dt><a name="MatrixInitNode-__init__"><strong>__init__</strong></a>(self, value<font color="#909090">=''</font>)</dt><dd><tt>Initialise&nbsp;with&nbsp;a&nbsp;node_id.</tt></dd></dl>
+
+<dl><dt><a name="MatrixInitNode-add_child"><strong>add_child</strong></a>(self, child)</dt><dd><tt>Add&nbsp;a&nbsp;child&nbsp;to&nbsp;the&nbsp;<a href="__builtin__.html#list">list</a>&nbsp;of&nbsp;child&nbsp;nodes.</tt></dd></dl>
+
+<dl><dt><a name="MatrixInitNode-add_children"><strong>add_children</strong></a>(self, children)</dt></dl>
+
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>:<br>
+<dl><dt><strong>children</strong></dt>
+<dd><tt>Get&nbsp;all&nbsp;the&nbsp;child&nbsp;nodes.</tt></dd>
+</dl>
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#TreeNode">TreeNode</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>type_</strong></dt>
+</dl>
+<dl><dt><strong>value</strong></dt>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="MethodCallLongNode">class <strong>MethodCallLongNode</strong></a>(<a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>)</font></td></tr>
+    
+<tr><td bgcolor="#ffc8d8"><tt>&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="parser_.tree_nodes.html#MethodCallLongNode">MethodCallLongNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#TreeNode">TreeNode</a></dd>
+<dd><a href="__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="MethodCallLongNode-__str__"><strong>__str__</strong></a>(self)</dt></dl>
+
+<hr>
+Methods inherited from <a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>:<br>
+<dl><dt><a name="MethodCallLongNode-__init__"><strong>__init__</strong></a>(self, value<font color="#909090">=''</font>)</dt><dd><tt>Initialise&nbsp;with&nbsp;a&nbsp;node_id.</tt></dd></dl>
+
+<dl><dt><a name="MethodCallLongNode-add_child"><strong>add_child</strong></a>(self, child)</dt><dd><tt>Add&nbsp;a&nbsp;child&nbsp;to&nbsp;the&nbsp;<a href="__builtin__.html#list">list</a>&nbsp;of&nbsp;child&nbsp;nodes.</tt></dd></dl>
+
+<dl><dt><a name="MethodCallLongNode-add_children"><strong>add_children</strong></a>(self, children)</dt></dl>
+
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>:<br>
+<dl><dt><strong>children</strong></dt>
+<dd><tt>Get&nbsp;all&nbsp;the&nbsp;child&nbsp;nodes.</tt></dd>
+</dl>
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#TreeNode">TreeNode</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>type_</strong></dt>
+</dl>
+<dl><dt><strong>value</strong></dt>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="MethodCallNode">class <strong>MethodCallNode</strong></a>(<a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>)</font></td></tr>
+    
+<tr><td bgcolor="#ffc8d8"><tt>&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="parser_.tree_nodes.html#MethodCallNode">MethodCallNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#TreeNode">TreeNode</a></dd>
+<dd><a href="__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="MethodCallNode-__str__"><strong>__str__</strong></a>(self)</dt></dl>
+
+<hr>
+Methods inherited from <a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>:<br>
+<dl><dt><a name="MethodCallNode-__init__"><strong>__init__</strong></a>(self, value<font color="#909090">=''</font>)</dt><dd><tt>Initialise&nbsp;with&nbsp;a&nbsp;node_id.</tt></dd></dl>
+
+<dl><dt><a name="MethodCallNode-add_child"><strong>add_child</strong></a>(self, child)</dt><dd><tt>Add&nbsp;a&nbsp;child&nbsp;to&nbsp;the&nbsp;<a href="__builtin__.html#list">list</a>&nbsp;of&nbsp;child&nbsp;nodes.</tt></dd></dl>
+
+<dl><dt><a name="MethodCallNode-add_children"><strong>add_children</strong></a>(self, children)</dt></dl>
+
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>:<br>
+<dl><dt><strong>children</strong></dt>
+<dd><tt>Get&nbsp;all&nbsp;the&nbsp;child&nbsp;nodes.</tt></dd>
+</dl>
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#TreeNode">TreeNode</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>type_</strong></dt>
+</dl>
+<dl><dt><strong>value</strong></dt>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="MethodCallSuperNode">class <strong>MethodCallSuperNode</strong></a>(<a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>)</font></td></tr>
+    
+<tr><td bgcolor="#ffc8d8"><tt>&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="parser_.tree_nodes.html#MethodCallSuperNode">MethodCallSuperNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#TreeNode">TreeNode</a></dd>
+<dd><a href="__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="MethodCallSuperNode-__str__"><strong>__str__</strong></a>(self)</dt></dl>
+
+<hr>
+Methods inherited from <a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>:<br>
+<dl><dt><a name="MethodCallSuperNode-__init__"><strong>__init__</strong></a>(self, value<font color="#909090">=''</font>)</dt><dd><tt>Initialise&nbsp;with&nbsp;a&nbsp;node_id.</tt></dd></dl>
+
+<dl><dt><a name="MethodCallSuperNode-add_child"><strong>add_child</strong></a>(self, child)</dt><dd><tt>Add&nbsp;a&nbsp;child&nbsp;to&nbsp;the&nbsp;<a href="__builtin__.html#list">list</a>&nbsp;of&nbsp;child&nbsp;nodes.</tt></dd></dl>
+
+<dl><dt><a name="MethodCallSuperNode-add_children"><strong>add_children</strong></a>(self, children)</dt></dl>
+
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>:<br>
+<dl><dt><strong>children</strong></dt>
+<dd><tt>Get&nbsp;all&nbsp;the&nbsp;child&nbsp;nodes.</tt></dd>
+</dl>
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#TreeNode">TreeNode</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>type_</strong></dt>
+</dl>
+<dl><dt><strong>value</strong></dt>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="MethodCallThisNode">class <strong>MethodCallThisNode</strong></a>(<a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>)</font></td></tr>
+    
+<tr><td bgcolor="#ffc8d8"><tt>&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="parser_.tree_nodes.html#MethodCallThisNode">MethodCallThisNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#TreeNode">TreeNode</a></dd>
+<dd><a href="__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="MethodCallThisNode-__str__"><strong>__str__</strong></a>(self)</dt></dl>
+
+<hr>
+Methods inherited from <a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>:<br>
+<dl><dt><a name="MethodCallThisNode-__init__"><strong>__init__</strong></a>(self, value<font color="#909090">=''</font>)</dt><dd><tt>Initialise&nbsp;with&nbsp;a&nbsp;node_id.</tt></dd></dl>
+
+<dl><dt><a name="MethodCallThisNode-add_child"><strong>add_child</strong></a>(self, child)</dt><dd><tt>Add&nbsp;a&nbsp;child&nbsp;to&nbsp;the&nbsp;<a href="__builtin__.html#list">list</a>&nbsp;of&nbsp;child&nbsp;nodes.</tt></dd></dl>
+
+<dl><dt><a name="MethodCallThisNode-add_children"><strong>add_children</strong></a>(self, children)</dt></dl>
+
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>:<br>
+<dl><dt><strong>children</strong></dt>
+<dd><tt>Get&nbsp;all&nbsp;the&nbsp;child&nbsp;nodes.</tt></dd>
+</dl>
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#TreeNode">TreeNode</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>type_</strong></dt>
+</dl>
+<dl><dt><strong>value</strong></dt>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="MethodDclArrayNode">class <strong>MethodDclArrayNode</strong></a>(<a href="parser_.tree_nodes.html#ClassAttributeNode">ClassAttributeNode</a>)</font></td></tr>
+    
+<tr><td bgcolor="#ffc8d8"><tt>&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="parser_.tree_nodes.html#MethodDclArrayNode">MethodDclArrayNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#ClassAttributeNode">ClassAttributeNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#NodeWithModifiers">NodeWithModifiers</a></dd>
+<dd><a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#TreeNode">TreeNode</a></dd>
+<dd><a href="__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="MethodDclArrayNode-__init__"><strong>__init__</strong></a>(self)</dt><dd><tt>Set&nbsp;the&nbsp;order&nbsp;to&nbsp;2&nbsp;-&nbsp;appears&nbsp;last.</tt></dd></dl>
+
+<dl><dt><a name="MethodDclArrayNode-__str__"><strong>__str__</strong></a>(self)</dt></dl>
+
+<hr>
+Methods inherited from <a href="parser_.tree_nodes.html#ClassAttributeNode">ClassAttributeNode</a>:<br>
+<dl><dt><a name="MethodDclArrayNode-__lt__"><strong>__lt__</strong></a>(self, other)</dt></dl>
+
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#ClassAttributeNode">ClassAttributeNode</a>:<br>
+<dl><dt><strong>order</strong></dt>
+</dl>
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#NodeWithModifiers">NodeWithModifiers</a>:<br>
+<dl><dt><strong>modifiers</strong></dt>
+</dl>
+<hr>
+Methods inherited from <a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>:<br>
+<dl><dt><a name="MethodDclArrayNode-add_child"><strong>add_child</strong></a>(self, child)</dt><dd><tt>Add&nbsp;a&nbsp;child&nbsp;to&nbsp;the&nbsp;<a href="__builtin__.html#list">list</a>&nbsp;of&nbsp;child&nbsp;nodes.</tt></dd></dl>
+
+<dl><dt><a name="MethodDclArrayNode-add_children"><strong>add_children</strong></a>(self, children)</dt></dl>
+
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>:<br>
+<dl><dt><strong>children</strong></dt>
+<dd><tt>Get&nbsp;all&nbsp;the&nbsp;child&nbsp;nodes.</tt></dd>
+</dl>
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#TreeNode">TreeNode</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>type_</strong></dt>
+</dl>
+<dl><dt><strong>value</strong></dt>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="MethodDclNode">class <strong>MethodDclNode</strong></a>(<a href="parser_.tree_nodes.html#ClassAttributeNode">ClassAttributeNode</a>)</font></td></tr>
+    
+<tr><td bgcolor="#ffc8d8"><tt>&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="parser_.tree_nodes.html#MethodDclNode">MethodDclNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#ClassAttributeNode">ClassAttributeNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#NodeWithModifiers">NodeWithModifiers</a></dd>
+<dd><a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#TreeNode">TreeNode</a></dd>
+<dd><a href="__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="MethodDclNode-__init__"><strong>__init__</strong></a>(self)</dt><dd><tt>Set&nbsp;the&nbsp;order&nbsp;to&nbsp;2&nbsp;-&nbsp;appears&nbsp;last.</tt></dd></dl>
+
+<dl><dt><a name="MethodDclNode-__str__"><strong>__str__</strong></a>(self)</dt></dl>
+
+<hr>
+Methods inherited from <a href="parser_.tree_nodes.html#ClassAttributeNode">ClassAttributeNode</a>:<br>
+<dl><dt><a name="MethodDclNode-__lt__"><strong>__lt__</strong></a>(self, other)</dt></dl>
+
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#ClassAttributeNode">ClassAttributeNode</a>:<br>
+<dl><dt><strong>order</strong></dt>
+</dl>
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#NodeWithModifiers">NodeWithModifiers</a>:<br>
+<dl><dt><strong>modifiers</strong></dt>
+</dl>
+<hr>
+Methods inherited from <a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>:<br>
+<dl><dt><a name="MethodDclNode-add_child"><strong>add_child</strong></a>(self, child)</dt><dd><tt>Add&nbsp;a&nbsp;child&nbsp;to&nbsp;the&nbsp;<a href="__builtin__.html#list">list</a>&nbsp;of&nbsp;child&nbsp;nodes.</tt></dd></dl>
+
+<dl><dt><a name="MethodDclNode-add_children"><strong>add_children</strong></a>(self, children)</dt></dl>
+
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>:<br>
+<dl><dt><strong>children</strong></dt>
+<dd><tt>Get&nbsp;all&nbsp;the&nbsp;child&nbsp;nodes.</tt></dd>
+</dl>
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#TreeNode">TreeNode</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>type_</strong></dt>
+</dl>
+<dl><dt><strong>value</strong></dt>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="MulNode">class <strong>MulNode</strong></a>(<a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>)</font></td></tr>
+    
+<tr><td bgcolor="#ffc8d8"><tt>&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="parser_.tree_nodes.html#MulNode">MulNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#TreeNode">TreeNode</a></dd>
+<dd><a href="__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="MulNode-__str__"><strong>__str__</strong></a>(self)</dt></dl>
+
+<hr>
+Methods inherited from <a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>:<br>
+<dl><dt><a name="MulNode-__init__"><strong>__init__</strong></a>(self, value<font color="#909090">=''</font>)</dt><dd><tt>Initialise&nbsp;with&nbsp;a&nbsp;node_id.</tt></dd></dl>
+
+<dl><dt><a name="MulNode-add_child"><strong>add_child</strong></a>(self, child)</dt><dd><tt>Add&nbsp;a&nbsp;child&nbsp;to&nbsp;the&nbsp;<a href="__builtin__.html#list">list</a>&nbsp;of&nbsp;child&nbsp;nodes.</tt></dd></dl>
+
+<dl><dt><a name="MulNode-add_children"><strong>add_children</strong></a>(self, children)</dt></dl>
+
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>:<br>
+<dl><dt><strong>children</strong></dt>
+<dd><tt>Get&nbsp;all&nbsp;the&nbsp;child&nbsp;nodes.</tt></dd>
+</dl>
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#TreeNode">TreeNode</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>type_</strong></dt>
+</dl>
+<dl><dt><strong>value</strong></dt>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="NodeWithModifiers">class <strong>NodeWithModifiers</strong></a>(<a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>A&nbsp;node&nbsp;with&nbsp;modifiers,&nbsp;such&nbsp;as&nbsp;static,&nbsp;final&nbsp;etc.<br>
+The&nbsp;modifiers&nbsp;parameter&nbsp;is&nbsp;a&nbsp;<a href="__builtin__.html#list">list</a>&nbsp;of&nbsp;these&nbsp;modifiers.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="parser_.tree_nodes.html#NodeWithModifiers">NodeWithModifiers</a></dd>
+<dd><a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#TreeNode">TreeNode</a></dd>
+<dd><a href="__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="NodeWithModifiers-__init__"><strong>__init__</strong></a>(self)</dt><dd><tt>Initialise&nbsp;the&nbsp;modifiers.</tt></dd></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>modifiers</strong></dt>
+</dl>
+<hr>
+Methods inherited from <a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>:<br>
+<dl><dt><a name="NodeWithModifiers-add_child"><strong>add_child</strong></a>(self, child)</dt><dd><tt>Add&nbsp;a&nbsp;child&nbsp;to&nbsp;the&nbsp;<a href="__builtin__.html#list">list</a>&nbsp;of&nbsp;child&nbsp;nodes.</tt></dd></dl>
+
+<dl><dt><a name="NodeWithModifiers-add_children"><strong>add_children</strong></a>(self, children)</dt></dl>
+
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>:<br>
+<dl><dt><strong>children</strong></dt>
+<dd><tt>Get&nbsp;all&nbsp;the&nbsp;child&nbsp;nodes.</tt></dd>
+</dl>
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#TreeNode">TreeNode</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>type_</strong></dt>
+</dl>
+<dl><dt><strong>value</strong></dt>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="NotNode">class <strong>NotNode</strong></a>(<a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>)</font></td></tr>
+    
+<tr><td bgcolor="#ffc8d8"><tt>&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="parser_.tree_nodes.html#NotNode">NotNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#TreeNode">TreeNode</a></dd>
+<dd><a href="__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="NotNode-__str__"><strong>__str__</strong></a>(self)</dt></dl>
+
+<hr>
+Methods inherited from <a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>:<br>
+<dl><dt><a name="NotNode-__init__"><strong>__init__</strong></a>(self, value<font color="#909090">=''</font>)</dt><dd><tt>Initialise&nbsp;with&nbsp;a&nbsp;node_id.</tt></dd></dl>
+
+<dl><dt><a name="NotNode-add_child"><strong>add_child</strong></a>(self, child)</dt><dd><tt>Add&nbsp;a&nbsp;child&nbsp;to&nbsp;the&nbsp;<a href="__builtin__.html#list">list</a>&nbsp;of&nbsp;child&nbsp;nodes.</tt></dd></dl>
+
+<dl><dt><a name="NotNode-add_children"><strong>add_children</strong></a>(self, children)</dt></dl>
+
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>:<br>
+<dl><dt><strong>children</strong></dt>
+<dd><tt>Get&nbsp;all&nbsp;the&nbsp;child&nbsp;nodes.</tt></dd>
+</dl>
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#TreeNode">TreeNode</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>type_</strong></dt>
+</dl>
+<dl><dt><strong>value</strong></dt>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="NullLNode">class <strong>NullLNode</strong></a>(<a href="parser_.tree_nodes.html#LiteralNode">LiteralNode</a>)</font></td></tr>
+    
+<tr><td bgcolor="#ffc8d8"><tt>&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="parser_.tree_nodes.html#NullLNode">NullLNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#LiteralNode">LiteralNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#LeafNode">LeafNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#TreeNode">TreeNode</a></dd>
+<dd><a href="__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="NullLNode-__str__"><strong>__str__</strong></a>(self)</dt></dl>
+
+<hr>
+Methods inherited from <a href="parser_.tree_nodes.html#TreeNode">TreeNode</a>:<br>
+<dl><dt><a name="NullLNode-__init__"><strong>__init__</strong></a>(self, value<font color="#909090">=''</font>)</dt><dd><tt>Initialise&nbsp;with&nbsp;a&nbsp;node_id,&nbsp;e.g.&nbsp;"int"&nbsp;for&nbsp;an&nbsp;integer&nbsp;node.</tt></dd></dl>
+
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#TreeNode">TreeNode</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>type_</strong></dt>
+</dl>
+<dl><dt><strong>value</strong></dt>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="ObjectCreatorNode">class <strong>ObjectCreatorNode</strong></a>(<a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>)</font></td></tr>
+    
+<tr><td bgcolor="#ffc8d8"><tt>&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="parser_.tree_nodes.html#ObjectCreatorNode">ObjectCreatorNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#TreeNode">TreeNode</a></dd>
+<dd><a href="__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="ObjectCreatorNode-__str__"><strong>__str__</strong></a>(self)</dt></dl>
+
+<hr>
+Methods inherited from <a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>:<br>
+<dl><dt><a name="ObjectCreatorNode-__init__"><strong>__init__</strong></a>(self, value<font color="#909090">=''</font>)</dt><dd><tt>Initialise&nbsp;with&nbsp;a&nbsp;node_id.</tt></dd></dl>
+
+<dl><dt><a name="ObjectCreatorNode-add_child"><strong>add_child</strong></a>(self, child)</dt><dd><tt>Add&nbsp;a&nbsp;child&nbsp;to&nbsp;the&nbsp;<a href="__builtin__.html#list">list</a>&nbsp;of&nbsp;child&nbsp;nodes.</tt></dd></dl>
+
+<dl><dt><a name="ObjectCreatorNode-add_children"><strong>add_children</strong></a>(self, children)</dt></dl>
+
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>:<br>
+<dl><dt><strong>children</strong></dt>
+<dd><tt>Get&nbsp;all&nbsp;the&nbsp;child&nbsp;nodes.</tt></dd>
+</dl>
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#TreeNode">TreeNode</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>type_</strong></dt>
+</dl>
+<dl><dt><strong>value</strong></dt>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="ParamDclNode">class <strong>ParamDclNode</strong></a>(<a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>)</font></td></tr>
+    
+<tr><td bgcolor="#ffc8d8"><tt>&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="parser_.tree_nodes.html#ParamDclNode">ParamDclNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#TreeNode">TreeNode</a></dd>
+<dd><a href="__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="ParamDclNode-__str__"><strong>__str__</strong></a>(self)</dt></dl>
+
+<hr>
+Methods inherited from <a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>:<br>
+<dl><dt><a name="ParamDclNode-__init__"><strong>__init__</strong></a>(self, value<font color="#909090">=''</font>)</dt><dd><tt>Initialise&nbsp;with&nbsp;a&nbsp;node_id.</tt></dd></dl>
+
+<dl><dt><a name="ParamDclNode-add_child"><strong>add_child</strong></a>(self, child)</dt><dd><tt>Add&nbsp;a&nbsp;child&nbsp;to&nbsp;the&nbsp;<a href="__builtin__.html#list">list</a>&nbsp;of&nbsp;child&nbsp;nodes.</tt></dd></dl>
+
+<dl><dt><a name="ParamDclNode-add_children"><strong>add_children</strong></a>(self, children)</dt></dl>
+
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>:<br>
+<dl><dt><strong>children</strong></dt>
+<dd><tt>Get&nbsp;all&nbsp;the&nbsp;child&nbsp;nodes.</tt></dd>
+</dl>
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#TreeNode">TreeNode</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>type_</strong></dt>
+</dl>
+<dl><dt><strong>value</strong></dt>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="ParamListNode">class <strong>ParamListNode</strong></a>(<a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>)</font></td></tr>
+    
+<tr><td bgcolor="#ffc8d8"><tt>&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="parser_.tree_nodes.html#ParamListNode">ParamListNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#TreeNode">TreeNode</a></dd>
+<dd><a href="__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="ParamListNode-__str__"><strong>__str__</strong></a>(self)</dt></dl>
+
+<hr>
+Methods inherited from <a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>:<br>
+<dl><dt><a name="ParamListNode-__init__"><strong>__init__</strong></a>(self, value<font color="#909090">=''</font>)</dt><dd><tt>Initialise&nbsp;with&nbsp;a&nbsp;node_id.</tt></dd></dl>
+
+<dl><dt><a name="ParamListNode-add_child"><strong>add_child</strong></a>(self, child)</dt><dd><tt>Add&nbsp;a&nbsp;child&nbsp;to&nbsp;the&nbsp;<a href="__builtin__.html#list">list</a>&nbsp;of&nbsp;child&nbsp;nodes.</tt></dd></dl>
+
+<dl><dt><a name="ParamListNode-add_children"><strong>add_children</strong></a>(self, children)</dt></dl>
+
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>:<br>
+<dl><dt><strong>children</strong></dt>
+<dd><tt>Get&nbsp;all&nbsp;the&nbsp;child&nbsp;nodes.</tt></dd>
+</dl>
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#TreeNode">TreeNode</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>type_</strong></dt>
+</dl>
+<dl><dt><strong>value</strong></dt>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="PosNode">class <strong>PosNode</strong></a>(<a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>)</font></td></tr>
+    
+<tr><td bgcolor="#ffc8d8"><tt>&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="parser_.tree_nodes.html#PosNode">PosNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#TreeNode">TreeNode</a></dd>
+<dd><a href="__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="PosNode-__str__"><strong>__str__</strong></a>(self)</dt></dl>
+
+<hr>
+Methods inherited from <a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>:<br>
+<dl><dt><a name="PosNode-__init__"><strong>__init__</strong></a>(self, value<font color="#909090">=''</font>)</dt><dd><tt>Initialise&nbsp;with&nbsp;a&nbsp;node_id.</tt></dd></dl>
+
+<dl><dt><a name="PosNode-add_child"><strong>add_child</strong></a>(self, child)</dt><dd><tt>Add&nbsp;a&nbsp;child&nbsp;to&nbsp;the&nbsp;<a href="__builtin__.html#list">list</a>&nbsp;of&nbsp;child&nbsp;nodes.</tt></dd></dl>
+
+<dl><dt><a name="PosNode-add_children"><strong>add_children</strong></a>(self, children)</dt></dl>
+
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>:<br>
+<dl><dt><strong>children</strong></dt>
+<dd><tt>Get&nbsp;all&nbsp;the&nbsp;child&nbsp;nodes.</tt></dd>
+</dl>
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#TreeNode">TreeNode</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>type_</strong></dt>
+</dl>
+<dl><dt><strong>value</strong></dt>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="ProgramASTs">class <strong>ProgramASTs</strong></a>(<a href="__builtin__.html#list">__builtin__.list</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>An&nbsp;outer&nbsp;class&nbsp;to&nbsp;hold&nbsp;all&nbsp;the&nbsp;ASTs&nbsp;making&nbsp;up&nbsp;a&nbsp;program.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="parser_.tree_nodes.html#ProgramASTs">ProgramASTs</a></dd>
+<dd><a href="__builtin__.html#list">__builtin__.list</a></dd>
+<dd><a href="__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="ProgramASTs-__init__"><strong>__init__</strong></a>(self)</dt><dd><tt>Initialises&nbsp;the&nbsp;current&nbsp;indent&nbsp;to&nbsp;0.</tt></dd></dl>
+
+<dl><dt><a name="ProgramASTs-__str__"><strong>__str__</strong></a>(self)</dt><dd><tt>Prints&nbsp;out&nbsp;the&nbsp;ASTs&nbsp;in&nbsp;a&nbsp;nice&nbsp;way.</tt></dd></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<hr>
+Methods inherited from <a href="__builtin__.html#list">__builtin__.list</a>:<br>
+<dl><dt><a name="ProgramASTs-__add__"><strong>__add__</strong></a>(...)</dt><dd><tt>x.<a href="#ProgramASTs-__add__">__add__</a>(y)&nbsp;&lt;==&gt;&nbsp;x+y</tt></dd></dl>
+
+<dl><dt><a name="ProgramASTs-__contains__"><strong>__contains__</strong></a>(...)</dt><dd><tt>x.<a href="#ProgramASTs-__contains__">__contains__</a>(y)&nbsp;&lt;==&gt;&nbsp;y&nbsp;in&nbsp;x</tt></dd></dl>
+
+<dl><dt><a name="ProgramASTs-__delitem__"><strong>__delitem__</strong></a>(...)</dt><dd><tt>x.<a href="#ProgramASTs-__delitem__">__delitem__</a>(y)&nbsp;&lt;==&gt;&nbsp;del&nbsp;x[y]</tt></dd></dl>
+
+<dl><dt><a name="ProgramASTs-__delslice__"><strong>__delslice__</strong></a>(...)</dt><dd><tt>x.<a href="#ProgramASTs-__delslice__">__delslice__</a>(i,&nbsp;j)&nbsp;&lt;==&gt;&nbsp;del&nbsp;x[i:j]<br>
+&nbsp;<br>
+Use&nbsp;of&nbsp;negative&nbsp;indices&nbsp;is&nbsp;not&nbsp;supported.</tt></dd></dl>
+
+<dl><dt><a name="ProgramASTs-__eq__"><strong>__eq__</strong></a>(...)</dt><dd><tt>x.<a href="#ProgramASTs-__eq__">__eq__</a>(y)&nbsp;&lt;==&gt;&nbsp;x==y</tt></dd></dl>
+
+<dl><dt><a name="ProgramASTs-__ge__"><strong>__ge__</strong></a>(...)</dt><dd><tt>x.<a href="#ProgramASTs-__ge__">__ge__</a>(y)&nbsp;&lt;==&gt;&nbsp;x&gt;=y</tt></dd></dl>
+
+<dl><dt><a name="ProgramASTs-__getattribute__"><strong>__getattribute__</strong></a>(...)</dt><dd><tt>x.<a href="#ProgramASTs-__getattribute__">__getattribute__</a>('name')&nbsp;&lt;==&gt;&nbsp;x.name</tt></dd></dl>
+
+<dl><dt><a name="ProgramASTs-__getitem__"><strong>__getitem__</strong></a>(...)</dt><dd><tt>x.<a href="#ProgramASTs-__getitem__">__getitem__</a>(y)&nbsp;&lt;==&gt;&nbsp;x[y]</tt></dd></dl>
+
+<dl><dt><a name="ProgramASTs-__getslice__"><strong>__getslice__</strong></a>(...)</dt><dd><tt>x.<a href="#ProgramASTs-__getslice__">__getslice__</a>(i,&nbsp;j)&nbsp;&lt;==&gt;&nbsp;x[i:j]<br>
+&nbsp;<br>
+Use&nbsp;of&nbsp;negative&nbsp;indices&nbsp;is&nbsp;not&nbsp;supported.</tt></dd></dl>
+
+<dl><dt><a name="ProgramASTs-__gt__"><strong>__gt__</strong></a>(...)</dt><dd><tt>x.<a href="#ProgramASTs-__gt__">__gt__</a>(y)&nbsp;&lt;==&gt;&nbsp;x&gt;y</tt></dd></dl>
+
+<dl><dt><a name="ProgramASTs-__iadd__"><strong>__iadd__</strong></a>(...)</dt><dd><tt>x.<a href="#ProgramASTs-__iadd__">__iadd__</a>(y)&nbsp;&lt;==&gt;&nbsp;x+=y</tt></dd></dl>
+
+<dl><dt><a name="ProgramASTs-__imul__"><strong>__imul__</strong></a>(...)</dt><dd><tt>x.<a href="#ProgramASTs-__imul__">__imul__</a>(y)&nbsp;&lt;==&gt;&nbsp;x*=y</tt></dd></dl>
+
+<dl><dt><a name="ProgramASTs-__iter__"><strong>__iter__</strong></a>(...)</dt><dd><tt>x.<a href="#ProgramASTs-__iter__">__iter__</a>()&nbsp;&lt;==&gt;&nbsp;iter(x)</tt></dd></dl>
+
+<dl><dt><a name="ProgramASTs-__le__"><strong>__le__</strong></a>(...)</dt><dd><tt>x.<a href="#ProgramASTs-__le__">__le__</a>(y)&nbsp;&lt;==&gt;&nbsp;x&lt;=y</tt></dd></dl>
+
+<dl><dt><a name="ProgramASTs-__len__"><strong>__len__</strong></a>(...)</dt><dd><tt>x.<a href="#ProgramASTs-__len__">__len__</a>()&nbsp;&lt;==&gt;&nbsp;len(x)</tt></dd></dl>
+
+<dl><dt><a name="ProgramASTs-__lt__"><strong>__lt__</strong></a>(...)</dt><dd><tt>x.<a href="#ProgramASTs-__lt__">__lt__</a>(y)&nbsp;&lt;==&gt;&nbsp;x&lt;y</tt></dd></dl>
+
+<dl><dt><a name="ProgramASTs-__mul__"><strong>__mul__</strong></a>(...)</dt><dd><tt>x.<a href="#ProgramASTs-__mul__">__mul__</a>(n)&nbsp;&lt;==&gt;&nbsp;x*n</tt></dd></dl>
+
+<dl><dt><a name="ProgramASTs-__ne__"><strong>__ne__</strong></a>(...)</dt><dd><tt>x.<a href="#ProgramASTs-__ne__">__ne__</a>(y)&nbsp;&lt;==&gt;&nbsp;x!=y</tt></dd></dl>
+
+<dl><dt><a name="ProgramASTs-__repr__"><strong>__repr__</strong></a>(...)</dt><dd><tt>x.<a href="#ProgramASTs-__repr__">__repr__</a>()&nbsp;&lt;==&gt;&nbsp;repr(x)</tt></dd></dl>
+
+<dl><dt><a name="ProgramASTs-__reversed__"><strong>__reversed__</strong></a>(...)</dt><dd><tt>L.<a href="#ProgramASTs-__reversed__">__reversed__</a>()&nbsp;--&nbsp;return&nbsp;a&nbsp;reverse&nbsp;iterator&nbsp;over&nbsp;the&nbsp;<a href="__builtin__.html#list">list</a></tt></dd></dl>
+
+<dl><dt><a name="ProgramASTs-__rmul__"><strong>__rmul__</strong></a>(...)</dt><dd><tt>x.<a href="#ProgramASTs-__rmul__">__rmul__</a>(n)&nbsp;&lt;==&gt;&nbsp;n*x</tt></dd></dl>
+
+<dl><dt><a name="ProgramASTs-__setitem__"><strong>__setitem__</strong></a>(...)</dt><dd><tt>x.<a href="#ProgramASTs-__setitem__">__setitem__</a>(i,&nbsp;y)&nbsp;&lt;==&gt;&nbsp;x[i]=y</tt></dd></dl>
+
+<dl><dt><a name="ProgramASTs-__setslice__"><strong>__setslice__</strong></a>(...)</dt><dd><tt>x.<a href="#ProgramASTs-__setslice__">__setslice__</a>(i,&nbsp;j,&nbsp;y)&nbsp;&lt;==&gt;&nbsp;x[i:j]=y<br>
+&nbsp;<br>
+Use&nbsp;&nbsp;of&nbsp;negative&nbsp;indices&nbsp;is&nbsp;not&nbsp;supported.</tt></dd></dl>
+
+<dl><dt><a name="ProgramASTs-__sizeof__"><strong>__sizeof__</strong></a>(...)</dt><dd><tt>L.<a href="#ProgramASTs-__sizeof__">__sizeof__</a>()&nbsp;--&nbsp;size&nbsp;of&nbsp;L&nbsp;in&nbsp;memory,&nbsp;in&nbsp;bytes</tt></dd></dl>
+
+<dl><dt><a name="ProgramASTs-append"><strong>append</strong></a>(...)</dt><dd><tt>L.<a href="#ProgramASTs-append">append</a>(<a href="__builtin__.html#object">object</a>)&nbsp;--&nbsp;append&nbsp;<a href="__builtin__.html#object">object</a>&nbsp;to&nbsp;end</tt></dd></dl>
+
+<dl><dt><a name="ProgramASTs-count"><strong>count</strong></a>(...)</dt><dd><tt>L.<a href="#ProgramASTs-count">count</a>(value)&nbsp;-&gt;&nbsp;integer&nbsp;--&nbsp;return&nbsp;number&nbsp;of&nbsp;occurrences&nbsp;of&nbsp;value</tt></dd></dl>
+
+<dl><dt><a name="ProgramASTs-extend"><strong>extend</strong></a>(...)</dt><dd><tt>L.<a href="#ProgramASTs-extend">extend</a>(iterable)&nbsp;--&nbsp;extend&nbsp;<a href="__builtin__.html#list">list</a>&nbsp;by&nbsp;appending&nbsp;elements&nbsp;from&nbsp;the&nbsp;iterable</tt></dd></dl>
+
+<dl><dt><a name="ProgramASTs-index"><strong>index</strong></a>(...)</dt><dd><tt>L.<a href="#ProgramASTs-index">index</a>(value,&nbsp;[start,&nbsp;[stop]])&nbsp;-&gt;&nbsp;integer&nbsp;--&nbsp;return&nbsp;first&nbsp;index&nbsp;of&nbsp;value.<br>
+Raises&nbsp;ValueError&nbsp;if&nbsp;the&nbsp;value&nbsp;is&nbsp;not&nbsp;present.</tt></dd></dl>
+
+<dl><dt><a name="ProgramASTs-insert"><strong>insert</strong></a>(...)</dt><dd><tt>L.<a href="#ProgramASTs-insert">insert</a>(index,&nbsp;<a href="__builtin__.html#object">object</a>)&nbsp;--&nbsp;insert&nbsp;<a href="__builtin__.html#object">object</a>&nbsp;before&nbsp;index</tt></dd></dl>
+
+<dl><dt><a name="ProgramASTs-pop"><strong>pop</strong></a>(...)</dt><dd><tt>L.<a href="#ProgramASTs-pop">pop</a>([index])&nbsp;-&gt;&nbsp;item&nbsp;--&nbsp;remove&nbsp;and&nbsp;return&nbsp;item&nbsp;at&nbsp;index&nbsp;(default&nbsp;last).<br>
+Raises&nbsp;IndexError&nbsp;if&nbsp;<a href="__builtin__.html#list">list</a>&nbsp;is&nbsp;empty&nbsp;or&nbsp;index&nbsp;is&nbsp;out&nbsp;of&nbsp;range.</tt></dd></dl>
+
+<dl><dt><a name="ProgramASTs-remove"><strong>remove</strong></a>(...)</dt><dd><tt>L.<a href="#ProgramASTs-remove">remove</a>(value)&nbsp;--&nbsp;remove&nbsp;first&nbsp;occurrence&nbsp;of&nbsp;value.<br>
+Raises&nbsp;ValueError&nbsp;if&nbsp;the&nbsp;value&nbsp;is&nbsp;not&nbsp;present.</tt></dd></dl>
+
+<dl><dt><a name="ProgramASTs-reverse"><strong>reverse</strong></a>(...)</dt><dd><tt>L.<a href="#ProgramASTs-reverse">reverse</a>()&nbsp;--&nbsp;reverse&nbsp;*IN&nbsp;PLACE*</tt></dd></dl>
+
+<dl><dt><a name="ProgramASTs-sort"><strong>sort</strong></a>(...)</dt><dd><tt>L.<a href="#ProgramASTs-sort">sort</a>(cmp=None,&nbsp;key=None,&nbsp;reverse=False)&nbsp;--&nbsp;stable&nbsp;sort&nbsp;*IN&nbsp;PLACE*;<br>
+cmp(x,&nbsp;y)&nbsp;-&gt;&nbsp;-1,&nbsp;0,&nbsp;1</tt></dd></dl>
+
+<hr>
+Data and other attributes inherited from <a href="__builtin__.html#list">__builtin__.list</a>:<br>
+<dl><dt><strong>__hash__</strong> = None</dl>
+
+<dl><dt><strong>__new__</strong> = &lt;built-in method __new__ of type object&gt;<dd><tt>T.<a href="#ProgramASTs-__new__">__new__</a>(S,&nbsp;...)&nbsp;-&gt;&nbsp;a&nbsp;new&nbsp;<a href="__builtin__.html#object">object</a>&nbsp;with&nbsp;type&nbsp;S,&nbsp;a&nbsp;subtype&nbsp;of&nbsp;T</tt></dl>
+
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="RelNode">class <strong>RelNode</strong></a>(<a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>)</font></td></tr>
+    
+<tr><td bgcolor="#ffc8d8"><tt>&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="parser_.tree_nodes.html#RelNode">RelNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#TreeNode">TreeNode</a></dd>
+<dd><a href="__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="RelNode-__str__"><strong>__str__</strong></a>(self)</dt></dl>
+
+<hr>
+Methods inherited from <a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>:<br>
+<dl><dt><a name="RelNode-__init__"><strong>__init__</strong></a>(self, value<font color="#909090">=''</font>)</dt><dd><tt>Initialise&nbsp;with&nbsp;a&nbsp;node_id.</tt></dd></dl>
+
+<dl><dt><a name="RelNode-add_child"><strong>add_child</strong></a>(self, child)</dt><dd><tt>Add&nbsp;a&nbsp;child&nbsp;to&nbsp;the&nbsp;<a href="__builtin__.html#list">list</a>&nbsp;of&nbsp;child&nbsp;nodes.</tt></dd></dl>
+
+<dl><dt><a name="RelNode-add_children"><strong>add_children</strong></a>(self, children)</dt></dl>
+
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>:<br>
+<dl><dt><strong>children</strong></dt>
+<dd><tt>Get&nbsp;all&nbsp;the&nbsp;child&nbsp;nodes.</tt></dd>
+</dl>
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#TreeNode">TreeNode</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>type_</strong></dt>
+</dl>
+<dl><dt><strong>value</strong></dt>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="ReturnNode">class <strong>ReturnNode</strong></a>(<a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>)</font></td></tr>
+    
+<tr><td bgcolor="#ffc8d8"><tt>&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="parser_.tree_nodes.html#ReturnNode">ReturnNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#TreeNode">TreeNode</a></dd>
+<dd><a href="__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="ReturnNode-__str__"><strong>__str__</strong></a>(self)</dt></dl>
+
+<hr>
+Methods inherited from <a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>:<br>
+<dl><dt><a name="ReturnNode-__init__"><strong>__init__</strong></a>(self, value<font color="#909090">=''</font>)</dt><dd><tt>Initialise&nbsp;with&nbsp;a&nbsp;node_id.</tt></dd></dl>
+
+<dl><dt><a name="ReturnNode-add_child"><strong>add_child</strong></a>(self, child)</dt><dd><tt>Add&nbsp;a&nbsp;child&nbsp;to&nbsp;the&nbsp;<a href="__builtin__.html#list">list</a>&nbsp;of&nbsp;child&nbsp;nodes.</tt></dd></dl>
+
+<dl><dt><a name="ReturnNode-add_children"><strong>add_children</strong></a>(self, children)</dt></dl>
+
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>:<br>
+<dl><dt><strong>children</strong></dt>
+<dd><tt>Get&nbsp;all&nbsp;the&nbsp;child&nbsp;nodes.</tt></dd>
+</dl>
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#TreeNode">TreeNode</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>type_</strong></dt>
+</dl>
+<dl><dt><strong>value</strong></dt>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="ReturnVoidNode">class <strong>ReturnVoidNode</strong></a>(<a href="parser_.tree_nodes.html#LeafNode">LeafNode</a>)</font></td></tr>
+    
+<tr><td bgcolor="#ffc8d8"><tt>&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="parser_.tree_nodes.html#ReturnVoidNode">ReturnVoidNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#LeafNode">LeafNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#TreeNode">TreeNode</a></dd>
+<dd><a href="__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="ReturnVoidNode-__str__"><strong>__str__</strong></a>(self)</dt></dl>
+
+<hr>
+Methods inherited from <a href="parser_.tree_nodes.html#TreeNode">TreeNode</a>:<br>
+<dl><dt><a name="ReturnVoidNode-__init__"><strong>__init__</strong></a>(self, value<font color="#909090">=''</font>)</dt><dd><tt>Initialise&nbsp;with&nbsp;a&nbsp;node_id,&nbsp;e.g.&nbsp;"int"&nbsp;for&nbsp;an&nbsp;integer&nbsp;node.</tt></dd></dl>
+
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#TreeNode">TreeNode</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>type_</strong></dt>
+</dl>
+<dl><dt><strong>value</strong></dt>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="StringLNode">class <strong>StringLNode</strong></a>(<a href="parser_.tree_nodes.html#LiteralNode">LiteralNode</a>)</font></td></tr>
+    
+<tr><td bgcolor="#ffc8d8"><tt>&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="parser_.tree_nodes.html#StringLNode">StringLNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#LiteralNode">LiteralNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#LeafNode">LeafNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#TreeNode">TreeNode</a></dd>
+<dd><a href="__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="StringLNode-__str__"><strong>__str__</strong></a>(self)</dt></dl>
+
+<hr>
+Methods inherited from <a href="parser_.tree_nodes.html#TreeNode">TreeNode</a>:<br>
+<dl><dt><a name="StringLNode-__init__"><strong>__init__</strong></a>(self, value<font color="#909090">=''</font>)</dt><dd><tt>Initialise&nbsp;with&nbsp;a&nbsp;node_id,&nbsp;e.g.&nbsp;"int"&nbsp;for&nbsp;an&nbsp;integer&nbsp;node.</tt></dd></dl>
+
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#TreeNode">TreeNode</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>type_</strong></dt>
+</dl>
+<dl><dt><strong>value</strong></dt>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="SuperConstructorCallNode">class <strong>SuperConstructorCallNode</strong></a>(<a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>)</font></td></tr>
+    
+<tr><td bgcolor="#ffc8d8"><tt>&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="parser_.tree_nodes.html#SuperConstructorCallNode">SuperConstructorCallNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#TreeNode">TreeNode</a></dd>
+<dd><a href="__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="SuperConstructorCallNode-__str__"><strong>__str__</strong></a>(self)</dt></dl>
+
+<hr>
+Methods inherited from <a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>:<br>
+<dl><dt><a name="SuperConstructorCallNode-__init__"><strong>__init__</strong></a>(self, value<font color="#909090">=''</font>)</dt><dd><tt>Initialise&nbsp;with&nbsp;a&nbsp;node_id.</tt></dd></dl>
+
+<dl><dt><a name="SuperConstructorCallNode-add_child"><strong>add_child</strong></a>(self, child)</dt><dd><tt>Add&nbsp;a&nbsp;child&nbsp;to&nbsp;the&nbsp;<a href="__builtin__.html#list">list</a>&nbsp;of&nbsp;child&nbsp;nodes.</tt></dd></dl>
+
+<dl><dt><a name="SuperConstructorCallNode-add_children"><strong>add_children</strong></a>(self, children)</dt></dl>
+
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>:<br>
+<dl><dt><strong>children</strong></dt>
+<dd><tt>Get&nbsp;all&nbsp;the&nbsp;child&nbsp;nodes.</tt></dd>
+</dl>
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#TreeNode">TreeNode</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>type_</strong></dt>
+</dl>
+<dl><dt><strong>value</strong></dt>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="TreeNode">class <strong>TreeNode</strong></a>(<a href="__builtin__.html#object">__builtin__.object</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>A&nbsp;generic&nbsp;tree&nbsp;node&nbsp;class&nbsp;which&nbsp;holds&nbsp;what&nbsp;node_id&nbsp;the&nbsp;node&nbsp;is.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="TreeNode-__init__"><strong>__init__</strong></a>(self, value<font color="#909090">=''</font>)</dt><dd><tt>Initialise&nbsp;with&nbsp;a&nbsp;node_id,&nbsp;e.g.&nbsp;"int"&nbsp;for&nbsp;an&nbsp;integer&nbsp;node.</tt></dd></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>type_</strong></dt>
+</dl>
+<dl><dt><strong>value</strong></dt>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="TypeNode">class <strong>TypeNode</strong></a>(<a href="parser_.tree_nodes.html#LeafNode">LeafNode</a>)</font></td></tr>
+    
+<tr><td bgcolor="#ffc8d8"><tt>&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="parser_.tree_nodes.html#TypeNode">TypeNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#LeafNode">LeafNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#TreeNode">TreeNode</a></dd>
+<dd><a href="__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="TypeNode-__str__"><strong>__str__</strong></a>(self)</dt></dl>
+
+<hr>
+Methods inherited from <a href="parser_.tree_nodes.html#TreeNode">TreeNode</a>:<br>
+<dl><dt><a name="TypeNode-__init__"><strong>__init__</strong></a>(self, value<font color="#909090">=''</font>)</dt><dd><tt>Initialise&nbsp;with&nbsp;a&nbsp;node_id,&nbsp;e.g.&nbsp;"int"&nbsp;for&nbsp;an&nbsp;integer&nbsp;node.</tt></dd></dl>
+
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#TreeNode">TreeNode</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>type_</strong></dt>
+</dl>
+<dl><dt><strong>value</strong></dt>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="VarDclAssignNode">class <strong>VarDclAssignNode</strong></a>(<a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>)</font></td></tr>
+    
+<tr><td bgcolor="#ffc8d8"><tt>&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="parser_.tree_nodes.html#VarDclAssignNode">VarDclAssignNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#TreeNode">TreeNode</a></dd>
+<dd><a href="__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="VarDclAssignNode-__str__"><strong>__str__</strong></a>(self)</dt></dl>
+
+<hr>
+Methods inherited from <a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>:<br>
+<dl><dt><a name="VarDclAssignNode-__init__"><strong>__init__</strong></a>(self, value<font color="#909090">=''</font>)</dt><dd><tt>Initialise&nbsp;with&nbsp;a&nbsp;node_id.</tt></dd></dl>
+
+<dl><dt><a name="VarDclAssignNode-add_child"><strong>add_child</strong></a>(self, child)</dt><dd><tt>Add&nbsp;a&nbsp;child&nbsp;to&nbsp;the&nbsp;<a href="__builtin__.html#list">list</a>&nbsp;of&nbsp;child&nbsp;nodes.</tt></dd></dl>
+
+<dl><dt><a name="VarDclAssignNode-add_children"><strong>add_children</strong></a>(self, children)</dt></dl>
+
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>:<br>
+<dl><dt><strong>children</strong></dt>
+<dd><tt>Get&nbsp;all&nbsp;the&nbsp;child&nbsp;nodes.</tt></dd>
+</dl>
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#TreeNode">TreeNode</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>type_</strong></dt>
+</dl>
+<dl><dt><strong>value</strong></dt>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="VarDclNode">class <strong>VarDclNode</strong></a>(<a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>)</font></td></tr>
+    
+<tr><td bgcolor="#ffc8d8"><tt>&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="parser_.tree_nodes.html#VarDclNode">VarDclNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#TreeNode">TreeNode</a></dd>
+<dd><a href="__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="VarDclNode-__str__"><strong>__str__</strong></a>(self)</dt></dl>
+
+<hr>
+Methods inherited from <a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>:<br>
+<dl><dt><a name="VarDclNode-__init__"><strong>__init__</strong></a>(self, value<font color="#909090">=''</font>)</dt><dd><tt>Initialise&nbsp;with&nbsp;a&nbsp;node_id.</tt></dd></dl>
+
+<dl><dt><a name="VarDclNode-add_child"><strong>add_child</strong></a>(self, child)</dt><dd><tt>Add&nbsp;a&nbsp;child&nbsp;to&nbsp;the&nbsp;<a href="__builtin__.html#list">list</a>&nbsp;of&nbsp;child&nbsp;nodes.</tt></dd></dl>
+
+<dl><dt><a name="VarDclNode-add_children"><strong>add_children</strong></a>(self, children)</dt></dl>
+
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>:<br>
+<dl><dt><strong>children</strong></dt>
+<dd><tt>Get&nbsp;all&nbsp;the&nbsp;child&nbsp;nodes.</tt></dd>
+</dl>
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#TreeNode">TreeNode</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>type_</strong></dt>
+</dl>
+<dl><dt><strong>value</strong></dt>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="WhileNode">class <strong>WhileNode</strong></a>(<a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>)</font></td></tr>
+    
+<tr><td bgcolor="#ffc8d8"><tt>&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="parser_.tree_nodes.html#WhileNode">WhileNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a></dd>
+<dd><a href="parser_.tree_nodes.html#TreeNode">TreeNode</a></dd>
+<dd><a href="__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="WhileNode-__str__"><strong>__str__</strong></a>(self)</dt></dl>
+
+<hr>
+Methods inherited from <a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>:<br>
+<dl><dt><a name="WhileNode-__init__"><strong>__init__</strong></a>(self, value<font color="#909090">=''</font>)</dt><dd><tt>Initialise&nbsp;with&nbsp;a&nbsp;node_id.</tt></dd></dl>
+
+<dl><dt><a name="WhileNode-add_child"><strong>add_child</strong></a>(self, child)</dt><dd><tt>Add&nbsp;a&nbsp;child&nbsp;to&nbsp;the&nbsp;<a href="__builtin__.html#list">list</a>&nbsp;of&nbsp;child&nbsp;nodes.</tt></dd></dl>
+
+<dl><dt><a name="WhileNode-add_children"><strong>add_children</strong></a>(self, children)</dt></dl>
+
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#InteriorNode">InteriorNode</a>:<br>
+<dl><dt><strong>children</strong></dt>
+<dd><tt>Get&nbsp;all&nbsp;the&nbsp;child&nbsp;nodes.</tt></dd>
+</dl>
+<hr>
+Data descriptors inherited from <a href="parser_.tree_nodes.html#TreeNode">TreeNode</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>type_</strong></dt>
+</dl>
+<dl><dt><strong>value</strong></dt>
+</dl>
+</td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#eeaa77">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt><a name="-create_array_dcl"><strong>create_array_dcl</strong></a>(name, dimensions)</dt><dd><tt>Used&nbsp;to&nbsp;quickly&nbsp;create&nbsp;an&nbsp;array&nbsp;leaf&nbsp;node&nbsp;with&nbsp;node_id,&nbsp;value&nbsp;and<br>
+dimensions.</tt></dd></dl>
+ <dl><dt><a name="-create_bin_node"><strong>create_bin_node</strong></a>(parent, l_child, r_child)</dt><dd><tt>Provides&nbsp;a&nbsp;convenient&nbsp;way&nbsp;of&nbsp;creating&nbsp;interior&nbsp;nodes&nbsp;with&nbsp;two&nbsp;child<br>
+nodes.</tt></dd></dl>
+</td></tr></table>
+</body></html>

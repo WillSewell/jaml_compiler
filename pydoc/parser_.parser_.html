@@ -1,0 +1,387 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module parser_.parser_</title>
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong><a href="parser_.html"><font color="#ffffff">parser_</font></a>.parser_</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:////smbhome.uscs.susx.ac.uk/wjs25/workspace/jaml_compiler/parser_/parser_.py">\\smbhome.uscs.susx.ac.uk\wjs25\workspace\jaml_compiler\parser_\parser_.py</a></font></td></tr></table>
+    <p></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="parser_.tree_nodes.html">parser_.tree_nodes</a><br>
+</td><td width="25%" valign=top><a href="os.html">os</a><br>
+</td><td width="25%" valign=top></td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ee77aa">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Classes</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#ee77aa"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl>
+<dt><font face="helvetica, arial"><a href="parser_.spark.html#GenericParser">parser_.spark.GenericParser</a>
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="parser_.parser_.html#Parser">Parser</a>
+</font></dt></dl>
+</dd>
+</dl>
+ <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="Parser">class <strong>Parser</strong></a>(<a href="parser_.spark.html#GenericParser">parser_.spark.GenericParser</a>)</font></td></tr>
+    
+<tr><td bgcolor="#ffc8d8"><tt>&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="Parser-__init__"><strong>__init__</strong></a>(self, start<font color="#909090">='file'</font>)</dt></dl>
+
+<dl><dt><a name="Parser-p_abs_method_dcl"><strong>p_abs_method_dcl</strong></a>(self, args)</dt><dd><tt>abs_method_dcl&nbsp;::=&nbsp;type&nbsp;ID&nbsp;formal_param&nbsp;;<br>
+abs_method_dcl&nbsp;::=&nbsp;VOID&nbsp;ID&nbsp;formal_param&nbsp;;</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_abs_method_dcl_array"><strong>p_abs_method_dcl_array</strong></a>(self, args)</dt><dd><tt>abs_method_dcl&nbsp;::=&nbsp;type&nbsp;array_brackets&nbsp;ID&nbsp;formal_param&nbsp;;</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_add_expr"><strong>p_add_expr</strong></a>(self, args)</dt><dd><tt>add_expr&nbsp;::=&nbsp;mul_expr<br>
+add_expr&nbsp;::=&nbsp;add_expr&nbsp;ADD_OP&nbsp;mul_expr</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_args"><strong>p_args</strong></a>(self, args)</dt><dd><tt>args&nbsp;::=&nbsp;args&nbsp;,&nbsp;expr</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_args_base"><strong>p_args_base</strong></a>(self, args)</dt><dd><tt>args&nbsp;::=&nbsp;expr</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_args_list"><strong>p_args_list</strong></a>(self, args)</dt><dd><tt>args_list&nbsp;::=&nbsp;args</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_array_brackets1"><strong>p_array_brackets1</strong></a>(self, args)</dt><dd><tt>array_brackets&nbsp;::=&nbsp;array_brackets&nbsp;[&nbsp;]</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_array_brackets2"><strong>p_array_brackets2</strong></a>(self, args)</dt><dd><tt>array_brackets&nbsp;::=&nbsp;[&nbsp;]</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_array_element"><strong>p_array_element</strong></a>(self, args)</dt><dd><tt>array_element&nbsp;::=&nbsp;ID&nbsp;array_suffix</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_array_suffix1"><strong>p_array_suffix1</strong></a>(self, args)</dt><dd><tt>array_suffix&nbsp;::=&nbsp;[&nbsp;expr&nbsp;]</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_array_suffix2"><strong>p_array_suffix2</strong></a>(self, args)</dt><dd><tt>array_suffix&nbsp;::=&nbsp;array_suffix&nbsp;[&nbsp;expr&nbsp;]</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_block"><strong>p_block</strong></a>(self, args)</dt><dd><tt>block&nbsp;::=&nbsp;{&nbsp;block_stmt&nbsp;}</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_block_empty"><strong>p_block_empty</strong></a>(self, args)</dt><dd><tt>block&nbsp;::=&nbsp;{&nbsp;}</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_block_stmt_base"><strong>p_block_stmt_base</strong></a>(self, args)</dt><dd><tt>block_stmt&nbsp;::=&nbsp;stmt</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_block_stmt_stmt"><strong>p_block_stmt_stmt</strong></a>(self, args)</dt><dd><tt>block_stmt&nbsp;::=&nbsp;block_stmt&nbsp;stmt</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_block_stmt_var"><strong>p_block_stmt_var</strong></a>(self, args)</dt><dd><tt>block_stmt&nbsp;::=&nbsp;block_stmt&nbsp;var_dcl</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_block_stmt_var_base"><strong>p_block_stmt_var_base</strong></a>(self, args)</dt><dd><tt>block_stmt&nbsp;::=&nbsp;var_dcl</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_char_l"><strong>p_char_l</strong></a>(self, args)</dt><dd><tt>literal&nbsp;::=&nbsp;CHAR_L</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_class_body"><strong>p_class_body</strong></a>(self, args)</dt><dd><tt>class_body&nbsp;::=&nbsp;{&nbsp;class_body_dcl&nbsp;}</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_class_body_dcl_constructor"><strong>p_class_body_dcl_constructor</strong></a>(self, args)</dt><dd><tt>class_body_dcl&nbsp;::=&nbsp;class_body_dcl&nbsp;constructor_dcl</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_class_body_dcl_constructor_base"><strong>p_class_body_dcl_constructor_base</strong></a>(self, args)</dt><dd><tt>class_body_dcl&nbsp;::=&nbsp;constructor_dcl</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_class_body_dcl_method"><strong>p_class_body_dcl_method</strong></a>(self, args)</dt><dd><tt>class_body_dcl&nbsp;::=&nbsp;class_body_dcl&nbsp;method_dcl</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_class_body_dcl_method_base"><strong>p_class_body_dcl_method_base</strong></a>(self, args)</dt><dd><tt>class_body_dcl&nbsp;::=&nbsp;method_dcl</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_class_body_dcl_var"><strong>p_class_body_dcl_var</strong></a>(self, args)</dt><dd><tt>class_body_dcl&nbsp;::=&nbsp;class_body_dcl&nbsp;field_dcl</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_class_body_dcl_var_base"><strong>p_class_body_dcl_var_base</strong></a>(self, args)</dt><dd><tt>class_body_dcl&nbsp;::=&nbsp;field_dcl</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_class_body_empty"><strong>p_class_body_empty</strong></a>(self, args)</dt><dd><tt>class_body&nbsp;::=&nbsp;{&nbsp;}</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_class_dcl"><strong>p_class_dcl</strong></a>(self, args)</dt><dd><tt>class_dcl&nbsp;::=&nbsp;class_mods&nbsp;class_dcl_rest<br>
+class_dcl&nbsp;::=&nbsp;class_dcl_rest</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_class_dcl_extends_implements_rest"><strong>p_class_dcl_extends_implements_rest</strong></a>(self, args)</dt><dd><tt>class_dcl_rest&nbsp;::=&nbsp;CLASS&nbsp;ID&nbsp;EXTENDS&nbsp;ID&nbsp;IMPLEMENTS&nbsp;implements&nbsp;class_body</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_class_dcl_extends_rest"><strong>p_class_dcl_extends_rest</strong></a>(self, args)</dt><dd><tt>class_dcl_rest&nbsp;::=&nbsp;CLASS&nbsp;ID&nbsp;EXTENDS&nbsp;ID&nbsp;class_body</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_class_dcl_implements_rest"><strong>p_class_dcl_implements_rest</strong></a>(self, args)</dt><dd><tt>class_dcl_rest&nbsp;::=&nbsp;CLASS&nbsp;ID&nbsp;IMPLEMENTS&nbsp;implements&nbsp;class_body</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_class_dcl_rest"><strong>p_class_dcl_rest</strong></a>(self, args)</dt><dd><tt>class_dcl_rest&nbsp;::=&nbsp;CLASS&nbsp;ID&nbsp;class_body</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_class_modifiers"><strong>p_class_modifiers</strong></a>(self, args)</dt><dd><tt>class_mods&nbsp;::=&nbsp;ABSTRACT<br>
+class_mods&nbsp;::=&nbsp;FINAL</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_cond_and_expr"><strong>p_cond_and_expr</strong></a>(self, args)</dt><dd><tt>cond_and_expr&nbsp;::=&nbsp;equality_expr<br>
+cond_and_expr&nbsp;::=&nbsp;cond_and_expr&nbsp;AND_OP&nbsp;equality_expr</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_cond_or_expr"><strong>p_cond_or_expr</strong></a>(self, args)</dt><dd><tt>cond_or_expr&nbsp;::=&nbsp;cond_and_expr<br>
+cond_or_expr&nbsp;::=&nbsp;cond_or_expr&nbsp;|&nbsp;|&nbsp;cond_and_expr</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_constructor_dcl"><strong>p_constructor_dcl</strong></a>(self, args)</dt><dd><tt>constructor_dcl&nbsp;::=&nbsp;ID&nbsp;formal_param&nbsp;block</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_creator_array"><strong>p_creator_array</strong></a>(self, args)</dt><dd><tt>creator&nbsp;::=&nbsp;NEW&nbsp;type&nbsp;array_suffix</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_creator_matrix"><strong>p_creator_matrix</strong></a>(self, args)</dt><dd><tt>creator&nbsp;::=&nbsp;|&nbsp;expr&nbsp;,&nbsp;expr&nbsp;|</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_creator_object"><strong>p_creator_object</strong></a>(self, args)</dt><dd><tt>creator&nbsp;::=&nbsp;NEW&nbsp;type&nbsp;(&nbsp;)</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_creator_object_args"><strong>p_creator_object_args</strong></a>(self, args)</dt><dd><tt>creator&nbsp;::=&nbsp;NEW&nbsp;type&nbsp;(&nbsp;args_list&nbsp;)</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_double_l"><strong>p_double_l</strong></a>(self, args)</dt><dd><tt>literal&nbsp;::=&nbsp;DOUBLE_L</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_equality_expr"><strong>p_equality_expr</strong></a>(self, args)</dt><dd><tt>equality_expr&nbsp;::=&nbsp;relation_expr<br>
+equality_expr&nbsp;::=&nbsp;equality_expr&nbsp;EQ_OP&nbsp;relation_expr</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_expr"><strong>p_expr</strong></a>(self, args)</dt><dd><tt>expr&nbsp;::=&nbsp;cond_or_expr<br>
+expr&nbsp;::=&nbsp;cond_or_expr&nbsp;ASSIGN_OP&nbsp;cond_or_expr</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_field_dcl"><strong>p_field_dcl</strong></a>(self, args)</dt><dd><tt>field_dcl&nbsp;::=&nbsp;field_mods&nbsp;field_dcl_rest<br>
+field_dcl&nbsp;::=&nbsp;field_dcl_rest</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_field_dcl_array1_rest"><strong>p_field_dcl_array1_rest</strong></a>(self, args)</dt><dd><tt>field_dcl_rest&nbsp;::=&nbsp;type&nbsp;array_brackets&nbsp;ID&nbsp;;</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_field_dcl_array2_rest"><strong>p_field_dcl_array2_rest</strong></a>(self, args)</dt><dd><tt>field_dcl_rest&nbsp;::=&nbsp;type&nbsp;ID&nbsp;array_brackets&nbsp;;</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_field_dcl_assign"><strong>p_field_dcl_assign</strong></a>(self, args)</dt><dd><tt>field_dcl_rest&nbsp;::=&nbsp;type&nbsp;ID&nbsp;ASSIGN_OP&nbsp;literal&nbsp;;</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_field_dcl_rest"><strong>p_field_dcl_rest</strong></a>(self, args)</dt><dd><tt>field_dcl_rest&nbsp;::=&nbsp;type&nbsp;ID&nbsp;;</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_field_modifiers"><strong>p_field_modifiers</strong></a>(self, args)</dt><dd><tt>field_mods&nbsp;::=&nbsp;PRIVATE<br>
+field_mods&nbsp;::=&nbsp;static_final_mods<br>
+field_mods&nbsp;::=&nbsp;PRIVATE&nbsp;static_final_mods</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_field_ref"><strong>p_field_ref</strong></a>(self, args)</dt><dd><tt>field_ref&nbsp;::=&nbsp;ID&nbsp;.&nbsp;ID</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_field_ref_super"><strong>p_field_ref_super</strong></a>(self, args)</dt><dd><tt>field_ref&nbsp;::=&nbsp;SUPER&nbsp;.&nbsp;ID</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_file"><strong>p_file</strong></a>(self, args)</dt><dd><tt>file&nbsp;::=&nbsp;class_dcl<br>
+file&nbsp;::=&nbsp;interface_dcl</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_float_l"><strong>p_float_l</strong></a>(self, args)</dt><dd><tt>literal&nbsp;::=&nbsp;FLOAT_L</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_for_stmt"><strong>p_for_stmt</strong></a>(self, args)</dt><dd><tt>for_stmt&nbsp;::=&nbsp;FOR&nbsp;(&nbsp;var_dcl&nbsp;expr&nbsp;;&nbsp;expr&nbsp;)&nbsp;block</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_formal_param1"><strong>p_formal_param1</strong></a>(self, args)</dt><dd><tt>formal_param&nbsp;::=&nbsp;(&nbsp;param_list&nbsp;)</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_formal_param2"><strong>p_formal_param2</strong></a>(self, args)</dt><dd><tt>formal_param&nbsp;::=&nbsp;(&nbsp;)</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_if_stmt1"><strong>p_if_stmt1</strong></a>(self, args)</dt><dd><tt>if_stmt&nbsp;::=&nbsp;IF&nbsp;(&nbsp;expr&nbsp;)&nbsp;block</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_if_stmt2"><strong>p_if_stmt2</strong></a>(self, args)</dt><dd><tt>if_stmt&nbsp;::=&nbsp;IF&nbsp;(&nbsp;expr&nbsp;)&nbsp;block&nbsp;ELSE&nbsp;block</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_if_stmt3"><strong>p_if_stmt3</strong></a>(self, args)</dt><dd><tt>if_stmt&nbsp;::=&nbsp;IF&nbsp;(&nbsp;expr&nbsp;)&nbsp;block&nbsp;ELSE&nbsp;if_stmt</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_implements"><strong>p_implements</strong></a>(self, args)</dt><dd><tt>implements&nbsp;::=&nbsp;implements_list</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_implements_list"><strong>p_implements_list</strong></a>(self, args)</dt><dd><tt>implements_list&nbsp;::=&nbsp;implements_list&nbsp;,&nbsp;ID</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_implements_list_base"><strong>p_implements_list_base</strong></a>(self, args)</dt><dd><tt>implements_list&nbsp;::=&nbsp;ID</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_int_l"><strong>p_int_l</strong></a>(self, args)</dt><dd><tt>literal&nbsp;::=&nbsp;INT_L</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_inteface_dcl"><strong>p_inteface_dcl</strong></a>(self, args)</dt><dd><tt>interface_dcl&nbsp;::=&nbsp;INTERFACE&nbsp;ID&nbsp;interface_body</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_interface_body"><strong>p_interface_body</strong></a>(self, args)</dt><dd><tt>interface_body&nbsp;::=&nbsp;{&nbsp;interface_body_dcl&nbsp;}</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_interface_body_dcl_method"><strong>p_interface_body_dcl_method</strong></a>(self, args)</dt><dd><tt>interface_body_dcl&nbsp;::=&nbsp;interface_body_dcl&nbsp;abs_method_dcl</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_interface_body_dcl_method_base"><strong>p_interface_body_dcl_method_base</strong></a>(self, args)</dt><dd><tt>interface_body_dcl&nbsp;::=&nbsp;abs_method_dcl</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_interface_body_empty"><strong>p_interface_body_empty</strong></a>(self, args)</dt><dd><tt>interface_body&nbsp;::=&nbsp;{&nbsp;}</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_interface_dcl_extends"><strong>p_interface_dcl_extends</strong></a>(self, args)</dt><dd><tt>interface_dcl&nbsp;::=&nbsp;INTERFACE&nbsp;ID&nbsp;EXTENDS&nbsp;ID&nbsp;interface_body</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_long_l"><strong>p_long_l</strong></a>(self, args)</dt><dd><tt>literal&nbsp;::=&nbsp;LONG_L</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_matrix_element"><strong>p_matrix_element</strong></a>(self, args)</dt><dd><tt>matrix_element&nbsp;::=&nbsp;ID&nbsp;|&nbsp;expr&nbsp;,&nbsp;expr&nbsp;|</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_method_call_long"><strong>p_method_call_long</strong></a>(self, args)</dt><dd><tt>method_call&nbsp;::=&nbsp;ID&nbsp;method_call_rest&nbsp;(&nbsp;)</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_method_call_long_args"><strong>p_method_call_long_args</strong></a>(self, args)</dt><dd><tt>method_call&nbsp;::=&nbsp;ID&nbsp;method_call_rest&nbsp;(&nbsp;args_list&nbsp;)</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_method_call_rest"><strong>p_method_call_rest</strong></a>(self, args)</dt><dd><tt>method_call_rest&nbsp;::=&nbsp;method_call_rest&nbsp;.&nbsp;ID</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_method_call_rest_base"><strong>p_method_call_rest_base</strong></a>(self, args)</dt><dd><tt>method_call_rest&nbsp;::=&nbsp;.&nbsp;ID</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_method_call_simple"><strong>p_method_call_simple</strong></a>(self, args)</dt><dd><tt>method_call&nbsp;::=&nbsp;ID&nbsp;(&nbsp;)</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_method_call_simple_args"><strong>p_method_call_simple_args</strong></a>(self, args)</dt><dd><tt>method_call&nbsp;::=&nbsp;ID&nbsp;(&nbsp;args_list&nbsp;)</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_method_call_super"><strong>p_method_call_super</strong></a>(self, args)</dt><dd><tt>method_call&nbsp;::=&nbsp;SUPER&nbsp;method_call_rest&nbsp;(&nbsp;)</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_method_call_super_args"><strong>p_method_call_super_args</strong></a>(self, args)</dt><dd><tt>method_call&nbsp;::=&nbsp;SUPER&nbsp;method_call_rest&nbsp;(&nbsp;args_list&nbsp;)</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_method_dcl"><strong>p_method_dcl</strong></a>(self, args)</dt><dd><tt>method_dcl&nbsp;::=&nbsp;ABSTRACT&nbsp;abs_method_dcl<br>
+method_dcl&nbsp;::=&nbsp;method_mods&nbsp;method_dcl_rest<br>
+method_dcl&nbsp;::=&nbsp;method_dcl_rest</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_method_dcl_array_rest"><strong>p_method_dcl_array_rest</strong></a>(self, args)</dt><dd><tt>method_dcl_rest&nbsp;::=&nbsp;type&nbsp;array_brackets&nbsp;ID&nbsp;formal_param&nbsp;block</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_method_dcl_rest"><strong>p_method_dcl_rest</strong></a>(self, args)</dt><dd><tt>method_dcl_rest&nbsp;::=&nbsp;type&nbsp;ID&nbsp;formal_param&nbsp;block<br>
+method_dcl_rest&nbsp;::=&nbsp;VOID&nbsp;ID&nbsp;formal_param&nbsp;block</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_method_modifiers"><strong>p_method_modifiers</strong></a>(self, args)</dt><dd><tt>method_mods&nbsp;::=&nbsp;PRIVATE<br>
+method_mods&nbsp;::=&nbsp;static_final_mods<br>
+method_mods&nbsp;::=&nbsp;PRIVATE&nbsp;static_final_mods</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_mul_expr"><strong>p_mul_expr</strong></a>(self, args)</dt><dd><tt>mul_expr&nbsp;::=&nbsp;unary_expr<br>
+mul_expr&nbsp;::=&nbsp;mul_expr&nbsp;MUL_OP&nbsp;unary_expr</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_null_l"><strong>p_null_l</strong></a>(self, args)</dt><dd><tt>literal&nbsp;::=&nbsp;NULL_L</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_param_list"><strong>p_param_list</strong></a>(self, args)</dt><dd><tt>param_list&nbsp;::=&nbsp;param_list&nbsp;,&nbsp;type&nbsp;ID</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_param_list_array1"><strong>p_param_list_array1</strong></a>(self, args)</dt><dd><tt>param_list&nbsp;::=&nbsp;param_list&nbsp;,&nbsp;type&nbsp;array_brackets&nbsp;ID</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_param_list_array2"><strong>p_param_list_array2</strong></a>(self, args)</dt><dd><tt>param_list&nbsp;::=&nbsp;param_list&nbsp;,&nbsp;type&nbsp;ID&nbsp;array_brackets</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_param_list_array_base1"><strong>p_param_list_array_base1</strong></a>(self, args)</dt><dd><tt>param_list&nbsp;::=&nbsp;type&nbsp;array_brackets&nbsp;ID</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_param_list_array_base2"><strong>p_param_list_array_base2</strong></a>(self, args)</dt><dd><tt>param_list&nbsp;::=&nbsp;type&nbsp;ID&nbsp;array_brackets</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_param_list_base"><strong>p_param_list_base</strong></a>(self, args)</dt><dd><tt>param_list&nbsp;::=&nbsp;type&nbsp;ID</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_primary_array"><strong>p_primary_array</strong></a>(self, args)</dt><dd><tt>primary&nbsp;::=&nbsp;array_element</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_primary_brackets"><strong>p_primary_brackets</strong></a>(self, args)</dt><dd><tt>primary&nbsp;::=&nbsp;(&nbsp;expr&nbsp;)</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_primary_creator"><strong>p_primary_creator</strong></a>(self, args)</dt><dd><tt>primary&nbsp;::=&nbsp;creator</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_primary_field_ref"><strong>p_primary_field_ref</strong></a>(self, args)</dt><dd><tt>primary&nbsp;::=&nbsp;field_ref</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_primary_id"><strong>p_primary_id</strong></a>(self, args)</dt><dd><tt>primary&nbsp;::=&nbsp;ID</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_primary_literal"><strong>p_primary_literal</strong></a>(self, args)</dt><dd><tt>primary&nbsp;::=&nbsp;literal</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_primary_matrix"><strong>p_primary_matrix</strong></a>(self, args)</dt><dd><tt>primary&nbsp;::=&nbsp;matrix_element</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_primary_method_call"><strong>p_primary_method_call</strong></a>(self, args)</dt><dd><tt>primary&nbsp;::=&nbsp;method_call</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_relation_expr"><strong>p_relation_expr</strong></a>(self, args)</dt><dd><tt>relation_expr&nbsp;::=&nbsp;add_expr<br>
+relation_expr&nbsp;::=&nbsp;relation_expr&nbsp;REL_OP&nbsp;add_expr</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_static_final_mods1"><strong>p_static_final_mods1</strong></a>(self, args)</dt><dd><tt>static_final_mods&nbsp;::=&nbsp;FINAL&nbsp;STATIC<br>
+static_final_mods&nbsp;::=&nbsp;STATIC&nbsp;FINAL</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_static_final_mods2"><strong>p_static_final_mods2</strong></a>(self, args)</dt><dd><tt>static_final_mods&nbsp;::=&nbsp;FINAL<br>
+static_final_mods&nbsp;::=&nbsp;STATIC</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_sting_l"><strong>p_sting_l</strong></a>(self, args)</dt><dd><tt>literal&nbsp;::=&nbsp;STR_L</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_stmt1"><strong>p_stmt1</strong></a>(self, args)</dt><dd><tt>stmt&nbsp;::=&nbsp;if_stmt</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_stmt10"><strong>p_stmt10</strong></a>(self, args)</dt><dd><tt>stmt&nbsp;::=&nbsp;;</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_stmt2"><strong>p_stmt2</strong></a>(self, args)</dt><dd><tt>stmt&nbsp;::=&nbsp;while_stmt</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_stmt3"><strong>p_stmt3</strong></a>(self, args)</dt><dd><tt>stmt&nbsp;::=&nbsp;for_stmt</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_stmt4"><strong>p_stmt4</strong></a>(self, args)</dt><dd><tt>stmt&nbsp;::=&nbsp;RETURN&nbsp;;</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_stmt5"><strong>p_stmt5</strong></a>(self, args)</dt><dd><tt>stmt&nbsp;::=&nbsp;RETURN&nbsp;expr&nbsp;;</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_stmt6"><strong>p_stmt6</strong></a>(self, args)</dt><dd><tt>stmt&nbsp;::=&nbsp;expr&nbsp;;</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_stmt7"><strong>p_stmt7</strong></a>(self, args)</dt><dd><tt>stmt&nbsp;::=&nbsp;block</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_stmt8"><strong>p_stmt8</strong></a>(self, args)</dt><dd><tt>stmt&nbsp;::=&nbsp;SUPER&nbsp;(&nbsp;)&nbsp;;</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_stmt9"><strong>p_stmt9</strong></a>(self, args)</dt><dd><tt>stmt&nbsp;::=&nbsp;SUPER&nbsp;(&nbsp;args_list&nbsp;)&nbsp;;</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_true_l"><strong>p_true_l</strong></a>(self, args)</dt><dd><tt>literal&nbsp;::=&nbsp;TRUE_L</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_type"><strong>p_type</strong></a>(self, args)</dt><dd><tt>type&nbsp;::=&nbsp;ID<br>
+type&nbsp;::=&nbsp;TYPE</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_unary_expr1"><strong>p_unary_expr1</strong></a>(self, args)</dt><dd><tt>unary_expr&nbsp;::=&nbsp;primary&nbsp;INC_OP</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_unary_expr2"><strong>p_unary_expr2</strong></a>(self, args)</dt><dd><tt>unary_expr&nbsp;::=&nbsp;unary_prefix&nbsp;primary</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_unary_expr3"><strong>p_unary_expr3</strong></a>(self, args)</dt><dd><tt>unary_expr&nbsp;::=&nbsp;primary</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_unary_op"><strong>p_unary_op</strong></a>(self, args)</dt><dd><tt>unary_prefix&nbsp;::=&nbsp;NOT_OP<br>
+unary_prefix&nbsp;::=&nbsp;ADD_OP<br>
+unary_prefix&nbsp;::=&nbsp;INC_OP</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_var_dcl_array1"><strong>p_var_dcl_array1</strong></a>(self, args)</dt><dd><tt>var_dcl&nbsp;::=&nbsp;type&nbsp;array_brackets&nbsp;ID&nbsp;;</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_var_dcl_array2"><strong>p_var_dcl_array2</strong></a>(self, args)</dt><dd><tt>var_dcl&nbsp;::=&nbsp;type&nbsp;ID&nbsp;array_brackets&nbsp;;</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_var_dcl_array_init1"><strong>p_var_dcl_array_init1</strong></a>(self, args)</dt><dd><tt>var_dcl&nbsp;::=&nbsp;type&nbsp;array_brackets&nbsp;ID&nbsp;ASSIGN_OP&nbsp;expr&nbsp;;</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_var_dcl_array_init2"><strong>p_var_dcl_array_init2</strong></a>(self, args)</dt><dd><tt>var_dcl&nbsp;::=&nbsp;type&nbsp;ID&nbsp;array_brackets&nbsp;ASSIGN_OP&nbsp;expr&nbsp;;</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_var_dcl_assign"><strong>p_var_dcl_assign</strong></a>(self, args)</dt><dd><tt>var_dcl&nbsp;::=&nbsp;type&nbsp;ID&nbsp;ASSIGN_OP&nbsp;expr&nbsp;;</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_var_dcl_simple"><strong>p_var_dcl_simple</strong></a>(self, args)</dt><dd><tt>var_dcl&nbsp;::=&nbsp;type&nbsp;ID&nbsp;;</tt></dd></dl>
+
+<dl><dt><a name="Parser-p_while_stmt"><strong>p_while_stmt</strong></a>(self, args)</dt><dd><tt>while_stmt&nbsp;::=&nbsp;WHILE&nbsp;(&nbsp;expr&nbsp;)&nbsp;block</tt></dd></dl>
+
+<dl><dt><a name="Parser-run_parser"><strong>run_parser</strong></a>(self, file_, lib_classes<font color="#909090">=None</font>)</dt><dd><tt>parses&nbsp;a&nbsp;jml&nbsp;file&nbsp;and&nbsp;returns&nbsp;a&nbsp;list&nbsp;of&nbsp;abstract&nbsp;syntax&nbsp;trees,&nbsp;or<br>
+parses&nbsp;a&nbsp;string&nbsp;containing&nbsp;JaML&nbsp;code.</tt></dd></dl>
+
+<hr>
+Methods inherited from <a href="parser_.spark.html#GenericParser">parser_.spark.GenericParser</a>:<br>
+<dl><dt><a name="Parser-__getstate__"><strong>__getstate__</strong></a>(self)</dt><dd><tt>#&nbsp;&nbsp;When&nbsp;pickling,&nbsp;take&nbsp;the&nbsp;time&nbsp;to&nbsp;generate&nbsp;the&nbsp;full&nbsp;state&nbsp;machine;<br>
+#&nbsp;&nbsp;some&nbsp;information&nbsp;is&nbsp;then&nbsp;extraneous,&nbsp;too.&nbsp;&nbsp;Unfortunately&nbsp;we<br>
+#&nbsp;&nbsp;can't&nbsp;save&nbsp;the&nbsp;rule2func&nbsp;map.</tt></dd></dl>
+
+<dl><dt><a name="Parser-__setstate__"><strong>__setstate__</strong></a>(self, D)</dt></dl>
+
+<dl><dt><a name="Parser-add"><strong>add</strong></a>(self, set, item, i<font color="#909090">=None</font>, predecessor<font color="#909090">=None</font>, causal<font color="#909090">=None</font>)</dt></dl>
+
+<dl><dt><a name="Parser-addRule"><strong>addRule</strong></a>(self, doc, func, _preprocess<font color="#909090">=1</font>)</dt></dl>
+
+<dl><dt><a name="Parser-ambiguity"><strong>ambiguity</strong></a>(self, rules)</dt></dl>
+
+<dl><dt><a name="Parser-augment"><strong>augment</strong></a>(self, start)</dt></dl>
+
+<dl><dt><a name="Parser-buildTree"><strong>buildTree</strong></a>(self, nt, item, tokens, k)</dt></dl>
+
+<dl><dt><a name="Parser-causal"><strong>causal</strong></a>(self, key)</dt></dl>
+
+<dl><dt><a name="Parser-collectRules"><strong>collectRules</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="Parser-computeNull"><strong>computeNull</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="Parser-deriveEpsilon"><strong>deriveEpsilon</strong></a>(self, nt)</dt></dl>
+
+<dl><dt><a name="Parser-error"><strong>error</strong></a>(self, token)</dt></dl>
+
+<dl><dt><a name="Parser-finalState"><strong>finalState</strong></a>(self, tokens)</dt></dl>
+
+<dl><dt><a name="Parser-goto"><strong>goto</strong></a>(self, state, sym)</dt></dl>
+
+<dl><dt><a name="Parser-gotoST"><strong>gotoST</strong></a>(self, state, st)</dt></dl>
+
+<dl><dt><a name="Parser-gotoT"><strong>gotoT</strong></a>(self, state, t)</dt></dl>
+
+<dl><dt><a name="Parser-isnullable"><strong>isnullable</strong></a>(self, sym)</dt></dl>
+
+<dl><dt><a name="Parser-makeNewRules"><strong>makeNewRules</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="Parser-makeSet"><strong>makeSet</strong></a>(self, token, sets, i)</dt></dl>
+
+<dl><dt><a name="Parser-makeSet_fast"><strong>makeSet_fast</strong></a>(self, token, sets, i)</dt></dl>
+
+<dl><dt><a name="Parser-makeState"><strong>makeState</strong></a>(self, state, sym)</dt></dl>
+
+<dl><dt><a name="Parser-makeState0"><strong>makeState0</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="Parser-parse"><strong>parse</strong></a>(self, tokens)</dt></dl>
+
+<dl><dt><a name="Parser-predecessor"><strong>predecessor</strong></a>(self, key, causal)</dt></dl>
+
+<dl><dt><a name="Parser-preprocess"><strong>preprocess</strong></a>(self, rule, func)</dt><dd><tt>#&nbsp;&nbsp;A&nbsp;hook&nbsp;for&nbsp;GenericASTBuilder&nbsp;and&nbsp;GenericASTMatcher.&nbsp;&nbsp;Mess<br>
+#&nbsp;&nbsp;thee&nbsp;not&nbsp;with&nbsp;this;&nbsp;nor&nbsp;shall&nbsp;thee&nbsp;toucheth&nbsp;the&nbsp;_preprocess<br>
+#&nbsp;&nbsp;argument&nbsp;to&nbsp;addRule.</tt></dd></dl>
+
+<dl><dt><a name="Parser-resolve"><strong>resolve</strong></a>(self, list)</dt></dl>
+
+<dl><dt><a name="Parser-skip"><strong>skip</strong></a>(self, (lhs, rhs), pos<font color="#909090">=0</font>)</dt></dl>
+
+<dl><dt><a name="Parser-typestring"><strong>typestring</strong></a>(self, token)</dt></dl>
+
+</td></tr></table></td></tr></table>
+</body></html>

@@ -1,0 +1,141 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module parser_.scanner</title>
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong><a href="parser_.html"><font color="#ffffff">parser_</font></a>.scanner</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:////smbhome.uscs.susx.ac.uk/wjs25/workspace/jaml_compiler/parser_/scanner.py">\\smbhome.uscs.susx.ac.uk\wjs25\workspace\jaml_compiler\parser_\scanner.py</a></font></td></tr></table>
+    <p></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="re.html">re</a><br>
+</td><td width="25%" valign=top></td><td width="25%" valign=top></td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ee77aa">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Classes</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#ee77aa"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl>
+<dt><font face="helvetica, arial"><a href="__builtin__.html#object">__builtin__.object</a>
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="parser_.scanner.html#Token">Token</a>
+</font></dt></dl>
+</dd>
+<dt><font face="helvetica, arial"><a href="parser_.spark.html#GenericScanner">parser_.spark.GenericScanner</a>
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="parser_.scanner.html#Scanner">Scanner</a>
+</font></dt></dl>
+</dd>
+</dl>
+ <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="Scanner">class <strong>Scanner</strong></a>(<a href="parser_.spark.html#GenericScanner">parser_.spark.GenericScanner</a>)</font></td></tr>
+    
+<tr><td bgcolor="#ffc8d8"><tt>&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="Scanner-__init__"><strong>__init__</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="Scanner-t_add_op"><strong>t_add_op</strong></a>(self, s)</dt><dd><tt>\+\+|--|\+|-</tt></dd></dl>
+
+<dl><dt><a name="Scanner-t_and_op"><strong>t_and_op</strong></a>(self, s)</dt><dd><tt>&amp;&amp;</tt></dd></dl>
+
+<dl><dt><a name="Scanner-t_assign_eq_not_op"><strong>t_assign_eq_not_op</strong></a>(self, s)</dt><dd><tt>==|!=|=|!</tt></dd></dl>
+
+<dl><dt><a name="Scanner-t_brackets"><strong>t_brackets</strong></a>(self, s)</dt><dd><tt>\(|\)|\[|\]|\{|\}</tt></dd></dl>
+
+<dl><dt><a name="Scanner-t_char_l"><strong>t_char_l</strong></a>(self, s)</dt><dd><tt>'.'</tt></dd></dl>
+
+<dl><dt><a name="Scanner-t_class"><strong>t_class</strong></a>(self, s)</dt><dd><tt>class</tt></dd></dl>
+
+<dl><dt><a name="Scanner-t_double_float_l"><strong>t_double_float_l</strong></a>(self, s)</dt><dd><tt>\b([0-9]*\.[0-9]+)(d|D|f|F)?|[0-9]+(d|D|f|F)\b</tt></dd></dl>
+
+<dl><dt><a name="Scanner-t_else"><strong>t_else</strong></a>(self, s)</dt><dd><tt>else</tt></dd></dl>
+
+<dl><dt><a name="Scanner-t_for"><strong>t_for</strong></a>(self, s)</dt><dd><tt>for</tt></dd></dl>
+
+<dl><dt><a name="Scanner-t_if"><strong>t_if</strong></a>(self, s)</dt><dd><tt>if</tt></dd></dl>
+
+<dl><dt><a name="Scanner-t_int_l"><strong>t_int_l</strong></a>(self, s)</dt><dd><tt>\b\d+\b</tt></dd></dl>
+
+<dl><dt><a name="Scanner-t_long_l"><strong>t_long_l</strong></a>(self, s)</dt><dd><tt>\b\d+(l|L)\b</tt></dd></dl>
+
+<dl><dt><a name="Scanner-t_mul_op"><strong>t_mul_op</strong></a>(self, s)</dt><dd><tt>\*|/</tt></dd></dl>
+
+<dl><dt><a name="Scanner-t_new"><strong>t_new</strong></a>(self, s)</dt><dd><tt>new</tt></dd></dl>
+
+<dl><dt><a name="Scanner-t_punct"><strong>t_punct</strong></a>(self, s)</dt><dd><tt>,|\.|;|\||\|</tt></dd></dl>
+
+<dl><dt><a name="Scanner-t_rel_op"><strong>t_rel_op</strong></a>(self, s)</dt><dd><tt>(&lt;|&gt;)(\s*=)?</tt></dd></dl>
+
+<dl><dt><a name="Scanner-t_return"><strong>t_return</strong></a>(self, s)</dt><dd><tt>return</tt></dd></dl>
+
+<dl><dt><a name="Scanner-t_str_l"><strong>t_str_l</strong></a>(self, s)</dt><dd><tt>"([^"]*)"</tt></dd></dl>
+
+<dl><dt><a name="Scanner-t_text"><strong>t_text</strong></a>(self, s)</dt><dd><tt>\b[a-zA-Z_][a-zA-Z0-9_]*\b</tt></dd></dl>
+
+<dl><dt><a name="Scanner-t_void"><strong>t_void</strong></a>(self, s)</dt><dd><tt>void</tt></dd></dl>
+
+<dl><dt><a name="Scanner-t_while"><strong>t_while</strong></a>(self, s)</dt><dd><tt>while</tt></dd></dl>
+
+<dl><dt><a name="Scanner-t_whitespace"><strong>t_whitespace</strong></a>(self, s)</dt><dd><tt>\s+</tt></dd></dl>
+
+<dl><dt><a name="Scanner-tokenize"><strong>tokenize</strong></a>(self, input_)</dt></dl>
+
+<hr>
+Methods inherited from <a href="parser_.spark.html#GenericScanner">parser_.spark.GenericScanner</a>:<br>
+<dl><dt><a name="Scanner-error"><strong>error</strong></a>(self, s, pos)</dt></dl>
+
+<dl><dt><a name="Scanner-makeRE"><strong>makeRE</strong></a>(self, name)</dt></dl>
+
+<dl><dt><a name="Scanner-position"><strong>position</strong></a>(self, newpos<font color="#909090">=None</font>)</dt></dl>
+
+<dl><dt><a name="Scanner-reflect"><strong>reflect</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="Scanner-t_default"><strong>t_default</strong></a>(self, s)</dt><dd><tt>(&nbsp;.&nbsp;|&nbsp;\n&nbsp;)+</tt></dd></dl>
+
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="Token">class <strong>Token</strong></a>(<a href="__builtin__.html#object">__builtin__.object</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>A&nbsp;class&nbsp;to&nbsp;represent&nbsp;the&nbsp;tokens&nbsp;the&nbsp;scanner&nbsp;identifies.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="Token-__cmp__"><strong>__cmp__</strong></a>(self, obj)</dt></dl>
+
+<dl><dt><a name="Token-__init__"><strong>__init__</strong></a>(self, name, attr<font color="#909090">=None</font>)</dt><dd><tt>Initialise&nbsp;the&nbsp;name&nbsp;of&nbsp;the&nbsp;token&nbsp;i.e.&nbsp;what&nbsp;lexical&nbsp;token&nbsp;it<br>
+acually&nbsp;corrosponds&nbsp;to,&nbsp;and&nbsp;the&nbsp;atribute&nbsp;if&nbsp;any.&nbsp;&nbsp;For&nbsp;literals<br>
+and&nbsp;identifies,&nbsp;this&nbsp;is&nbsp;the&nbsp;value&nbsp;or&nbsp;the&nbsp;word&nbsp;itself.</tt></dd></dl>
+
+<dl><dt><a name="Token-__repr__"><strong>__repr__</strong></a>(self)</dt></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>attr</strong></dt>
+</dl>
+<dl><dt><strong>name</strong></dt>
+</dl>
+</td></tr></table></td></tr></table>
+</body></html>
