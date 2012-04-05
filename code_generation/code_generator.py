@@ -92,9 +92,7 @@ class CodeGenerator(object):
                 self._next_for = 0
                 self._next_comp = 0
                 self._next_not = 0
-                self._next_mat_idx = 0
-                self._next_mat_rows = 0
-                self._net_mat_cols = 0
+                self._next_auxillary = 0
                 # This stores all the instructions which will be written to the
                 # output file
                 self._out = ''
@@ -937,52 +935,113 @@ class CodeGenerator(object):
                                       ';Use the built in concat method of ' +
                                       'String')
                 elif node.type_ == 'matrix':
+                        # Create local variables of label suffixes so they
+                        # can't be updated in child nodes
                         next_mat_rows = str(self._next_mat_rows)
                         next_mat_cols = str(self._next_mat_cols)
-                        self._next_mat_rows += 1
-                        self._next_mat_cols += 1
-                        # Create and store the indices for rows/cols
-                        idx1_name = 'idx' + str(self._next_mat_idx)
-                        self._add_iln('iconst_0', 'Initialise rows index')
-                        self._cur_frame.new_var(idx1_name, False)
-                        idx1_loc = str(self._cur_frame.get_var(idx1_name))
-                        self._add_iln('istore ' + idx1_loc, 'Store index')
-                        idx2_name = 'idx' + str(self._next_mat_idx)
-                        self._add_iln('iconst_0', 'Initialise cols index')
-                        self._cur_frame.new_var(idx2_name, False)
-                        idx2_loc = str(self._cur_frame.get_var(idx2_name))
-                        self._add_iln('istore ' + idx2_loc, 'Store index')
-                        self._add_ln('MatRowStart' + next_mat_rows + ':',
-                                     ';Start of loop through rows')
-                        self._add_iln('iload ' + idx1_loc, 'Load index')
-                        # Load the left hand matrix to compare the size
-                        self._visit(node.children[0])
-                        self._add_iln('arraylength', 'Get its size')
-                        self._add_iln('if_icmpge MatRowEnd' + next_mat_rows,
-                                      'Check if idx has reached the size of ' +
-                                      'the rows')
-                        for child in node.children[1:]:
+                        # Create an array to store result in
+                        for child in node.children[0].children[1:]:
                                 # Get the sizes of each dimension on the stack
                                 self._visit(child)
                         self._add_iln('multianewarray ' +
                                       get_jvm_type(node) + ' 2',
                                       ';Construct a new array to store result')
+                        result_mat_loc = str(self._get_auxillary_var_loc())
+                        self._add_iln('astore ' + result_mat_loc,
+                                      ';Store the result array') 
+                        # Create and store lengths of the dimensions
+                        # First visit child to gen code to load the array
+                        self._visit(node.children[0])
+                        self._add_iln('dup', ';Duplicate to get row and col ' +
+                                      'lengths')
+                        # Store the rows length
+                        self._add_iln('arraylength', ';Get rows length')
+                        row_len_loc = str(self._get_auxillary_var_loc())
+                        self._add_iln('istore ' + row_len_loc, ';Store length')
+                        # Store the cols length
+                        self._add_iln('iconst_0', ';Index into first dimension')
+                        self._add_iln('aaload', ';Load second dimension')
+                        self._add_iln('arraylength', ';Get cols length')
+                        col_len_loc = str(self._get_auxillary_var_loc())
+                        self._add_iln('istore ' + col_len_loc, 'Store length')
+                        # Create and store the indices for rows/cols
+                        # Store the rows index
+                        idx1_loc = str(self._get_auxillary_var_loc())
+                        self._add_iln('istore ' + idx1_loc, 'Store index')
+                        # Store the columns index
+                        idx2_loc = str(self._get_auxillary_var_loc())
+                        self._add_iln('istore ' + idx2_loc, 'Store index')
+                        # Start outer loop
+                        self._add_ln('MatRowStart' + next_mat_rows + ':',
+                                     ';Start of loop through rows')
                         self._add_iln('iload ' + idx1_loc, 'Load index')
-                        self._visit(node.children[0]) # Load matrix 1
-                        self._add_iln('iload ' + idx1_loc, 'Load index')
+                        self._add_iln('iload ' + row_len_loc, ';Get row length')
+                        self._add_iln('if_icmpge MatRowEnd' + next_mat_rows,
+                                      'Check if idx has reached the size of ' +
+                                      'the rows')
+                        # Start inner loop
+                        self._add_ln('MatColStart' + next_mat_rows + ':',
+                                     ';Start of loop through rows')
+                        self._add_iln('iload ' + idx2_loc, 'Load index')
+                        self._add_iln('iload ' + col_len_loc, ';Get row length')
+                        self._add_iln('if_icmpge MatColEnd' + next_mat_cols,
+                                      'Check if idx has reached the size of ' +
+                                      'the cols')
+                        # Do the addition
+                        # Load the result matrix
+                        self._add_iln('aload ' + result_mat_loc,
+                                      'Load the result matrix')
+                        self._add_iln('iload ' + idx1_loc, 'Load row index')
+                        self._add_iln('aaload', 'Load matrix row')
+                        self._add_iln('iload ' + idx2_loc, 'Load col index')
+                        # Load matrix 1 and get element
+                        self._visit(node.children[0]) 
+                        self._add_iln('iload ' + idx1_loc, 'Load row index')
+                        self._add_iln('aaload', 'Load matrix row')
+                        self._add_iln('iload ' + idx2_loc, 'Load col index')
                         self._add_iln('daload', 'Load current matrix element')
-                        self._visit(node.children[1]) # Load matrix 2
-                        self._add_iln('iload ' + idx1_loc, 'Load index')
+                        # Load matrix 2 and get element
+                        self._visit(node.children[1])
+                        self._add_iln('iload ' + idx1_loc, 'Load row index')
+                        self._add_iln('aaload', 'Load matrix row')
+                        self._add_iln('iload ' + idx2_loc, 'Load col index')
                         self._add_iln('daload', 'Load current matrix element')
+                        # Add elements and store in result matrix cell
                         self._add_iln('dadd', 'Add both element values')
                         self._add_iln('dastore', 'Store result in new array')
+                        # End the loops
+                        self._add_iln('iinc ' + idx2_loc + ' 1',
+                                      'Increment the index')
+                        self._add_iln('goto MatColStart' + next_mat_cols,
+                                      'Return to start of inner loop')
+                        self._add_ln('MatColEnd' + next_mat_cols + ':',
+                                     'End of the inner loop')
                         self._add_iln('iinc ' + idx1_loc + ' 1',
                                       'Increment the index')
-
-
+                        self._add_iln('goto MatRowStart' + next_mat_rows,
+                                      'Return to start of inner loop')
+                        self._add_iln('iinc ' + idx1_loc + ' 1',
+                                      'Increment the index')
+                        self._add_ln('MatRowEnd' + next_mat_rows + ':',
+                                     'End of the inner loop')
+                        self._add_iln('aload ' + result_mat_loc,
+                                      'Leave the result matrix on the stack')
+                        # Update label values
+                        self._next_mat_rows += 1
+                        self._next_mat_cols += 1
                 else:
                         # Treat it as the arithmetic operator
                         self._gen_arith(node)
+        
+        def _get_auxillary_var_loc(self):
+                """If a auxillary local variable needs to be created by the
+                code generator, this will create it in the frame and return
+                its location in memory.
+                """
+                result_mat_name = 'aux' + str(self._next_auxillary)
+                self._next_auxillary += 1
+                self._cur_frame.new_var(result_mat_name, False)
+                return self._cur_frame.get_var(result_mat_name)
 
         def _visit_mul_node(self, node):
                 self._gen_arith(node)
