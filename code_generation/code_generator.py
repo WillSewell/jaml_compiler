@@ -968,17 +968,10 @@ class CodeGenerator(object):
                 result_mat_loc = str(self._get_auxillary_var_loc())
                 self._add_iln('astore ' + result_mat_loc,
                               ';Store the result array') 
-                # Create and store the indices for rows/cols
-                # Store the rows index
+                # Create and store the indices for rows
+                self._add_iln('iconst_0', ';Load 0')
                 idx1_loc = str(self._get_auxillary_var_loc())
                 self._add_iln('istore ' + idx1_loc, ';Store index')
-                # Store the columns index
-                idx2_loc = str(self._get_auxillary_var_loc())
-                self._add_iln('istore ' + idx2_loc, ';Store index')
-                # Matrix multiplication needs a third index
-                if node.value == '*':
-                        idx3_loc = str(self._get_auxillary_var_loc())
-                        self._add_iln('istore ' + idx3_loc, ';Store index')
                 # Create local variables of label suffixes so they
                 # can't be updated in child nodes
                 next_mat_rows = str(self._next_mat_rows)
@@ -994,13 +987,11 @@ class CodeGenerator(object):
                 if node.value == '*':
                         self._gen_matrix_multiplication(node, col_len_loc,
                                                         result_mat_loc,
-                                                        idx1_loc, idx2_loc,
-                                                        idx3_loc, next_mat_cols)
+                                                        idx1_loc, next_mat_cols)
                 else:
                         self._gen_matrix_addition(node, col_len_loc,
                                                   result_mat_loc,
-                                                  idx1_loc, idx2_loc,
-                                                  next_mat_cols)
+                                                  idx1_loc, next_mat_cols)
                 self._add_iln('iinc ' + idx1_loc + ' 1',
                               ';Increment the index')
                 self._add_iln('goto MatRowStart' + next_mat_rows,
@@ -1014,12 +1005,14 @@ class CodeGenerator(object):
                 self._next_mat_cols += 1
         
         def _gen_matrix_addition(self, node, col_len_loc, result_mat_loc,
-                                 idx1_loc, idx2_loc, next_mat_cols):
+                                 idx1_loc, next_mat_cols):
                 # Create local variables of label suffixes so they
                 # can't be updated in child nodes
                 next_mat_rows = str(self._next_mat_rows)
                 next_mat_cols = str(self._next_mat_cols)
+                # Create and store columns index
                 self._add_iln('iconst_0', ';Load 0')
+                idx2_loc = str(self._get_auxillary_var_loc())
                 self._add_iln('istore ' + idx2_loc, ';Set loop index to 0')
                 # Start inner loop
                 self._add_ln('MatColStart' + next_mat_rows + ':',
@@ -1079,12 +1072,12 @@ class CodeGenerator(object):
                         self._gen_arith(node)
                         
         def _gen_matrix_multiplication(self, node, col_len_loc, result_mat_loc,
-                                       idx1_loc, idx2_loc, idx3_loc,
-                                       next_mat_cols):
+                                       idx1_loc, next_mat_cols):
                 # Create label suffix for the cell loop labels
                 next_mat_cells = str(self._next_mat_cells)
                 # Set the middle loop index to 0
                 self._add_iln('iconst_0', ';Load 0')
+                idx2_loc = str(self._get_auxillary_var_loc())
                 self._add_iln('istore ' + idx2_loc, ';Set loop index to 0')
                 # Start col loop
                 self._add_ln('MatColStart' + next_mat_cols + ':',
@@ -1099,6 +1092,7 @@ class CodeGenerator(object):
                               'of the cols')
                 # Set the inner loop index to 0
                 self._add_iln('iconst_0', ';Load 0')
+                idx3_loc = str(self._get_auxillary_var_loc())
                 self._add_iln('istore ' + idx3_loc, ';Set loop index to 0')
                 # Start loop to multiply one element in the first matrix by
                 # all elements of a row in the second
@@ -1643,7 +1637,7 @@ class CodeGenerator(object):
                                       ';Construct a new multidimensional array')
         
         def _visit_matrix_init_node(self, node):
-                for child in node.children[1:]:
+                for child in node.children:
                         # Get the sizes of each dimenion on the stack
                         self._visit(child)
                 self._add_iln('multianewarray [[D 2',
