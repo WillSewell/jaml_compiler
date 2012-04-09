@@ -18,9 +18,6 @@ from utilities.utilities import (ArrayType, camel_2_underscore, get_full_type,
 from semantic_analysis.symbols import LibFieldSymbol, LibConsSymbol
 
 # TODO: SPLIT LIB CLASSES INTO LIB CLASSES AND INTERFACES!
-# TODO: NOT CHECKING IF LIB METHODS/FIELDS ARE STATIC OR NOT
-
-#TODO: NEED TO INFORCE DIMENSION RULES WITH MATRIX OPERATIONS
 
 class TypeChecker(object):
         """This class allows for type checking of a particular program.
@@ -558,7 +555,6 @@ class TypeChecker(object):
                 if lh_type == rh_type:
                         return True
                 else:
-                        #TODO: SEE TODO FOR SEARCH FOR FIELDS IN SUPER CLASSES
                         rh_class = self._get_class_s(rh_type)
                         if rh_class.super_class != 'java/lang/Object':
                                 super_name = rh_class.super_class
@@ -853,22 +849,6 @@ class TypeChecker(object):
                         var_s = self._get_var_s_from_id(id_node.value, env,
                                                         True)
                         class_name = var_s.type_
-                        
-# TODO: THESE CHECKS SHOULD REALLY BE IN FIND_METHO - ESSENTIALLY NEED TO LOOK IN INTERFACES IN FIND_METHOD TOO           
-#                # Get the class symbol
-#                class_s = None
-#                try:
-#                        class_s = self._get_class_s(class_name)
-#                except SymbolNotFoundError:
-#                        # It could be an interface if it's not static
-#                        if not is_static:
-#                                get_inter = self._t_env.get_interface_s
-#                                class_s = get_inter(class_name)
-#                        else:
-#                                msg = ('Type "' + class_name +
-#                                       '" undefined!')
-#                                raise SymbolNotFoundError(msg)
-        
                 # Look up the method in this class, or a super class,
                 # and tag the node's type
                 node.type_ = self._find_method(class_name, node, is_static, env)
@@ -892,9 +872,12 @@ class TypeChecker(object):
                         class_s = self._get_class_s(class_)
                 except SymbolNotFoundError:
                         try:
-                                # See if it's an interface
-                                class_s = self._get_interface_s(class_)
-                        except:
+                                # See if it's an interface (can't be static)
+                                if not is_static:
+                                        class_s = self._get_interface_s(class_)
+                                else:
+                                        raise SymbolNotFoundError
+                        except SymbolNotFoundError:
                                 # The super class must be a Java library class
                                 return self._check_lib_method(class_, node, env)
                 try:
@@ -1360,12 +1343,6 @@ class TypeChecker(object):
         def _visit_class_type_node(self, node, env):
                 """Checks that the type is valid."""
                 return get_full_type(node.value, self._t_env)
-        
-        # TODO: NOT SURE IF NEED - CAN JUST CHECK ALL CLASSES IN T_ENV
-        def _check_lib_class(self, class_, node, env):
-                """Check the libaray class exists. """
-                dotted_name = class_.replace('/', '.')
-                self._run_lib_checker(['-class', dotted_name])
 
         #######################################################################
         ## Interface checks

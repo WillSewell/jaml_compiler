@@ -585,23 +585,13 @@ class Parser(GenericParser):
                 expr ::= cond_or_expr
                 expr ::= cond_or_expr ASSIGN_OP cond_or_expr
                 """
-                if len(args) == 3:
-                        root = nodes.AssignNode()
-                        root.add_children([args[0], args[2]])
-                        return root
-                else:
-                        return args[0]
+                return self._gen_expr_tree(nodes.AssignNode)
 
         def p_cond_or_expr(self, args):
                 """
                 cond_or_expr ::= cond_and_expr
                 cond_or_expr ::= cond_or_expr | | cond_and_expr
                 """
-                # TODO: SAY HOW DID cond_or_expr OR_OP cond_and_expr  rather than:
-                # cond_and_expr OR_OP cond_or_expr because the parser
-                # algorithm favours it: see wikipedia
-
-                #TODO: ALSO CREATE A FUNCTION TO DO ALL THESE DUPLICATED THING???
                 if len(args) == 4:
                         root = nodes.CondNode('||')
                         root.add_children([args[0], args[3]])
@@ -614,32 +604,28 @@ class Parser(GenericParser):
                 cond_and_expr ::= equality_expr
                 cond_and_expr ::= cond_and_expr AND_OP equality_expr
                 """
-                if len(args) == 3:
-                        root = nodes.CondNode('&&')
-                        root.add_children([args[0], args[2]])
-                        return root
-                else:
-                        return args[0]
+                return self._gen_expr_tree(nodes.CondNode)
 
         def p_equality_expr(self, args):
                 """
                 equality_expr ::= relation_expr
                 equality_expr ::= equality_expr EQ_OP relation_expr
                 """
-                if len(args) == 3:
-                        root = nodes.EqNode(args[1].attr)
-                        root.add_children([args[0], args[2]])
-                        return root
-                else:
-                        return args[0]
+                return self._gen_expr_tree(nodes.EqNode)
 
         def p_relation_expr(self, args):
                 """
                 relation_expr ::= add_expr
                 relation_expr ::= relation_expr REL_OP add_expr
                 """
+                return self._gen_expr_tree(nodes.RelNode)
+        
+        def _gen_expr_tree(self, args, node):
+                """Helper method to do generic tree construction needed for
+                binary expressions.
+                """
                 if len(args) == 3:
-                        root = nodes.RelNode(args[1].attr)
+                        root = node(args[1].attr)
                         root.add_children([args[0], args[2]])
                         return root
                 else:
@@ -650,24 +636,14 @@ class Parser(GenericParser):
                 add_expr ::= mul_expr
                 add_expr ::= add_expr ADD_OP mul_expr
                 """
-                if len(args) == 3:
-                        root = nodes.AddNode(args[1].attr)
-                        root.add_children([args[0], args[2]])
-                        return root
-                else:
-                        return args[0]
+                return self._gen_expr_tree(nodes.AddNode)
 
         def p_mul_expr(self, args):
                 """
                 mul_expr ::= unary_expr
                 mul_expr ::= mul_expr MUL_OP unary_expr
                 """
-                if len(args) == 3:
-                        root = nodes.MulNode(args[1].attr)
-                        root.add_children([args[0], args[2]])
-                        return root
-                else:
-                        return args[0]
+                return self._gen_expr_tree(nodes.MulNode)
 
         def p_unary_expr1(self, args):
                 """ unary_expr ::= primary INC_OP """
