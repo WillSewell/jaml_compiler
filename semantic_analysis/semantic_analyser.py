@@ -44,6 +44,7 @@ class TypeChecker(object):
                 """
                 p = Parser('file')
                 asts = p.run_parser(program, self._t_env.lib_classes)
+                print asts
                 # Add all global entities (classes and their methods) to the top level
                 # environment
                 self._scanner = ClassInterfaceMethodScanner(self._t_env)
@@ -452,19 +453,19 @@ class TypeChecker(object):
                 env.cur_method.has_ret = True
                 return ret_type
 
-        def _visit_assign_node(self, node, env): # CAN'T ASSIGN TO A FIELD IN ANOTHER CLASS (CAN'T INC IT TOO)
+        def _visit_assign_node(self, node, env): # TODO: CAN'T ASSIGN TO A FIELD IN ANOTHER CLASS (CAN'T INC IT TOO)
                 """Make sure both sides are of the same type"""
                 # Update the variable to initialised
                 name = node.children[0].value
                 symbol = None
                 if name != '':
                         # It's a regular identifier
-                        symbol = self._get_var_s_from_id(name, env)
+                        symbol = self._get_var_s_from_id(name, env, False)
                         symbol.is_init = True
                 else:
                         # For array elements
                         name = node.children[0].children[0].value
-                        symbol = self._get_var_s_from_id(name, env)
+                        symbol = self._get_var_s_from_id(name, env, False)
                         # Check array has been initialised
                         if symbol.is_init == False:
                                 msg = ('Array "' + symbol.name +
@@ -768,7 +769,8 @@ class TypeChecker(object):
 
         def _visit_array_dcl_node(self, node, env):
                 """Simply return the array's type."""
-                symbol = self._get_var_s_from_id(node.children[0].value, env)
+                symbol = self._get_var_s_from_id(node.children[0].value, env,
+                                                 False)
                 node.type_ = symbol.type_
                 # Set children's types
                 for child in node.children:
@@ -781,7 +783,8 @@ class TypeChecker(object):
                 """
                 # First check it has been declared by looking it up in
                 # env (also getting its type)
-                symbol = self._get_var_s_from_id(node.children[0].value, env)
+                symbol = self._get_var_s_from_id(node.children[0].value, env,
+                                                 True)
                 # Check the dimensions are equal to the dimensions
                 # stored in env
                 if symbol.dimensions != len(node.children) - 1:
@@ -809,11 +812,11 @@ class TypeChecker(object):
                 """
                 # First check it has been declared by looking it up in
                 # env (also getting its type)
-                self._get_var_s_from_id(node.children[0].value, env)
+                self._get_var_s_from_id(node.children[0].value, env, True)
                 # The type is double since each cell stores a double number
                 node.type_ = 'double'
                 # Check index types are int
-                for child in node.children:
+                for child in node.children[1:]:
                         idx_type = self._visit(child, env)
                         if idx_type != 'int':
                                 msg = ('The indices into arrays must be of ' +
@@ -848,7 +851,8 @@ class TypeChecker(object):
                 else:
                         # It's an instance method
                         self._visit(id_node, env)
-                        var_s = self._get_var_s_from_id(id_node.value, env)
+                        var_s = self._get_var_s_from_id(id_node.value, env,
+                                                        True)
                         class_name = var_s.type_
                         
 # TODO: THESE CHECKS SHOULD REALLY BE IN FIND_METHO - ESSENTIALLY NEED TO LOOK IN INTERFACES IN FIND_METHOD TOO           
@@ -1102,7 +1106,8 @@ class TypeChecker(object):
                 else:
                         # It's an instance method
                         self._visit(id_node, env)
-                        var_s = self._get_var_s_from_id(id_node.value, env)
+                        var_s = self._get_var_s_from_id(id_node.value, env,
+                                                        True)
                         class_name = var_s.type_
                 field_name = node.children[1].value
                 # Look up the method in this class, or a super class
@@ -1187,17 +1192,19 @@ class TypeChecker(object):
                 This will also look check if it is a reference to a parameter
                 by looking up the method symbol.
                 """
-                var_s = self._get_var_s_from_id(node.value, env)
+                var_s = self._get_var_s_from_id(node.value, env, True)
                 node.type_ = var_s.type_
                 return var_s.type_
         
-        def _get_var_s_from_id(self, name, env):
+        def _get_var_s_from_id(self, name, env, check_init):
                 """Get's a variable, parameter or field symbol, given its name.
+                Gives an error if the variable/field has not been initialised,
+                and check_init is true.
                 """
                 symbol = None
                 try:
                         # Raise a warning if it has not been initialised
-                        if env.get_var_s(name).is_init == False:
+                        if check_init and env.get_var_s(name).is_init == False:
                                 msg = ('Variable "' + name +
                                        '" used without being initialised!')
                                 raise NotInitWarning(msg)

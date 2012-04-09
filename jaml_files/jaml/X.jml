@@ -1,0 +1,26 @@
+class X {
+        static void main(String[] args) {
+                matrix a1 = |2, 3|;
+                a1|0,0| = 1;
+                a1|0,1| = 2;
+                a1|0,2| = 3;
+                a1|1,0| = 4;
+                a1|1,1| = 5;
+                a1|1,2| = 6;
+                matrix a2 = |2, 3|;
+                a2|0,0| = 1;
+                a2|0,1| = 2;
+                a2|0,2| = 3;
+                a2|1,0| = 4;
+                a2|1,1| = 5;
+                a2|1,2| = 6;
+                matrix a3;
+                a3 = a1 - a2;
+                PrintStream ps = System.out;
+                for (int n = 0; n < 2; n++) {
+                        for (int o = 0; o < 3; o++) {
+                                ps.println(a3|n,o|);
+                        }
+                }
+        }
+}

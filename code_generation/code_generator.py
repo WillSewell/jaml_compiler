@@ -946,13 +946,24 @@ class CodeGenerator(object):
         def _gen_matrix_operation(self, node):
                 # Create and store lengths of the dimensions
                 # First visit child to gen code to load the array
+                # TODO: THROW EXception if not the same size
                 self._visit(node.children[0])
                 # Store the rows length
                 self._add_iln('arraylength', ';Get rows length')
                 self._add_iln('dup', ';Dup to specify dimensions ' +
                               'for the result array as well as storing')
-                row_len_loc = str(self._get_auxillary_var_loc())
-                self._add_iln('istore ' + row_len_loc, ';Store length')
+                # To store rows of first matrix
+                row_len_loc1 = str(self._get_auxillary_var_loc())
+                self._add_iln('istore ' + row_len_loc1, ';Store length')
+                if node.value == '*':
+                        # Matrix mult needs the columns of first matrix too
+                        self._visit(node.children[0])
+                        self._add_iln('iconst_0', ';Index into first dimension')
+                        self._add_iln('aaload', ';Load second dimension')
+                        self._add_iln('arraylength', ';Get cols length')
+                        # To store columns of first matrix
+                        col_len_loc1 = str(self._get_auxillary_var_loc())
+                        self._add_iln('istore ' + col_len_loc1, ';Store length')
                 # Store the cols length
                 self._visit(node.children[1])
                 self._add_iln('iconst_0', ';Index into first dimension')
@@ -960,8 +971,9 @@ class CodeGenerator(object):
                 self._add_iln('arraylength', ';Get cols length')
                 self._add_iln('dup', ';Dup to specify dimensions ' +
                               'for the result array as well as storing')
-                col_len_loc = str(self._get_auxillary_var_loc())
-                self._add_iln('istore ' + col_len_loc, ';Store length')
+                # To store columns of second matrix
+                col_len_loc2 = str(self._get_auxillary_var_loc())
+                self._add_iln('istore ' + col_len_loc2, ';Store length')
                 # Create an array to store the result in
                 self._add_iln('multianewarray [[D 2',
                               ';Construct a new array to store result')
@@ -980,16 +992,17 @@ class CodeGenerator(object):
                 self._add_ln('MatRowStart' + next_mat_rows + ':',
                              ';Start of loop through rows')
                 self._add_iln('iload ' + idx1_loc, ';Load index')
-                self._add_iln('iload ' + row_len_loc, ';Get row length')
+                self._add_iln('iload ' + row_len_loc1, ';Get row length')
                 self._add_iln('if_icmpge MatRowEnd' + next_mat_rows,
                               ';Check if idx has reached the size ' +
                               'of the rows')
                 if node.value == '*':
-                        self._gen_matrix_multiplication(node, col_len_loc,
+                        self._gen_matrix_multiplication(node, col_len_loc1,
+                                                        col_len_loc2,
                                                         result_mat_loc,
                                                         idx1_loc, next_mat_cols)
                 else:
-                        self._gen_matrix_addition(node, col_len_loc,
+                        self._gen_matrix_addition(node, col_len_loc2,
                                                   result_mat_loc,
                                                   idx1_loc, next_mat_cols)
                 self._add_iln('iinc ' + idx1_loc + ' 1',
@@ -1071,8 +1084,8 @@ class CodeGenerator(object):
                 else:
                         self._gen_arith(node)
                         
-        def _gen_matrix_multiplication(self, node, col_len_loc, result_mat_loc,
-                                       idx1_loc, next_mat_cols):
+        def _gen_matrix_multiplication(self, node, col_len_loc1, col_len_loc2,
+                                       result_mat_loc, idx1_loc, next_mat_cols):
                 # Create label suffix for the cell loop labels
                 next_mat_cells = str(self._next_mat_cells)
                 # Set the middle loop index to 0
@@ -1083,10 +1096,7 @@ class CodeGenerator(object):
                 self._add_ln('MatColStart' + next_mat_cols + ':',
                              ';Start of loop through rows')
                 self._add_iln('iload ' + idx2_loc, ';Load index')
-                self._add_iln('iload ' + col_len_loc, ';Get row len')
-                self._add_iln('iconst_1', ';Load 1 to subtract from length')
-                self._add_iln('isub', ';Subtract 1 because it loops to one ' +
-                              'less than the length')
+                self._add_iln('iload ' + col_len_loc2, ';Get row len')
                 self._add_iln('if_icmpge MatColEnd' + next_mat_cols,
                               ';Check if idx has reached the size ' +
                               'of the cols')
@@ -1099,7 +1109,7 @@ class CodeGenerator(object):
                 self._add_ln('MatCellStart' + next_mat_cells + ':',
                              ';Start of loop through rows')
                 self._add_iln('iload ' + idx3_loc, ';Load index')
-                self._add_iln('iload ' + col_len_loc, ';Get row len')
+                self._add_iln('iload ' + col_len_loc1, ';Get row len')
                 self._add_iln('if_icmpge MatCellEnd' + next_mat_cells,
                               ';Check if idx has reached the size ' +
                               'of the cols')
@@ -1392,6 +1402,14 @@ class CodeGenerator(object):
                 self._visit(node.children[-1])
                 # Load the value
                 self._add_iln(self._array_prefix(node.children[0].type_) + 'load')
+                
+        def _visit_matrix_element_node(self, node):
+                """Get the value held in the matrix element."""
+                self._gen_load_variable(node.children[0])
+                self._visit(node.children[1])
+                self._add_iln('aaload', ';Load inner array')
+                self._visit(node.children[2])
+                self._add_iln('daload', ';Load the value')
                 
         def _visit_method_call_node(self, node):
                 self._add_iln('aload_0 ',

@@ -1,8 +1,8 @@
 class MatrixMult{
   public static void main(String[] args)  {
     int array[][] = {{5,6,7},{4,8,9}};
-    int array1[][] = {{6,4},{5,7},{1,1}};
-    int array2[][] = new int[3][3];
+    int array1[][] = {{6,4,3,4},{5,7,4,5},{1,1,1,6}};
+    int array2[][] = new int[array.length][array1[0].length];
     int x= array.length;
     System.out.println("Matrix 1 : ");
     for(int i = 0; i < x; i++) {
