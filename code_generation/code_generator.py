@@ -87,6 +87,10 @@ class CodeGenerator(object):
                 # to be unique for that statement, appending the value stored
                 # here to the end makes it unique if it is incremented after
                 # each new statement of that type has been visited
+                # Should be accessed with _label_suffix
+                self._next_labels = {'if': 0, 'while': 0, 'for': 0, 'comp': 0,
+                                     'not': 0, 'mat_rows': 0, 'mat_a_cols': 0,
+                                     'mat_b_cols': 0, 'auxiliary': 0}
                 self._next_if = 0
                 self._next_while = 0
                 self._next_for = 0
@@ -244,10 +248,8 @@ class CodeGenerator(object):
                 """Reset the fields to their default values for further
                 compilation.
                 """
-                self._next_if = 0
-                self._next_while = 0
-                self._next_for = 0
-                self._next_comp = 0
+                for key in self._next_labels.iterkeys():
+                        self._next_labels[key] = 0
                 self._out = ''
                 self._cur_frame = None
 
@@ -543,15 +545,11 @@ class CodeGenerator(object):
                 return is_long
         
         def _visit_if_node(self, node):
-                """Create a copy of _next_if so that the one held in this
-                recursive call does not become modified in one of the child
-                recursive method calls.
-                """
                 children = node.children
-                next_if = str(self._next_if)
-                # Increment _next_if to uniquely identify the next if statement
-                # labels
-                self._next_if += 1
+                # Create a copy of _next_if so that the one held in this
+                # recursive call does not become modified in one of the child
+                # recursive method calls.
+                next_if = self._label_suffix('if')
                 # Generate code for the boolean expression
                 self._visit(children[0])
                 self._add_iln('ifeq IfFalse' + next_if,
@@ -570,8 +568,7 @@ class CodeGenerator(object):
                 if statement.
                 """
                 children = node.children
-                next_while = str(self._next_while)
-                self._next_while += 1
+                next_while = self._label_suffix('while')
                 self._add_ln('WhileStart' + next_while + ':',
                              ';Create an initial label to return to for ' +
                              'loop effect')
@@ -588,8 +585,7 @@ class CodeGenerator(object):
         
         def _visit_for_node(self, node):
                 children = node.children
-                next_for = str(self._next_for)
-                self._next_for += 1
+                next_for = self._label_suffix('for')
                 self._visit(children[0])
                 self._add_ln('ForStart' + next_for + ':',
                              ';Create an initial label to return to for ' +
@@ -792,11 +788,8 @@ class CodeGenerator(object):
                 """Helper method to generate code for an integer comparison
                 operator.
                 """
-                # Create a copy of _next_if so that the one held in this
-                # recursive call does not become modified in one of the child
-                #recursive method calls
-                next_comp = str(self._next_comp)
-                self._next_comp += 1
+                # Create a copy of the label suffix
+                next_comp = self._label_suffix('comp')
                 # Create a corresponding asm instruction for the operator
                 op = node.value
                 if op == '>':
@@ -893,8 +886,7 @@ class CodeGenerator(object):
                 """Like _gen_comp, but only supports equal to or not equal to.
                 Used for comparing object instances.
                 """
-                next_comp = str(self._next_comp)
-                self._next_comp += 1
+                next_comp = self._label_suffix('comp')
                 op = node.value
                 if op == '==':
                         self._add_iln('if_acmpeq CompTrue' + next_comp,
@@ -944,6 +936,12 @@ class CodeGenerator(object):
                         self._gen_arith(node)
         
         def _gen_matrix_operation(self, node):
+                """Method to generate code common to both matrix addition and
+                multiplication.  This is the setting up, and the outer loop
+                through the rows.
+                """
+                # Note: the left hand matrix is referred to as a, and the right
+                # as b
                 # Create and store lengths of the dimensions
                 # First visit child to gen code to load the array
                 self._visit(node.children[0])
@@ -999,8 +997,8 @@ class CodeGenerator(object):
                 self._add_iln('istore ' + idx1_loc, ';Store index')
                 # Create local variables of label suffixes so they
                 # can't be updated in child nodes
-                next_mat_rows = str(self._next_mat_rows)
-                next_mat_cols = str(self._next_mat_cols)
+                next_mat_rows = self._label_suffix('mat_rows')
+                next_mat_cols_b = self._label_suffix('mat_b_cols')
                 # Start outer loop
                 self._add_ln('MatRowStart' + next_mat_rows + ':',
                              ';Start of loop through rows')
@@ -1013,11 +1011,12 @@ class CodeGenerator(object):
                         self._gen_matrix_multiplication(node, col_len_loc1,
                                                         col_len_loc2,
                                                         result_mat_loc,
-                                                        idx1_loc, next_mat_cols)
+                                                        idx1_loc,
+                                                        next_mat_cols_b)
                 else:
                         self._gen_matrix_addition(node, col_len_loc2,
                                                   result_mat_loc,
-                                                  idx1_loc, next_mat_cols)
+                                                  idx1_loc, next_mat_cols_b)
                 self._add_iln('iinc ' + idx1_loc + ' 1',
                               ';Increment the index')
                 self._add_iln('goto MatRowStart' + next_mat_rows,
@@ -1026,16 +1025,12 @@ class CodeGenerator(object):
                              ';End of the inner loop')
                 self._add_iln('aload ' + result_mat_loc,
                               ';Leave the result matrix on the stack')
-                # Update label values
-                self._next_mat_rows += 1
-                self._next_mat_cols += 1
         
         def _gen_check_matrix_mult_dimensions(self, col_len_loc1, row_len_loc2):
                 """Generate code to check matrices dimensions are compatible
                 for multiplcation.
                 """
-                next_comp = str(self._next_comp)
-                self._next_comp += 1
+                next_comp = self._label_suffix('comp')
                 self._add_iln('iload ' + col_len_loc1,
                               ";Load first array's columns")
                 self._add_iln('iload ' + row_len_loc2,
@@ -1060,9 +1055,8 @@ class CodeGenerator(object):
                 """Generate code to check matrices dimensions are compatible
                 for addition/subtraction.
                 """
-                next_comp1 = str(self._next_comp)
-                next_comp2 = str(self._next_comp + 1)
-                self._next_comp += 2
+                next_comp1 = self._label_suffix('comp')
+                next_comp2 = self._label_suffix('comp')
                 # Compare rows
                 self._add_iln('iload ' + row_len_loc1,
                               ";Load first array's rows")
@@ -1095,16 +1089,12 @@ class CodeGenerator(object):
         
         def _gen_matrix_addition(self, node, col_len_loc, result_mat_loc,
                                  idx1_loc, next_mat_cols):
-                # Create local variables of label suffixes so they
-                # can't be updated in child nodes
-                next_mat_rows = str(self._next_mat_rows)
-                next_mat_cols = str(self._next_mat_cols)
                 # Create and store columns index
                 self._add_iln('iconst_0', ';Load 0')
                 idx2_loc = str(self._get_auxillary_var_loc())
                 self._add_iln('istore ' + idx2_loc, ';Set loop index to 0')
                 # Start inner loop
-                self._add_ln('MatColStart' + next_mat_rows + ':',
+                self._add_ln('MatColStart' + next_mat_cols + ':',
                              ';Start of loop through rows')
                 self._add_iln('iload ' + idx2_loc, ';Load index')
                 self._add_iln('iload ' + col_len_loc, ';Get row len')
@@ -1149,8 +1139,7 @@ class CodeGenerator(object):
                 code generator, this will create it in the frame and return
                 its location in memory.
                 """
-                result_mat_name = 'aux' + str(self._next_auxillary)
-                self._next_auxillary += 1
+                result_mat_name = 'aux' + self._label_suffix('auxiliary')
                 self._cur_frame.new_var(result_mat_name, False)
                 return self._cur_frame.get_var(result_mat_name)
 
@@ -1161,32 +1150,32 @@ class CodeGenerator(object):
                         self._gen_arith(node)
                         
         def _gen_matrix_multiplication(self, node, col_len_loc1, col_len_loc2,
-                                       result_mat_loc, idx1_loc, next_mat_cols):
+                                       result_mat_loc, idx1_loc,
+                                       next_mat_b_cols):
                 # Create label suffix for the cell loop labels
-                next_mat_cells = str(self._next_mat_cells)
+                next_mat_a_cols = self._label_suffix('mat_a_cols')
                 # Set the middle loop index to 0
                 self._add_iln('iconst_0', ';Load 0')
                 idx2_loc = str(self._get_auxillary_var_loc())
                 self._add_iln('istore ' + idx2_loc, ';Set loop index to 0')
-                # Start col loop
-                self._add_ln('MatColStart' + next_mat_cols + ':',
+                # Start loop through matrix b columns
+                self._add_ln('MatBColStart' + next_mat_b_cols + ':',
                              ';Start of loop through rows')
                 self._add_iln('iload ' + idx2_loc, ';Load index')
                 self._add_iln('iload ' + col_len_loc2, ';Get row len')
-                self._add_iln('if_icmpge MatColEnd' + next_mat_cols,
+                self._add_iln('if_icmpge MatBColEnd' + next_mat_b_cols,
                               ';Check if idx has reached the size ' +
                               'of the cols')
                 # Set the inner loop index to 0
                 self._add_iln('iconst_0', ';Load 0')
                 idx3_loc = str(self._get_auxillary_var_loc())
                 self._add_iln('istore ' + idx3_loc, ';Set loop index to 0')
-                # Start loop to multiply one element in the first matrix by
-                # all elements of a row in the second
-                self._add_ln('MatCellStart' + next_mat_cells + ':',
+                # Start (innermost) loop through matrix a columns
+                self._add_ln('MatAColStart' + next_mat_a_cols + ':',
                              ';Start of loop through rows')
                 self._add_iln('iload ' + idx3_loc, ';Load index')
                 self._add_iln('iload ' + col_len_loc1, ';Get row len')
-                self._add_iln('if_icmpge MatCellEnd' + next_mat_cells,
+                self._add_iln('if_icmpge MatAColEnd' + next_mat_a_cols,
                               ';Check if idx has reached the size ' +
                               'of the cols')
                 # Do the Multiplication
@@ -1219,19 +1208,19 @@ class CodeGenerator(object):
                 self._add_iln('dadd', ';Add multiplied values to what is ' +
                               'already in the result array')
                 self._add_iln('dastore', ';Store result in new array')
-                # End the loops
+                # End matrix a column loop
                 self._add_iln('iinc ' + idx3_loc + ' 1',
                               ';Increment the index')
-                self._add_iln('goto MatCellStart' + next_mat_cells,
+                self._add_iln('goto MatAColStart' + next_mat_a_cols,
                               ';Return to start of inner loop')
-                self._add_ln('MatCellEnd' + next_mat_cells + ':',
+                self._add_ln('MatAColEnd' + next_mat_a_cols + ':',
                              ';End of the inner loop')
-                # End middle loop
+                # End matrix b column loop
                 self._add_iln('iinc ' + idx2_loc + ' 1',
                               ';Increment the index')
-                self._add_iln('goto MatColStart' + next_mat_cols,
+                self._add_iln('goto MatBColStart' + next_mat_b_cols,
                               ';Return to start of middle loop')
-                self._add_ln('MatColEnd' + next_mat_cols + ':',
+                self._add_ln('MatBColEnd' + next_mat_b_cols + ':',
                              ';End of the middle loop')
 
         def _gen_arith(self, node):
@@ -1359,10 +1348,11 @@ class CodeGenerator(object):
                         return 'f2d'
         
         def _visit_not_node(self, node):
+                """'Not' the top of the stack - if it's 0, convert to 1, if
+                it's 1, convert to 0.
+                """
                 self._visit(node.children[0])
-                # 'Not' the top of the stack
-                self._next_not += 1;
-                next_not = str(self._next_not)
+                next_not = self._label_suffix('not')
                 self._add_iln('ifeq IsFalse' + next_not,
                               ';If its 0, go to the code to change it to 1')
                 self._add_iln('iconst_0', ';It was 1, so change to 0')
@@ -1903,6 +1893,13 @@ class CodeGenerator(object):
                                  'long', 'float', 'double']:
                         return True
                 return False
+        
+        def _label_suffix(self, key):
+                """Gets the current label suffix, and automatically increments.
+                """
+                val = self._next_labels[key]
+                self._next_labels[key] += 1
+                return str(val)
         
         def _add_iln(self, line, comment = None):
                 """Adds and indented line to the output."""
