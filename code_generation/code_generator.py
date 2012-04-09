@@ -946,26 +946,30 @@ class CodeGenerator(object):
         def _gen_matrix_operation(self, node):
                 # Create and store lengths of the dimensions
                 # First visit child to gen code to load the array
-                # TODO: THROW EXception if not the same size
                 self._visit(node.children[0])
-                # Store the rows length
+                self._add_iln('dup', ';Dup to get the rows and the columns')
+                # Get First matrix column length
+                self._add_iln('iconst_0', ';Index into first dimension')
+                self._add_iln('aaload', ';Load second dimension')
+                self._add_iln('arraylength', ';Get cols length')
+                # To store columns of first matrix
+                col_len_loc1 = str(self._get_auxillary_var_loc())
+                self._add_iln('istore ' + col_len_loc1, ';Store length')
+                # Get First matrix rows length
                 self._add_iln('arraylength', ';Get rows length')
                 self._add_iln('dup', ';Dup to specify dimensions ' +
                               'for the result array as well as storing')
                 # To store rows of first matrix
                 row_len_loc1 = str(self._get_auxillary_var_loc())
                 self._add_iln('istore ' + row_len_loc1, ';Store length')
-                if node.value == '*':
-                        # Matrix mult needs the columns of first matrix too
-                        self._visit(node.children[0])
-                        self._add_iln('iconst_0', ';Index into first dimension')
-                        self._add_iln('aaload', ';Load second dimension')
-                        self._add_iln('arraylength', ';Get cols length')
-                        # To store columns of first matrix
-                        col_len_loc1 = str(self._get_auxillary_var_loc())
-                        self._add_iln('istore ' + col_len_loc1, ';Store length')
-                # Store the cols length
+                # Load second matrix
                 self._visit(node.children[1])
+                self._add_iln('dup', ';Dup to get the rows and the columns')
+                # Get Second matrix row length
+                self._add_iln('arraylength', ';Get rows length')
+                row_len_loc2 = str(self._get_auxillary_var_loc())
+                self._add_iln('istore ' + row_len_loc2, ';Store length')
+                # Get Second matrix column length
                 self._add_iln('iconst_0', ';Index into first dimension')
                 self._add_iln('aaload', ';Load second dimension')
                 self._add_iln('arraylength', ';Get cols length')
@@ -974,6 +978,15 @@ class CodeGenerator(object):
                 # To store columns of second matrix
                 col_len_loc2 = str(self._get_auxillary_var_loc())
                 self._add_iln('istore ' + col_len_loc2, ';Store length')
+                # Gen code to throw an exception if dimensions are incompatible
+                if node.value == '*':
+                        self._gen_check_matrix_mult_dimensions(col_len_loc1,
+                                                               row_len_loc2)
+                else:
+                        self._gen_check_matrix_add_dimensions(row_len_loc1,
+                                                              col_len_loc1,
+                                                              row_len_loc2,
+                                                              col_len_loc2)
                 # Create an array to store the result in
                 self._add_iln('multianewarray [[D 2',
                               ';Construct a new array to store result')
@@ -1016,6 +1029,69 @@ class CodeGenerator(object):
                 # Update label values
                 self._next_mat_rows += 1
                 self._next_mat_cols += 1
+        
+        def _gen_check_matrix_mult_dimensions(self, col_len_loc1, row_len_loc2):
+                """Generate code to check matrices dimensions are compatible
+                for multiplcation.
+                """
+                next_comp = str(self._next_comp)
+                self._next_comp += 1
+                self._add_iln('iload ' + col_len_loc1,
+                              ";Load first array's columns")
+                self._add_iln('iload ' + row_len_loc2,
+                              ";Load second array's rows")
+                self._add_iln('if_icmpeq CompTrue' + next_comp,
+                              ';Check dimensions match')
+                self._add_iln('new java/lang/ArithmeticException',
+                              ';Create a new exception')
+                self._add_iln('dup',
+                              ';Dup in order to call constructor, and throw')
+                self._add_iln('ldc "Inner matrix dimensions must match ' +
+                              'for multiplcation!"', ';Load error message')
+                self._add_iln('invokespecial java/lang/ArithmeticException/' +
+                              '<init>(Ljava/lang/String;)V',
+                              ";Invoke the exception's constructor")
+                self._add_iln('athrow', ';Throw the exception')
+                self._add_ln('CompTrue' + next_comp + ':',
+                             ';Exit check here if no exception thrown')
+        
+        def _gen_check_matrix_add_dimensions(self, row_len_loc1, col_len_loc1,
+                                             row_len_loc2, col_len_loc2):
+                """Generate code to check matrices dimensions are compatible
+                for addition/subtraction.
+                """
+                next_comp1 = str(self._next_comp)
+                next_comp2 = str(self._next_comp + 1)
+                self._next_comp += 2
+                # Compare rows
+                self._add_iln('iload ' + row_len_loc1,
+                              ";Load first array's rows")
+                self._add_iln('iload ' + row_len_loc2,
+                              ";Load second array's rows")
+                self._add_iln('if_icmpne CompTrue' + next_comp1,
+                              ";If dimensions don't match, jump to " +
+                              'exception throwing section')
+                # Compare columns
+                self._add_iln('iload ' + col_len_loc1,
+                              ";Load first array's cols")
+                self._add_iln('iload ' + col_len_loc2,
+                              ";Load second array's cols")
+                self._add_iln('if_icmpeq CompTrue' + next_comp2,
+                              ';Check dimensions match')
+                self._add_ln('CompTrue' + next_comp1 + ':',
+                             ';First check failed')
+                self._add_iln('new java/lang/ArithmeticException',
+                              ';Create a new exception')
+                self._add_iln('dup',
+                              ';Dup in order to call constructor, and throw')
+                self._add_iln('ldc "Matrix dimensions must be equal for ' +
+                              'addition/subtraction!"', ';Load error message')
+                self._add_iln('invokespecial java/lang/ArithmeticException/' +
+                              '<init>(Ljava/lang/String;)V',
+                              ";Invoke the exception's constructor")
+                self._add_iln('athrow', ';Throw the exception')
+                self._add_ln('CompTrue' + next_comp2 + ':',
+                             ';Exit check here if no exception thrown')
         
         def _gen_matrix_addition(self, node, col_len_loc, result_mat_loc,
                                  idx1_loc, next_mat_cols):
