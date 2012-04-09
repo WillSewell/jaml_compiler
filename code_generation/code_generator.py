@@ -1047,7 +1047,7 @@ class CodeGenerator(object):
                 self._add_iln('dup',
                               ';Dup in order to call constructor, and throw')
                 self._add_iln('ldc "Inner matrix dimensions must match ' +
-                              'for multiplcation!"', ';Load error message')
+                              'for multiplication!"', ';Load error message')
                 self._add_iln('invokespecial java/lang/ArithmeticException/' +
                               '<init>(Ljava/lang/String;)V',
                               ";Invoke the exception's constructor")

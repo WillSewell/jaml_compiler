@@ -290,7 +290,92 @@ class TestCodeGenerator(unittest.TestCase):
                 self._check_output(p, 'X', '4' + nl + '3' + nl + '2' + nl +
                                    '1' + nl + '0')
         
-                                     
+        def test_matrix(self):
+                """Test a simple matrix creation and access."""
+                p = self._wrap_stmts('matrix m = |1,1|;' +
+                                     'm|0,0| = 10.5;' +
+                                     self._wrap_print('m|0,0|'))
+                self._check_output(p, 'X', '10.5')
+        
+        def test_matrix_mult(self):
+                """Test a matrix multiplication."""
+                p = self._wrap_stmts('matrix a1 = |2, 2|;' +
+                                     'a1|0,0| = 1;' +
+                                     'a1|0,1| = 2;' +
+                                     'a1|1,0| = 3;' +
+                                     'a1|1,0| = 4;' +
+                                     'matrix a2 = |2, 1|;' +
+                                     'a2|0,0| = 1;' +
+                                     'a2|1,0| = 2;' +
+                                     'matrix a3;' +
+                                     'a3 = a1 * a2;' +
+                                     'PrintStream ps = System.out;' +
+                                     'for (int n = 0; n<a1.rowLength; n++) {' +
+                                     'for (int o=0; o<a2.colLength;o++) {' +
+                                     'ps.println(a3|n,o|);' +
+                                     '}}')
+                self._check_output(p, 'X', '5.0' + os.linesep + '4.0')
+        
+        def test_matrix_mult_dimension_error(self):
+                """Test an exception is thrown when the inner dimensions do
+                not agree.
+                """
+                p = self._wrap_stmts('matrix a1 = |2, 2|;' +
+                                     'a1|0,0| = 1;' +
+                                     'a1|0,1| = 2;' +
+                                     'a1|1,0| = 3;' +
+                                     'a1|1,0| = 4;' +
+                                     'matrix a2 = |1, 1|;' +
+                                     'a2|0,0| = 1;' +
+                                     'matrix a3;' +
+                                     'a3 = a1 * a2;')
+                self._check_output(p, 'X', 'Exception in thread "main" ' +
+                                   'java.lang.ArithmeticException: ' +
+                                   'Inner matrix dimensions must match for ' +
+                                   'multiplication!' + os.linesep +
+                                   '\tat X.main(X.j)', True)
+        
+        def test_matrix_add(self):
+                """Test a matrix addition."""
+                p = self._wrap_stmts('matrix a1 = |2, 2|;' +
+                                     'a1|0,0| = 1;' +
+                                     'a1|0,1| = 2;' +
+                                     'a1|1,0| = 3;' +
+                                     'a1|1,1| = 4;' +
+                                     'matrix a2 = |2, 2|;' +
+                                     'a2|0,0| = 1;' +
+                                     'a2|0,1| = 2;' +
+                                     'a2|1,0| = 3;' +
+                                     'a2|1,1| = 4;' +
+                                     'matrix a3;' +
+                                     'a3 = a1 + a2;' +
+                                     'PrintStream ps = System.out;' +
+                                     'for (int n = 0; n<a1.rowLength; n++) {' +
+                                     'for (int o=0; o<a2.colLength;o++) {' +
+                                     'ps.println(a3|n,o|);' +
+                                     '}}')
+                nl = os.linesep
+                self._check_output(p, 'X', '2.0' + nl + '4.0' + nl + '6.0' +
+                                   nl + '8.0')
+        
+        def test_matrix_add_dimension_error(self):
+                """Test an exception is thrown when the dimensions are not the
+                same for two matrices when subtracted.
+                """
+                p = self._wrap_stmts('matrix a1 = |2, 2|;' +
+                                     'a1|0,0| = 1;' +
+                                     'a1|0,1| = 2;' +
+                                     'a1|1,0| = 3;' +
+                                     'a1|1,0| = 4;' +
+                                     'matrix a2 = |1, 1|;' +
+                                     'a2|0,0| = 1;' +
+                                     'matrix a3;' +
+                                     'a3 = a1 - a2;')
+                self._check_output(p, 'X', 'Exception in thread "main" ' +
+                                   'java.lang.ArithmeticException: ' +
+                                   'Matrix dimensions must be equal for ' +
+                                   'addition/subtraction!' + os.linesep +
+                                   '\tat X.main(X.j)', True)
         
         def _wrap_stmts(self, stmts):
                 """Helper method used so lines of code can be tested
@@ -312,7 +397,8 @@ class TestCodeGenerator(unittest.TestCase):
                         ps.println(""" + stmt + """);
                         """)
         
-        def _check_output(self, program, class_name, exptd_result):
+        def _check_output(self, program, class_name, exptd_result,
+                          check_error = False):
                 """Checks the program was compiled correctly.
                 
                 Given a program to run the compiler on, 
@@ -328,8 +414,13 @@ class TestCodeGenerator(unittest.TestCase):
                 
                 # Run the JVM on the compiled file
                 cmd = ['java', '-cp', output_dir, class_name]
-                popen = subprocess.Popen(cmd, stdout = subprocess.PIPE)
-                output = popen.communicate()[0]
+                process = subprocess.Popen(cmd, stdout = subprocess.PIPE,
+                                           stderr = subprocess.PIPE)
+                output = ''
+                if not check_error:
+                        output = process.communicate()[0]
+                else:
+                        output = process.communicate()[1]
                 output = output.rstrip(os.linesep)
                 
                 #Check the printed results match the expected result

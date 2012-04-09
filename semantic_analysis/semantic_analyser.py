@@ -44,7 +44,6 @@ class TypeChecker(object):
                 """
                 p = Parser('file')
                 asts = p.run_parser(program, self._t_env.lib_classes)
-                print asts
                 # Add all global entities (classes and their methods) to the top level
                 # environment
                 self._scanner = ClassInterfaceMethodScanner(self._t_env)
@@ -1419,10 +1418,8 @@ class TypeChecker(object):
                 checker_dir = os.path.join(file_dir, 'lib_checker')
                 cmd = (['java', '-cp', checker_dir, 'LibChecker'] + 
                        args)
-                #stdout = subprocess.PIPE
-                #output = subprocess.Popen(cmd, stdout).communicate()[0]
-                popen = subprocess.Popen(cmd, stdout = subprocess.PIPE)
-                output = popen.communicate()[0]
+                process = subprocess.Popen(cmd, stdout = subprocess.PIPE)
+                output = process.communicate()[0]
                 output = output.rstrip(os.linesep)
                 # Check for an error
                 if output[0] == 'E':

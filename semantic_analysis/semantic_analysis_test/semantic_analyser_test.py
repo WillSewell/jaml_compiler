@@ -423,7 +423,7 @@ class TestSemanticAnalyser(unittest.TestCase):
         
         def test_array_init_dimension_fail(self):
                 """Test exception thrown when the number of dimensions of an
-                array initialisation is incorrent.
+                array initialisation is incorrect.
                 """
                 self.assertRaises(DimensionsError, self.analyse_stmt,
                                   'int arr[] = new int[10][5];')
@@ -453,6 +453,29 @@ class TestSemanticAnalyser(unittest.TestCase):
                 """
                 self.assertRaises(NotInitWarning, self.analyse_stmt,
                                   'int arr[][]; arr[1][2] = 5;')
+        
+        def test_matrix_init_pass(self):
+                """Test no exception thrown when a matrix is initialised."""
+                self.analyse_stmt('matrix m = |5,5|;')
+        
+        def test_matrix_element_assign_pass(self):
+                """Test no exception thrown when a matrix element is assigned
+                to.
+                """
+                self.analyse_stmt('matrix m = |5,5|; m|1,3| = 1;')
+        
+        def test_matrix_element_assign_type_fail(self):
+                """Test exception thrown when the type of an array element
+                assignment is incorrect."""
+                self.assertRaises(TypeError, self.analyse_stmt,
+                                  'matrix m = |5,5|; m|4,4| = "hello";')
+        
+        def test_matrix_assign_undeclared_fail(self):
+                """Test exception thrown when a matrix element assignment is
+                made, but the matrix is not initialised.
+                """
+                self.assertRaises(NotInitWarning, self.analyse_stmt,
+                                  'matrix m; m|0,0| = 5;')
                 
         def test_cond_pass(self):
                 """Test no exception thrown when the types of both child nodes
