@@ -16,7 +16,7 @@ class FileReadError(Exception):
 
 class Frame(object):
         """Used to store information regarding a method's current frame - i.e.
-        local variables.""" #TODO: DOESN'T REALLY WORK FOR MAIN BECAUSE IT'S STATIC, SO FIRST ELEMENT IS FIRST PARAM, AND NOT "THIS"
+        local variables."""
         def __init__(self, params, is_static, ret_type):
                 """Initialise the frame once visiting a new method node.
                 Static methods operate differently, because the first element
@@ -448,7 +448,7 @@ class CodeGenerator(object):
                         # Write the signature
                         self._add_ln(full_sig + signature)
                 # Create a new frame for this method
-                is_static = children[0].value in self._t_env.types
+                is_static = 'static' in node.modifiers
                 self._cur_frame = Frame(children[2], is_static, node.type_)
                 self._add_iln('.limit stack 10')
                 self._add_iln('.limit locals 100')

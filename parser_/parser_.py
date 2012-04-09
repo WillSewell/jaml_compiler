@@ -585,7 +585,7 @@ class Parser(GenericParser):
                 expr ::= cond_or_expr
                 expr ::= cond_or_expr ASSIGN_OP cond_or_expr
                 """
-                return self._gen_expr_tree(nodes.AssignNode)
+                return self._gen_expr_tree(args, nodes.AssignNode)
 
         def p_cond_or_expr(self, args):
                 """
@@ -604,21 +604,35 @@ class Parser(GenericParser):
                 cond_and_expr ::= equality_expr
                 cond_and_expr ::= cond_and_expr AND_OP equality_expr
                 """
-                return self._gen_expr_tree(nodes.CondNode)
+                return self._gen_expr_tree(args, nodes.CondNode)
 
         def p_equality_expr(self, args):
                 """
                 equality_expr ::= relation_expr
                 equality_expr ::= equality_expr EQ_OP relation_expr
                 """
-                return self._gen_expr_tree(nodes.EqNode)
+                return self._gen_expr_tree(args, nodes.EqNode)
 
         def p_relation_expr(self, args):
                 """
                 relation_expr ::= add_expr
                 relation_expr ::= relation_expr REL_OP add_expr
                 """
-                return self._gen_expr_tree(nodes.RelNode)
+                return self._gen_expr_tree(args, nodes.RelNode)
+                
+        def p_add_expr(self, args):
+                """
+                add_expr ::= mul_expr
+                add_expr ::= add_expr ADD_OP mul_expr
+                """
+                return self._gen_expr_tree(args, nodes.AddNode)
+
+        def p_mul_expr(self, args):
+                """
+                mul_expr ::= unary_expr
+                mul_expr ::= mul_expr MUL_OP unary_expr
+                """
+                return self._gen_expr_tree(args, nodes.MulNode)
         
         def _gen_expr_tree(self, args, node):
                 """Helper method to do generic tree construction needed for
@@ -630,20 +644,6 @@ class Parser(GenericParser):
                         return root
                 else:
                         return args[0]
-                
-        def p_add_expr(self, args):
-                """
-                add_expr ::= mul_expr
-                add_expr ::= add_expr ADD_OP mul_expr
-                """
-                return self._gen_expr_tree(nodes.AddNode)
-
-        def p_mul_expr(self, args):
-                """
-                mul_expr ::= unary_expr
-                mul_expr ::= mul_expr MUL_OP unary_expr
-                """
-                return self._gen_expr_tree(nodes.MulNode)
 
         def p_unary_expr1(self, args):
                 """ unary_expr ::= primary INC_OP """

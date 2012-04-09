@@ -1,11 +1,7 @@
+import java.io.PrintStream;
 class X {
-	public static void main(String[] args) {
-		long[] a = new long[5];
-	    for (int i = 0; i < 5; i++) {
-	        a[i] = i;
-	    }
-	   	for (int j = 4; j >= 0; j--) {
-	   		System.out.println(a[j]);
-	   	}
-	}
+        public static void main(String[] args) {
+                PrintStream ps = System.out;
+                ps.println(args[0]);
+        }
 }

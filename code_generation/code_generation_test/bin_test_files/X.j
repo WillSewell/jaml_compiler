@@ -11,9 +11,9 @@
 	.limit stack 10
 	.limit locals 100
 	ldc 1				;Load constant numerical value 1
-	istore 2			;Store top of stack in 2 (i)
+	istore 1			;Store top of stack in 1 (i)
 WhileStart0:				;Create an initial label to return to for loop effect
-	iload 2				;Load value stored in 2 (i)
+	iload 1				;Load value stored in 1 (i)
 	ldc 10				;Load constant numerical value 10
 	if_icmple CompTrue0		;If the value on the top of the stack is less than or equal to the one below it, jump to CompTrue
 	ldc 0				;Comparison was false, so load binary constant 0
@@ -23,14 +23,14 @@ CompTrue0:				;End up here if the comparison was true
 CompEnd0:				;Exit point for comparison if it is false
 	ifeq WhileEnd0			;Jump to WhileEnd if the boolean expression evaluates to false to break out of loop
 	getstatic java/lang/System/out Ljava/io/PrintStream; ;Get the fields value
-	astore 3			;Store top of stack in 3 (ps)
-	aload 3				;Load value stored in 3 (ps)
-	iload 2				;Load value stored in 2 (i)
+	astore 2			;Store top of stack in 2 (ps)
+	aload 2				;Load value stored in 2 (ps)
+	iload 1				;Load value stored in 1 (i)
 	invokevirtual java/io/PrintStream/println(I)V
-	iload 2				;Load value stored in 2 (i)
+	iload 1				;Load value stored in 1 (i)
 	ldc 1				;Load constant numerical value 1
 	iadd				;Apply + to the values on the top of the stack
-	istore 2			;Store top of stack in 2 (i)
+	istore 1			;Store top of stack in 1 (i)
 	goto WhileStart0		;Jump back to WhileStart to create the loop effect
 WhileEnd0:				;Exit point for he loop
 	return

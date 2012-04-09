@@ -333,7 +333,7 @@ class TestCodeGenerator(unittest.TestCase):
                                    'java.lang.ArithmeticException: ' +
                                    'Inner matrix dimensions must match for ' +
                                    'multiplication!' + os.linesep +
-                                   '\tat X.main(X.j)', True)
+                                   '\tat X.main(X.j)', check_error = True)
         
         def test_matrix_add(self):
                 """Test a matrix addition."""
@@ -375,7 +375,14 @@ class TestCodeGenerator(unittest.TestCase):
                                    'java.lang.ArithmeticException: ' +
                                    'Matrix dimensions must be equal for ' +
                                    'addition/subtraction!' + os.linesep +
-                                   '\tat X.main(X.j)', True)
+                                   '\tat X.main(X.j)', check_error = True)
+        
+        def test_command_line_args(self):
+                """Test that command line arguments are correctly read."""
+                p = ('class X {' +
+                     'static void main(String[] args) {' +
+                     self._wrap_print('args[0]') + '}}')
+                self._check_output(p, 'X', 'arg', args = ['arg'])
         
         def _wrap_stmts(self, stmts):
                 """Helper method used so lines of code can be tested
@@ -397,7 +404,7 @@ class TestCodeGenerator(unittest.TestCase):
                         ps.println(""" + stmt + """);
                         """)
         
-        def _check_output(self, program, class_name, exptd_result,
+        def _check_output(self, program, class_name, exptd_result, args = [],
                           check_error = False):
                 """Checks the program was compiled correctly.
                 
@@ -413,7 +420,7 @@ class TestCodeGenerator(unittest.TestCase):
                 self._code_gen.compile_(program, output_dir)
                 
                 # Run the JVM on the compiled file
-                cmd = ['java', '-cp', output_dir, class_name]
+                cmd = ['java', '-cp', output_dir, class_name] + args
                 process = subprocess.Popen(cmd, stdout = subprocess.PIPE,
                                            stderr = subprocess.PIPE)
                 output = ''
