@@ -1110,11 +1110,29 @@ class TypeChecker(object):
                                                         True)
                         class_name = var_s.type_
                 field_name = node.children[1].value
-                # Look up the method in this class, or a super class
-                field_s = self._find_field(class_name, field_name, is_static,
-                                           env)
-                node.type_ = field_s.type_
-                return field_s.type_
+                # If it's an array or matrix type, make sure the field is
+                # length
+                if isinstance(class_name, ArrayType):
+                        if field_name in 'length':
+                                msg = ('Arrays have no fields other than ' +
+                                       'length!')
+                                raise SymbolNotFoundError(msg)
+                        else:
+                                node.type_ = 'int'
+                elif class_name == 'matrix':
+                        if field_name not in ['rowLength', 'colLength']:
+                                msg = ('Matrices have no fields other than ' +
+                                       'rowLength and colLength!')
+                                raise SymbolNotFoundError(msg)
+                        else:
+                                node.type_ = 'int'
+                else:
+                        # Regular field reference
+                        # Look up the method in this class, or a super class
+                        field_s = self._find_field(class_name, field_name,
+                                                   is_static, env)
+                        node.type_ = field_s.type_
+                return node.type_
         
         def _visit_field_ref_super_node(self, node, env):
                 # Get the type (the class) of the super class

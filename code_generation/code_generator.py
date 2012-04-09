@@ -1607,11 +1607,22 @@ class CodeGenerator(object):
                         self._visit(node.children[0])
                         class_name = node.children[0].type_
                         is_static = False
-                sig = self._get_field_sig(class_name, field_name)
-                op = 'getfield'
-                if is_static:
-                        op = 'getstatic'
-                self._add_iln(op + ' ' + sig, ';Get the fields value')
+                # If it's a matrix or array, the field must be length, whose
+                # value is accessed differently
+                if class_name == 'matrix' or isinstance(class_name, ArrayType):
+                        if field_name == 'colLength':
+                                # Need to get columns
+                                self._add_iln('iconst_0',
+                                              ';Index into first element')
+                                self._add_iln('aaload', ';Load 2nd dimension')
+                        self._add_iln('arraylength', ";Get the array's length")
+                                
+                else:
+                        sig = self._get_field_sig(class_name, field_name)
+                        op = 'getfield'
+                        if is_static:
+                                op = 'getstatic'
+                        self._add_iln(op + ' ' + sig, ';Get the fields value')
         
         def _get_field_sig(self, cname, fname):
                 """For a given current class name and field name, search
