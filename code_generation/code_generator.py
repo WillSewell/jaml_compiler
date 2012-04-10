@@ -237,7 +237,7 @@ class CodeGenerator(object):
                 method_spec = ''
                 if len(method_s.params) == 0:
                         # If there are no parameters
-                        method_spec = '()' + get_jvm_type(method_s)
+                        method_spec = '()' + ret_type
                 else:
                         # It has params, so add them to the method_spec
                         method_spec = '('
@@ -388,21 +388,17 @@ class CodeGenerator(object):
                 field_sig += name + ' ' + type_ + ' = ' + value
                 self._add_ln(field_sig)
         
-        #TODO: REFACTOR SOME OF THE CODE FROM THE THREE METHODS BELOW??
         def _visit_constructor_dcl_node(self, node):
+                """Generate a constructor definition, will also generate a
+                call to to the super constructor and add a return statement
+                if these are not done explicitly.
+                """
                 children = node.children
                 name = '<init>'
-                # Build up the method spec (parameter types and return type)
-                method_spec = '('
-                try:
-                        for param in node.children[1].children:
-                                method_spec += get_jvm_type(param)
-                except AttributeError:
-                        # No params
-                        pass
-                method_spec += ')V'
                 # Combine signature and spec
-                signature = name + method_spec
+                class_s = self._t_env.get_class_s(self._cur_class)
+                cons_s = class_s.constructor
+                signature = name + self._gen_method_descriptor(cons_s, True)
                 # Write the signature
                 self._add_ln('.method ' + signature)
                 # Create a new frame for this method
@@ -422,9 +418,27 @@ class CodeGenerator(object):
                         # so one must be added
                         self._add_iln('return')
                 self._add_ln('.end method')
-        # TODO: MAKE ALL THESE USE _gen_method_descriptor !!!!
+
         def _visit_method_dcl_node(self, node):
+                self._gen_method_def(node)
+        
+        def _visit_method_dcl_array_node(self, node):
+                self._gen_method_def(node)
+        
+        def _gen_method_def(self, node):
+                """Shared code to generate a method definition and it's body
+                for use by _visit_method_dcl_node and
+                _visit_method_dcl_array_node.
+                """
                 children = node.children
+                # These nodes are stored in different locations depending on
+                # if the method returns an array or not, that is why they are
+                # stored in these auxiliary variables
+                param_node = children[2]
+                body_node = children[3]
+                if len(children) == 5:
+                        param_node = children[3]
+                        body_node = children[4]
                 if children[0].value == 'main':
                         # Added public and static to main so that the JVM
                         # recognises this as the main method
@@ -432,17 +446,12 @@ class CodeGenerator(object):
                                      '([Ljava/lang/String;)V')
                 else:
                         name = children[0].value
-                        # Build up the method spec (parameter types and return type)
-                        method_spec = '('
-                        try:
-                                for param in node.children[2].children:
-                                        method_spec += get_jvm_type(param)
-                        except AttributeError:
-                                # No params
-                                pass
-                        method_spec += ')' + get_jvm_type(node)
+                        # Build up the spec (parameter types and return type)
+                        class_s = self._t_env.get_class_s(self._cur_class)
+                        method_s = class_s.get_method(name)
+                        spec = self._gen_method_descriptor(method_s, False)
                         # Combine signature and spec
-                        signature = name + method_spec
+                        signature = name + spec
                         # Add modifiers
                         full_sig = '.method '
                         if 'private' not in node.modifiers:
@@ -453,59 +462,22 @@ class CodeGenerator(object):
                         self._add_ln(full_sig + signature)
                 # Create a new frame for this method
                 is_static = 'static' in node.modifiers
-                self._cur_frame = Frame(children[2], is_static, node.type_)
+                self._cur_frame = Frame(param_node, is_static, node.type_)
                 self._add_iln('.limit stack 10')
                 self._add_iln('.limit locals 100')
                 # Generate code for the method body
-                self._visit(children[3])
-                # TODO: Problem when method is empty (below)
-                if not (isinstance(children[3].children[-1],
-                                  nodes.ReturnVoidNode) or
-                        isinstance(children[3].children[-1],
-                                   nodes.ReturnNode)):
+                self._visit(body_node)
+                # If the method is not empty, check it has a return statement
+                # at the end, if not, manually add one
+                body_stmts = body_node.children
+                if (len(body_stmts) != 0 and 
+                    (not isinstance(body_stmts[-1], nodes.ReturnVoidNode) or
+                     not isinstance(body_stmts[-1], nodes.ReturnNode))):
                         # There is no return statement at the end of the method,
                         # so one must be added
                         self._add_iln('return')
                 self._add_ln('.end method')
-        
-        def _visit_method_dcl_array_node(self, node):
-                children = node.children
-                name = children[0].value
-                # Build up signature
-                method_spec = '('
-                try:
-                        for param in node.children[3].children:
-                                method_spec += get_jvm_type(param)
-                except AttributeError:
-                        # No params
-                        pass
-                method_spec += ')' + get_jvm_type(node)
-                # Combine signature and spec
-                signature = name + method_spec
-                # Add modifiers
-                full_sig = '.method '
-                if 'private' not in node.modifiers:
-                        full_sig += 'public '
-                for modifier in node.modifiers:
-                        full_sig += modifier + ' '
-                # Write the signature
-                self._add_ln(full_sig + signature)
-                # Create a new frame for this method
-                is_static = 'static' in node.modifiers
-                self._cur_frame = Frame(children[3], is_static, node.type_)
-                self._add_iln('.limit stack 10')
-                self._add_iln('.limit locals 100')
-                # Generate code for the method body
-                self._visit(children[4])
-                if not (isinstance(children[4].children[-1],
-                                  nodes.ReturnVoidNode) or
-                        isinstance(children[4].children[-1],
-                                   nodes.ReturnNode)):
-                        # There is no return statement at the end of the method,
-                        # so one must be added
-                        self._add_iln('return')
-                self._add_ln('.end method')
-
+                
         def _visit_block_node(self, node):
                 """If it's a block, simply visit each child."""
                 for child in node.children:
@@ -1487,7 +1459,7 @@ class CodeGenerator(object):
                 class_s = self._t_env.get_class_s(self._cur_class)
                 method_name = node.children[0].value
                 # Search for the method
-                class_s, method_s = self._get_method_s(class_s, method_name)
+                class_s, method_s = self._find_method_s(class_s, method_name)
                 # Get the results from what the arguments are on the top of the
                 # stack
                 try:
@@ -1520,8 +1492,8 @@ class CodeGenerator(object):
                 try:
                         # Search for the method
                         class_s = self._t_env.get_class_or_interface_s(class_name)
-                        class_s, method_s = self._get_method_s(class_s,
-                                                               method_name)
+                        class_s, method_s = self._find_method_s(class_s,
+                                                                method_name)
                         # Get the results from what the arguments are on the top of the
                         # stack
                         try:
@@ -1583,7 +1555,7 @@ class CodeGenerator(object):
                 super_s = self._t_env.get_class_s(class_s.super_class)
                 method_name = node.children[0].value
                 # Search for the method
-                class_s, method_s = self._get_method_s(super_s, method_name)
+                class_s, method_s = self._find_method_s(super_s, method_name)
                 # Get the results from what the arguments are on the top of the
                 # stack
                 try:
@@ -1596,7 +1568,7 @@ class CodeGenerator(object):
                 method_sig = self._method_sigs[(class_s.name, method_s.name)]
                 self._add_iln('invokespecial ' + method_sig)
         
-        def _get_method_s(self, class_s, name): # TODO: UPDATE FOR LIBRARY CLASSES NOW! SHOULD I EVEN ALLOW EXTENDING FROM LIB CLASSES?? STILL NEED TO SORT OUT OBJECT ANYWAY
+        def _find_method_s(self, class_s, name): # TODO: UPDATE FOR LIBRARY CLASSES NOW! SHOULD I EVEN ALLOW EXTENDING FROM LIB CLASSES?? STILL NEED TO SORT OUT OBJECT ANYWAY
                 method_s = None
                 try:
                         method_s = class_s.get_method(name)
@@ -1611,7 +1583,7 @@ class CodeGenerator(object):
                                 super_name = class_s.super_interface
                         super_s = self._t_env.get_class_s(super_name)
                         # Recursively search in the super class
-                        return self._get_method_s(super_s, name)
+                        return self._find_method_s(super_s, name)
 
         def _gen_args_list_node(self, args, params):
                 """Generate code for the arguments.  It takes he parameters
