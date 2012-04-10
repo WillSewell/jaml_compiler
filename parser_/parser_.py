@@ -3,16 +3,22 @@ from spark import GenericParser
 from scanner import Scanner
 import tree_nodes as nodes
 
+class ClassDoesNotExist(Exception):
+        """Raised when a class is referenced from a file which does not exist
+        in the current directory.
+        """
+        pass
+
 class Parser(GenericParser):
         def __init__(self, start = 'file'):
                 GenericParser.__init__(self, start)
         
         def run_parser(self, file_, lib_classes = None):
-                """parses a jml file and returns a list of abstract syntax trees, or
-                parses a string containing JaML code.
+                """parses a jml file and returns a list of abstract syntax
+                trees, or parses a string containing JaML code.
                 """
                 scanner = Scanner()
-                # Try and parse a file, if this fails, parse a sting of JaML code
+                # Try and parse a file, if this fails, parse as a string
                 try:
                         # This is to see if it's a file or not
                         open(file_)
@@ -21,7 +27,7 @@ class Parser(GenericParser):
                         # Add the name of the main class to begin with
                         file_name = os.path.basename(file_)
                         class_name = file_name.replace('.jml', '')
-                        # 'seen' stores names of all already seen class references
+                        # this stores names of all already seen class references
                         seen = [class_name]
                         # Stores classes to parse
                         to_parse = [class_name]
@@ -29,7 +35,8 @@ class Parser(GenericParser):
                         parsed = nodes.ProgramASTs()
                         while to_parse:
                                 # Append file information to the class names
-                                file_name = os.path.join(dir_, to_parse[0] + '.jml')
+                                file_name = os.path.join(dir_,
+                                                         to_parse[0] + '.jml')
                                 # Get the raw input
                                 raw = open(file_name)
                                 input_ = raw.read()
@@ -39,12 +46,13 @@ class Parser(GenericParser):
                                 ast = self.parse(tokens)
                                 # Check the class and file are named the same
                                 if to_parse[0] != ast.children[0].value:
-                                        raise NameError('Class name and file name ' +
-                                                        'do not match!')
+                                        msg = ('Class name and file name ' +
+                                               'do not match!')
+                                        raise NameError(msg)
                                 to_parse.pop(0)
-        
                                 parsed.append(ast)
-                                # Fined classes reference from the one just parsed
+                                # Fined classes reference from the one just
+                                # parsed
                                 if lib_classes == None:
                                         lib_classes = {}
                                 refed_classes = self._find_refed_classes
@@ -110,14 +118,12 @@ class Parser(GenericParser):
                                                              cur_dir)
                 except AttributeError:
                         if node.value not in seen:
-                                is_class1 = isinstance(node,
-                                                       nodes.ClassTypeNode) 
-                                is_class = (is_class1 and node.value not in
-                                            lib_classes.keys())
+                                is_class = isinstance(node, nodes.ClassTypeNode)
                                 is_extends = isinstance(node, nodes.ExtendsNode)
                                 is_implements = isinstance(node,
                                                            nodes.ImplementsNode)
-                                if is_class or is_extends or is_implements:
+                                if ((is_class or is_extends or is_implements)
+                                    and node.value not in lib_classes.keys()):
                                         seen.append(node.value)
                                         new.append(node.value)
                 return new

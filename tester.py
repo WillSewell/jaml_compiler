@@ -15,5 +15,5 @@ if __name__ == '__main__':
 #        print TypeChecker().analyse('class X { final static short y = 5; static void x(){y--;}}')
 #        print TypeChecker().analyse(r'\\smbhome.uscs.susx.ac.uk\wjs25\workspace\jaml_compiler\semantic_analysis\semantic_analysis_test\test_files\test_object_creator_fail.jml')[0]
         
-        CodeGenerator().compile_('class X {static void main(String[] args) {' + wrap_print('args[0]') + '}}')
-#        CodeGenerator().compile_(r'\\smbhome.uscs.susx.ac.uk\wjs25\workspace\jaml_compiler\jaml_files\jaml\X.jml')
+#        CodeGenerator().compile_('class X {static void main(String[] args) {' + wrap_print('args[0]') + '}}')
+        CodeGenerator().compile_(r'\\smbhome.uscs.susx.ac.uk\wjs25\workspace\jaml_compiler\jaml_files\jaml\Test.jml')
