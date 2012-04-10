@@ -1,5 +1,5 @@
-from code_generation.code_generator import CodeGenerator
-#from semantic_analysis.semantic_analyser import TypeChecker
+#from code_generation.code_generator import CodeGenerator
+from semantic_analysis.semantic_analyser import TypeChecker
 #from parser_ import parser_
 
 def wrap_print(stmt):
@@ -12,8 +12,9 @@ if __name__ == '__main__':
 #        print parser_.parse('x ~ 1 , 5 ~', 'matrix_element')
 #        print parser_.parse(r"N:\workspace\jaml_compiler\semantic_analysis\semantic_analysis_test\test_files\test_extends_pass.jml")
 
-#        print TypeChecker().analyse('class X { final static short y = 5; static void x(){y--;}}')
+        print TypeChecker().analyse('class X {void x(){Reader x = new Reader();' +
+                              'x.nextInt();}}')
 #        print TypeChecker().analyse(r'\\smbhome.uscs.susx.ac.uk\wjs25\workspace\jaml_compiler\semantic_analysis\semantic_analysis_test\test_files\test_object_creator_fail.jml')[0]
         
 #        CodeGenerator().compile_('class X {static void main(String[] args) {' + wrap_print('args[0]') + '}}')
-        CodeGenerator().compile_(r'\\smbhome.uscs.susx.ac.uk\wjs25\workspace\jaml_compiler\jaml_files\jaml\Test.jml')
+#        CodeGenerator().compile_(r'\\smbhome.uscs.susx.ac.uk\wjs25\workspace\jaml_compiler\jaml_files\jaml\Test.jml')

@@ -1013,9 +1013,14 @@ class TypeChecker(object):
                                 self._visit(node.children[2], env)
                                 args = node.children[2].children
                         except IndexError:
-                                # Simple method call, so args are second child
-                                self._visit(node.children[1], env)
-                                args = node.children[1].children
+                                try:
+                                        # Simple method call, so args are
+                                        # second child
+                                        self._visit(node.children[1], env)
+                                        args = node.children[1].children
+                                except IndexError:
+                                        # It was an object creator without args
+                                        raise AttributeError
                         for arg in args:
                                 type_ = arg.type_
                                 try:
@@ -1056,7 +1061,7 @@ class TypeChecker(object):
                 arguments are correct.
                 """
                 class_ = node.children[0].value
-                full_class_name = get_full_type(class_, self.t_env)
+                full_class_name = get_full_type(class_, self._t_env)
                 dotted_name = full_class_name.replace('/', '.')
                 arg_types = self._get_arg_types(node, env)
                 for idx, type_ in enumerate(arg_types):

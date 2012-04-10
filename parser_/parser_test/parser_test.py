@@ -355,7 +355,7 @@ class TestParser(unittest.TestCase):
                 node_ids = [nodes.BlockNode, nodes.AssignNode, nodes.IdNode,
                             nodes.IdNode]
                 node = Parser('block').run_parser('{x = y;}')
-                self.check_ast(node, node_ids, 0)
+                self.check_ast(node, node_ids, 0)        
 
         def test_array_assign(self):
                 """Test an array initialisation."""

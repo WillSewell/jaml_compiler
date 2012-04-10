@@ -237,6 +237,30 @@ class TestSemanticAnalyser(unittest.TestCase):
                 self.assertRaises(StaticError, self.analyse_file,
                                   'test_method_call_static_not_static_fail.jml')
         
+        def test_lib_method_call(self):
+                """Test a call to a library class."""
+                self._analyse('class X {void x(){Random rand = new Random();' +
+                              'float x = rand.nextFloat();}}')
+                
+        def test_lib_method_call_params(self):
+                """Test a call to a library class with parameters."""
+                self._analyse('class X {void x(){Random rand = new Random();' +
+                              'int x = rand.nextInt(10);}}')
+                
+        def test_lib_method_in_super_call(self):
+                """Test a method call to a library object where the method
+                is defined in its super class.
+                """
+                self._analyse('class X {void x(){String s = new String();' +
+                              'int h = s.hashCode();}}')
+        
+        def test_lib_method_call_fail(self):
+                """Test a call to a library class fails when the method does
+                not exist in that class."""
+                self.assertRaises(SymbolNotFoundError, self._analyse,
+                                  'class X {void x(){InputStream x = ' +
+                                  'new InputStream(); x.nextInt();}}')
+        
         def test_ref_non_static_field_fail(self):
                 """Test that an error is thrown when a non static field
                 is referenced from a static method.
@@ -407,6 +431,10 @@ class TestSemanticAnalyser(unittest.TestCase):
                 """
                 self.assertRaises(NotInitWarning, self.analyse_stmt,
                                   'int x; int y = x;')
+        
+        def test_lib_assign(self):
+                """Test assigning a library class to a variable."""
+                self.analyse_stmt('Date x = new Date();')
         
         def test_array_init_pass(self):
                 """Test no exception thrown when the type and dimension of the
