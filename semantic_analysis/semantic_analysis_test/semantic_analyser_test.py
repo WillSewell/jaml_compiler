@@ -253,6 +253,12 @@ class TestSemanticAnalyser(unittest.TestCase):
                 """
                 self._analyse('class X {void x(){String s = new String();' +
                               'int h = s.hashCode();}}')
+
+#TODO: THIS WILL ONLY WORK IF I DECIDE TO IMPLEMENTING ASSIGNING TO SUBCLASSES IN LIB CLASSES
+#        def test_lib_method_interface_call(self):
+#                """Test a method invokation on an interface."""
+#                self._analyse('class X {void x(){Runnable x = new Thread();' +
+#                              'x.run();}}')
         
         def test_lib_method_call_fail(self):
                 """Test a call to a library class fails when the method does
@@ -260,6 +266,13 @@ class TestSemanticAnalyser(unittest.TestCase):
                 self.assertRaises(SymbolNotFoundError, self._analyse,
                                   'class X {void x(){InputStream x = ' +
                                   'new InputStream(); x.nextInt();}}')
+                
+        def test_lib_method_interface_call_fail(self):
+                """Test a method invokation on an interface, where the
+                object has the method, but the interface does not."""
+                self.assertRaises(SymbolNotFoundError, self._analyse,
+                                  'class X {void x(){ Readable x = ' +
+                                  'new BufferedReader();x.close();}}')
         
         def test_ref_non_static_field_fail(self):
                 """Test that an error is thrown when a non static field
@@ -353,6 +366,21 @@ class TestSemanticAnalyser(unittest.TestCase):
                 """
                 self.assertRaises(SymbolNotFoundError, self.analyse_file,
                                   'test_private_field_fail.jml')
+        
+        def test_lib_field_ref(self):
+                """Test that a public field can be accessed that is in a
+                library class.
+                """
+                self._analyse('class X { void x() { '+
+                              'int x = Thread.MAX_PRIORITY;}}')
+        
+        def test_lib_field_ref_fail(self):
+                """Test that an error is thrown when a field doesn't exist
+                in a library class.
+                """
+                self.assertRaises(SymbolNotFoundError, self._analyse,
+                                  'class X {void x(){InputStream x = ' +
+                                  'new InputStream(); int y = x.y;}}')
         
         # There are a number of possibilities of possible name clashes -
         # these attempt to check for a few of the, but they are not

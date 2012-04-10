@@ -552,7 +552,7 @@ class TypeChecker(object):
                 (used to check assignment statements) for objects and arrays
                 of objects.
                 """
-                if lh_type == rh_type:
+                if lh_type == rh_type: #TODO: DOESN'T WORK FOR LIB CLASSES e.g. assigning string to object - either make it work, or throw errors if it's attempted
                         return True
                 else:
                         rh_class = self._get_class_s(rh_type)

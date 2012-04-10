@@ -12,8 +12,8 @@ if __name__ == '__main__':
 #        print parser_.parse('x ~ 1 , 5 ~', 'matrix_element')
 #        print parser_.parse(r"N:\workspace\jaml_compiler\semantic_analysis\semantic_analysis_test\test_files\test_extends_pass.jml")
 
-        print TypeChecker().analyse('class X {void x(){Reader x = new Reader();' +
-                              'x.nextInt();}}')
+        print TypeChecker().analyse('class X {void x(){Runnable x = new Thread();' +
+                              'x.run();}}')
 #        print TypeChecker().analyse(r'\\smbhome.uscs.susx.ac.uk\wjs25\workspace\jaml_compiler\semantic_analysis\semantic_analysis_test\test_files\test_object_creator_fail.jml')[0]
         
 #        CodeGenerator().compile_('class X {static void main(String[] args) {' + wrap_print('args[0]') + '}}')
