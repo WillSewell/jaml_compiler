@@ -1165,7 +1165,7 @@ class TypeChecker(object):
                 # Check it does not extend a final class
                 try:
                         if env.cur_class != None:
-                                # Don't do for interfaces
+                                # Don't check for interfaces
                                 super_s = self._get_class_s(node.value)
                                 if 'final' in super_s.modifiers:
                                         msg = ('You cannot subclass a final ' +
@@ -1173,8 +1173,8 @@ class TypeChecker(object):
                                         raise ClassSignatureError(msg)
                 except SymbolNotFoundError:
                         # It was in a library class
-                        dotted_name = node.type_.replace('/', '.')
-                        self._run_lib_checker(['-class', dotted_name])
+                        msg = 'Subclassing library classes is unsupported!'
+                        raise ClassSignatureError(msg)
         
         def _visit_implements_list_node(self, node, env):
                 """Check each interface that is implemented exists."""
@@ -1182,10 +1182,8 @@ class TypeChecker(object):
                         # Check that the interface exists
                         interface.type_ = get_full_type(interface.value,
                                                         self._t_env)
-                        # If it's a library interface, check it exists
-                        if interface.value in self._t_env.lib_classes.keys():
-                                dotted_name = node.type_.replace('/', '.')
-                                self._run_lib_checker(['-class', dotted_name])
+                        # It can't be a library class, this has already been
+                        # Checked in class_interface_method_scanner
                         
         def _visit_id_node(self, node, env):
                 """If it's an identifier the type needs to be looked up in env.
@@ -1405,7 +1403,7 @@ class TypeChecker(object):
                 else:
                         # Return output where packages are delimited by /
                         output = output.replace('.', '/')
-                        if args[0] == '-method' or '-field':
+                        if args[0] in ['-method', '-field']:
                                 # The checker prints both the type, and the
                                 # containing class for methods and fields -
                                 # these need to be extracted here

@@ -1,1 +1,1 @@
-class Test extends String {}
+class Test implements Iterator {}

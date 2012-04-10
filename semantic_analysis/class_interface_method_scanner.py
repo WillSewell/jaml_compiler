@@ -1,7 +1,8 @@
 from symbols import (ClassSymbol, InterfaceSymbol, MethodSymbol,
                      ConstructorSymbol, ArraySymbol, VarSymbol, FieldSymbol)
 from utilities.utilities import ArrayType, camel_2_underscore, get_full_type
-from exceptions import (MethodNotImplementedError, VariableNameError)
+from exceptions import (MethodNotImplementedError, VariableNameError,
+                        ClassSignatureError)
 from semantic_analysis.symbols import ArrayFieldSymbol
 
 class ClassInterfaceMethodScanner(object):
@@ -291,6 +292,10 @@ class ClassInterfaceMethodScanner(object):
                 # Get all the implemented interfaces
                 interfaces_s = []
                 for interface in interfaces:
+                        if interface in self._t_env.lib_classes.keys():
+                                msg = ('Implementing library ' +
+                                     'interfaces is unsupported!')
+                                raise ClassSignatureError(msg) 
                         interface_s = self._t_env.get_interface_s(interface)
                         interfaces_s.append(interface_s)
                         # Add any super interfaces

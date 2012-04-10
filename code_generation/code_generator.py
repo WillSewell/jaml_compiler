@@ -127,8 +127,10 @@ class CodeGenerator(object):
                 code_gen_root = os.path.dirname(__file__)
                 project_root = os.path.dirname(code_gen_root)
                 if dst is None:
-                        asm_root = os.path.join(project_root, 'jaml_files', 'asm')
-                        bin_root = os.path.join(project_root, 'jaml_files', 'bin')
+                        asm_root = os.path.join(project_root, 'jaml_files',
+                                                'asm')
+                        bin_root = os.path.join(project_root, 'jaml_files',
+                                                'bin')
                 else:
                         asm_root = dst
                         bin_root = dst
