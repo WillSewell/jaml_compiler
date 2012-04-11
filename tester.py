@@ -15,6 +15,6 @@ if __name__ == '__main__':
 #        print TypeChecker().analyse('class X {void x(){Runnable x = new Thread();  'x.run();}}')
 #        print TypeChecker().analyse(r'\\smbhome.uscs.susx.ac.uk\wjs25\workspace\jaml_compiler\semantic_analysis\semantic_analysis_test\test_files\test_object_creator_fail.jml')[0]
         
-        CodeGenerator().compile_('class X { void x() { int x = Short.MAX_VALUE;'+
-                     wrap_print('x') + '}}')
+        CodeGenerator().compile_('class X{static void main(String[] args){' +
+                     wrap_print('Double.isNaN(1.1)') + '}}')
 #        CodeGenerator().compile_(r'C:\Users\Will\workspace\jaml_compiler\code_generation\code_generation_test\test_files\test_field_ref_external.jml')

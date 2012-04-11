@@ -93,15 +93,6 @@ class CodeGenerator(object):
                 self._next_labels = {'if': 0, 'while': 0, 'for': 0, 'comp': 0,
                                      'not': 0, 'mat_rows': 0, 'mat_a_cols': 0,
                                      'mat_b_cols': 0, 'auxiliary': 0}
-                self._next_if = 0
-                self._next_while = 0
-                self._next_for = 0
-                self._next_comp = 0
-                self._next_not = 0
-                self._next_mat_rows = 0
-                self._next_mat_cols = 0
-                self._next_mat_cells = 0
-                self._next_auxillary = 0
                 # This stores all the instructions which will be written to the
                 # output file
                 self._out = ''
@@ -1354,7 +1345,6 @@ class CodeGenerator(object):
                 """Used to increment or decrement a numerical variable or array
                 element.  Whether it is an inc or dec is determined by type.
                 """
-                #TODO: TEST THIS ONE
                 children = node.children
                 op = ''
                 if node.value == '--':
@@ -1459,14 +1449,23 @@ class CodeGenerator(object):
                 self._add_iln('daload', ';Load the value')
                 
         def _visit_method_call_node(self, node):
-                self._add_iln('aload_0 ',
-                              ';Load the local variable in location ' +
-                              '0, which is a reference to the ' +
+                """Generate code to call a method in the current class, or a
+                superclass.
+                """
+                self._add_iln('aload_0 ', ';Load the local variable in ' +
+                              'location 0, which is a reference to the ' +
                               'current object')
                 class_s = self._t_env.get_class_s(self._cur_class)
                 method_name = node.children[0].value
                 # Search for the method
-                class_s, method_s = self._find_method_s(class_s, method_name)
+                try:
+                        class_s, method_s = self._find_method_s(class_s,
+                                                                method_name)
+                except SymbolNotFoundError:
+                        # Must be in a library class
+                        method_s = self._find_lib_method_s(self._cur_class,
+                                                           method_name,
+                                                           node.children[1])
                 # Get the results from what the arguments are on the top of the
                 # stack
                 try:
@@ -1476,9 +1475,17 @@ class CodeGenerator(object):
                         # No args
                         pass
                 # Invoke the method
-                # TODO: DO I NEED TO USE INVOKEVIRTUAL JUST WHEN IT OVERRIDES, OR ALWAYS WHEN IT'S A SUPERCLASS???
-                method_sig = self._method_sigs[(class_s.name, method_s.name)]
-                self._add_iln('invokevirtual ' + method_sig)
+                try:
+                        method_sig = self._method_sigs[(class_s.name, method_s.name)]
+                        # If it's a call to a private method, or a method in a super
+                        # class, invokespecial must be used
+                        op = 'invokevirtual'
+                        if 'private' in method_s.modifiers:
+                                op = 'invokespecial'
+                        self._add_iln(op + ' ' + method_sig)
+                except KeyError:
+                        # Do for lib methods
+                        self._add_iln('invokevirtual ' + method_s.sig)
         
         def _visit_method_call_long_node(self, node):
                 """Generate code for a extended method call where the method
@@ -1494,6 +1501,8 @@ class CodeGenerator(object):
                         class_name = children[0].type_
                         self._gen_load_variable(children[0])
                         is_static = False
+                else:
+                        class_name = get_full_type(class_name, self._t_env)
                 class_s = None
                 method_s = None
                 try:
@@ -1502,8 +1511,8 @@ class CodeGenerator(object):
                         class_s = get_class(class_name)
                         class_s, method_s = self._find_method_s(class_s,
                                                                 method_name)
-                        # Get the results from what the arguments are on the top of the
-                        # stack
+                        # Get the results from what the arguments are on the 
+                        # top of the stack
                         try:
                                 self._gen_args_list_node(args_list.children, # TODO: NOT NEEDED FOR LIB CLASSES BECAUSE SUB CLASSES OF ARGS ARE NOT SUPPORTED SO FAR
                                                          method_s.params)
@@ -1512,19 +1521,9 @@ class CodeGenerator(object):
                                 pass
                 except SymbolNotFoundError:
                         # It was a library class
-                        arg_types = []
-                        # Add args if any
-                        try:
-                                args = args_list.children
-                                arg_types = self._get_arg_types(args)
-                                # Generate the arguments
-                                for arg in args_list.children:
-                                        self._visit(arg)
-                        except AttributeError: pass
-                        class_name = get_full_type(class_name, self._t_env)
-                        method_s = self._t_env.get_lib_method(class_name,
-                                                              method_name,
-                                                              arg_types)
+                        method_s = self._find_lib_method_s(class_name,
+                                                           method_name,
+                                                           args_list)
                 # Invoke the method
                 # First need to get the correct operator, then need to check
                 # if it's an interface or class type
@@ -1566,10 +1565,17 @@ class CodeGenerator(object):
                               'current object')
                 # Get the class and method symbols of the method
                 class_s = self._t_env.get_class_or_interface_s(self._cur_class)
-                super_s = self._t_env.get_class_s(class_s.super_class)
+                cur_class_s = class_s
                 method_name = node.children[0].value
-                # Search for the method
-                class_s, method_s = self._find_method_s(super_s, method_name)
+                try:
+                        super_s = self._t_env.get_class_s(class_s.super_class)
+                        # Search for the method
+                        class_s, method_s = self._find_method_s(super_s, method_name)
+                except SymbolNotFoundError:
+                        method_s = self._find_lib_method_s(self._cur_class,
+                                                           method_name,
+                                                           node.children[1])
+                        class_s = None
                 # Get the results from what the arguments are on the top of the
                 # stack
                 try:
@@ -1578,11 +1584,23 @@ class CodeGenerator(object):
                 except AttributeError:
                         # No args
                         pass
+                # The operator needs to be invoke special if there is a
+                # method with the same name in the current class
+                op = 'invokevirtual'
+                if method_name in [meth_s.name for meth_s in cur_class_s.methods]:
+                        op = 'invokespecial'
                 # Invoke the method
-                method_sig = self._method_sigs[(class_s.name, method_s.name)]
-                self._add_iln('invokespecial ' + method_sig)
+                try:
+                        method_sig = self._method_sigs[(class_s.name, method_s.name)]
+                        self._add_iln(op + ' ' + method_sig)
+                except AttributeError:
+                        # It's a library method
+                        self._add_iln(op + ' ' + method_s.sig)
         
         def _find_method_s(self, class_s, name): # TODO: UPDATE FOR LIBRARY CLASSES NOW! SHOULD I EVEN ALLOW EXTENDING FROM LIB CLASSES?? STILL NEED TO SORT OUT OBJECT ANYWAY
+                """Find a method symbol by searching in the full inheritance
+                tree.
+                """
                 method_s = None
                 try:
                         method_s = class_s.get_method(name)
@@ -1598,9 +1616,42 @@ class CodeGenerator(object):
                         super_s = self._t_env.get_class_s(super_name)
                         # Recursively search in the super class
                         return self._find_method_s(super_s, name)
+        
+        def _find_lib_method_s(self, class_name, method_name, args_list):
+                """Get a library method symbol from the class of the object it
+                was invoked on, it's name, and the arguments used.
+                """
+                # If the class provided is not the name of a library class,
+                # recursively look through its super classes until a library
+                # class is reached
+                try:
+                        super_name = ''
+                        class_s = self._t_env.get_class_s(class_name)
+                        try:
+                                super_name = class_s.super_class
+                        except AttributeError:
+                                # It was actually an interface
+                                super_name = class_s.super_interface
+                        return self._find_lib_method_s(super_name, method_name,
+                                                       args_list)
+                except SymbolNotFoundError:
+                        # The class is a library class
+                        arg_types = []
+                        # Add args if any
+                        try:
+                                args = args_list.children
+                                arg_types = self._get_arg_types(args)
+                                # Generate the arguments
+                                for arg in args_list.children:
+                                        self._visit(arg)
+                        except AttributeError: pass
+                        class_name = get_full_type(class_name, self._t_env)
+                        return self._t_env.get_lib_method(class_name,
+                                                          method_name,
+                                                          arg_types)
 
         def _gen_args_list_node(self, args, params):
-                """Generate code for the arguments.  It takes he parameters
+                """Generate code for the arguments.  It takes the parameters
                 of the method that the arguments are being passed into, to
                 check if any type conversions are required.
                 """
