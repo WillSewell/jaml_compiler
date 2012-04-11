@@ -85,41 +85,40 @@ class TestCodeGenerator(unittest.TestCase):
         def test_private_method_call(self):
                 """Test an invocation of a private method in the current class.
                 """
-                self._check_output('class X { private void meth() {' +
-                                   self._wrap_print('10') +
-                                   '} static void main(String[] args) {' +
-                                   'X inst = new X();inst.meth();}}',
-                                   'X', '10')
+                p = ('class X { private void meth() {' +
+                     self._wrap_print('10') +
+                     '} static void main(String[] args) {' +
+                     'X inst = new X();inst.meth();}}')
+                self._check_output(p, 'X', '10')
         
         def test_lib_method_call(self):
                 """Test a call to a library class."""
-                self._check_output('class X{static void main(String[] args) ' +
-                                   '{Integer i = new Integer(5);' +
-                                   self._wrap_print('i.intValue()') +
-                                   '}}', 'X', '5')
+                p = ('class X{static void main(String[] args) ' +
+                     '{Integer i = new Integer(5);' +
+                     self._wrap_print('i.intValue()') + '}}')
+                self._check_output(p, 'X', '5')
                 
         def test_lib_method_call_params(self):
                 """Test a call to a library class with parameters."""
-                self._check_output('class X {static void main(String[] args)' +
-                                   '{String s = new String("pass");' +
-                                   self._wrap_print('s.endsWith("s")') +
-                                   '}}', 'X', 'true')
+                p = ('class X {static void main(String[] args)' +
+                     '{String s = new String("pass");' +
+                     self._wrap_print('s.endsWith("s")') + '}}')
+                self._check_output(p, 'X', 'true')
                 
         def test_lib_method_in_super_call(self):
                 """Test a method call to a library object where the method
                 is defined in its super class.
                 """
-                self._check_output('class X{static void main(String[] args){' +
-                                   self._wrap_print('Double.isNaN(1.1)') +
-                                   '}}', 'X', 'false')
+                p = ('class X{static void main(String[] args){' +
+                     self._wrap_print('Double.isNaN(1.1)') + '}}')
+                self._check_output(p, 'X', 'false')
         
         def test_lib_method_call_static(self):
                 """Test a static method call. """
-                self._check_output('class X {static void main(String[] args)' +
-                                   '{GregorianCalendar x = ' +
-                                   'new GregorianCalendar();' +
-                                   self._wrap_print('x.isLenient()') +
-                                   '}}', 'X', 'true')
+                p = ('class X {static void main(String[] args)' +
+                     '{GregorianCalendar x = new GregorianCalendar();' +
+                     self._wrap_print('x.isLenient()') + '}}')
+                self._check_output(p, 'X', 'true')
         
         def test_field_access(self):
                 """Test a simple field accessing in the same class."""
@@ -161,6 +160,14 @@ class TestCodeGenerator(unittest.TestCase):
                      self._wrap_print('x') + '} static void main ' +
                      '(String[] args) { new X();}}')
                 self._check_output(p, 'X', '10') 
+        
+        def test_lib_field_ref(self):
+                """Test that a public field can be accessed that is in a
+                library class.
+                """
+                p = ('class X {static void main(String[] args) { '+
+                     'int x = Short.MAX_VALUE;'+ self._wrap_print('x') + '}}')
+                self._check_output(p, 'X', '32767')
                 
         def test_var_dcl(self):
                 """Test variable declarations."""

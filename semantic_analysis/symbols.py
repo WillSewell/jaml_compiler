@@ -1,8 +1,9 @@
 import semantic_analyser
 from exceptions import VariableNameError, SymbolNotFoundError
-from utilities.utilities import get_jvm_type, get_full_type
+from utilities.utilities import get_jvm_type
 
 # TODO: REFACTOR LIB SYMBOLS TO EXTEND FROM A SUPER CLASS IF I HAVE TIME
+# PROBABLY BEST NOT TO BECAUSE OF DIAMOND INHERITANCE!
 
 class Symbol(object):
         """
@@ -201,8 +202,8 @@ class LibMethodSymbol(SymbolWithType, ModiferContainer):
         invoked_class is the class the method was invoked in - this is used
         by the code generator to look up the method.
         containing_class is the class the method is actually defined in."""
-        def __init__(self, name, type_, arg_types,
-                     invoked_class, containing_class, is_static):
+        def __init__(self, name, type_, arg_types, invoked_class,
+                     containing_class, is_static):
                 super(LibMethodSymbol, self).__init__(name, type_)
                 self._invoked_class = invoked_class
                 self._containing_class = containing_class
@@ -407,9 +408,6 @@ class LibFieldSymbol(SymbolWithType, ModiferContainer):
         
         def _get_refed_class(self):
                 return self._refed_class
-        
-        def _get_arg_types(self):
-                return self._arg_types
         
         sig = property(_get_sig)
         refed_class = property(_get_refed_class)
