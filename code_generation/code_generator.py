@@ -5,7 +5,7 @@ import subprocess
 from semantic_analysis.semantic_analyser import TypeChecker
 import parser_.tree_nodes as nodes
 from utilities.utilities import (camel_2_underscore, is_main, get_jvm_type,
-                                 ArrayType)
+                                 ArrayType, get_full_type)
 from semantic_analysis.exceptions import SymbolNotFoundError
 
 class FileReadError(Exception):
@@ -1512,13 +1512,19 @@ class CodeGenerator(object):
                                 pass
                 except SymbolNotFoundError:
                         # It was a library class
-                        arg_types = self._get_arg_types(args_list.children)
+                        arg_types = []
+                        # Add args if any
+                        try:
+                                args = args_list.children
+                                arg_types = self._get_arg_types(args)
+                                # Generate the arguments
+                                for arg in args_list.children:
+                                        self._visit(arg)
+                        except AttributeError: pass
+                        class_name = get_full_type(class_name, self._t_env)
                         method_s = self._t_env.get_lib_method(class_name,
                                                               method_name,
                                                               arg_types)
-                        # Generate the arguments
-                        for arg in args_list.children:
-                                self._visit(arg)
                 # Invoke the method
                 # First need to get the correct operator, then need to check
                 # if it's an interface or class type
@@ -1615,7 +1621,7 @@ class CodeGenerator(object):
         def _visit_object_creator_node(self, node):
                 """Create a new object reference and invoke its constructor."""
                 name = node.children[0].value
-                self._add_iln('new ' + name,
+                self._add_iln('new ' + get_full_type(name, self._t_env),
                               ';Create a new instance of the class')
                 self._add_iln('dup', ';Duplicate the reference')
                 
@@ -1633,11 +1639,16 @@ class CodeGenerator(object):
                         sig = self._method_sigs[name, '<init>']
                 except SymbolNotFoundError:
                         # Library class
-                        args_list = node.children[0].children
+                        args_list = []
+                        # Get args if any
+                        try:
+                                args_list = node.children[1].children
+                        except IndexError: pass
                         arg_types = self._get_arg_types(args_list)
-                        cons_s = self._t_env.get_lib_cons(name, arg_types)
+                        full_name = get_full_type(name, self._t_env)
+                        cons_s = self._t_env.get_lib_cons(full_name, arg_types)
                         # Generate the arguments
-                        for arg in args_list.children:
+                        for arg in args_list:
                                 self._visit(arg)
                         sig = cons_s.sig
                 # Invoke the constructor
@@ -1769,7 +1780,7 @@ class CodeGenerator(object):
                 elif node.type_ == 'java/lang/String':
                         self._add_iln('ldc "' + node.value + '"',
                                       ';Load constant string "' + node.value +
-                                      '" (creats a new String object)')
+                                      '" (creates a new String object)')
                 else: # If it's a boolean, convert the value to 1 or 0
                         if node.value == True:
                                 self._add_iln('iconst_1',

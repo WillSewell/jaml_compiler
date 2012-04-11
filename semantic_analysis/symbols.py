@@ -1,6 +1,6 @@
 import semantic_analyser
 from exceptions import VariableNameError, SymbolNotFoundError
-from utilities.utilities import get_jvm_type
+from utilities.utilities import get_jvm_type, get_full_type
 
 # TODO: REFACTOR LIB SYMBOLS TO EXTEND FROM A SUPER CLASS IF I HAVE TIME
 
@@ -297,9 +297,13 @@ class LibConsSymbol(Symbol):
         def _get_arg_types(self):
                 return self._arg_types
         
+        def _get_class(self):
+                return self._class
+        
         sig = property(_get_sig)
         invoked_class = property(_get_invoked_class)
         arg_types = property(_get_arg_types)
+        class_ = property(_get_class)
 
 class SymbolWithInit(SymbolWithType):
         """Represents symbols that must be initialised before they are used."""

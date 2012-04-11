@@ -82,7 +82,7 @@ class TestCodeGenerator(unittest.TestCase):
                 """Test a static external method call."""
                 self._check_output_file('test_method_call_static.jml', '10.0')
         
-        def test_private_method_invokation(self):
+        def test_private_method_call(self):
                 """Test an invocation of a private method in the current class.
                 """
                 self._check_output('class X { private void meth() {' +
@@ -90,6 +90,36 @@ class TestCodeGenerator(unittest.TestCase):
                                    '} static void main(String[] args) {' +
                                    'X inst = new X();inst.meth();}}',
                                    'X', '10')
+        
+        def test_lib_method_call(self):
+                """Test a call to a library class."""
+                self._check_output('class X{static void main(String[] args) ' +
+                                   '{Integer i = new Integer(5);' +
+                                   self._wrap_print('i.intValue()') +
+                                   '}}', 'X', '5')
+                
+        def test_lib_method_call_params(self):
+                """Test a call to a library class with parameters."""
+                self._check_output('class X {static void main(String[] args)' +
+                                   '{String s = new String("pass");' +
+                                   self._wrap_print('s.endsWith("s")') +
+                                   '}}', 'X', 'true')
+                
+        def test_lib_method_in_super_call(self):
+                """Test a method call to a library object where the method
+                is defined in its super class.
+                """
+                self._check_output('class X{static void main(String[] args){' +
+                                   self._wrap_print('Double.isNaN(1.1)') +
+                                   '}}', 'X', 'false')
+        
+        def test_lib_method_call_static(self):
+                """Test a static method call. """
+                self._check_output('class X {static void main(String[] args)' +
+                                   '{GregorianCalendar x = ' +
+                                   'new GregorianCalendar();' +
+                                   self._wrap_print('x.isLenient()') +
+                                   '}}', 'X', 'true')
         
         def test_field_access(self):
                 """Test a simple field accessing in the same class."""

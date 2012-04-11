@@ -1064,11 +1064,13 @@ class TypeChecker(object):
                 full_class_name = get_full_type(class_, self._t_env)
                 dotted_name = full_class_name.replace('/', '.')
                 arg_types = self._get_arg_types(node, env)
-                for idx, type_ in enumerate(arg_types):
-                        arg_types[idx] = type_.replace('/', '.')
-                self._run_lib_checker(['-cons', dotted_name] + arg_types)
+                arg_types_dotted = []
+                for type_ in arg_types:
+                        arg_types_dotted.append(type_.replace('/', '.'))
+                self._run_lib_checker(['-cons', dotted_name] + arg_types_dotted)
                 # Generate a symbol for it and at it to _t_env
-                symbol = LibConsSymbol(class_, arg_types)
+                full_class = get_full_type(class_, self._t_env)
+                symbol = LibConsSymbol(full_class, arg_types)
                 self._t_env.add_lib_cons(symbol)
                 # TODO: ADD A WAY TO CHECK ABSTRACT?  IN THE SAME WAY AS STATIC IS CHECKED FOR METHODS.
         
