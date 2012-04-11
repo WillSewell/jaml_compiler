@@ -113,6 +113,16 @@ class TestCodeGenerator(unittest.TestCase):
                      self._wrap_print('Double.isNaN(1.1)') + '}}')
                 self._check_output(p, 'X', 'false')
         
+        def test_method_call_explicitly_super(self):
+                """Test that the method in the super class is called, even
+                when there is one with the same name in the current class.
+                """
+                p = ('class X {  X() {' + 
+                     self._wrap_print('super.equals(new Object())') + 
+                     '}static void main(String[] args){X x = new X();} ' +
+                     'boolean equals(Object x) {return true;}}')
+                self._check_output(p, 'X', 'false')
+        
         def test_lib_method_call_static(self):
                 """Test a static method call. """
                 p = ('class X {static void main(String[] args)' +

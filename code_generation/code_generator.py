@@ -396,13 +396,16 @@ class CodeGenerator(object):
                 self._add_iln('.limit locals 100')
                 # If the constructor of the super class is no explicitly called
                 # in the code, it must be generated here
-                if not isinstance(node.children[2].children[0],
-                                  nodes.SuperConstructorCallNode):
+                not_has_body = isinstance(node.children[2], nodes.EmptyNode)
+                if (not_has_body or 
+                    not isinstance(node.children[2].children[0],
+                                   nodes.SuperConstructorCallNode)):
                         self._gen_super_constructor()
                 # Generate code for the method body
                 self._visit(children[2])
-                if not isinstance(children[2].children[-1],
-                                  nodes.ReturnVoidNode):
+                if (not_has_body or
+                    not isinstance(children[2].children[-1],
+                                   nodes.ReturnVoidNode)):
                         # There is no return statement at the end of the method,
                         # so one must be added
                         self._add_iln('return')
@@ -1532,30 +1535,33 @@ class CodeGenerator(object):
                         op = 'invokestatic'
                 elif method_s is not None and 'private' in method_s.modifiers:
                         op = 'invokespecial'
-                if class_name in self._t_env.classes.keys():
+                try:
                         method_sig = self._method_sigs[(class_s.name,
                                                         method_s.name)]
                         self._add_iln(op + ' ' + method_sig)
-                elif class_name in self._t_env.lib_classes.values():
-                        # Arg types need to be worked out in order to get the
-                        # library class signature
-                        sig = method_s.sig
-                        self._add_iln(op + ' ' + sig)
-                else:
-                        # It must be an object of type interface
-                        # Interfaces need the number of arguments too
-                        # This is num_args + 1, since the first is the ref
-                        # to the current object
-                        num_args = 1
+                except (KeyError, AttributeError):
                         try:
-                                num_args = len(node.children[-1].children) + 1
-                        except AttributeError:
-                                # No args
-                                pass
-                        self._add_iln('invokeinterface ' +
-                                      self._method_sigs[(class_s.name,
-                                                        method_s.name)] +
-                                      ' ' + str(num_args))
+                                # It could be an object of type interface
+                                # Interfaces need the number of arguments too
+                                # This is num_args + 1, since the first is the
+                                # ref to the current object
+                                num_args = 1
+                                try:
+                                        args = node.children[-1].children
+                                        num_args = len(args) + 1
+                                except AttributeError:
+                                        # No args
+                                        pass
+                                self._add_iln('invokeinterface ' +
+                                              self._method_sigs[(class_s.name,
+                                                                method_s.name)]
+                                              + ' ' + str(num_args))
+                        except (KeyError, AttributeError):
+                                # Arg types need to be worked out in order to
+                                # get the library class signature
+                                sig = method_s.sig
+                                self._add_iln(op + ' ' + sig)
+                        
         
         def _visit_method_call_super_node(self, node):
                 """Generate code for a call to a method in a super class."""
@@ -1597,7 +1603,7 @@ class CodeGenerator(object):
                         # It's a library method
                         self._add_iln(op + ' ' + method_s.sig)
         
-        def _find_method_s(self, class_s, name): # TODO: UPDATE FOR LIBRARY CLASSES NOW! SHOULD I EVEN ALLOW EXTENDING FROM LIB CLASSES?? STILL NEED TO SORT OUT OBJECT ANYWAY
+        def _find_method_s(self, class_s, name):
                 """Find a method symbol by searching in the full inheritance
                 tree.
                 """
@@ -1789,7 +1795,7 @@ class CodeGenerator(object):
                 """
                 self._gen_load_variable(node)
         
-        def _gen_load_variable(self, node): # TODO: DOES THIS NEED TO DO FIELDS TOO?
+        def _gen_load_variable(self, node):
                 """Generate code to load a variable, be it a local variable,
                 or a field.
                 """
