@@ -22,8 +22,8 @@ class Frame(object):
                 Static methods operate differently, because the first element
                 on the static is not a reference to "this".
                 """
-                # This stores all seen variables as keys, along with a reference to
-                # their storage location
+                # This stores all seen variables as keys, along with a
+                # reference to their storage location
                 self._var = dict()
                 # Stores the method's return type
                 self._ret_type = ret_type
@@ -37,17 +37,19 @@ class Frame(object):
                         self._next_var = 1
                 try:
                         for param in params.children:
-                                name = param.children[1].value
+                                type_node = param.children[0]
+                                id_node = param.children[1]
+                                name = id_node.value
                                 try:
                                         # For arrays
-                                        name = param.children[1].children[0].value
+                                        name = id_node.children[0].value
                                 except AttributeError: pass
-                                if param.children[0].value in ['long', 'double']:
+                                if type_node.value in ['long', 'double']:
                                         self.new_var(name, True)
                                 else:
                                         self.new_var(name, False)
                 except AttributeError:
-                        # There is no parameters
+                        # There are no parameters
                         pass
 
         def get_var(self, var):
@@ -122,8 +124,7 @@ class CodeGenerator(object):
                 asts, t_env = TypeChecker().analyse(source)
                 self._gen_field_method_sigs(t_env)
                 self._t_env = t_env
-
-                # Directories needed
+                # Get paths to directories needed
                 code_gen_root = os.path.dirname(__file__)
                 project_root = os.path.dirname(code_gen_root)
                 if dst is None:
@@ -134,7 +135,6 @@ class CodeGenerator(object):
                 else:
                         asm_root = dst
                         bin_root = dst
-
                 # If it's a file, check it has the correct extension
                 try:
                         # This will error if it isn't a file
@@ -145,22 +145,20 @@ class CodeGenerator(object):
                                 raise FileReadError(msg)
                 except:
                         pass
-                
+                # Loop through each class generating code and writing files
                 for ast in asts:
                         # Generate code
                         self._reset()
                         self._visit(ast)
-
                         # Write/print results
                         # Get the file name by appending .j to class name
                         name = ast.children[0].value
                         output_f_name = name + '.j'
                         out_path = os.path.join(asm_root, output_f_name)
-                        # Create the output file and write the output to the file
+                        # Create the output file and write output to it
                         out_file = open(out_path, 'w')
                         out_file.write(self._out)
                         out_file.close()
-
                         # Run Jasmin
                         jasmin_file = os.path.join(project_root, 'jasmin',
                                                    'jasmin.jar')
@@ -573,8 +571,8 @@ class CodeGenerator(object):
                 self._add_iln('goto ForStart' + next_for,
                               ';Jump back to ForStart to create the loop ' +
                               'effect')
-                self._add_ln('ForEnd' + next_for + ':', ';Exit point for the ' +
-                             'loop')
+                self._add_ln('ForEnd' + next_for + ':', ';Exit point for ' +
+                             'the loop')
         
         def _visit_return_node(self, node):
                 ret_expr = node.children[0]
@@ -609,59 +607,65 @@ class CodeGenerator(object):
                 and store this in the memory location corresponding to the 
                 value in _var.
                 """
-                children = node.children
                 try:
                         # Try assigning into an array element
-                        if isinstance(children[0], nodes.ArrayDclNode):
-                                # If it's an array declaration node, it must
-                                # be treated like a normal variable
-                                raise AttributeError
-                        # Load the array
-                        self._gen_load_variable(children[0].children[0])
-                        for child in children[0].children[1:-1]:
-                                # Load the indexes into the arrays
-                                # And then load each sub array
-                                self._visit(child)
-                                self._add_iln('aaload')
-                        # Push the final index
-                        self._visit(children[0].children[-1])
-                        # Load the value to assign
-                        self._visit(children[1])
-                        # Add conversion op if needed
-                        self._add_convert_op(children[0], children[1])
-                        # Store the value
-                        self._add_iln(self._array_prefix(children[0]) +
-                                      'store',
-                                      ';Store the value in the array element')
+                        self._gen_array_element_assignment(node)
                 except AttributeError:
                         # It's regular assignment
-                        try:
-                                # Treat it as an array_dcl
-                                var_name = children[0].children[0].value
-                        except AttributeError:
-                                var_name = children[0].value
-                        # If it's a field, ref to the current object must be
-                        # loaded before the value to assign
-                        if (self._cur_class, var_name) in self._field_sigs.keys():
-                                self._add_iln('aload_0', ';Load the current ' +
-                                              'object to assign to field')
-                        self._visit(children[1])
-                        # Add conversion op if needed
-                        self._add_convert_op(children[0], children[1]) 
-                        # Store the value in the correct variable
-                        if (self._cur_class, var_name)  in self._field_sigs.keys():
-                                # It's a field, so use field store syntax
-                                sig = self._field_sigs[self._cur_class,
-                                                       var_name]
-                                self._add_iln('putfield ' + sig,
-                                              ';Store into field ' +
-                                              children[0].value)
-                        else:
-                                self._add_iln(self._prefix(children[0]) + 'store ' +
-                                              str(self._cur_frame.get_var(var_name)), 
-                                              ';Store top of stack in ' +
-                                              str(self._cur_frame.get_var(var_name)) +
-                                              ' (' + var_name + ')')
+                        self._gen_regular_assignment(node)
+        
+        def _gen_regular_assignment(self, node):
+                """Generate the code for regular assignment."""
+                children= node.children
+                try:
+                        # Treat it as an array_dcl
+                        var_name = children[0].children[0].value
+                except AttributeError:
+                        var_name = children[0].value
+                # If it's a field, ref to the current object must be
+                # loaded before the value to assign
+                if (self._cur_class, var_name) in self._field_sigs.keys():
+                        self._add_iln('aload_0', ';Load the current object ' +
+                                      'to assign to field')
+                self._visit(children[1])
+                # Add conversion op if needed
+                self._add_convert_op(children[0], children[1]) 
+                # Store the value in the correct variable
+                if (self._cur_class, var_name)  in self._field_sigs.keys():
+                        # It's a field, so use field store syntax
+                        sig = self._field_sigs[self._cur_class, var_name]
+                        self._add_iln('putfield ' + sig,
+                                      ';Store into field ' + children[0].value)
+                else:
+                        self._add_iln(self._prefix(children[0]) + 'store ' +
+                                      str(self._cur_frame.get_var(var_name)), 
+                                      ';Store top of stack in ' +
+                                      str(self._cur_frame.get_var(var_name)) +
+                                      ' (' + var_name + ')')
+        
+        def _gen_array_element_assignment(self, node):
+                """Generate code for assigning to an array element."""
+                children = node.children
+                if isinstance(children[0], nodes.ArrayDclNode):
+                        # If it's an array declaration node, it must
+                        # be treated like a normal variable
+                        raise AttributeError
+                # Load the array
+                self._gen_load_variable(children[0].children[0])
+                for child in children[0].children[1:-1]:
+                        # Load the indexes into the arrays
+                        # And then load each sub array
+                        self._visit(child)
+                        self._add_iln('aaload')
+                # Push the final index
+                self._visit(children[0].children[-1])
+                # Load the value to assign
+                self._visit(children[1])
+                # Add conversion op if needed
+                self._add_convert_op(children[0], children[1])
+                # Store the value
+                self._add_iln(self._array_prefix(children[0]) + 'store',
+                              ';Store the value in the array element')
 
         def _add_convert_op(self, l_child, r_child):
                 """Helper method to convert one type to another before
@@ -699,16 +703,14 @@ class CodeGenerator(object):
                 if node.value == '||':
                         self._visit(children[0])
                         self._visit(children[1])
-                        self._add_iln('ior', 
-                                      ';OR the top two binary values on ' +
-                                      'the stack')
+                        self._add_iln('ior', ';OR the top two binary ' +
+                                      'values on the stack')
                 else:
                         #It's 'and'
                         self._visit(children[0])
                         self._visit(children[1])
-                        self._add_iln('iand',
-                                      ';AND the top two binary values on ' +
-                                      'the stack')
+                        self._add_iln('iand', ';AND the top two binary ' +
+                                      'values on the stack')
         
         def _visit_eq_node(self, node):
                 if node.children[0].type_ in self._t_env.nums + ['boolean']:
@@ -784,9 +786,9 @@ class CodeGenerator(object):
         def _gen_greater_than(self, node, type_, next_comp):
                 if type_ in ['byte', 'char', 'short', 'int']:
                         self._add_iln('if_icmpgt CompTrue' + next_comp,
-                                      ';If the value on the top of the stack ' +
-                                      'is greater than the one below it,' +
-                                      'jump to CompTrue')
+                                      ';If the value on the top of the ' +
+                                      'stack is greater than the one below ' +
+                                      'it, jump to CompTrue')
                 elif type_ in ['long', 'float', 'double']:
                         self._gen_long_float_double_comp(node, type_)
                         self._add_iln('ifgt CompTrue' + next_comp, 
@@ -795,9 +797,9 @@ class CodeGenerator(object):
         def _gen_greater_eq_to(self, node, type_, next_comp):
                 if type_ in ['byte', 'char', 'short', 'int']:
                         self._add_iln('if_icmpge CompTrue' + next_comp,
-                                      ';If the value on the top of the stack ' +
-                                      'is greater than or equal to the one ' +
-                                      'below it, jump to CompTrue')
+                                      ';If the value on the top of the ' +
+                                      'stack is greater than or equal to ' +
+                                      'the one below it, jump to CompTrue')
                 elif type_ in ['long', 'float', 'double']:
                         self._gen_long_float_double_comp(node, type_)
                         self._add_iln('ifge CompTrue' + next_comp, 
@@ -806,8 +808,8 @@ class CodeGenerator(object):
         def _gen_less_than(self, node, type_, next_comp):
                 if type_ in ['byte', 'char', 'short', 'int']:
                         self._add_iln('if_icmplt CompTrue' + next_comp,
-                                      ';If the value on the top of the stack ' +
-                                      'is less than the one below it,' +
+                                      ';If the value on the top of the ' +
+                                      'stack is less than the one below it,' +
                                       'jump to CompTrue')
                 elif type_ in ['long', 'float', 'double']:
                         self._gen_long_float_double_comp(node, type_)
@@ -817,9 +819,9 @@ class CodeGenerator(object):
         def _gen_less_eq_to(self, node, type_, next_comp):
                 if type_ in ['byte', 'char', 'short', 'int']:
                         self._add_iln('if_icmple CompTrue' + next_comp,
-                                      ';If the value on the top of the stack ' +
-                                      'is less than or equal to the one ' +
-                                      'below it, jump to CompTrue')
+                                      ';If the value on the top of the ' +
+                                      'stack is less than or equal to the ' +
+                                      'one below it, jump to CompTrue')
                 elif type_ in ['long', 'float', 'double']:
                         self._gen_long_float_double_comp(node, type_)
                         self._add_iln('ifle CompTrue' + next_comp, 
@@ -828,9 +830,9 @@ class CodeGenerator(object):
         def _gen_eq_to(self, node, type_, next_comp):
                 if type_ in ['byte', 'char', 'short', 'int']:
                         self._add_iln('if_icmpeq CompTrue' + next_comp,
-                                      ';If the value on the top of the stack ' +
-                                      'is equal to the one below it, jump to ' +
-                                      'CompTrue')
+                                      ';If the value on the top of the ' +
+                                      'stack is equal to the one below it, ' +
+                                      'jump to CompTrue')
                 elif type_ in ['long', 'float', 'double']:
                         self._gen_long_float_double_comp(node, type_)
                         self._add_iln('ifeq CompTrue' + next_comp, 
@@ -839,9 +841,9 @@ class CodeGenerator(object):
         def _gen_not_eq_to(self, node, type_, next_comp):
                 if type_ in ['byte', 'char', 'short', 'int']:
                         self._add_iln('if_icmpne CompTrue' + next_comp,
-                                      ';If the value on the top of the stack ' +
-                                      'is is not equal o the one below it,' +
-                                      'jump to CompTrue')
+                                      ';If the value on the top of the ' +
+                                      'stack is is not equal o the one ' +
+                                      'below it, jump to CompTrue')
                 elif type_ in ['long', 'float', 'double']:
                         self._gen_long_float_double_comp(node, type_)
                         self._add_iln('ifne CompTrue' + next_comp, 
@@ -849,12 +851,13 @@ class CodeGenerator(object):
         
         def _gen_long_float_double_comp(self, node, type_):
                 if type_ == 'long':
-                        self._add_iln('lcmp', ';Compare two longs: 1 if var1 ' +
-                                      'is greater, 0 if equal, -1 if less than')
+                        self._add_iln('lcmp',
+                                      ';Compare two longs: 1 if var1 is ' +
+                                      'greater, 0 if equal, -1 if less than')
                 else:
                         self._add_iln(self._prefix(node) + 'cmpl',
-                                      ';Compare the two values: 1 if var1 is ' +
-                                      'greater, 0 if equal, -1 if less than')
+                                      ';Compare the two values: 1 if var1 ' +
+                                      'is greater, 0 if equal, -1 if less than')
                 
         def _gen_comp_object(self, node):
                 """Like _gen_comp, but only supports equal to or not equal to.
@@ -865,13 +868,13 @@ class CodeGenerator(object):
                 if op == '==':
                         self._add_iln('if_acmpeq CompTrue' + next_comp,
                                       ';If the object on the top of the ' +
-                                      'stack is the same instance as the one ' +
-                                      'below it, jump to CompTrue')
+                                      'stack is the same instance as the ' +
+                                      'one below it, jump to CompTrue')
                 if op == '!=':
                         self._add_iln('if_acmpne CompTrue' + next_comp,
                                       ';If the object on the top of the ' +
-                                      'stack is not the same instance as the ' +
-                                      'one below it, jump to CompTrue')
+                                      'stack is not the same instance as ' +
+                                      'the one below it, jump to CompTrue')
                 # Generate the remainder of the comparison code
                 self._gen_comp_end(next_comp)
         
@@ -892,6 +895,9 @@ class CodeGenerator(object):
                              ';Exit point for comparison if it is false')
         
         def _visit_add_node(self, node):
+                """Generate either regular addition code, string concatenation
+                or matrix addition.
+                """
                 # For string concatination
                 if node.type_ == 'java/lang/String':
                         # Load the references to the two strings, the first will
@@ -1216,8 +1222,8 @@ class CodeGenerator(object):
                               ' to the values on the top of the stack')
 
         def _convert_num(self, l_child, r_child):
-                """Write the correct numerical conversion oporator for the given
-                child nodes of an arithmatic operator if needed.
+                """Write the correct numerical conversion oporator for the
+                given child nodes of an arithmatic operator if needed.
                 """
                 self._visit(l_child)
                 convert_op = None
@@ -1441,7 +1447,8 @@ class CodeGenerator(object):
                 # Push the final index
                 self._visit(node.children[-1])
                 # Load the value
-                self._add_iln(self._array_prefix(node.children[0].type_) + 'load')
+                self._add_iln(self._array_prefix(node.children[0].type_) +
+                              'load')
                 
         def _visit_matrix_element_node(self, node):
                 """Get the value held in the matrix element."""
@@ -1491,7 +1498,8 @@ class CodeGenerator(object):
                 method_s = None
                 try:
                         # Search for the method
-                        class_s = self._t_env.get_class_or_interface_s(class_name)
+                        get_class = self._t_env.get_class_or_interface_s
+                        class_s = get_class(class_name)
                         class_s, method_s = self._find_method_s(class_s,
                                                                 method_name)
                         # Get the results from what the arguments are on the top of the
@@ -1685,6 +1693,7 @@ class CodeGenerator(object):
                         return field_s.sig
                         
         def _visit_array_init_node(self, node):
+                """Constructs a new array, or multi-dimensional array."""
                 if len(node.children) == 2:
                         # It has one dimension
                         self._visit(node.children[1])
@@ -1736,7 +1745,8 @@ class CodeGenerator(object):
                         fname = node.value
                         cname = self._cur_class
                         sig = self._get_field_sig(cname, fname)
-                        self._add_iln('getfield ' + sig, ';Get the fields value')
+                        self._add_iln('getfield ' + sig,
+                                      ";Get the field's value")
         
         def _visit_literal_node(self, node):
                 """If it's a literal, pop it onto the stack."""
@@ -1880,16 +1890,16 @@ class CodeGenerator(object):
                 if comment is None:
                         self._out += '\t' + line + '\n'
                 else:
-                        self._out += '\t' + line + self._get_tab_len(line) + \
-                                     comment + '\n'
+                        self._out += ('\t' + line + self._get_tab_len(line) +
+                                      comment + '\n')
 
         def _add_ln(self, line, comment = None):
                 """Adds a regular line to the output."""
                 if comment is None:
                         self._out += line + '\n'
                 else:
-                        self._out += line + self._get_tab_len(line) + '\t' + \
-                                     comment + '\n'
+                        self._out += (line + self._get_tab_len(line) + '\t' +
+                                      comment + '\n')
         
         def _get_tab_len(self, line):
                 """Get the amount of tabs needed to indent the comment part 20
