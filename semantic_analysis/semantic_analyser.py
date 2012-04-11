@@ -41,8 +41,8 @@ class TypeChecker(object):
                 """
                 p = Parser('file')
                 asts = p.run_parser(program, self._t_env.lib_classes)
-                # Add all global entities (classes and their methods) to the top level
-                # environment
+                # Add all global entities (classes and their methods) to the
+                # top level environment
                 self._scanner = ClassInterfaceMethodScanner(self._t_env)
                 self._scanner.scan(asts)
                 for ast in asts:

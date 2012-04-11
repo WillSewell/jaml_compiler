@@ -1,15 +1,18 @@
+"""This allows the program to be run.  It will either compile the file, or
+print error information.
+
+Usage: jamlcomp <file> [<output directory>]
+"""
 import sys
 from code_generation.code_generator import CodeGenerator
-from interpreter.interpreter import Interpreter
 
-if __name__ == "__main__":
-	if len(sys.argv) == 3:
-		if sys.argv[1] == "-i":
-			Interpreter().run_interpreter(sys.argv[2])
-		elif sys.argv[1] == "-c":
-			CodeGenerator().compile(sys.argv[2])
-		else:
-			print 'First argument must be either "-i" or "-c"'
-	else:
-		print "Usage: jamlcomp <-i | -c> <file>"
-	
+if __name__ == '__main__':
+        try:
+                if len(sys.argv) == 2:
+                        CodeGenerator().compile_(sys.argv[1])
+                elif len(sys.argv) == 3:
+                        CodeGenerator().compile_(sys.argv[1], sys.argv[2])
+                else:
+                        print 'Usage: jamlcomp <file> [<output directory>]'
+        except Exception as error:
+                print 'Compilation error! Message: "' + error + '"'

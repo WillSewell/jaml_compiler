@@ -1517,7 +1517,8 @@ class CodeGenerator(object):
                         # Get the results from what the arguments are on the 
                         # top of the stack
                         try:
-                                self._gen_args_list_node(args_list.children, # TODO: NOT NEEDED FOR LIB CLASSES BECAUSE SUB CLASSES OF ARGS ARE NOT SUPPORTED SO FAR
+                                # TODO: NOT NEEDED FOR LIB CLASSES BECAUSE SUB CLASSES OF ARGS ARE NOT SUPPORTED SO FAR
+                                self._gen_args_list_node(args_list.children, 
                                                          method_s.params)
                         except AttributeError:
                                 # No args
@@ -1576,7 +1577,8 @@ class CodeGenerator(object):
                 try:
                         super_s = self._t_env.get_class_s(class_s.super_class)
                         # Search for the method
-                        class_s, method_s = self._find_method_s(super_s, method_name)
+                        class_s, method_s = self._find_method_s(super_s,
+                                                                method_name)
                 except SymbolNotFoundError:
                         method_s = self._find_lib_method_s(self._cur_class,
                                                            method_name,
@@ -1593,11 +1595,14 @@ class CodeGenerator(object):
                 # The operator needs to be invoke special if there is a
                 # method with the same name in the current class
                 op = 'invokevirtual'
-                if method_name in [meth_s.name for meth_s in cur_class_s.methods]:
+                # Build list of method names
+                method_names = [meth_s.name for meth_s in cur_class_s.methods]
+                if method_name in method_names:
                         op = 'invokespecial'
                 # Invoke the method
                 try:
-                        method_sig = self._method_sigs[(class_s.name, method_s.name)]
+                        method_sig = self._method_sigs[(class_s.name,
+                                                        method_s.name)]
                         self._add_iln(op + ' ' + method_sig)
                 except AttributeError:
                         # It's a library method
