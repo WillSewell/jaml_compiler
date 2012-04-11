@@ -1,0 +1,5 @@
+Should I actually bother doing a neural network, or shall I just say that it
+can be used for that, and only implement simnple matrix operations in JaML and
+measure them?
+
+Add transpose?

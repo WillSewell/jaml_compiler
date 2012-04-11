@@ -1,0 +1,21 @@
+class LargeMatrixMult {
+        static void main(String[] args) {
+                matrix A = |1000,1000|;
+                for (int i = 0; i < A.rowLength; i++) {
+                        for (int j = 0; j < A.colLength; j++) {
+                                A|i,j| = i + j;
+                        }
+                }
+                matrix B = |1000,1000|;
+                for (int m = 0; m < B.rowLength; m++) {
+                        for (int n = 0; n < B.colLength; n++) {
+                                B|m,n| = m + n;
+                        }
+                }
+                long startTime = System.nanoTime();
+                matrix C = A * B;
+                long endTime = System.nanoTime();
+                PrintStream ps = System.out;
+                ps.println("Took " + Long.toString((endTime - startTime)) + " ns");
+        }
+}
