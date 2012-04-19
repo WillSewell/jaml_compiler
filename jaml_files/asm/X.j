@@ -7,7 +7,7 @@
 	invokespecial java/lang/Object/<init>()V
 	return
 .end method
-.method public static main([Ljava/lang/String;)V
+.method public static main ([Ljava/lang/String;)V
 	.limit stack 10
 	.limit locals 100
 	ldc 2				;Load constant numerical value 2

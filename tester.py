@@ -15,5 +15,5 @@ if __name__ == '__main__':
 #    print TypeChecker().analyse('class X {void x(){Runnable x = new Thread();  'x.run();}}')
 #    print TypeChecker().analyse(r'\\smbhome.uscs.susx.ac.uk\wjs25\workspace\jaml_compiler\semantic_analysis\semantic_analysis_test\test_files\test_object_creator_fail.jml')[0]
     
-    CodeGenerator().compile_('class X {  X() {}static void main(String[] args){if (2>1) {int x = 0;}int x = 1;' + wrap_print('x') + '}}')
-#    CodeGenerator().compile_(r'\\smbhome.uscs.susx.ac.uk\wjs25\workspace\jaml_compiler\jaml_files\jaml\LargeMatrixMult.jml')
+#    CodeGenerator().compile_('class X {  X() {}static void main(String[] args){if (2>1) {int x = 0;}int x = 1;' + wrap_print('x') + '}}')
+    CodeGenerator().compile_(r'C:\Users\Will\workspace\jaml_compiler\code_generation\code_generation_test\test_files\test_invoke_implemented_method.jml')

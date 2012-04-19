@@ -4,8 +4,8 @@ import os
 import subprocess
 from semantic_analysis.semantic_analyser import TypeChecker
 import parser_.tree_nodes as nodes
-from utilities.utilities import (camel_2_underscore, is_main, get_jvm_type,
-                                 ArrayType, get_full_type)
+from utilities.utilities import (is_main, get_jvm_type, ArrayType,
+                                 get_full_type, visit)
 from semantic_analysis.exceptions import SymbolNotFoundError, JamlException
 
 class FileReadError(JamlException):
@@ -132,7 +132,7 @@ class CodeGenerator(object):
         for ast in asts:
             # Generate code
             self._reset()
-            self._visit(ast)
+            visit(self, ast)
             # Write/print results
             # Get the file name by appending .j to class name
             name = ast.children[0].value
@@ -240,21 +240,6 @@ class CodeGenerator(object):
     # First check if it's an interior node so the child nodes can be
     # extracted
     
-    def _visit(self, node):
-        """Perform a type check on the abstract syntax tree."""
-        method = None
-        for class_ in node.__class__.__mro__:
-            method_name = '_visit' + class_.__name__
-            method_name = camel_2_underscore(method_name)
-            method = getattr(self, method_name, None)
-            if method:
-                break
-        if not method:
-            # Some nodes do not need to be type checked - for
-            # example, interfaces
-            return
-        return method(node)
-    
     def _visit_class_node(self, node):
         children = node.children
         # Set the current class
@@ -278,7 +263,7 @@ class CodeGenerator(object):
         except AttributeError:
             # It does not implement an interface
             pass
-        self._visit(children[3])
+        visit(self, children[3])
     
     def _visit_class_body_node(self, node):
         prev_child = None
@@ -294,7 +279,7 @@ class CodeGenerator(object):
                 added_cons = True
             if isinstance(child, nodes.ConstructorDclNode):
                 added_cons = True
-            self._visit(child)
+            visit(self, child)
             prev_child = child
         if added_cons == False:
             # If there is still no constructor, it means there is only field
@@ -382,7 +367,7 @@ class CodeGenerator(object):
                            nodes.SuperConstructorCallNode)):
             self._gen_super_constructor()
         # Generate code for the method body
-        self._visit(children[2])
+        visit(self, children[2])
         if (not_has_body or
             not isinstance(children[2].children[-1], nodes.ReturnVoidNode)):
             # There is no return statement at the end of the method,
@@ -412,7 +397,7 @@ class CodeGenerator(object):
         if children[0].value == 'main':
             # Added public and static to main so that the JVM recognises this
             # as the main method
-            self._add_ln('.method public static main ([Ljava/lang/String;)V')
+            self._add_ln('.method public static main([Ljava/lang/String;)V')
         else:
             name = children[0].value
             # Build up the spec (parameter types and return type)
@@ -435,7 +420,7 @@ class CodeGenerator(object):
         self._add_iln('.limit stack 10')
         self._add_iln('.limit locals 100')
         # Generate code for the method body
-        self._visit(body_node)
+        visit(self, body_node)
         # If the method is not empty, check it has a return statement
         # at the end, if not, manually add one
         body_stmts = body_node.children
@@ -450,7 +435,7 @@ class CodeGenerator(object):
     def _visit_block_node(self, node):
         """If it's a block, simply visit each child."""
         for child in node.children:
-            self._visit(child)
+            visit(self, child)
             
     def _visit_var_dcl_node(self, node):
         """If it's a variable declaration, create a new variable in the
@@ -476,7 +461,7 @@ class CodeGenerator(object):
         except AttributeError: pass
         is_long = self._is_long(node.children[1].type_)
         self._cur_frame.new_var(var_name, is_long)
-        self._visit(assign_node)
+        visit(self, assign_node)
     
     def _is_long(self, type_):
         """Returns whether or not a type takes up two slots in memory;
@@ -493,16 +478,16 @@ class CodeGenerator(object):
         # does not become modified in one of the child recursive method calls.
         next_if = self._label_suffix('if')
         # Generate code for the boolean expression
-        self._visit(children[0])
+        visit(self, children[0])
         self._add_iln('ifeq IfFalse' + next_if,
                       ';Jump to IfFalse if if-stmt evaluates to false')
-        self._visit(children[1])
+        visit(self, children[1])
         self._add_iln('goto IfEnd' + next_if)
         self._add_ln('IfFalse' + next_if + ':',
                      ';Continue from here if if_stmt was false')
         # If these is an else statement, generate the code for that
         if len(children) == 3:
-            self._visit(children[2])
+            visit(self, children[2])
         self._add_ln('IfEnd' + next_if + ':', ';End the if statement')
     
     def _visit_while_node(self, node):
@@ -513,11 +498,11 @@ class CodeGenerator(object):
         next_while = self._label_suffix('while')
         self._add_ln('WhileStart' + next_while + ':',
                      ';Create an initial label to return to for loop effect')
-        self._visit(children[0])
+        visit(self, children[0])
         self._add_iln('ifeq WhileEnd' + next_while, 
                       ';Jump to WhileEnd if the boolean expression ' +
                       'evaluates to false to break out of loop')
-        self._visit(children[1])
+        visit(self, children[1])
         self._add_iln('goto WhileStart' + next_while,
                       ';Jump back to WhileStart to create the loop effect')
         self._add_ln('WhileEnd' + next_while + ':',
@@ -526,22 +511,22 @@ class CodeGenerator(object):
     def _visit_for_node(self, node):
         children = node.children
         next_for = self._label_suffix('for')
-        self._visit(children[0])
+        visit(self, children[0])
         self._add_ln('ForStart' + next_for + ':',
                      ';Create an initial label to return to for loop effect')
-        self._visit(children[1])
+        visit(self, children[1])
         self._add_iln('ifeq ForEnd' + next_for, 
                       ';Jump to ForEnd if the boolean expression evaluates ' +
                       'to false to break out of loop')
-        self._visit(children[3])
-        self._visit(children[2])
+        visit(self, children[3])
+        visit(self, children[2])
         self._add_iln('goto ForStart' + next_for,
                       ';Jump back to ForStart to create the loop effect')
         self._add_ln('ForEnd' + next_for + ':', ';Exit point for the loop')
     
     def _visit_return_node(self, node):
         ret_expr = node.children[0]
-        self._visit(ret_expr)
+        visit(self, ret_expr)
         # Add a convert operator is needed
         method_type = self._cur_frame.ret_type
         self._add_convert_op(method_type, ret_expr)
@@ -587,7 +572,7 @@ class CodeGenerator(object):
         if (self._cur_class, var_name) in self._field_sigs.keys():
             self._add_iln('aload_0',
                           ';Load the current object to assign to field')
-        self._visit(children[1])
+        visit(self, children[1])
         # Add conversion op if needed
         self._add_convert_op(children[0], children[1]) 
         # Store the value in the correct variable
@@ -614,12 +599,12 @@ class CodeGenerator(object):
         self._gen_load_variable(children[0].children[0])
         for child in children[0].children[1:-1]:
             # Load the indexes into the arrays, and then load each sub array
-            self._visit(child)
+            visit(self, child)
             self._add_iln('aaload')
         # Push the final index
-        self._visit(children[0].children[-1])
+        visit(self, children[0].children[-1])
         # Load the value to assign
-        self._visit(children[1])
+        visit(self, children[1])
         # Add conversion op if needed
         self._add_convert_op(children[0], children[1])
         # Store the value
@@ -658,13 +643,13 @@ class CodeGenerator(object):
         """Apply the operator to the boolean values."""
         children = node.children
         if node.value == '||':
-            self._visit(children[0])
-            self._visit(children[1])
+            visit(self, children[0])
+            visit(self, children[1])
             self._add_iln('ior', ';OR the top two binary values on the stack')
         else:
             #It's 'and'
-            self._visit(children[0])
-            self._visit(children[1])
+            visit(self, children[0])
+            visit(self, children[1])
             self._add_iln('iand', ';AND the top two binary values on the stack')
     
     def _visit_eq_node(self, node):
@@ -687,13 +672,13 @@ class CodeGenerator(object):
         conversion operator must be looked up.
         """
         children = node.children
-        self._visit(children[0])
+        visit(self, children[0])
         if not is_object:
             # May need to convert primitive types
             convert_op = self._convert_num_to_int(children[0].type_)
             if convert_op is not None:
                 self._add_iln(convert_op, ';Convert for comparison')
-            self._visit(children[1])
+            visit(self, children[1])
             convert_op = self._convert_num_to_int(children[1].type_)
             if convert_op is not None:
                 self._add_iln(convert_op, ';Convert for comparison')
@@ -701,7 +686,7 @@ class CodeGenerator(object):
             type_ = self._get_greater_type(children[0].type_, children[1].type_)
             self._gen_comp(node, type_)
         else:
-            self._visit(children[1])
+            visit(self, children[1])
             self._gen_comp_object(node)               
     
     def _get_greater_type(self, type1, type2):
@@ -843,8 +828,8 @@ class CodeGenerator(object):
         if node.type_ == 'java/lang/String':
             # Load the references to the two strings, the first will be what
             # the method will be called on, the second will be its argument
-            self._visit(node.children[0])
-            self._visit(node.children[1])
+            visit(self, node.children[0])
+            visit(self, node.children[1])
             self._add_iln('invokevirtual java/lang/String/concat' +
                           '(Ljava/lang/String;)Ljava/lang/String;',
                           ';Use the built in concat method of String')
@@ -862,7 +847,7 @@ class CodeGenerator(object):
         # Note: the left hand matrix is referred to as a, and the right as b
         # Create and store lengths of the dimensions
         # First visit child to gen code to load the array
-        self._visit(node.children[0])
+        visit(self, node.children[0])
         self._add_iln('dup', ';Dup to get the rows and the columns')
         # Get First matrix column length
         self._add_iln('iconst_0', ';Index into first dimension')
@@ -879,7 +864,7 @@ class CodeGenerator(object):
         row_len_loc1 = str(self._get_auxillary_var_loc())
         self._add_iln('istore ' + row_len_loc1, ';Store length')
         # Load second matrix
-        self._visit(node.children[1])
+        visit(self, node.children[1])
         self._add_iln('dup', ';Dup to get the rows and the columns')
         # Get Second matrix row length
         self._add_iln('arraylength', ';Get rows length')
@@ -1007,13 +992,13 @@ class CodeGenerator(object):
         self._add_iln('aaload', ';Load matrix row')
         self._add_iln('iload ' + idx2_loc, ';Load col index')
         # Load matrix 1 and get element
-        self._visit(node.children[0]) 
+        visit(self, node.children[0]) 
         self._add_iln('iload ' + idx1_loc, ';Load row index')
         self._add_iln('aaload', ';Load matrix row')
         self._add_iln('iload ' + idx2_loc, ';Load col index')
         self._add_iln('daload', ';Load current matrix element')
         # Load matrix 2 and get element
-        self._visit(node.children[1])
+        visit(self, node.children[1])
         self._add_iln('iload ' + idx1_loc, ';Load row index')
         self._add_iln('aaload', ';Load matrix row')
         self._add_iln('iload ' + idx2_loc, ';Load col index')
@@ -1084,13 +1069,13 @@ class CodeGenerator(object):
         self._add_iln('daload', ';Load the array element to add to ' +
                       'the result of the multiplication')
         # Load matrix 1 and get element
-        self._visit(node.children[0]) 
+        visit(self, node.children[0]) 
         self._add_iln('iload ' + idx1_loc, ';Load row index')
         self._add_iln('aaload', ';Load matrix row')
         self._add_iln('iload ' + idx3_loc, ';Load col index')
         self._add_iln('daload', ';Load current matrix element')
         # Load matrix 2 and get element
-        self._visit(node.children[1])
+        visit(self, node.children[1])
         self._add_iln('iload ' + idx3_loc, ';Load row index')
         self._add_iln('aaload', ';Load matrix row')
         self._add_iln('iload ' + idx2_loc, ';Load col index')
@@ -1136,7 +1121,7 @@ class CodeGenerator(object):
         """Write the correct numerical conversion oporator for the given child
         nodes of an arithmatic operator if needed.
         """
-        self._visit(l_child)
+        visit(self, l_child)
         convert_op = None
         # First check if the left hand side needs to be converted to match the
         # type of the right hand side
@@ -1153,7 +1138,7 @@ class CodeGenerator(object):
                           'type of the right')
         # Generate the code for the right child, and add a conversion
         # operator if needed in the same way as before.
-        self._visit(r_child)
+        visit(self, r_child)
         convert_op = None
         if r_child.type_ in ['char', 'byte', 'short', 'int']:
             convert_op = self._convert_num_from_int(l_child.type_)
@@ -1227,7 +1212,7 @@ class CodeGenerator(object):
         """'Not' the top of the stack - if it's 0, convert to 1, if it's 1,
         convert to 0.
         """
-        self._visit(node.children[0])
+        visit(self, node.children[0])
         next_not = self._label_suffix('not')
         self._add_iln('ifeq IsFalse' + next_not,
                       ';If its 0, go to the code to change it to 1')
@@ -1239,7 +1224,7 @@ class CodeGenerator(object):
 
     def _visit_pos_node(self, node):
         """Simply apply the neg operator to the top of the stack."""
-        self._visit(node.children[0])
+        visit(self, node.children[0])
         if node.value == '-':
             self._add_iln(self._prefix(node.children[0]) + 'neg',
                       ';Negates the integer on the top of the stack')
@@ -1260,20 +1245,20 @@ class CodeGenerator(object):
                           ';Load the array to store into')
             for child in children[0].children[1:-1]:
                 # Load the indexes into the array, and then load each sub array
-                self._visit(child)
+                visit(self, child)
                 self.add_iln('aaload')
             # Push the final index
-            self._visit(children[0].children[-1])
+            visit(self, children[0].children[-1])
             # Next get the element of the array again, this time to retrieve
             # and increment the value
             self._add_iln('aload ' + str(self._cur_frame.get_var(var_name)),
                           ';Load the array to store into')
             for child in children[0].children[1:-1]:
                 # Load the indexes into the arrays, and then load each subarray
-                self._visit(child)
+                visit(self, child)
                 self.add_iln('aaload')
             # Push the final index
-            self._visit(children[0].children[-1])
+            visit(self, children[0].children[-1])
             # Load the value from the array cell
             self._add_iln(self._prefix(children[0]) + 'aload',
                           ';Retrieve the value stored in the array cell')
@@ -1318,19 +1303,19 @@ class CodeGenerator(object):
         for child in node.children[1:-1]:
             # Load the indexes into the arrays
             # And then load each sub array
-            self._visit(child)
+            visit(self, child)
             self._add_iln('aaload')
         # Push the final index
-        self._visit(node.children[-1])
+        visit(self, node.children[-1])
         # Load the value
         self._add_iln(self._array_prefix(node.children[0].type_) + 'load')
         
     def _visit_matrix_element_node(self, node):
         """Get the value held in the matrix element."""
         self._gen_load_variable(node.children[0])
-        self._visit(node.children[1])
+        visit(self, node.children[1])
         self._add_iln('aaload', ';Load inner array')
-        self._visit(node.children[2])
+        visit(self, node.children[2])
         self._add_iln('daload', ';Load the value')
         
     def _visit_method_call_node(self, node):
@@ -1367,8 +1352,8 @@ class CodeGenerator(object):
             self._add_iln('invokevirtual ' + method_s.sig)
     
     def _visit_method_call_long_node(self, node):
-        """Generate code for a extended method call where the method
-        is held in another class.
+        """Generate code for a extended method call where the method is held
+        in another class.
         """
         children = node.children
         class_name = children[0].value
@@ -1409,10 +1394,11 @@ class CodeGenerator(object):
             op = 'invokestatic'
         elif method_s is not None and 'private' in method_s.modifiers:
             op = 'invokespecial'
-        try:
+        # Invoke it as either a class or interface or library class
+        if class_s is not None and class_s.name in self._t_env.classes:
             method_sig = self._method_sigs[(class_s.name, method_s.name)]
             self._add_iln(op + ' ' + method_sig)
-        except (KeyError, AttributeError):
+        else:
             try:
                 # It could be an object of type interface; interfaces need the
                 # number of arguments too - this is num_args + 1, since the
@@ -1512,7 +1498,7 @@ class CodeGenerator(object):
                 arg_types = self._get_arg_types(args)
                 # Generate the arguments
                 for arg in args_list.children:
-                    self._visit(arg)
+                    visit(self, arg)
             except AttributeError: pass
             class_name = get_full_type(class_name, self._t_env)
             return self._t_env.get_lib_method(class_name, method_name,
@@ -1524,7 +1510,7 @@ class CodeGenerator(object):
         conversions are required.
         """
         for idx, child in enumerate(args):
-            self._visit(child)
+            visit(self, child)
             # Add convertion op if needed
             self._add_convert_op(params[idx], child)
     
@@ -1564,7 +1550,7 @@ class CodeGenerator(object):
             cons_s = self._t_env.get_lib_cons(full_name, arg_types)
             # Generate the arguments
             for arg in args_list:
-                self._visit(arg)
+                visit(self, arg)
             sig = cons_s.sig
         # Invoke the constructor
         self._add_iln('invokespecial ' + sig, ';Call the constructor')
@@ -1578,7 +1564,7 @@ class CodeGenerator(object):
         is_static = True
         if class_name not in self._t_env.types:
             # Load reference to the object held in the variable
-            self._visit(node.children[0])
+            visit(self, node.children[0])
             class_name = node.children[0].type_
             is_static = False
         # If it's a matrix or array, the field must be length, whose value is
@@ -1620,7 +1606,7 @@ class CodeGenerator(object):
         """Constructs a new array, or multi-dimensional array."""
         if len(node.children) == 2:
             # It has one dimension
-            self._visit(node.children[1])
+            visit(self, node.children[1])
             if self._is_prim(node.type_):
                 # If the node is a primitive type
                 self._add_iln('newarray ' + node.type_.type_,
@@ -1632,7 +1618,7 @@ class CodeGenerator(object):
             # It's multi-dimensional
             for child in node.children[1:]:
                 # Get the sizes of each dimenion on the stack
-                self._visit(child)
+                visit(self, child)
             self._add_iln('multianewarray ' + get_jvm_type(node) + ' ' +
                           str(len(node.children[1:])),
                           ';Construct a new multidimensional array')
@@ -1640,7 +1626,7 @@ class CodeGenerator(object):
     def _visit_matrix_init_node(self, node):
         for child in node.children:
             # Get the sizes of each dimenion on the stack
-            self._visit(child)
+            visit(self, child)
         self._add_iln('multianewarray [[D 2',
                       ';Construct a new multidimensional array')
         
@@ -1708,11 +1694,11 @@ class CodeGenerator(object):
             # Hack because there is no top-level interface, yet
             # Jasmin requires one
             self._add_ln('.super java/lang/Object')
-        self._visit(children[2])
+        visit(self, children[2])
     
     def _visit_interface_body_node(self, node):
         for child in node.children:
-            self._visit(child)
+            visit(self, child)
     
     def _visit_abs_method_dcl_node(self, node):
         self._gen_interface_method(node)

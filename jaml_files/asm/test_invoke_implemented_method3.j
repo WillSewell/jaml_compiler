@@ -13,4 +13,5 @@
 	.limit locals 100
 	ldc 10				;Load constant numerical value 10
 	ireturn				;Return from method
+	return
 .end method

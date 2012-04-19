@@ -1,6 +1,7 @@
 from symbols import (ClassSymbol, InterfaceSymbol, MethodSymbol,
                      ConstructorSymbol, ArraySymbol, VarSymbol, FieldSymbol)
-from utilities.utilities import ArrayType, camel_2_underscore, get_full_type
+from utilities.utilities import (ArrayType, get_full_type,
+                                 visit)
 from exceptions import (MethodNotImplementedError, VariableNameError,
                         ClassSignatureError)
 from semantic_analysis.symbols import ArrayFieldSymbol
@@ -23,21 +24,9 @@ class ClassInterfaceMethodScanner(object):
             self._t_env.add_type(ast.children[0].value)
         # Next visit the top level nodes - class or interface dcls
         for ast in asts:
-            self._visit(ast)
+            visit(self, ast)
         # If a class implements an interface, check it implements it correctly
         self._verify_implementations(asts)
-
-    def _visit(self, node):
-        method = None
-        for class_ in node.__class__.__mro__:
-            method_name = '_visit' + class_.__name__
-            method_name = camel_2_underscore(method_name)
-            method = getattr(self, method_name, None)
-            if method:
-                break
-        if not method:
-            return None
-        return method(node)
 
     def _visit_class_node(self, node):
         """Create a class symbol and add methods to it."""
@@ -94,7 +83,7 @@ class ClassInterfaceMethodScanner(object):
         for dcl in sorted(dcls):
             # Sorted causes the field dcls to appear first, so after, the
             # parameters can be checked for name clashes
-            dcl_s = self._visit(dcl)
+            dcl_s = visit(self, dcl)
             if dcl_s != None:
                 if isinstance(dcl_s, MethodSymbol):
                     symbol.add_method(dcl_s)
@@ -168,7 +157,7 @@ class ClassInterfaceMethodScanner(object):
         type_ = self._get_method_node_type(node)
         # Create variable symbols for each parameter, and add them to
         # the method symbol
-        params = self._visit(node.children[2])
+        params = visit(self, node.children[2])
         if params == None: 
             params = [] 
         method_s = MethodSymbol(name, type_, params)
@@ -192,7 +181,7 @@ class ClassInterfaceMethodScanner(object):
         name = node.children[0].value
         type_ = self._get_method_node_type(node)
         type_ = ArrayType(type_, node.children[2].value)
-        params = self._visit(node.children[3])
+        params = visit(self, node.children[3])
         if params == None: 
             params = [] 
         method_s = MethodSymbol(name, type_, params)
@@ -215,7 +204,7 @@ class ClassInterfaceMethodScanner(object):
         name = node.children[0].value
         # Create variable symbols for each parameter, and add them to
         # the method symbol
-        params = self._visit(node.children[1])
+        params = visit(self, node.children[1])
         if params == None: 
             params = [] 
         constructor_s = ConstructorSymbol(name, params)

@@ -42,8 +42,7 @@ class MatrixType(object):
         self._dimension2 = dimension2
 
     def __eq__(self, other):
-        """This is so the attributes can be compared with another
-        matrix type
+        """This is so the attributes can be compared with another matrix type
         """
         try:
             if self._dimension1 == other.dimension1:
@@ -66,6 +65,33 @@ class MatrixType(object):
 
     dimension1 = property(_get_dimension1)
     dimension2 = property(_get_dimension2)
+
+def visit(source_object, node, env = None):
+    """Looks up the correct method to call in source_object based on the type
+    of node. TypeChecker methods also need the env.
+    Code from: http://peter-hoffmann.com/2010
+    extrinsic-visitor-pattern-python-inheritance.html
+    """
+    method = None
+    # Search through super classes of the nodes type
+    for class_ in node.__class__.__mro__:
+        # Convert the camel case name into a underscored name prefixed with
+        # _visit - this corrosponds to the method's name
+        method_name = '_visit' + class_.__name__
+        method_name = camel_2_underscore(method_name)
+        # Get the method attribute
+        method = getattr(source_object, method_name, None)
+        if method:
+            break
+    if not method:
+        # Some nodes do not need to be type checked -
+        # for example, interfaces
+        return None
+    # Run the method with the node and return the result
+    if env is not None:
+        return method(node, env)
+    else:
+        return method(node)
     
 def camel_2_underscore(string):
     """Converts a CamelCase string to one where the words are
@@ -76,8 +102,8 @@ def camel_2_underscore(string):
     return re.sub('([a-z0-9])([A-Z])', r'\1_\2', s1).lower()
 
 def get_full_type(type_, t_env):
-    """This gets the full _name of the type, given the type information
-    held in a top level environment.
+    """This gets the full _name of the type, given the type information held
+    in a top level environment.
     """
     if type_ not in t_env.types + ['void']:
         # It might already be a full class type
