@@ -1,3 +1,6 @@
+"""This module contains the parser which parses the files and searches for
+other required JaML files to compile.
+"""
 import os
 from spark import GenericParser
 from scanner import Scanner
@@ -11,8 +14,9 @@ class ClassDoesNotExist(Exception):
 
 class Parser(GenericParser):
     def __init__(self, start = 'file'):
+        """Initialise the parser with the start production rule."""
         GenericParser.__init__(self, start)
-    
+
     def run_parser(self, file_, lib_classes = None):
         """parses a jml file and returns a list of abstract syntax trees, or
         parses a string containing JaML code.
@@ -118,9 +122,9 @@ class Parser(GenericParser):
         return new
 
     def _check_static_ref(self, id_node, cur_dir):
-        """For a given identifier, this checks if it is a static
-        reference to a class by searching for files in the same folder
-        as the current class from one with the matching name.
+        """For a given identifier, this checks if it is a static reference to
+        a class by searching for files in the same folder as the current class
+        from one with the matching name.
         """
         listing = os.listdir(cur_dir)
         for file_name in listing:
@@ -135,7 +139,7 @@ class Parser(GenericParser):
         file ::= interface_dcl
         """
         return args[0]
-    
+
     def p_class_dcl(self, args):
         """
         class_dcl ::= class_mods class_dcl_rest
@@ -170,13 +174,15 @@ class Parser(GenericParser):
         root.add_children([nodes.EmptyNode(), args[3], args[4]])
         return root
     def p_class_dcl_extends_implements_rest(self, args):
-        """ class_dcl_rest ::= CLASS ID EXTENDS ID IMPLEMENTS implements class_body """
+        """ class_dcl_rest ::= CLASS ID EXTENDS ID IMPLEMENTS
+                                                        implements class_body
+        """
         root = nodes.ClassNode()
         root.add_child(nodes.IdNode(args[1].attr))
         root.add_child(nodes.ExtendsNode(args[3].attr))
         root.add_children([args[5], args[6]])
         return root
-    
+
     def p_class_modifiers(self, args):
         """
         class_mods ::= ABSTRACT
@@ -229,7 +235,7 @@ class Parser(GenericParser):
     def p_class_body_dcl_var(self, args):
         """ class_body_dcl ::= class_body_dcl field_dcl """
         return args[0] + [args[1]]
-    
+
     def p_field_dcl(self, args):
         """
         field_dcl ::= field_mods field_dcl_rest
@@ -240,7 +246,7 @@ class Parser(GenericParser):
             return args[1]
         except IndexError:
             return args[0]
-    
+
     def p_field_dcl_rest(self, args):
         """ field_dcl_rest ::= type ID ; """
         root = nodes.FieldDclNode()
@@ -262,7 +268,7 @@ class Parser(GenericParser):
     def p_field_dcl_assign(self, args):
         """ field_dcl_rest ::= type ID ASSIGN_OP literal ; """
         return self._var_dcl_assign_node('field', args)
-    
+
     def p_field_modifiers(self, args):
         """
         field_mods ::= PRIVATE
@@ -277,7 +283,7 @@ class Parser(GenericParser):
                 return [args[0].name.lower()]
             except AttributeError:
                 return args[0]
-    
+
     def p_static_final_mods1(self, args):
         """
         static_final_mods ::= FINAL STATIC
@@ -299,7 +305,7 @@ class Parser(GenericParser):
         root.add_child(nodes.IdNode(args[0].attr))
         root.add_children(args[1:3])
         return root
-    
+
     def p_method_dcl(self, args):
         """
         method_dcl ::= ABSTRACT abs_method_dcl
@@ -341,7 +347,7 @@ class Parser(GenericParser):
         root.add_children([args[0], nodes.DimensionsNode(args[1])])
         root.add_children(args[3:5])
         return root
-    
+
     def p_method_modifiers(self, args):
         """
         method_mods ::= PRIVATE
@@ -454,7 +460,7 @@ class Parser(GenericParser):
     def p_var_dcl_array_init2(self, args):
         """ var_dcl ::= type ID array_brackets ASSIGN_OP expr ; """
         return self._var_dcl_array_init_node('local', args)
-    
+
     def _var_dcl_assign_node(self, type_, args):
         root = None
         if type_ == 'field':
@@ -556,20 +562,20 @@ class Parser(GenericParser):
         return root
 
     def p_while_stmt(self, args):
-        """while_stmt ::= WHILE ( expr ) block"""
+        """while_stmt ::= WHILE ( expr ) block """
         root = nodes.WhileNode()
         root.add_children([args[2], args[4]])
         return root
 
     def p_for_stmt(self, args):
-        """for_stmt ::= FOR ( var_dcl expr ; expr ) block"""
+        """for_stmt ::= FOR ( var_dcl expr ; expr ) block """
         root = nodes.ForNode()
         root.add_children([args[2], args[3], args[5], args[7]])
         return root
 
     # Note: the Earley parser favours rules written left recursively,
     # which is why the following rules are of that form
-    
+
     def p_expr(self, args):
         """
         expr ::= cond_or_expr
@@ -609,7 +615,7 @@ class Parser(GenericParser):
         relation_expr ::= relation_expr REL_OP add_expr
         """
         return self._gen_expr_tree(args, nodes.RelNode)
-        
+
     def p_add_expr(self, args):
         """
         add_expr ::= mul_expr
@@ -623,7 +629,7 @@ class Parser(GenericParser):
         mul_expr ::= mul_expr MUL_OP unary_expr
         """
         return self._gen_expr_tree(args, nodes.MulNode)
-    
+
     def _gen_expr_tree(self, args, node):
         """Helper method to do generic tree construction needed for
         binary expressions.
@@ -745,21 +751,21 @@ class Parser(GenericParser):
         for arg in args[0]:
             root.add_child(arg)
         return root
-        
+
     def p_args_base(self, args):
         """ args ::= expr """
         return [args[0]]
     def p_args(self, args):
         """ args ::= args , expr """
         return args[0] + [args[2]]
-    
+
     def p_field_ref(self, args):
         """ field_ref ::= ID . ID """
         root = nodes.FieldRefNode()
         root.add_child(nodes.IdNode(args[0].attr))
         root.add_child(nodes.IdNode(args[2].attr))
         return root
-    
+
     def p_field_ref_super(self, args):
         """field_ref ::= SUPER . ID """
         root = nodes.FieldRefSuperNode()
@@ -780,7 +786,7 @@ class Parser(GenericParser):
     def p_array_suffix2(self, args):
         """ array_suffix ::= array_suffix [ expr ]  """
         return args[0] + [args[2]]
-    
+
     def p_matrix_element(self, args):
         """ matrix_element ::= ID | expr , expr | """
         root = nodes.MatrixElementNode()
@@ -837,9 +843,9 @@ class Parser(GenericParser):
         root.add_children([args[1], args[3]])
         return root
 
-################################################################################
+##############################################################################
 ## RULES FOR INTERFACES
-################################################################################
+##############################################################################
 
     def p_inteface_dcl(self, args):
         """ interface_dcl ::= INTERFACE ID interface_body """

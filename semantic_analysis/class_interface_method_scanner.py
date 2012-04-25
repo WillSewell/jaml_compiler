@@ -1,3 +1,6 @@
+"""This module contains the ClassInterfaceMethodScanner for building up the
+top environment.
+"""
 from symbols import (ClassSymbol, InterfaceSymbol, MethodSymbol,
                      ConstructorSymbol, ArraySymbol, VarSymbol, FieldSymbol)
 from utilities.utilities import (ArrayType, get_full_type,
@@ -8,7 +11,7 @@ from semantic_analysis.symbols import ArrayFieldSymbol
 
 class ClassInterfaceMethodScanner(object):
     """Provides an initial sweep through the higher level nodes in the ast
-    looking for classes / interfaces / methods so symbols can be created, 
+    looking for classes / interfaces / methods so symbols can be created,
     and can be added to the top environment.
     """
     def __init__(self, t_env):
@@ -65,7 +68,7 @@ class ClassInterfaceMethodScanner(object):
         if parent != '':
             # Add subclass to super class
             interface_s.super_interface = parent
-    
+
     def _add_members(self, symbol, node):
         """For a class or interface symbol, and it's corresponding ast node,
         add it's method and field symbols to the class or interface
@@ -93,7 +96,7 @@ class ClassInterfaceMethodScanner(object):
                     # It's a field
                     self._check_field_name(dcl_s)
                     symbol.add_field(dcl_s)
-    
+
     def _check_field_name(self, field_s):
         """Checks a field has a name that isn't the same as the name of a type.
         """
@@ -101,7 +104,7 @@ class ClassInterfaceMethodScanner(object):
             msg = ('field "' + field_s.name +
                    '" cannot have the same name as a type!')
             raise VariableNameError(msg)
-    
+
     def _visit_field_dcl_node(self, node):
         """Helper method for scan_classes_methods which scans properties of the
         method, create a symbol for it, and returns it.
@@ -123,7 +126,7 @@ class ClassInterfaceMethodScanner(object):
         self._field_names.append(name)
         field_s.modifiers = node.modifiers
         return field_s
-    
+
     def _visit_field_dcl_assign_node(self, node):
         field_s = None
         try:
@@ -145,10 +148,10 @@ class ClassInterfaceMethodScanner(object):
 
     def _visit_method_dcl_node(self, node):
         return self._scan_method(node)
-    
+
     def _visit_abs_method_dcl_node(self, node):
         return self._scan_method(node)
-    
+
     def _scan_method(self, node):
         """Helper method for scan_classes_methods which scans properties of the
         method, create a symbol for it, and returns it
@@ -158,8 +161,8 @@ class ClassInterfaceMethodScanner(object):
         # Create variable symbols for each parameter, and add them to
         # the method symbol
         params = visit(self, node.children[2])
-        if params == None: 
-            params = [] 
+        if params == None:
+            params = []
         method_s = MethodSymbol(name, type_, params)
         try:
             method_s.modifiers = node.modifiers
@@ -170,10 +173,10 @@ class ClassInterfaceMethodScanner(object):
 
     def _visit_method_dcl_array_node(self, node):
         return self._scan_method_array(node)
-        
+
     def _visit_abs_method_dcl_array_node(self, node):
         return self._scan_method_array(node)
-    
+
     def _scan_method_array(self, node):
         """Create a method symbol for a method which returns an array
         type.
@@ -182,8 +185,8 @@ class ClassInterfaceMethodScanner(object):
         type_ = self._get_method_node_type(node)
         type_ = ArrayType(type_, node.children[2].value)
         params = visit(self, node.children[3])
-        if params == None: 
-            params = [] 
+        if params == None:
+            params = []
         method_s = MethodSymbol(name, type_, params)
         method_s.modifiers = node.modifiers
         return method_s
@@ -195,7 +198,7 @@ class ClassInterfaceMethodScanner(object):
         if type_node.value != 'void':
             type_ = get_full_type(type_node.value, self._t_env)
         return type_
-    
+
     def _visit_constructor_dcl_node(self, node):
         """Creates a constructor symbol in much the same way as regular
         methods.  The difference is constructors do not have return
@@ -205,8 +208,8 @@ class ClassInterfaceMethodScanner(object):
         # Create variable symbols for each parameter, and add them to
         # the method symbol
         params = visit(self, node.children[1])
-        if params == None: 
-            params = [] 
+        if params == None:
+            params = []
         constructor_s = ConstructorSymbol(name, params)
         constructor_s.modifiers = node.modifiers
         return constructor_s
@@ -236,18 +239,18 @@ class ClassInterfaceMethodScanner(object):
             # or field name
             self._check_param_name(p_name)
         return params
-    
+
     def get_param_symbols(self, node):
         """A public facing interface to the above method for use by the
         semantic analyser.
         """
         return self._visit_param_list_node(node)
-    
+
     def _check_param_name(self, name):
         """Check the local variable does not have the same name as a field or
         a type.
         """
-        if (name in self._field_names 
+        if (name in self._field_names
             or name in self._t_env.types):
             msg = ('Parameter "' + name +
                    '" cannot have the same name as a type, field or parameter!')
@@ -261,7 +264,7 @@ class ClassInterfaceMethodScanner(object):
                 if ast.children[1] != '':
                     # It implements an interface
                     self._check_correctly_implemented(ast)
-    
+
     def _check_correctly_implemented(self, class_node):
         """Checks if a particular class node implements correctly all the
         methods from the interface(s) it implements.
@@ -273,7 +276,7 @@ class ClassInterfaceMethodScanner(object):
         for interface in interfaces:
             if interface in self._t_env.lib_classes.keys():
                 msg = 'Implementing library interfaces is unsupported!'
-                raise ClassSignatureError(msg) 
+                raise ClassSignatureError(msg)
             interface_s = self._t_env.get_interface_s(interface)
             interfaces_s.append(interface_s)
             # Add any super interfaces
@@ -286,7 +289,7 @@ class ClassInterfaceMethodScanner(object):
                 if res == False:
                     msg = 'Method "' + i_method.name + '" not implemented!'
                     raise MethodNotImplementedError(msg)
-    
+
     def _add_super_interfaces(self, cur_interface, interfaces_s):
         """Adds any super interface (and their super interfaces) to the list
         of super interface symbols.
@@ -301,7 +304,7 @@ class ClassInterfaceMethodScanner(object):
             else:
                 has_super = False
         return interfaces_s
-                        
+
     def _search_c_methods(self, i_method, class_s):
         """Searches through all methods of class_s for one with the same
         signature as i_method.

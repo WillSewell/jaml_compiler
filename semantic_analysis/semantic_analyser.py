@@ -17,8 +17,6 @@ from utilities.utilities import (ArrayType, visit, get_full_type,
                                  is_main, get_jvm_type)
 from semantic_analysis.symbols import LibFieldSymbol, LibConsSymbol
 
-# TODO: SPLIT LIB CLASSES INTO LIB CLASSES AND INTERFACES!
-
 class TypeChecker(object):
     """This class allows for type checking of a particular program.
     Also tags nodes in the AST with type information if applicable.
@@ -34,7 +32,7 @@ class TypeChecker(object):
         self._get_interface_s = self._t_env.get_interface_s
         # Used to make sure there aren't two main methods
         self._seen_main = False
-        
+
     def analyse(self, program):
         """Type check a given program as a string, or a program as a
         text file.
@@ -49,7 +47,7 @@ class TypeChecker(object):
             env = Environment(None)
             visit(self, ast, env)
         return asts, self._t_env
-    
+
     def _scan_lib_classes(self):
         """Scan classes which can be used from the java library."""
         root = os.path.dirname(__file__)
@@ -75,7 +73,7 @@ class TypeChecker(object):
         visit(self, node.children[1], env)
         visit(self, node.children[2], env)
         # Read the large comment in the method below for an explanation of this:
-        if (isinstance(node.children[3], nodes.EmptyNode) and 
+        if (isinstance(node.children[3], nodes.EmptyNode) and
             self._does_super_have_params(class_s)):
             msg = ('There must be a constructor which invokes the super ' +
                    'classes constructor!')
@@ -119,7 +117,7 @@ class TypeChecker(object):
             msg = ('There must be a constructor which invokes the super ' +
                    'classes constructor!')
             raise ConstructorError(msg)
-    
+
     def _does_super_have_params(self, class_s):
         """Returns whether or not the constructor of the super class of
         class_s has parameters.
@@ -134,12 +132,12 @@ class TypeChecker(object):
             # No explicit super class
             pass
         return has_params
-    
+
     def _visit_field_dcl_node(self, node, env):
         visit(self, node.children[1], env)
         node.type_ = visit(self, node.children[0], env)
         return node.type_
-    
+
     def _visit_field_dcl_assign_node(self, node, env):
         """Final fields are declared with an assignment to a literal value
         (number or String).
@@ -159,13 +157,13 @@ class TypeChecker(object):
             self._check_num_types(node.type_, rh_type);
         except TypeError:
             # It has to be a String
-            if (node.type_ != 'java/lang/String' or 
+            if (node.type_ != 'java/lang/String' or
                 rh_type != 'java/lang/String'):
                 msg = ('Assignment with a field declaration must be of a ' +
                        'numerical or string type!')
                 raise TypeError(msg)
         return node.type_
-    
+
     def _visit_constructor_dcl_node(self, node, env):
         # Update the current method
         env.cur_method = env.cur_class.constructor
@@ -176,7 +174,7 @@ class TypeChecker(object):
         # Check the parameter's types are legitimate
         visit(self, node.children[1], env)
         # If the class extends one which has a constructor which takes
-        # arguments, it must be called with the super keywords on the first 
+        # arguments, it must be called with the super keywords on the first
         # line of this constructor
         try:
             super_s = self._get_class_s(env.cur_class.super_class)
@@ -225,7 +223,7 @@ class TypeChecker(object):
         visit(self, node.children[3], env)
         # Check the method has a return statement
         self._check_method_return(node, env)
-            
+
     def _visit_method_dcl_array_node(self, node, env):
         """Like above, but the method returns an array."""
         # Update the current method
@@ -242,7 +240,7 @@ class TypeChecker(object):
         visit(self, node.children[4], env)
         # Check the method has a return statement
         self._check_method_return(node, env)
-    
+
     def _check_override(self, name, env):
         """Checks if a method overrides one in the super class, if it does -
         check that it's not "final"."""
@@ -263,12 +261,12 @@ class TypeChecker(object):
         """
         for param in node.children:
             visit(self, param, env)
-    
+
     def _visit_param_dcl_node(self, node, env):
         """Tag with the correct type."""
         node.type_ = visit(self, node.children[0], env)
         return node.type_
-        
+
     def _check_method_return(self, node, env):
         """Check a type checked method has a return statement"""
         # Check the method has a return statement if it has a ret type
@@ -293,7 +291,7 @@ class TypeChecker(object):
         # Tag the type
         node._type = var_s.type_
         return var_s.type_
-    
+
     def _visit_var_dcl_assign_node(self, node, env):
         """This is like the above method, but where there is an assignment
         which must also be checked.
@@ -307,7 +305,7 @@ class TypeChecker(object):
         # Type check the expression
         visit(self, node.children[1], env)
         return var_s.type_
-    
+
     def _gen_var_s(self, node, env):
         """Helper method to generate a variable symbol from a variable
         declaration statement.  Used by field declarations, local variable
@@ -335,7 +333,7 @@ class TypeChecker(object):
         # parameter
         self._check_var_name(name, env)
         return var_s
-    
+
     def _gen_var_s_assign(self, node, env):
         """Like above, but works for variable declaration with
         assignment nodes.
@@ -363,7 +361,7 @@ class TypeChecker(object):
         # field or parameter
         self._check_var_name(name, env)
         return var_s
-    
+
     def _check_var_name(self, name, env):
         """Check the local variable does not have the same name as
         a field, a parameter, a type, or another local variable.
@@ -446,7 +444,7 @@ class TypeChecker(object):
         self._check_is_assignable(l_child_type, r_child_type, env)
         node.type_ = l_child_type
         return l_child_type
-    
+
     def _check_final(self, symbol):
         """Checks if a given variable that is being assigned to is not final,
         if it is - this produces an error."""
@@ -526,7 +524,7 @@ class TypeChecker(object):
             else:
                 # No super class
                 return False
-    
+
     def _is_implemented_by(self, lh_type, rh_type):
         """Checks to see whether the rh type implements the lh type or one of
         its super interfaces works in much the same way as the above method.
@@ -571,7 +569,7 @@ class TypeChecker(object):
                    'second child was not "boolean"!')
             raise TypeError(msg)
         # For non primitive types (objects arrays) it's about whether the
-        # reference is the same, we can't just check the types are the same 
+        # reference is the same, we can't just check the types are the same
         # because the same object reference could be of a base type on one side
         # and a super type on the other.  We must check if one is assignable to
         # the others type and vice versa; if either isn't, there's no way the
@@ -647,7 +645,7 @@ class TypeChecker(object):
                 raise TypeError(msg)
             else:
                 node.type_ = 'matrix'
-        elif (lh_type not in self._t_env.nums or 
+        elif (lh_type not in self._t_env.nums or
               rh_type not in self._t_env.nums):
             msg = ('Type error in multiplicative node - ' +
                    'both children must be numbers are matrices!')
@@ -667,7 +665,7 @@ class TypeChecker(object):
         # numbers can be assigned to ones of a higher index
         lh_idx = self._t_env.nums.index(l_child.type_)
         rh_idx = self._t_env.nums.index(r_child.type_)
-        
+
         if l_child.type_ == r_child.type_:
             # If they are the same, return type of either children
             return l_child.type_
@@ -750,7 +748,7 @@ class TypeChecker(object):
                 msg = 'The indices into arrays must be of an integer type!'
                 raise TypeError(msg)
         return node.type_
-    
+
     def _visit_matrix_element_node(self, node, env):
         """Check the matrix has been declared, and the number of dimensions
         match.
@@ -800,7 +798,7 @@ class TypeChecker(object):
         # and tag the node's type
         node.type_ = self._find_method(class_name, node, is_static, env)
         return node.type_
-    
+
     def _visit_method_call_super_node(self, node, env):
         """Uses the _find_method method to search for the method in the super
         classes.
@@ -808,7 +806,7 @@ class TypeChecker(object):
         super_ = env.cur_class.super_class
         node.type_ = self._find_method(super_, node, False, env)
         return node.type_
-    
+
     def _find_method(self, class_, node, is_static, env):
         """Recursively search for a given method in the full inheritance tree
         for a particular class.  Returns the methods return type.
@@ -864,7 +862,7 @@ class TypeChecker(object):
                 # Or super interface
                 super_ = class_s.super_interface
                 return self._find_method(super_, node, is_static, env)
-    
+
     def _check_static(self, symbol, is_static):
         """For a given method or field, this throws an error if it is not
         static when it should have been, and vice versa.
@@ -904,7 +902,7 @@ class TypeChecker(object):
             arg_type = visit(self, args_list.children[idx], env)
             # Check types are compatible
             self._check_is_assignable(param.type_, arg_type, env)
-    
+
     def _check_lib_method(self, class_, node, env):
         """Uses the library class checker to check the method exists
         with the argument types provided.
@@ -938,7 +936,7 @@ class TypeChecker(object):
             symbol.modifiers = []
         self._t_env.add_lib_method(symbol)
         return ret_type
-    
+
     def _get_arg_types(self, node, env):
         """Used by _check_lib_method and _check_lib_cons to get a list of the
         argument's types from the root node.
@@ -992,7 +990,7 @@ class TypeChecker(object):
             self._check_lib_cons(node, env)
         node.type_ = get_full_type(node.children[0].value, self._t_env)
         return node.type_
-    
+
     def _check_lib_cons(self, node, env):
         """Uses the library class checker to check the constructor arguments
         are correct.
@@ -1010,12 +1008,12 @@ class TypeChecker(object):
         symbol = LibConsSymbol(full_class, arg_types)
         self._t_env.add_lib_cons(symbol)
         # TODO: ADD A WAY TO CHECK ABSTRACT?  IN THE SAME WAY AS STATIC IS CHECKED FOR METHODS.
-    
+
     def _visit_args_list_node(self, node, env):
         """Tag the type of each argument."""
         for arg in node.children:
             visit(self, arg, env)
-    
+
     def _visit_field_ref_node(self, node, env):
         """Check the field exists in the class, and tag and return the type."""
         # First get the name of the class in order to get the
@@ -1054,7 +1052,7 @@ class TypeChecker(object):
             field_s = self._find_field(class_name, field_name, is_static, env)
             node.type_ = field_s.type_
         return node.type_
-    
+
     def _visit_field_ref_super_node(self, node, env):
         # Get the type (the class) of the super class
         super_ = env.cur_class.super_class
@@ -1083,7 +1081,7 @@ class TypeChecker(object):
                        'an integer!')
                 raise TypeError(msg)
         return node.type_
-    
+
     def _visit_matrix_init_node(self, node, env):
         """Check the indices and return the type."""
         for child in node.children:
@@ -1094,7 +1092,7 @@ class TypeChecker(object):
                 raise TypeError(msg)
         node.type_ = 'matrix'
         return node.type_
-    
+
     def _visit_extends_node(self, node, env):
         """Check code for an extends node - the class or interface that is
         extended from must exist.
@@ -1113,7 +1111,7 @@ class TypeChecker(object):
             # It was in a library class
             msg = 'Subclassing library classes is unsupported!'
             raise ClassSignatureError(msg)
-    
+
     def _visit_implements_list_node(self, node, env):
         """Check each interface that is implemented exists."""
         for interface in node.children:
@@ -1121,7 +1119,7 @@ class TypeChecker(object):
             interface.type_ = get_full_type(interface.value, self._t_env)
             # It can't be a library class, this has already been
             # Checked in class_interface_method_scanner
-            
+
     def _visit_id_node(self, node, env):
         """If it's an identifier the type needs to be looked up in env.
         This will also look check if it is a reference to a parameter
@@ -1130,7 +1128,7 @@ class TypeChecker(object):
         var_s = self._get_var_s_from_id(node.value, env, True)
         node.type_ = var_s.type_
         return var_s.type_
-    
+
     def _get_var_s_from_id(self, name, env, check_init):
         """Get's a variable, parameter or field symbol, given its name.
         Gives an error if the variable/field has not been initialised,
@@ -1187,7 +1185,7 @@ class TypeChecker(object):
                     msg = 'Variable "' + name + '" undeclared in current scope!'
                     raise SymbolNotFoundError(msg)
         return symbol
-    
+
     def _find_field(self, class_, field, is_static, env):
         """Recursively search for a given field in the full inheritance
         tree for a particular class.  Returns the field's type.
@@ -1212,7 +1210,7 @@ class TypeChecker(object):
         except SymbolNotFoundError:
             # See if it is in a super class
             return self._find_field(class_s.super_class, field, is_static, env)
-    
+
     def _check_lib_field(self, class_, field, env):
         """Uses the library class checker to check the field exists."""
         full_class_name = get_full_type(class_, self._t_env)
@@ -1233,7 +1231,7 @@ class TypeChecker(object):
             symbol.modifiers = []
         self._t_env.add_lib_field(symbol)
         return type_
-            
+
 
     def _visit_literal_node(self, node, env):
         """Returns the literal's type."""
@@ -1261,7 +1259,7 @@ class TypeChecker(object):
         if env.cur_method.type_ != 'void':
             raise TypeError('Method must return "void"!')
         return 'void'
-    
+
     def _visit_empty_node(self, node, env):
         """Simply return."""
         return
@@ -1269,7 +1267,7 @@ class TypeChecker(object):
     def _visit_type_node(self, node, env):
         """Simply return the value."""
         return node.value
-    
+
     def _visit_class_type_node(self, node, env):
         """Checks that the type is valid."""
         return get_full_type(node.value, self._t_env)
@@ -1277,7 +1275,7 @@ class TypeChecker(object):
     #######################################################################
     ## Interface checks
     #######################################################################
-    
+
     def _visit_interface_node(self, node, env):
         """Check an interface declaration node."""
         # Update the current interface
@@ -1288,12 +1286,12 @@ class TypeChecker(object):
         visit(self, node.children[1], env)
         # Visit the body to check method return types and param types
         visit(self, node.children[2], env)
-    
+
     def _visit_interface_body_node(self, node, env):
         """Simply check each method definition."""
         for child in node.children:
             visit(self, child, env)
-    
+
     def _visit_abs_method_dcl_node(self, node, env):
         """Check return type and parameter's types."""
         if env.cur_class != None:
@@ -1308,14 +1306,14 @@ class TypeChecker(object):
         visit(self, node.children[1], env)
         # Check the parameter's types are legitimate
         visit(self, node.children[2], env)
-    
+
     def _visit_abs_method_dcl_array_node(self, node, env):
         """Check return type and parameter's types."""
         # Check the return type is legitimate
         visit(self, node.children[1], env)
         # Check the parameter's types are legitimate
         visit(self, node.children[3], env)
-        
+
     def _run_lib_checker(self, args):
         """Run the library class type checker program with the
         specified arguments.
@@ -1345,7 +1343,7 @@ class TypeChecker(object):
                     return split[0], split[1], False
             else:
                 return output
-    
+
     def _convert_jvm_array_type_to_class(self, jvm_type):
         """Converts a JVM style array type (returned from checking java library
         classes) into the array type representation used in this program.

@@ -1,3 +1,7 @@
+"""This module contains the many possible AST nodes, as well as a list
+subclass to store each AST of a program in.
+"""
+
 class ProgramASTs(list):
     """An outer class to hold all the ASTs making up a program."""
     def __init__(self):
@@ -76,23 +80,23 @@ class InteriorNode(TreeNode):
     children = property(_get_children)
 
 class NodeWithModifiers(InteriorNode):
-    """A node with modifiers, such as static, final etc.
-    The modifiers parameter is a list of these modifiers.
+    """A node with modifiers, such as static, final etc. The modifiers
+    parameter is a list of these modifiers.
     """
     def __init__(self):
         """Initialise the modifiers."""
         super(NodeWithModifiers, self).__init__()
         self._modifiers = []
-    
+
     def _get_modifiers(self):
         return self._modifiers
-    
+
     def _set_modifiers(self, modifiers):
         self._modifiers = modifiers
-    
+
     modifiers = property(_get_modifiers, _set_modifiers)
 
-class ClassNode(NodeWithModifiers):     
+class ClassNode(NodeWithModifiers):
     def __str__(self):
         return 'Class Node'
 
@@ -120,20 +124,20 @@ class ClassAttributeNode(NodeWithModifiers):
     def __init__(self, order):
         super(ClassAttributeNode, self).__init__()
         self._order = order
-    
+
     def __lt__(self, other):
         return self._order < other.order
-    
+
     def _get_order(self):
         return self._order
-    
+
     order = property(_get_order)
 
 class FieldDclNode(ClassAttributeNode):
     def __init__(self):
         """Set the order to 0 - appears first."""
         super(FieldDclNode, self).__init__(0)
-        
+
     def __str__(self):
         return 'Field Declaration Node'
 
@@ -141,7 +145,7 @@ class FieldDclAssignNode(ClassAttributeNode):
     def __init__(self):
         """Set the order to 0 - appears first."""
         super(FieldDclAssignNode, self).__init__(0)
-        
+
     def __str__(self):
         return 'Field Declaration Node, of Array Type'
 
@@ -149,7 +153,7 @@ class ConstructorDclNode(ClassAttributeNode):
     def __init__(self):
         """Set the order to 1 - appears second."""
         super(ConstructorDclNode, self).__init__(1)
-    
+
     def __str__(self):
         return 'Constructor Declaration Node'
 
@@ -157,7 +161,7 @@ class MethodDclNode(ClassAttributeNode):
     def __init__(self):
         """Set the order to 2 - appears last."""
         super(MethodDclNode, self).__init__(2)
-        
+
     def __str__(self):
         return 'Method Declaration Node'
 
@@ -165,7 +169,7 @@ class MethodDclArrayNode(ClassAttributeNode):
     def __init__(self):
         """Set the order to 2 - appears last."""
         super(MethodDclArrayNode, self).__init__(2)
-        
+
     def __str__(self):
         return 'Method Declaration (Returns Array) Node'
 
@@ -300,7 +304,7 @@ class ObjectCreatorNode(InteriorNode):
 class ArrayInitNode(InteriorNode):
     def __str__(self):
         return 'Array Initialisation Node'
-    
+
 class MatrixInitNode(InteriorNode):
     def __str__(self):
         return 'Matrix Initialisation Node'

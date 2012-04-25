@@ -1,3 +1,6 @@
+"""This module holds the two types of environment (symbol table) used during
+type checking. The code generator also makes use of the top environment.
+"""
 from exceptions import SymbolNotFoundError
 from semantic_analysis.exceptions import VariableNameError
 
@@ -10,7 +13,8 @@ class TopEnvironment(object):
         self._class_table = dict()
         self._interface_table = dict()
         # Stores all numerical types
-        self._nums = ['byte', 'char', 'short', 'int', 'long', 'float', 'double']
+        self._nums = ['byte', 'char', 'short', 'int', 'long', 'float',
+                      'double']
         # Stores all possible types
         self._types = ['boolean'] + self._nums + lib_classes.keys()
         # Stores all library classes (currently only from java.lang)
@@ -51,7 +55,7 @@ class TopEnvironment(object):
         except KeyError:
             msg = 'Interface "' + name + '" does not exist!'
             raise SymbolNotFoundError(msg)
-    
+
     def get_class_or_interface_s(self, name):
         """Returns a class or interface symbol."""
         try:
@@ -79,7 +83,7 @@ class TopEnvironment(object):
 
     def get_nums(self):
         return self._nums
-    
+
     def get_lib_method(self, invoked_class, name, arg_types):
         """Get a library method signature given the type of the object it was
         invoked in, its name, and the types of its arguments.
@@ -94,11 +98,11 @@ class TopEnvironment(object):
         msg = ('Method ' + name + ' in class ' + invoked_class +
                ' with the arguments types provided does not exist!')
         raise SymbolNotFoundError(msg)
-    
+
     def add_lib_method(self, lib_method):
         """Add the library method symbol to the list."""
         self._lib_methods.append(lib_method)
-    
+
     def get_lib_cons(self, class_, arg_types):
         """Get a library constructor signature given the class it's in, its
         name, and the types of its arguments.
@@ -111,11 +115,11 @@ class TopEnvironment(object):
         msg = ('Constructor of class "' + class_ +
                '" does not accept arguments of the types provided!')
         raise SymbolNotFoundError(msg)
-    
+
     def add_lib_cons(self, symbol):
         """Add a library class constructor symbol to the list."""
         self._lib_cons.append(symbol)
-    
+
     def get_lib_field(self, refed_class, name):
         """Get a library field signature given the class it was referenced in,
         and its name.
@@ -126,7 +130,7 @@ class TopEnvironment(object):
         # Field not found, so raise error
         msg = 'Field ' + name + ' in class ' + refed_class + ' does not exist!'
         raise SymbolNotFoundError(msg)
-    
+
     def add_lib_field(self, symbol):
         """Add a library field symbol to the list."""
         self._lib_fields.append(symbol)
@@ -156,7 +160,7 @@ class Environment(object):
         if self._prev_table is not None:
             self._class = self._prev_table.cur_class
             self._method = self._prev_table.cur_method
-    
+
     def put_var_s(self, symbol):
         """Adds a variable or array symbol to the variable current
         symbol table.
@@ -200,4 +204,4 @@ class Environment(object):
         return self._method
 
     cur_method = property(get_cur_method, set_cur_method)
-    cur_class = property(get_cur_class, set_cur_class)   
+    cur_class = property(get_cur_class, set_cur_class)

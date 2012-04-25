@@ -1,3 +1,7 @@
+"""This module stores the various exceptions that can be thrown by the type
+checker.
+"""
+
 class JamlException(Exception):
     """Generic exception type for this project."""
     pass
@@ -56,6 +60,6 @@ class AssignmentError(JamlException):
 
 class ObjectCreationError(JamlException):
     """Raised when there is an issue with the instantiation of a class."""
-    
+
 class StaticError(JamlException):
     """Raised when a static method/field is not referenced correctly."""
