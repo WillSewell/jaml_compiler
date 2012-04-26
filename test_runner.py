@@ -7,6 +7,7 @@ from code_generation.code_generation_test.code_generator_test \
     import TestCodeGenerator
 
 if __name__ == '__main__':
+    print 'running tests, this can take some time (over a minute)'
     # Create suites from all test cases
     parser_suite = unittest.makeSuite(TestParser, 'test')
     semantic_analyser_suite = unittest.makeSuite(TestSemanticAnalyser, 'test')

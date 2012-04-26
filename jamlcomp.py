@@ -15,4 +15,4 @@ if __name__ == '__main__':
         else:
             print 'Usage: jamlcomp <file> [<output directory>]'
     except Exception as error:
-        print 'Compilation error! Message: "' + error + '"'
+        print 'Compilation error! Message: "' + str(error) + '"'

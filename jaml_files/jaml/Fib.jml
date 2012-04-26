@@ -3,10 +3,12 @@ class Fib {
       int N = 10;
       int f = 0;
       int g = 1;
+      PrintStream ps = System.out;
 
       for (int i = 1; i <= N; i++) {
          f = f + g;
          g = f - g; 
+         ps.println(f);
       }
    }
 }
