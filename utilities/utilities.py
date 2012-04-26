@@ -181,6 +181,8 @@ def get_jvm_type(node_or_symbol):
         jvm_type += 'D'
     elif type_ == 'void':
         jvm_type += 'V'
+    elif type_ == 'matrix':
+        jvm_type += '[[D'
     else:
         # It's a class type
         jvm_type += 'L' + type_ + ';'

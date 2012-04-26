@@ -39,8 +39,7 @@ class Parser(GenericParser):
             parsed = nodes.ProgramASTs()
             while to_parse:
                 # Append file information to the class names
-                file_name = os.path.join(dir_,
-                             to_parse[0] + '.jml')
+                file_name = os.path.join(dir_, to_parse[0] + '.jml')
                 # Get the raw input
                 raw = open(file_name)
                 input_ = raw.read()
@@ -49,8 +48,7 @@ class Parser(GenericParser):
                 ast = self.parse(tokens)
                 # Check the class and file are named the same
                 if to_parse[0] != ast.children[0].value:
-                    msg = ('Class name and file name ' +
-                           'do not match!')
+                    msg = 'Class name and file name do not match!'
                     raise NameError(msg)
                 to_parse.pop(0)
                 parsed.append(ast)
@@ -58,8 +56,7 @@ class Parser(GenericParser):
                 if lib_classes == None:
                     lib_classes = {}
                 refed_classes = self._find_refed_classes
-                refed_classes = refed_classes(ast, seen, [],
-                                  lib_classes, dir_)
+                refed_classes = refed_classes(ast, seen, [], lib_classes, dir_)
                 seen += refed_classes
                 to_parse += refed_classes
             return parsed
@@ -80,13 +77,13 @@ class Parser(GenericParser):
         try:
             # The try will fail if it's a leaf
             children = node.children
-            # Need to check object_creator nodes because subclasses
-            # that are assigned to variables of type superclass
-            # must also be parsed.  Also, extends nodes must be
-            # checked.
+            # Need to check object_creator nodes because subclasses that are
+            # assigned to variables of type superclass must also be parsed.
+            # Also, extends nodes must be checked.
             if isinstance(node, nodes.ObjectCreatorNode):
                 class_name = children[0].value
-                if class_name not in seen:
+                if (class_name not in seen and
+                        class_name not in lib_classes.keys()):
                     new.append(class_name)
                 # Search in the arguments (if any)
                 try:
@@ -95,14 +92,13 @@ class Parser(GenericParser):
                 except IndexError: pass
             elif (isinstance(node, nodes.MethodCallLongNode) or
                   isinstance(node, nodes.FieldRefNode)):
-                # Check if the first child is a static reference
-                # to a class, if it is, add the class to parse
+                # Check if the first child is a static reference to a class,
+                # if it is, add the class to parse
                 id_node = node.children[0]
                 if self._check_static_ref(id_node, cur_dir):
                     new.append(id_node.value)
                 try:
-                    # Search in the arguments for methods
-                    # calls
+                    # Search in the arguments for methods calls
                     new += refed_classes(node.children[2], seen, [],
                                          lib_classes, cur_dir)
                 except IndexError: pass

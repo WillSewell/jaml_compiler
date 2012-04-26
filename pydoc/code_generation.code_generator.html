@@ -1,5 +1,5 @@
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!doctype html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <html><head><title>Python: module code_generation.code_generator</title>
 </head><body bgcolor="#f0f0f8">
 
@@ -8,7 +8,7 @@
 <td valign=bottom>&nbsp;<br>
 <font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong><a href="code_generation.html"><font color="#ffffff">code_generation</font></a>.code_generator</strong></big></big></font></td
 ><td align=right valign=bottom
-><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:////smbhome.uscs.susx.ac.uk/wjs25/workspace/jaml_compiler/code_generation/code_generator.py">\\smbhome.uscs.susx.ac.uk\wjs25\workspace\jaml_compiler\code_generation\code_generator.py</a></font></td></tr></table>
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:///C|/users/will/workspace/jaml_compiler/code_generation/code_generator.py">c:\users\will\workspace\jaml_compiler\code_generation\code_generator.py</a></font></td></tr></table>
     <p><tt>This&nbsp;module&nbsp;generates&nbsp;Jasmin&nbsp;assembly&nbsp;code&nbsp;from&nbsp;a&nbsp;type&nbsp;checked&nbsp;abstract<br>
 syntax&nbsp;tree.</tt></p>
 <p>
@@ -36,7 +36,7 @@ syntax&nbsp;tree.</tt></p>
 </font></dt><dt><font face="helvetica, arial"><a href="code_generation.code_generator.html#Frame">Frame</a>
 </font></dt></dl>
 </dd>
-<dt><font face="helvetica, arial"><a href="exceptions.html#Exception">exceptions.Exception</a>(<a href="exceptions.html#BaseException">exceptions.BaseException</a>)
+<dt><font face="helvetica, arial"><a href="semantic_analysis.exceptions.html#JamlException">semantic_analysis.exceptions.JamlException</a>(<a href="exceptions.html#Exception">exceptions.Exception</a>)
 </font></dt><dd>
 <dl>
 <dt><font face="helvetica, arial"><a href="code_generation.code_generator.html#FileReadError">FileReadError</a>
@@ -56,8 +56,8 @@ generation.<br>&nbsp;</tt></td></tr>
 <td width="100%">Methods defined here:<br>
 <dl><dt><a name="CodeGenerator-__init__"><strong>__init__</strong></a>(self)</dt></dl>
 
-<dl><dt><a name="CodeGenerator-compile_"><strong>compile_</strong></a>(self, source, dst<font color="#909090">=None</font>)</dt><dd><tt>This&nbsp;is&nbsp;the&nbsp;public&nbsp;method&nbsp;which&nbsp;takes&nbsp;the&nbsp;source&nbsp;file&nbsp;or<br>
-string,&nbsp;and&nbsp;generates&nbsp;the&nbsp;assembly&nbsp;code&nbsp;file.</tt></dd></dl>
+<dl><dt><a name="CodeGenerator-compile_"><strong>compile_</strong></a>(self, source, dst<font color="#909090">=None</font>)</dt><dd><tt>This&nbsp;is&nbsp;the&nbsp;public&nbsp;method&nbsp;which&nbsp;takes&nbsp;the&nbsp;source&nbsp;file&nbsp;or&nbsp;string,<br>
+and&nbsp;generates&nbsp;the&nbsp;assembly&nbsp;code&nbsp;file.</tt></dd></dl>
 
 <hr>
 Data descriptors defined here:<br>
@@ -71,7 +71,7 @@ Data descriptors defined here:<br>
 <table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
 <tr bgcolor="#ffc8d8">
 <td colspan=3 valign=bottom>&nbsp;<br>
-<font color="#000000" face="helvetica, arial"><a name="FileReadError">class <strong>FileReadError</strong></a>(<a href="exceptions.html#Exception">exceptions.Exception</a>)</font></td></tr>
+<font color="#000000" face="helvetica, arial"><a name="FileReadError">class <strong>FileReadError</strong></a>(<a href="semantic_analysis.exceptions.html#JamlException">semantic_analysis.exceptions.JamlException</a>)</font></td></tr>
     
 <tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
 <td colspan=2><tt>Raised&nbsp;when&nbsp;a&nbsp;reference&nbsp;to&nbsp;a&nbsp;variable&nbsp;is&nbsp;made&nbsp;when&nbsp;it&nbsp;has&nbsp;not&nbsp;been<br>
@@ -79,12 +79,13 @@ initialised.<br>&nbsp;</tt></td></tr>
 <tr><td>&nbsp;</td>
 <td width="100%"><dl><dt>Method resolution order:</dt>
 <dd><a href="code_generation.code_generator.html#FileReadError">FileReadError</a></dd>
+<dd><a href="semantic_analysis.exceptions.html#JamlException">semantic_analysis.exceptions.JamlException</a></dd>
 <dd><a href="exceptions.html#Exception">exceptions.Exception</a></dd>
 <dd><a href="exceptions.html#BaseException">exceptions.BaseException</a></dd>
 <dd><a href="__builtin__.html#object">__builtin__.object</a></dd>
 </dl>
 <hr>
-Data descriptors defined here:<br>
+Data descriptors inherited from <a href="semantic_analysis.exceptions.html#JamlException">semantic_analysis.exceptions.JamlException</a>:<br>
 <dl><dt><strong>__weakref__</strong></dt>
 <dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
 </dl>
@@ -94,7 +95,7 @@ Methods inherited from <a href="exceptions.html#Exception">exceptions.Exception<
 
 <hr>
 Data and other attributes inherited from <a href="exceptions.html#Exception">exceptions.Exception</a>:<br>
-<dl><dt><strong>__new__</strong> = &lt;built-in method __new__ of type object&gt;<dd><tt>T.<a href="#FileReadError-__new__">__new__</a>(S,&nbsp;...)&nbsp;-&gt;&nbsp;a&nbsp;new&nbsp;<a href="__builtin__.html#object">object</a>&nbsp;with&nbsp;type&nbsp;S,&nbsp;a&nbsp;subtype&nbsp;of&nbsp;T</tt></dl>
+<dl><dt><strong>__new__</strong> = &lt;built-in method __new__ of type object at 0x000000001E258760&gt;<dd><tt>T.<a href="#FileReadError-__new__">__new__</a>(S,&nbsp;...)&nbsp;-&gt;&nbsp;a&nbsp;new&nbsp;<a href="__builtin__.html#object">object</a>&nbsp;with&nbsp;type&nbsp;S,&nbsp;a&nbsp;subtype&nbsp;of&nbsp;T</tt></dl>
 
 <hr>
 Methods inherited from <a href="exceptions.html#BaseException">exceptions.BaseException</a>:<br>
@@ -139,18 +140,17 @@ Data descriptors inherited from <a href="exceptions.html#BaseException">exceptio
 local&nbsp;variables.<br>&nbsp;</tt></td></tr>
 <tr><td>&nbsp;</td>
 <td width="100%">Methods defined here:<br>
-<dl><dt><a name="Frame-__init__"><strong>__init__</strong></a>(self, params, is_static, ret_type)</dt><dd><tt>Initialise&nbsp;the&nbsp;frame&nbsp;once&nbsp;visiting&nbsp;a&nbsp;new&nbsp;method&nbsp;node.<br>
-Static&nbsp;methods&nbsp;operate&nbsp;differently,&nbsp;because&nbsp;the&nbsp;first&nbsp;element<br>
-on&nbsp;the&nbsp;static&nbsp;is&nbsp;not&nbsp;a&nbsp;reference&nbsp;to&nbsp;"this".</tt></dd></dl>
+<dl><dt><a name="Frame-__init__"><strong>__init__</strong></a>(self, params, is_static, ret_type)</dt><dd><tt>Initialise&nbsp;the&nbsp;frame&nbsp;once&nbsp;visiting&nbsp;a&nbsp;new&nbsp;method&nbsp;node.&nbsp;Static&nbsp;methods<br>
+operate&nbsp;differently,&nbsp;because&nbsp;the&nbsp;first&nbsp;element&nbsp;on&nbsp;the&nbsp;static&nbsp;is&nbsp;not&nbsp;a<br>
+reference&nbsp;to&nbsp;"this".</tt></dd></dl>
 
-<dl><dt><a name="Frame-get_var"><strong>get_var</strong></a>(self, var)</dt><dd><tt>For&nbsp;a&nbsp;given&nbsp;variable&nbsp;name,&nbsp;gets&nbsp;the&nbsp;location&nbsp;in&nbsp;the&nbsp;array&nbsp;of<br>
-local&nbsp;variables.</tt></dd></dl>
+<dl><dt><a name="Frame-get_var"><strong>get_var</strong></a>(self, var)</dt><dd><tt>For&nbsp;a&nbsp;given&nbsp;variable&nbsp;name,&nbsp;gets&nbsp;the&nbsp;location&nbsp;in&nbsp;the&nbsp;array&nbsp;of&nbsp;local<br>
+variables.</tt></dd></dl>
 
 <dl><dt><a name="Frame-new_matrix"><strong>new_matrix</strong></a>(self, var, d1, d2)</dt><dd><tt>Creates&nbsp;a&nbsp;new&nbsp;matrix&nbsp;local&nbsp;variable.</tt></dd></dl>
 
-<dl><dt><a name="Frame-new_var"><strong>new_var</strong></a>(self, var, is_long<font color="#909090">=False</font>)</dt><dd><tt>Creates&nbsp;a&nbsp;storage&nbsp;location&nbsp;for&nbsp;a&nbsp;new&nbsp;variable.&nbsp;&nbsp;is_long&nbsp;is<br>
-True&nbsp;for&nbsp;longs&nbsp;and&nbsp;doubles&nbsp;because&nbsp;they&nbsp;take&nbsp;up&nbsp;two&nbsp;storage<br>
-locations.</tt></dd></dl>
+<dl><dt><a name="Frame-new_var"><strong>new_var</strong></a>(self, var, is_long<font color="#909090">=False</font>)</dt><dd><tt>Creates&nbsp;a&nbsp;storage&nbsp;location&nbsp;for&nbsp;a&nbsp;new&nbsp;variable.&nbsp;&nbsp;is_long&nbsp;is&nbsp;True&nbsp;for<br>
+longs&nbsp;and&nbsp;doubles&nbsp;because&nbsp;they&nbsp;take&nbsp;up&nbsp;two&nbsp;storage&nbsp;locations.</tt></dd></dl>
 
 <hr>
 Data descriptors defined here:<br>

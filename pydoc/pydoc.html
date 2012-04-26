@@ -1,14 +1,14 @@
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!doctype html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <html><head><title>Python: module pydoc</title>
 </head><body bgcolor="#f0f0f8">
 
 <table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
 <tr bgcolor="#7799ee">
 <td valign=bottom>&nbsp;<br>
-<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>pydoc</strong></big></big> (version 83492, 26 February 2001)</font></td
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>pydoc</strong></big></big> (version 66076, 26 February 2001)</font></td
 ><td align=right valign=bottom
-><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:///C:/python26/lib/pydoc.py">c:\python26\lib\pydoc.py</a></font></td></tr></table>
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:///C|/python26/lib/pydoc.py">c:\python26\lib\pydoc.py</a></font></td></tr></table>
     <p><tt>Generate&nbsp;Python&nbsp;documentation&nbsp;in&nbsp;HTML&nbsp;or&nbsp;text&nbsp;for&nbsp;interactive&nbsp;use.<br>
 &nbsp;<br>
 In&nbsp;the&nbsp;Python&nbsp;interpreter,&nbsp;do&nbsp;"from&nbsp;pydoc&nbsp;import&nbsp;help"&nbsp;to&nbsp;provide&nbsp;online<br>
@@ -142,7 +142,7 @@ Data descriptors defined here:<br>
 </dl>
 <hr>
 Data and other attributes inherited from <a href="exceptions.html#Exception">exceptions.Exception</a>:<br>
-<dl><dt><strong>__new__</strong> = &lt;built-in method __new__ of type object&gt;<dd><tt>T.<a href="#ErrorDuringImport-__new__">__new__</a>(S,&nbsp;...)&nbsp;-&gt;&nbsp;a&nbsp;new&nbsp;object&nbsp;with&nbsp;type&nbsp;S,&nbsp;a&nbsp;subtype&nbsp;of&nbsp;T</tt></dl>
+<dl><dt><strong>__new__</strong> = &lt;built-in method __new__ of type object at 0x000000001E258760&gt;<dd><tt>T.<a href="#ErrorDuringImport-__new__">__new__</a>(S,&nbsp;...)&nbsp;-&gt;&nbsp;a&nbsp;new&nbsp;object&nbsp;with&nbsp;type&nbsp;S,&nbsp;a&nbsp;subtype&nbsp;of&nbsp;T</tt></dl>
 
 <hr>
 Methods inherited from <a href="exceptions.html#BaseException">exceptions.BaseException</a>:<br>
@@ -293,7 +293,7 @@ Methods inherited from <a href="repr.html#Repr">repr.Repr</a>:<br>
 <td width="100%">Methods defined here:<br>
 <dl><dt><a name="Helper-__call__"><strong>__call__</strong></a>(self, request<font color="#909090">=None</font>)</dt></dl>
 
-<dl><dt><a name="Helper-__init__"><strong>__init__</strong></a>(self, input<font color="#909090">=None</font>, output<font color="#909090">=None</font>)</dt></dl>
+<dl><dt><a name="Helper-__init__"><strong>__init__</strong></a>(self, input, output)</dt></dl>
 
 <dl><dt><a name="Helper-__repr__"><strong>__repr__</strong></a>(self)</dt></dl>
 
@@ -311,31 +311,13 @@ Methods inherited from <a href="repr.html#Repr">repr.Repr</a>:<br>
 
 <dl><dt><a name="Helper-listmodules"><strong>listmodules</strong></a>(self, key<font color="#909090">=''</font>)</dt></dl>
 
-<dl><dt><a name="Helper-listsymbols"><strong>listsymbols</strong></a>(self)</dt></dl>
-
 <dl><dt><a name="Helper-listtopics"><strong>listtopics</strong></a>(self)</dt></dl>
 
-<dl><dt><a name="Helper-showsymbol"><strong>showsymbol</strong></a>(self, symbol)</dt></dl>
+<dl><dt><a name="Helper-showtopic"><strong>showtopic</strong></a>(self, topic)</dt></dl>
 
-<dl><dt><a name="Helper-showtopic"><strong>showtopic</strong></a>(self, topic, more_xrefs<font color="#909090">=''</font>)</dt></dl>
-
-<hr>
-Data descriptors defined here:<br>
-<dl><dt><strong>input</strong></dt>
-</dl>
-<dl><dt><strong>output</strong></dt>
-</dl>
 <hr>
 Data and other attributes defined here:<br>
 <dl><dt><strong>keywords</strong> = {'and': 'BOOLEAN', 'as': 'with', 'assert': ('assert', ''), 'break': ('break', 'while for'), 'class': ('class', 'CLASSES SPECIALMETHODS'), 'continue': ('continue', 'while for'), 'def': ('function', ''), 'del': ('del', 'BASICMETHODS'), 'elif': 'if', 'else': ('else', 'while for'), ...}</dl>
-
-<dl><dt><strong>symbol</strong> = 'u"'</dl>
-
-<dl><dt><strong>symbols</strong> = {'!=': 'COMPARISON OPERATORS', '"': 'STRINGS', '"""': 'STRINGS', '%': 'OPERATORS FORMATTING', '%=': 'AUGMENTEDASSIGNMENT', '&amp;': 'OPERATORS BITWISE', '&amp;=': 'AUGMENTEDASSIGNMENT', "'": 'STRINGS', "'''": 'STRINGS', '(': 'TUPLES FUNCTIONS CALLS', ...}</dl>
-
-<dl><dt><strong>symbols_</strong> = ("'", "'''", "r'", "u'", '"""', '"', 'r"', 'u"')</dl>
-
-<dl><dt><strong>topic</strong> = 'STRINGS'</dl>
 
 <dl><dt><strong>topics</strong> = {'ASSERTION': 'assert', 'ASSIGNMENT': ('assignment', 'AUGMENTEDASSIGNMENT'), 'ATTRIBUTEMETHODS': ('attribute-access', 'ATTRIBUTES SPECIALMETHODS'), 'ATTRIBUTES': ('attribute-references', 'getattr hasattr setattr ATTRIBUTEMETHODS'), 'AUGMENTEDASSIGNMENT': ('augassign', 'NUMBERMETHODS'), 'BACKQUOTES': ('string-conversions', 'repr str STRINGS LITERALS'), 'BASICMETHODS': ('customization', 'cmp hash repr str SPECIALMETHODS'), 'BINARY': ('binary', 'EXPRESSIONS'), 'BITWISE': ('bitwise', 'EXPRESSIONS'), 'BOOLEAN': ('booleans', 'EXPRESSIONS TRUTHVALUE'), ...}</dl>
 
@@ -505,11 +487,11 @@ is&nbsp;1,&nbsp;we&nbsp;reload&nbsp;the&nbsp;module&nbsp;from&nbsp;disk&nbsp;(un
 <td width="100%"><strong>__author__</strong> = 'Ka-Ping Yee &lt;ping@lfw.org&gt;'<br>
 <strong>__credits__</strong> = 'Guido van Rossum, for an excellent programming l...erlain, for the first implementation of textdoc.<font color="#c040c0">\n</font>'<br>
 <strong>__date__</strong> = '26 February 2001'<br>
-<strong>__version__</strong> = '$Revision: 83492 $'<br>
-<strong>__warningregistry__</strong> = {(r"Not importing directory '\\smbhome.uscs.susx.ac....eration_test\bin_test_files': missing __init__.py", &lt;type 'exceptions.ImportWarning'&gt;, 291): True, (r"Not importing directory '\\smbhome.uscs.susx.ac...._generation_test\test_files': missing __init__.py", &lt;type 'exceptions.ImportWarning'&gt;, 291): True, (r"Not importing directory '\\smbhome.uscs.susx.ac....orkspace\jaml_compiler\docs': missing __init__.py", &lt;type 'exceptions.ImportWarning'&gt;, 291): True, (r"Not importing directory '\\smbhome.uscs.susx.ac....ce\jaml_compiler\jaml_files': missing __init__.py", &lt;type 'exceptions.ImportWarning'&gt;, 291): True, (r"Not importing directory '\\smbhome.uscs.susx.ac....kspace\jaml_compiler\jasmin': missing __init__.py", &lt;type 'exceptions.ImportWarning'&gt;, 291): True, (r"Not importing directory '\\smbhome.uscs.susx.ac....mantic_analysis\lib_checker': missing __init__.py", &lt;type 'exceptions.ImportWarning'&gt;, 291): True, (r"Not importing directory '\\smbhome.uscs.susx.ac....ic_analysis_test\test_files': missing __init__.py", &lt;type 'exceptions.ImportWarning'&gt;, 291): True}<br>
+<strong>__version__</strong> = '$Revision: 66076 $'<br>
+<strong>__warningregistry__</strong> = {(r"Not importing directory 'C:\Users\Will\workspace...eration_test\bin_test_files': missing __init__.py", &lt;type 'exceptions.ImportWarning'&gt;, 292): True, (r"Not importing directory 'C:\Users\Will\workspace..._generation_test\test_files': missing __init__.py", &lt;type 'exceptions.ImportWarning'&gt;, 292): True, (r"Not importing directory 'C:\Users\Will\workspace\jaml_compiler\docs': missing __init__.py", &lt;type 'exceptions.ImportWarning'&gt;, 292): True, (r"Not importing directory 'C:\Users\Will\workspace\jaml_compiler\jaml_files': missing __init__.py", &lt;type 'exceptions.ImportWarning'&gt;, 292): True, (r"Not importing directory 'C:\Users\Will\workspace\jaml_compiler\jasmin': missing __init__.py", &lt;type 'exceptions.ImportWarning'&gt;, 292): True, (r"Not importing directory 'C:\Users\Will\workspace...mantic_analysis\lib_checker': missing __init__.py", &lt;type 'exceptions.ImportWarning'&gt;, 292): True, (r"Not importing directory 'C:\Users\Will\workspace...ic_analysis_test\test_files': missing __init__.py", &lt;type 'exceptions.ImportWarning'&gt;, 292): True}<br>
 <strong>help</strong> = &lt;pydoc.Helper instance&gt;<br>
-<strong>html</strong> = &lt;pydoc.HTMLDoc instance&gt;<br>
-<strong>text</strong> = &lt;pydoc.TextDoc instance&gt;</td></tr></table><p>
+<strong>html</strong> = &lt;pydoc.HTMLDoc instance at 0x0000000002459388&gt;<br>
+<strong>text</strong> = &lt;pydoc.TextDoc instance at 0x0000000002459648&gt;</td></tr></table><p>
 <table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
 <tr bgcolor="#7799ee">
 <td colspan=3 valign=bottom>&nbsp;<br>

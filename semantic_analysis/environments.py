@@ -16,7 +16,7 @@ class TopEnvironment(object):
         self._nums = ['byte', 'char', 'short', 'int', 'long', 'float',
                       'double']
         # Stores all possible types
-        self._types = ['boolean'] + self._nums + lib_classes.keys()
+        self._types = ['boolean', 'matrix'] + self._nums + lib_classes.keys()
         # Stores all library classes (currently only from java.lang)
         self._lib_classes = lib_classes
         # Stores signatures of library methods/constructors/fields
@@ -137,7 +137,7 @@ class TopEnvironment(object):
 
     classes = property(get_classes)
     interfaces = property(_get_interfaces)
-    lib_classes = property(get_lib_classes) # TODO: also need lib_interfaces!
+    lib_classes = property(get_lib_classes)
     types = property(get_types)
     nums = property (get_nums)
 

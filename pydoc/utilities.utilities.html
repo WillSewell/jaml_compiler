@@ -1,5 +1,5 @@
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!doctype html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <html><head><title>Python: module utilities.utilities</title>
 </head><body bgcolor="#f0f0f8">
 
@@ -8,7 +8,7 @@
 <td valign=bottom>&nbsp;<br>
 <font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong><a href="utilities.html"><font color="#ffffff">utilities</font></a>.utilities</strong></big></big></font></td
 ><td align=right valign=bottom
-><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:////smbhome.uscs.susx.ac.uk/wjs25/workspace/jaml_compiler/utilities/utilities.py">\\smbhome.uscs.susx.ac.uk\wjs25\workspace\jaml_compiler\utilities\utilities.py</a></font></td></tr></table>
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:///C|/users/will/workspace/jaml_compiler/utilities/utilities.py">c:\users\will\workspace\jaml_compiler\utilities\utilities.py</a></font></td></tr></table>
     <p><tt>An&nbsp;assortment&nbsp;of&nbsp;classes&nbsp;and&nbsp;scripts&nbsp;used&nbsp;throughout&nbsp;the&nbsp;program.</tt></p>
 <p>
 <table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
@@ -74,8 +74,7 @@ Data descriptors defined here:<br>
 <td colspan=2><tt>A&nbsp;special&nbsp;type&nbsp;representing&nbsp;matrices.<br>&nbsp;</tt></td></tr>
 <tr><td>&nbsp;</td>
 <td width="100%">Methods defined here:<br>
-<dl><dt><a name="MatrixType-__eq__"><strong>__eq__</strong></a>(self, other)</dt><dd><tt>This&nbsp;is&nbsp;so&nbsp;the&nbsp;attributes&nbsp;can&nbsp;be&nbsp;compared&nbsp;with&nbsp;another<br>
-matrix&nbsp;type</tt></dd></dl>
+<dl><dt><a name="MatrixType-__eq__"><strong>__eq__</strong></a>(self, other)</dt><dd><tt>This&nbsp;is&nbsp;so&nbsp;the&nbsp;attributes&nbsp;can&nbsp;be&nbsp;compared&nbsp;with&nbsp;another&nbsp;matrix&nbsp;type</tt></dd></dl>
 
 <dl><dt><a name="MatrixType-__init__"><strong>__init__</strong></a>(self, dimension1, dimension2)</dt></dl>
 
@@ -103,10 +102,14 @@ Data descriptors defined here:<br>
 <td width="100%"><dl><dt><a name="-camel_2_underscore"><strong>camel_2_underscore</strong></a>(string)</dt><dd><tt>Converts&nbsp;a&nbsp;CamelCase&nbsp;string&nbsp;to&nbsp;one&nbsp;where&nbsp;the&nbsp;words&nbsp;are<br>
 separated_by_underscores.<br>
 From:&nbsp;<a href="http://stackoverflow.com/a/1176023/1018290">http://stackoverflow.com/a/1176023/1018290</a></tt></dd></dl>
- <dl><dt><a name="-get_full_type"><strong>get_full_type</strong></a>(type_, t_env)</dt><dd><tt>This&nbsp;gets&nbsp;the&nbsp;full&nbsp;_name&nbsp;of&nbsp;the&nbsp;type,&nbsp;given&nbsp;the&nbsp;type&nbsp;information<br>
-held&nbsp;in&nbsp;a&nbsp;top&nbsp;level&nbsp;environment.</tt></dd></dl>
+ <dl><dt><a name="-get_full_type"><strong>get_full_type</strong></a>(type_, t_env)</dt><dd><tt>This&nbsp;gets&nbsp;the&nbsp;full&nbsp;_name&nbsp;of&nbsp;the&nbsp;type,&nbsp;given&nbsp;the&nbsp;type&nbsp;information&nbsp;held<br>
+in&nbsp;a&nbsp;top&nbsp;level&nbsp;environment.</tt></dd></dl>
  <dl><dt><a name="-get_jvm_type"><strong>get_jvm_type</strong></a>(node_or_symbol)</dt><dd><tt>Get's&nbsp;the&nbsp;jvm&nbsp;type&nbsp;signature&nbsp;for&nbsp;a&nbsp;given&nbsp;node,&nbsp;symbol,&nbsp;or&nbsp;simple<br>
 string&nbsp;representation&nbsp;of&nbsp;the&nbsp;type.</tt></dd></dl>
  <dl><dt><a name="-is_main"><strong>is_main</strong></a>(method_s)</dt><dd><tt>For&nbsp;a&nbsp;given&nbsp;method,&nbsp;checks&nbsp;whether&nbsp;it&nbsp;is&nbsp;the&nbsp;main&nbsp;method.</tt></dd></dl>
+ <dl><dt><a name="-visit"><strong>visit</strong></a>(source_object, node, env<font color="#909090">=None</font>)</dt><dd><tt>Looks&nbsp;up&nbsp;the&nbsp;correct&nbsp;method&nbsp;to&nbsp;call&nbsp;in&nbsp;source_object&nbsp;based&nbsp;on&nbsp;the&nbsp;type<br>
+of&nbsp;node.&nbsp;TypeChecker&nbsp;methods&nbsp;also&nbsp;need&nbsp;the&nbsp;env.<br>
+Code&nbsp;from:&nbsp;<a href="http://peter-hoffmann.com/2010">http://peter-hoffmann.com/2010</a><br>
+extrinsic-visitor-pattern-python-inheritance.html</tt></dd></dl>
 </td></tr></table>
 </body></html>

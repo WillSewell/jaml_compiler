@@ -1,5 +1,5 @@
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!doctype html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <html><head><title>Python: module parser_.parser_</title>
 </head><body bgcolor="#f0f0f8">
 
@@ -8,8 +8,9 @@
 <td valign=bottom>&nbsp;<br>
 <font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong><a href="parser_.html"><font color="#ffffff">parser_</font></a>.parser_</strong></big></big></font></td
 ><td align=right valign=bottom
-><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:////smbhome.uscs.susx.ac.uk/wjs25/workspace/jaml_compiler/parser_/parser_.py">\\smbhome.uscs.susx.ac.uk\wjs25\workspace\jaml_compiler\parser_\parser_.py</a></font></td></tr></table>
-    <p></p>
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:///C|/users/will/workspace/jaml_compiler/parser_/parser_.py">c:\users\will\workspace\jaml_compiler\parser_\parser_.py</a></font></td></tr></table>
+    <p><tt>This&nbsp;module&nbsp;contains&nbsp;the&nbsp;parser&nbsp;which&nbsp;parses&nbsp;the&nbsp;files&nbsp;and&nbsp;searches&nbsp;for<br>
+other&nbsp;required&nbsp;JaML&nbsp;files&nbsp;to&nbsp;compile.</tt></p>
 <p>
 <table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
 <tr bgcolor="#aa55cc">
@@ -27,6 +28,12 @@
     
 <tr><td bgcolor="#ee77aa"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
 <td width="100%"><dl>
+<dt><font face="helvetica, arial"><a href="exceptions.html#Exception">exceptions.Exception</a>(<a href="exceptions.html#BaseException">exceptions.BaseException</a>)
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="parser_.parser_.html#ClassDoesNotExist">ClassDoesNotExist</a>
+</font></dt></dl>
+</dd>
 <dt><font face="helvetica, arial"><a href="parser_.spark.html#GenericParser">parser_.spark.GenericParser</a>
 </font></dt><dd>
 <dl>
@@ -38,11 +45,72 @@
 <table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
 <tr bgcolor="#ffc8d8">
 <td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="ClassDoesNotExist">class <strong>ClassDoesNotExist</strong></a>(<a href="exceptions.html#Exception">exceptions.Exception</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>Raised&nbsp;when&nbsp;a&nbsp;class&nbsp;is&nbsp;referenced&nbsp;from&nbsp;a&nbsp;file&nbsp;which&nbsp;does&nbsp;not&nbsp;exist&nbsp;in<br>
+the&nbsp;current&nbsp;directory.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="parser_.parser_.html#ClassDoesNotExist">ClassDoesNotExist</a></dd>
+<dd><a href="exceptions.html#Exception">exceptions.Exception</a></dd>
+<dd><a href="exceptions.html#BaseException">exceptions.BaseException</a></dd>
+<dd><a href="__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<hr>
+Methods inherited from <a href="exceptions.html#Exception">exceptions.Exception</a>:<br>
+<dl><dt><a name="ClassDoesNotExist-__init__"><strong>__init__</strong></a>(...)</dt><dd><tt>x.<a href="#ClassDoesNotExist-__init__">__init__</a>(...)&nbsp;initializes&nbsp;x;&nbsp;see&nbsp;x.__class__.__doc__&nbsp;for&nbsp;signature</tt></dd></dl>
+
+<hr>
+Data and other attributes inherited from <a href="exceptions.html#Exception">exceptions.Exception</a>:<br>
+<dl><dt><strong>__new__</strong> = &lt;built-in method __new__ of type object at 0x000000001E258760&gt;<dd><tt>T.<a href="#ClassDoesNotExist-__new__">__new__</a>(S,&nbsp;...)&nbsp;-&gt;&nbsp;a&nbsp;new&nbsp;object&nbsp;with&nbsp;type&nbsp;S,&nbsp;a&nbsp;subtype&nbsp;of&nbsp;T</tt></dl>
+
+<hr>
+Methods inherited from <a href="exceptions.html#BaseException">exceptions.BaseException</a>:<br>
+<dl><dt><a name="ClassDoesNotExist-__delattr__"><strong>__delattr__</strong></a>(...)</dt><dd><tt>x.<a href="#ClassDoesNotExist-__delattr__">__delattr__</a>('name')&nbsp;&lt;==&gt;&nbsp;del&nbsp;x.name</tt></dd></dl>
+
+<dl><dt><a name="ClassDoesNotExist-__getattribute__"><strong>__getattribute__</strong></a>(...)</dt><dd><tt>x.<a href="#ClassDoesNotExist-__getattribute__">__getattribute__</a>('name')&nbsp;&lt;==&gt;&nbsp;x.name</tt></dd></dl>
+
+<dl><dt><a name="ClassDoesNotExist-__getitem__"><strong>__getitem__</strong></a>(...)</dt><dd><tt>x.<a href="#ClassDoesNotExist-__getitem__">__getitem__</a>(y)&nbsp;&lt;==&gt;&nbsp;x[y]</tt></dd></dl>
+
+<dl><dt><a name="ClassDoesNotExist-__getslice__"><strong>__getslice__</strong></a>(...)</dt><dd><tt>x.<a href="#ClassDoesNotExist-__getslice__">__getslice__</a>(i,&nbsp;j)&nbsp;&lt;==&gt;&nbsp;x[i:j]<br>
+&nbsp;<br>
+Use&nbsp;of&nbsp;negative&nbsp;indices&nbsp;is&nbsp;not&nbsp;supported.</tt></dd></dl>
+
+<dl><dt><a name="ClassDoesNotExist-__reduce__"><strong>__reduce__</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ClassDoesNotExist-__repr__"><strong>__repr__</strong></a>(...)</dt><dd><tt>x.<a href="#ClassDoesNotExist-__repr__">__repr__</a>()&nbsp;&lt;==&gt;&nbsp;repr(x)</tt></dd></dl>
+
+<dl><dt><a name="ClassDoesNotExist-__setattr__"><strong>__setattr__</strong></a>(...)</dt><dd><tt>x.<a href="#ClassDoesNotExist-__setattr__">__setattr__</a>('name',&nbsp;value)&nbsp;&lt;==&gt;&nbsp;x.name&nbsp;=&nbsp;value</tt></dd></dl>
+
+<dl><dt><a name="ClassDoesNotExist-__setstate__"><strong>__setstate__</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="ClassDoesNotExist-__str__"><strong>__str__</strong></a>(...)</dt><dd><tt>x.<a href="#ClassDoesNotExist-__str__">__str__</a>()&nbsp;&lt;==&gt;&nbsp;str(x)</tt></dd></dl>
+
+<dl><dt><a name="ClassDoesNotExist-__unicode__"><strong>__unicode__</strong></a>(...)</dt></dl>
+
+<hr>
+Data descriptors inherited from <a href="exceptions.html#BaseException">exceptions.BaseException</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+</dl>
+<dl><dt><strong>args</strong></dt>
+</dl>
+<dl><dt><strong>message</strong></dt>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
 <font color="#000000" face="helvetica, arial"><a name="Parser">class <strong>Parser</strong></a>(<a href="parser_.spark.html#GenericParser">parser_.spark.GenericParser</a>)</font></td></tr>
     
 <tr><td bgcolor="#ffc8d8"><tt>&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
 <td width="100%">Methods defined here:<br>
-<dl><dt><a name="Parser-__init__"><strong>__init__</strong></a>(self, start<font color="#909090">='file'</font>)</dt></dl>
+<dl><dt><a name="Parser-__init__"><strong>__init__</strong></a>(self, start<font color="#909090">='file'</font>)</dt><dd><tt>Initialise&nbsp;the&nbsp;parser&nbsp;with&nbsp;the&nbsp;start&nbsp;production&nbsp;rule.</tt></dd></dl>
 
 <dl><dt><a name="Parser-p_abs_method_dcl"><strong>p_abs_method_dcl</strong></a>(self, args)</dt><dd><tt>abs_method_dcl&nbsp;::=&nbsp;type&nbsp;ID&nbsp;formal_param&nbsp;;<br>
 abs_method_dcl&nbsp;::=&nbsp;VOID&nbsp;ID&nbsp;formal_param&nbsp;;</tt></dd></dl>
@@ -101,7 +169,8 @@ add_expr&nbsp;::=&nbsp;add_expr&nbsp;ADD_OP&nbsp;mul_expr</tt></dd></dl>
 <dl><dt><a name="Parser-p_class_dcl"><strong>p_class_dcl</strong></a>(self, args)</dt><dd><tt>class_dcl&nbsp;::=&nbsp;class_mods&nbsp;class_dcl_rest<br>
 class_dcl&nbsp;::=&nbsp;class_dcl_rest</tt></dd></dl>
 
-<dl><dt><a name="Parser-p_class_dcl_extends_implements_rest"><strong>p_class_dcl_extends_implements_rest</strong></a>(self, args)</dt><dd><tt>class_dcl_rest&nbsp;::=&nbsp;CLASS&nbsp;ID&nbsp;EXTENDS&nbsp;ID&nbsp;IMPLEMENTS&nbsp;implements&nbsp;class_body</tt></dd></dl>
+<dl><dt><a name="Parser-p_class_dcl_extends_implements_rest"><strong>p_class_dcl_extends_implements_rest</strong></a>(self, args)</dt><dd><tt>class_dcl_rest&nbsp;::=&nbsp;CLASS&nbsp;ID&nbsp;EXTENDS&nbsp;ID&nbsp;IMPLEMENTS<br>
+implements&nbsp;class_body</tt></dd></dl>
 
 <dl><dt><a name="Parser-p_class_dcl_extends_rest"><strong>p_class_dcl_extends_rest</strong></a>(self, args)</dt><dd><tt>class_dcl_rest&nbsp;::=&nbsp;CLASS&nbsp;ID&nbsp;EXTENDS&nbsp;ID&nbsp;class_body</tt></dd></dl>
 

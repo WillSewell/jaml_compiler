@@ -1,6 +1,9 @@
 <?xml version="1.0"?>
 
-<!-- Used to build the project (or run tests or generate documentation) -->
+<!-- Used to build the project (or run tests or generate documentation)
+     This build requires PyAntTasks Ant plugin to run
+     http://code.google.com/p/pyanttasks/
+-->
 <project name="jaml_compiler" default="pydoc" basedir=".">
 	
         <taskdef resource="pyAntTasks.properties"/>

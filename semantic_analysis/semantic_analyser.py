@@ -4,8 +4,9 @@ semantically correct.
 import os
 import subprocess
 from parser_.parser_ import Parser
-from symbols import ArraySymbol, VarSymbol, LibMethodSymbol
 import parser_.tree_nodes as nodes
+from symbols import (ArraySymbol, VarSymbol, LibMethodSymbol, LibFieldSymbol,
+                     LibConsSymbol)
 from environments import TopEnvironment, Environment
 from class_interface_method_scanner import ClassInterfaceMethodScanner
 from exceptions import (NotInitWarning, NoReturnError, SymbolNotFoundError,
@@ -13,9 +14,8 @@ from exceptions import (NotInitWarning, NoReturnError, SymbolNotFoundError,
                         ConstructorError, ClassSignatureError, AssignmentError,
                         VariableNameError, StaticError, ObjectCreationError,
                         FinalError)
-from utilities.utilities import (ArrayType, visit, get_full_type,
-                                 is_main, get_jvm_type)
-from semantic_analysis.symbols import LibFieldSymbol, LibConsSymbol
+from utilities.utilities import (ArrayType, visit, get_full_type, is_main,
+                                 get_jvm_type)
 
 class TypeChecker(object):
     """This class allows for type checking of a particular program.
@@ -142,8 +142,6 @@ class TypeChecker(object):
         """Final fields are declared with an assignment to a literal value
         (number or String).
         """
-        # TODO: ALL THIS CURRENTLY DOESN'T WORK BECAUSE THE CODE GENERATOR NEEDS TO CREATE ASSIGNMENT CODE IN THE CONSTRUCTOR - DO IF I HAVE TIME! OTHERWISE REMOVE.
-        # TODO: THERE IS A BUG IN JASMIN WHERE IT CONVERTS DOUBLES TO FLOATS, SO JAVA ERRORS WHEN A DOUBLE VALUE IS ASSIGNED TO IT HERE!
         if ('final' not in node.modifiers and
                 'static' not in node.modifiers):
             msg = ('Assignment with a field declaration can only be ' +
@@ -399,7 +397,7 @@ class TypeChecker(object):
             raise TypeError(msg)
         visit(self, node.children[1], env)
 
-    def _visit_for_node(self, node, env): #TODO: BUG - THE VARIABLE (i) IS IN THE SCOPE OUTSIDE THE BODY OF THE LOOP - SHOULD BE ON THE INSIDE!
+    def _visit_for_node(self, node, env):
         """Check a for statement, similar to if statement."""
         visit(self, node.children[0], env)
         if visit(self, node.children[1], env) != 'boolean':
@@ -419,7 +417,7 @@ class TypeChecker(object):
         env.cur_method.has_ret = True
         return ret_type
 
-    def _visit_assign_node(self, node, env): # TODO: CAN'T ASSIGN TO A FIELD IN ANOTHER CLASS (CAN'T INC IT TOO)
+    def _visit_assign_node(self, node, env):
         """Make sure both sides are of the same type"""
         # Update the variable to initialised
         name = node.children[0].value
@@ -493,8 +491,7 @@ class TypeChecker(object):
                 raise TypeError(msg)
 
     def _check_num_types(self, type1, type2):
-        """
-        Check if numerical type2 can be assigned to, or returned in a method
+        """Check if numerical type2 can be assigned to, or returned in a method
         of type1.
         """
         try:
@@ -811,7 +808,6 @@ class TypeChecker(object):
         """Recursively search for a given method in the full inheritance tree
         for a particular class.  Returns the methods return type.
         """
-        #TODO: Could be changed to return a symbol if it is done in the same way for fields - Not sure if needed
         class_s = None
         try:
             class_s = self._get_class_s(class_)
@@ -918,7 +914,6 @@ class TypeChecker(object):
         if len(node.children) == 3:
             method_name = node.children[1].value
         check = self._run_lib_checker
-        # TODO: CURRENT LIBARY METHODS CAN ONLY BE CALLED WIH THE SAME TYPE ARGUMENTS - SUB-TYPES WON'T WORK
         ret_type, parent_class, is_static = check(['-method', dotted_name,
                                                    method_name] +
                                                   dotted_arg_types)
@@ -1007,7 +1002,6 @@ class TypeChecker(object):
         full_class = get_full_type(class_, self._t_env)
         symbol = LibConsSymbol(full_class, arg_types)
         self._t_env.add_lib_cons(symbol)
-        # TODO: ADD A WAY TO CHECK ABSTRACT?  IN THE SAME WAY AS STATIC IS CHECKED FOR METHODS.
 
     def _visit_args_list_node(self, node, env):
         """Tag the type of each argument."""

@@ -1388,7 +1388,6 @@ class CodeGenerator(object):
             # Get the results from what the arguments are on the
             # top of the stack
             try:
-                # TODO: NOT NEEDED FOR LIB CLASSES BECAUSE SUB CLASSES OF ARGS ARE NOT SUPPORTED SO FAR
                 self._gen_args_list_node(args_list.children, method_s.params)
             except AttributeError:
                 # No args

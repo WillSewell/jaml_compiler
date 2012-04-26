@@ -15,7 +15,9 @@ The two entry points to the program are:
                        
                        Usage: python test_runner.py
 
-Documentation generated from comments is available at ./pydoc/
+Documentation generated from comments is available at: ./pydoc/
+
+Some examples to run the program on are in: ./jaml_files/jaml/
 
 INFORMAL JAML SPEC
 
@@ -44,7 +46,7 @@ Java 6. These key features are included:
 Matrix features:
 
     - The 'matrix' keyword to declare a variable as a matrix type
-    - A = |expr, expr| to initialise a matrix where expr dontes an expression
+    - A = |expr, expr| to initialise a matrix where expr denotes an expression
         that evaluates to an integer and specifies the dimension's length
     - A|expr, expr| indexes into a matrix where the expr evaluate to ints
     - C = A * B does matrix multiplication
@@ -64,25 +66,40 @@ Key Java features not included (although this is by no means exhaustive):
     - Switch statements
     - Exceptions
     - Bitwise operators
+    - Fields cannot be updated directly in other objects;
+        must be done through a method
     
 Use of library classes is possible, but it is not as reliable. There are
 also restrictions over what can be done in Java:
 
     - Library classes cannot be extended and interfaces cannot be implemented
-    - Arguments of methods and onstructors must be exactly the correct type
+    - Arguments of methods and constructors must be exactly the correct type
     - Method are not checked to see whether they are abstract
     - Using anything which requires syntax not available in JaML is unsupported
         (e.g. generic types)
     - Only members of the java.lang, java.util and java.io packages are
         included; this is because packages are not supported in JaML, so these
         packages are imported by implicitly
+    - Polymorphic types not implemented e.g. String cannot be assigned to an
+        Object.
     
 
 There was no need for the 'public' modifier because there are no packages. All
-fields and methods are implicitly 'protected', and can be made 'private'
+fields and methods are implicitly 'protected', and can be made 'private'.
+Because of this the 'main' method must have the signature:
+
+static void main(String[] args)
     
 It is hard to give a full specification of this language in such an informal
-way. The full syntactic BNF specification is located in ./docs/jaml.g.
+way. The full syntactic BNF specification is located in: ./docs/jaml.g.
 
 How each included feature works can be found at:
 http://docs.oracle.com/javase/specs/
+
+KNOWN ISSUES
+
+There is a bug in Jasmin where doubles become converted to floats with
+static final field definition with assignment.
+
+The variable declared in for loops is in the scope outside of the for loop
+block
