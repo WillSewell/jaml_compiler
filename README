@@ -1,0 +1,88 @@
+RUNNING THE PROGRAM
+
+The two entry points to the program are:
+
+    - jamlcomp.py - This allows the program to be run.  It will either compile
+                    the file, or print error information.
+
+                    Usage: jamlcomp <file> [<output directory>]
+                    
+                    If no <output directory> is specified, the output .class
+                    files will be written to ./jaml_files/bin/<file_name>
+    
+    - test_runner.py - This allows all tests files to be run, and results
+                       printed.
+                       
+                       No command line arguments.
+
+Documentation generated from comments is available at ./pydoc/
+
+INFORMAL JAML SPEC
+
+The input files must conform to JaML's syntax and semantics' based on
+Java 6. These key features are included:
+
+    - All primitive types
+    - Implicit type conversion of primitive types
+    - Arrays
+    - Support for classes (can be made abstract or final)
+    - Inheritance and interface implementation
+    - Polymorphism 
+    - if, for and while statements
+    - Assignment
+    - Interfaces
+    - Fields (can be made static void, and/or private)
+    - Methods (can be made abstract and/or static and/or final and/or private)
+    - Arithmetic operators: + (also for string concatenation) - * /
+    - Unary operators: + - ++ -- !
+    - Equality and relational operators: == != > >= < <=
+    - Conditional operators: || &&
+    - Calls to the super constructor with 'super()'
+    - Reference to members of super with 'super.<member>'
+    - Support for String, including concatenation - with +
+
+Matrix features:
+
+    - The 'matrix' keyword to declare a variable as a matrix type
+    - A = |expr, expr| to initialise a matrix where expr dontes an expression
+        that evaluates to an integer and specifies the dimension's length
+    - A|expr, expr| indexes into a matrix where the expr evaluate to ints
+    - C = A * B does matrix multiplication
+    - C = A + B does addition
+    - C = A - B does subtraction
+    
+Key Java features not included (although this is by no means exhaustive):
+
+    - Packages (All files must be in the same directory)
+    - Overloaded methods
+    - Generic types
+    - Casting
+    - Methods and fields cannot be chained together, e.g.: x.y().z.w()
+    - Only single constructors allowed
+    - The 'this' keyword
+    - Multi-threading
+    - Switch statements
+    - Exceptions
+    - Bitwise operators
+    
+Use of library classes is possible, but it is not as reliable. There are
+also restrictions over what can be done in Java:
+
+    - Library classes cannot be extended and interfaces cannot be implemented
+    - Arguments of methods and onstructors must be exactly the correct type
+    - Method are not checked to see whether they are abstract
+    - Using anything which requires syntax not available in JaML is unsupported
+        (e.g. generic types)
+    - Only members of the java.lang, java.util and java.io packages are
+        included; this is because packages are not supported in JaML, so these
+        packages are imported by implicitly
+    
+
+There was no need for the 'public' modifier because there are no packages. All
+fields and methods are implicitly 'protected', and can be made 'private'
+    
+It is hard to give a full specification of this language in such an informal
+way. The full syntactic BNF specification is located in ./docs/jaml.g.
+
+How each included feature works can be found at:
+http://docs.oracle.com/javase/specs/

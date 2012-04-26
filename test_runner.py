@@ -9,13 +9,11 @@ from code_generation.code_generation_test.code_generator_test \
 if __name__ == '__main__':
     # Create suites from all test cases
     parser_suite = unittest.makeSuite(TestParser, 'test')
-    semantic_analyser_suite = unittest.makeSuite(TestSemanticAnalyser, 
-                             'test')
+    semantic_analyser_suite = unittest.makeSuite(TestSemanticAnalyser, 'test')
     code_generator_suite = unittest.makeSuite(TestCodeGenerator, 'test')
     # Combine all the suites into one suite
     all_suites = unittest.TestSuite((parser_suite, semantic_analyser_suite,
-                     code_generator_suite))
-    # Create a runner and use it to run all the tests in all the combined 
-    # suites
+                                     code_generator_suite))
+    # Create a runner and use it to run all the tests in all the combined suites
     runner = unittest.TextTestRunner()
     runner.run(all_suites)

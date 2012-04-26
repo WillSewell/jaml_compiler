@@ -1,0 +1,16 @@
+All source code has been produced by me (William Sewell, CandNo: 52651),
+at the University of Sussex.
+
+Exceptions are:
+
+    ./parser_/spark.py
+        by John Aycock http://pages.cpsc.ucalgary.ca/~aycock/spark/
+    
+    camel_2_underscore() in ./utilities/utilities.py
+        by 'epost' http://stackoverflow.com/questions/1175208/does-the-python-standard-library-have-function-to-convert-camelcase-to-camel-cas/1176023#1176023
+    
+    visit() in ./utilities/utilities.py
+        by Peter Hoffmann http://peter-hoffmann.com/2010/extrinsic-visitor-pattern-python-inheritance.html
+    
+    JaML grammar inspired by: ./docs/java.g
+        by Yang Jiang http://openjdk.java.net/projects/compiler-grammar/antlrworks/Java.g
