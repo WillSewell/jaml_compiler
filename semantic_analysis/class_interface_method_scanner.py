@@ -2,12 +2,11 @@
 top environment.
 """
 from symbols import (ClassSymbol, InterfaceSymbol, MethodSymbol,
-                     ConstructorSymbol, ArraySymbol, VarSymbol, FieldSymbol)
-from utilities.utilities import (ArrayType, get_full_type,
-                                 visit)
+                     ConstructorSymbol, ArraySymbol, VarSymbol, FieldSymbol,
+                     ArrayFieldSymbol)
+from utilities.utilities import ArrayType, get_full_type, visit
 from exceptions import (MethodNotImplementedError, VariableNameError,
                         ClassSignatureError)
-from semantic_analysis.symbols import ArrayFieldSymbol
 
 class ClassInterfaceMethodScanner(object):
     """Provides an initial sweep through the higher level nodes in the ast

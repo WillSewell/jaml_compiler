@@ -2,11 +2,11 @@
 syntax tree."""
 import os
 import subprocess
-from semantic_analysis.semantic_analyser import TypeChecker
 import parser_.tree_nodes as nodes
+from semantic_analysis.semantic_analyser import TypeChecker
+from semantic_analysis.exceptions import SymbolNotFoundError, JamlException
 from utilities.utilities import (is_main, get_jvm_type, ArrayType,
                                  get_full_type, visit)
-from semantic_analysis.exceptions import SymbolNotFoundError, JamlException
 
 class FileReadError(JamlException):
     """Raised when a reference to a variable is made when it has not been

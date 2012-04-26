@@ -21,7 +21,6 @@ class TypeChecker(object):
     """This class allows for type checking of a particular program.
     Also tags nodes in the AST with type information if applicable.
     """
-
     def __init__(self):
         # Get the possible classes from java.lang and create a top level
         # environment
@@ -511,7 +510,7 @@ class TypeChecker(object):
         type is the same type, or a sub type of the left hand type (used to
         check assignment statements) for objects and arrays of objects.
         """
-        if lh_type == rh_type: #TODO: DOESN'T WORK FOR LIB CLASSES e.g. assigning string to object - either make it work, or throw errors if it's attempted
+        if lh_type == rh_type:
             return True
         else:
             rh_class = self._get_class_s(rh_type)
