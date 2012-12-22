@@ -57,9 +57,9 @@ class TypeChecker(object):
         while class_ != '':
             if ('java/lang' in class_ or 'java/io' in class_ or
                     'java/util' in class_):
-                name = class_[class_.rfind('/') + 1:class_.find('\n')]
+                name = class_[class_.rfind('/') + 1:class_.find('\r\n')]
                 # Remove trailing \n and add to the dict
-                java_lang_classes[name] = class_[:-1]
+                java_lang_classes[name] = class_[:-2]
             class_ = class_list.readline()
         return java_lang_classes
 
